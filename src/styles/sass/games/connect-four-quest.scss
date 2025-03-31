@@ -1,0 +1,13 @@
+.#{$identifier}-connect-four-game {
+  .#{$identifier}-global-container {
+    .#{$identifier}-board {
+      grid-template-rows: repeat(6, 1fr); /* 6 rows for Connect 4 */
+      grid-template-columns: repeat(7, 1fr); /* 7 columns for Connect 4 */
+
+      .#{$identifier}-square {
+        width: 70px;
+        height: 70px;
+      }
+    }
+  }
+}

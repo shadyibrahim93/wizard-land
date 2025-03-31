@@ -1,0 +1,67 @@
+// Sudoku board styles using dynamic identifier
+.#{$identifier}-sudoku-board {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 20px auto;
+  border: 2px solid $primary-color;
+  background-color: #2e2e2e;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  animation: teleport 2s ease-in-out;
+
+  .#{$identifier}-sudoku-row {
+    display: flex;
+    gap: 5px; // horizontal space between cells
+  }
+
+  .#{$identifier}-sudoku-cell {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 1.5rem;
+    border: 1px solid $secondary-color;
+    background-color: #333;
+    color: $secondary-color;
+    outline: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+
+    &:focus {
+      background-color: $secondary-color;
+      box-shadow: 0 0 10px rgba($primary-color, 0.8);
+      color: $white;
+    }
+
+    &:disabled {
+      background-color: #444;
+      color: #777;
+      cursor: not-allowed;
+    }
+  }
+
+  // Add empty space between every 3rd column (for horizontal blocks)
+  .#{$identifier}-sudoku-row .#{$identifier}-sudoku-cell:nth-child(3n) {
+    margin-right: 10px;
+  }
+
+  .#{$identifier}-sudoku-row .#{$identifier}-sudoku-cell:nth-child(9n) {
+    margin-right: 0px;
+  }
+
+  // Add empty space between every 3rd row (for vertical blocks)
+  .#{$identifier}-sudoku-row:nth-child(3n) {
+    margin-bottom: 10px; // Add margin after every 3rd row
+  }
+
+  .#{$identifier}-sudoku-row:nth-child(9n) {
+    margin-bottom: 0px; // Add margin after every 3rd row
+  }
+}
+
+.#{$identifier}-sudoku-board {
+  animation: glow 1.5s ease-in-out infinite alternate;
+}
