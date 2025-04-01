@@ -650,9 +650,12 @@ body {
     justify-content: center; // Centers horizontally
     align-items: center; // Centers vertically
     text-align: center;
-    animation: fadeIn 1.7s ease-in-out, glowing 1.5s infinite alternate; /* Combines fadeIn and glowing */
+    animation: fadeIn 1.7s ease-in-out, glowingRed 1.5s infinite alternate; /* Combines fadeIn and glowing */
     margin: 0px;
     background-color: #00000087;
+    &.glowingBlue-text {
+      animation: glowingBlue 2s infinite alternate;
+    }
   }
 }
 
