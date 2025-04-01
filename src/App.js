@@ -14,7 +14,7 @@ import ConnectFourQuest from './pages/games/connect-four-quest';
 import BingoQuest from './pages/games/bingo-quest';
 
 import '../src/styles/sass/main.scss';
-import useMouseEffect from '../src/hooks/useMouseEffect';
+import useMouseEffect from './hooks/useMouseEffect';
 
 export default function App() {
   useMouseEffect();
