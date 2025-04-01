@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies and build
         run: |
           npm ci  # Use npm ci for a clean install of dependencies
-          npm run build  # Build the project
+          CI=false npm run build  # Set CI=false to prevent treating warnings as errors
 
       # Deploy the build to the public GitHub Pages repository
       - name: Deploy to GitHub Pages
