@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import DropZoneQuest from './pages/games/dropzone-quest';
 import MatchQuest from './pages/games/match-quest';
@@ -13,14 +13,14 @@ import TicTacToeQuest from './pages/games/tic-tac-toe-quest';
 import ConnectFourQuest from './pages/games/connect-four-quest';
 import BingoQuest from './pages/games/bingo-quest';
 
-import '../src/styles/sass/main.scss';
+import './styles/sass/main.scss';
 import useMouseEffect from './hooks/useMouseEffect';
 
 export default function App() {
   useMouseEffect();
 
   return (
-    <BrowserRouter basename='/wizard-land'>
+    <Router>
       <Routes>
         <Route
           path='/'
@@ -71,6 +71,6 @@ export default function App() {
           element={<BingoQuest />}
         />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
