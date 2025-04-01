@@ -328,7 +328,7 @@ body {
   .#{$identifier}-game-wrapper,
   .#{$identifier}-score-wrapper {
     background-color: rgb(
-      8 8 8 / 80%
+      8 8 8 / 60%
     ); /* Soft pastel pink for a kid-friendly look */
     border-radius: 15px;
     padding: 40px;
@@ -656,6 +656,34 @@ body {
     &.glowingBlue-text {
       animation: glowingBlue 2s infinite alternate;
     }
+  }
+
+  .#{$identifier}-fire-preview {
+    position: relative;
+  }
+
+  .#{$identifier}-fire-preview::before {
+    content: '🔥';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.5;
+    font-size: 2rem;
+    pointer-events: none;
+  }
+
+  .#{$identifier}-ice-preview {
+    position: relative;
+  }
+
+  .#{$identifier}-ice-preview::before {
+    content: '❄️';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.5;
+    font-size: 2rem;
+    pointer-events: none;
   }
 }
 

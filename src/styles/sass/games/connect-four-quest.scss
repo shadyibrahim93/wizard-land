@@ -10,19 +10,4 @@
       }
     }
   }
-
-  .#{$identifier}-fire-preview {
-    position: relative;
-  }
-
-  .#{$identifier}-fire-preview::before {
-    content: '🔥';
-    position: absolute;
-    bottom: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0.5;
-    font-size: 2rem;
-    pointer-events: none;
-  }
 }

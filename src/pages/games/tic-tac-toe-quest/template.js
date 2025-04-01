@@ -20,6 +20,7 @@ const Game = ({ setCurrentLevel }) => {
   const [currentTurn, setCurrentTurn] = useState('Fire'); // Track the current turn
   const [computerStarts, setComputerStarts] = useState(false);
   const [gameMode, setGameMode] = useState('Single'); // Track whether it's Single or Multiplayer mode
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const introText = `Welcome to Tic Tac Toe! Play as '🔥', and the computer will play as '❄️'. Take turns placing your marks, aiming to align three in a row. Good luck!`;
 
@@ -257,8 +258,18 @@ const Game = ({ setCurrentLevel }) => {
               key={index}
               className={`mq-square ${
                 square ? `mq-${square === '🔥' ? 'Fire' : 'Ice'}` : ''
+              } ${
+                !square && hoveredIndex === index // Apply preview only if empty
+                  ? currentTurn === 'Fire'
+                    ? 'mq-fire-preview' // Fire's turn preview
+                    : gameMode === 'Multiplayer'
+                    ? 'mq-ice-preview' // Ice's turn preview (only in Multiplayer)
+                    : ''
+                  : ''
               }`}
               onClick={() => handleClick(index)}
+              onMouseEnter={() => setHoveredIndex(index)} // Track hover
+              onMouseLeave={() => setHoveredIndex(null)} // Remove hover effect
             >
               {square}
             </div>
