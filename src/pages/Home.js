@@ -13,16 +13,16 @@ export default function Home() {
       title: 'Brain Vault'
     },
     {
+      url: '/games/bingo-quest',
+      imgSrc: 'bingo_quest.png',
+      alt: 'Bingo Game',
+      title: 'Bingo'
+    },
+    {
       url: '/games/connect-four-quest',
       imgSrc: 'connect_four_quest.png',
       alt: 'Connect Four Game',
-      title: 'Connect Four'
-    },
-    {
-      url: '/games/match-quest',
-      imgSrc: 'match_quest.png',
-      alt: 'Matching Game',
-      title: 'Pair Pursuit'
+      title: 'Connect 4'
     },
     {
       url: '/games/tic-tac-toe-quest',
@@ -65,6 +65,12 @@ export default function Home() {
       imgSrc: 'personal_puzzle_quest.png',
       alt: 'Personal Puzzle Game',
       title: 'Personal Jigsaw'
+    },
+    {
+      url: '/games/match-quest',
+      imgSrc: 'match_quest.png',
+      alt: 'Matching Game',
+      title: 'Pair Pursuit'
     }
   ];
 
