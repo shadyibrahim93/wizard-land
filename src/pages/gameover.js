@@ -11,7 +11,7 @@ const GameOver = ({ resetGame }) => {
 
   return (
     <div className='mq-gameover-container'>
-      <img src='/assets/gif/game_over.gif' />
+      <img src='/wizard-land/assets/gif/game_over.gif' />
       <div className='mq-btns-container'>
         <Button
           text='Games List'

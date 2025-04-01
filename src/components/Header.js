@@ -4,7 +4,7 @@ export default function Header({ title, backTarget, level, suppressLevel }) {
       <div className='mq-header-container'>
         {backTarget ? (
           <a
-            href={backTarget}
+            href={`/wizard-land${backTarget}`}
             className='mq-back-arrow'
           >
             ← Games

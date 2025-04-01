@@ -1,6 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// import '../src/styles/main.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import DropZoneQuest from './pages/games/dropzone-quest';
 import MatchQuest from './pages/games/match-quest';
@@ -21,57 +20,57 @@ export default function App() {
   useMouseEffect();
 
   return (
-    <Router>
+    <BrowserRouter basename='/wizard-land'>
       <Routes>
         <Route
-          path='/wizard-land'
+          path='/'
           element={<Home />}
         />
         <Route
-          path='wizard-land/games/dropzone-quest'
+          path='/games/dropzone-quest'
           element={<DropZoneQuest />}
         />
         <Route
-          path='wizard-land/games/match-quest'
+          path='/games/match-quest'
           element={<MatchQuest />}
         />
         <Route
-          path='wizard-land/games/math-quest'
+          path='/games/math-quest'
           element={<MathQuest />}
         />
         <Route
-          path='wizard-land/games/memory-quest'
+          path='/games/memory-quest'
           element={<MemoryQuest />}
         />
         <Route
-          path='wizard-land/games/scramble-quest'
+          path='/games/scramble-quest'
           element={<ScrambleQuest />}
         />
         <Route
-          path='wizard-land/games/sudoku-quest'
+          path='/games/sudoku-quest'
           element={<SudokuQuest />}
         />
         <Route
-          path='wizard-land/games/puzzle-quest'
+          path='/games/puzzle-quest'
           element={<PuzzleQuest />}
         />
         <Route
-          path='wizard-land/games/personal-puzzle-quest'
+          path='/games/personal-puzzle-quest'
           element={<PersonalPuzzleQuest />}
         />
         <Route
-          path='wizard-land/games/tic-tac-toe-quest'
+          path='/games/tic-tac-toe-quest'
           element={<TicTacToeQuest />}
         />
         <Route
-          path='wizard-land/games/connect-four-quest'
+          path='/games/connect-four-quest'
           element={<ConnectFourQuest />}
         />
         <Route
-          path='wizard-land/games/bingo-quest'
+          path='/games/bingo-quest'
           element={<BingoQuest />}
         />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }

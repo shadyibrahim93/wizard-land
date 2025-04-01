@@ -22,7 +22,7 @@ const GameStart = ({ title, GameComponent, gameClass }) => {
     <div className={gameClass}>
       <Header
         title={title}
-        backTarget='/wizard-land'
+        backTarget='/'
         level={currentLevel > maxLevel ? 'Completed' : currentLevel}
       />
       <div
