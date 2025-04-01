@@ -34,6 +34,8 @@ const Game = ({ setCurrentLevel }) => {
       setGameOver(true);
       playUncover();
       setShowTitle(true);
+      playNextLevel();
+      triggerConfetti();
 
       if (winner === 'Fire') setPlayerWins(playerWins + 1);
       if (winner === 'Ice') setComputerWins(computerWins + 1);
@@ -295,7 +297,11 @@ const Game = ({ setCurrentLevel }) => {
                 } ${
                   hoveredColumn === colIndex &&
                   rowIndex === getLowestOpenRow(colIndex)
-                    ? 'mq-fire-preview'
+                    ? currentTurn === 'Fire'
+                      ? 'mq-fire-preview' // Fire's turn preview
+                      : gameMode === 'Multiplayer'
+                      ? 'mq-ice-preview' // Ice's turn preview (only in Multiplayer mode)
+                      : ''
                     : ''
                 }`}
                 onClick={() => handleClick(colIndex)}

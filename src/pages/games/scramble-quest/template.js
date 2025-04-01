@@ -87,7 +87,7 @@ const WordScrambleGame = ({
                   setGameOver(true);
                   setMaxLevel(maxLevel - 1);
                 }
-              }, 1000);
+              }, 2000);
             } else {
               // Reset letters and reshuffle before showing again
               setScrambledLetters(
