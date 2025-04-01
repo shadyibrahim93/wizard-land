@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/wizard-land-public/static/css/main.1d85418d.css",
-    "main.js": "/wizard-land-public/static/js/main.c9c8e2f2.js",
+    "main.js": "/wizard-land-public/static/js/main.8c3f3427.js",
     "static/js/952.2f8df9f3.chunk.js": "/wizard-land-public/static/js/952.2f8df9f3.chunk.js",
     "static/media/personal_puzzle_quest.png": "/wizard-land-public/static/media/personal_puzzle_quest.69c5f5539804d6ae3ee4.png",
     "static/media/connect_four_quest.png": "/wizard-land-public/static/media/connect_four_quest.738af851398dc8a26401.png",
@@ -25,11 +25,11 @@
     "static/media/cursor.cur": "/wizard-land-public/static/media/cursor.2c46f5bc85e30429f077.cur",
     "index.html": "/wizard-land-public/index.html",
     "main.1d85418d.css.map": "/wizard-land-public/static/css/main.1d85418d.css.map",
-    "main.c9c8e2f2.js.map": "/wizard-land-public/static/js/main.c9c8e2f2.js.map",
+    "main.8c3f3427.js.map": "/wizard-land-public/static/js/main.8c3f3427.js.map",
     "952.2f8df9f3.chunk.js.map": "/wizard-land-public/static/js/952.2f8df9f3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.1d85418d.css",
-    "static/js/main.c9c8e2f2.js"
+    "static/js/main.8c3f3427.js"
   ]
 }
