@@ -1,7 +1,7 @@
 {
   "name": "hubspot-project",
   "version": "0.1.0",
-  "homepage": "https://shadyibrahim93.github.io/wizard-land",
+  "homepage": "https://shadyibrahim93.github.io/wizard-land-public",
   "private": true,
   "dependencies": {
     "@supabase/supabase-js": "^2.49.1",
