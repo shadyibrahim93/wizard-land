@@ -85,7 +85,7 @@ export default function Home() {
   return (
     <div className='mq-home'>
       <Header
-        title='Test Quests'
+        title='Arcane Quests'
         suppressLevel
       />
       <main className='mq-dashboard-cards-wrapper'>
