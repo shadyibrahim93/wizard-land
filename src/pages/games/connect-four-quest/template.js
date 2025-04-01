@@ -23,8 +23,9 @@ const Game = ({ setCurrentLevel }) => {
   const [showTitle, setShowTitle] = useState(false);
   const [currentTurn, setCurrentTurn] = useState('Fire'); // Track the current turn
   const [gameMode, setGameMode] = useState('Single'); // Tracks Single or Multiplayer mode
+  const [hoveredColumn, setHoveredColumn] = useState(null);
 
-  const introText = `Welcome to Connect 4! Take turns dropping your discs into columns, aiming to align four in a row. Good luck!`;
+  const introText = `Welcome to Wizard Land Connect 4! Take turns dropping your discs into columns, aiming to align four in a row. Good luck!`;
 
   useEffect(() => {
     setCurrentLevel('∞');
@@ -207,6 +208,13 @@ const Game = ({ setCurrentLevel }) => {
     }, 2000);
   };
 
+  const getLowestOpenRow = (col) => {
+    for (let row = 5; row >= 0; row--) {
+      if (!board[row][col]) return row;
+    }
+    return -1;
+  };
+
   const handleRestart = () => {
     const newBoard = Array(6)
       .fill(null)
@@ -264,11 +272,19 @@ const Game = ({ setCurrentLevel }) => {
     <>
       <div className={`mq-global-container mq-${currentTurn.toLowerCase()}`}>
         <div className='mq-score-container'>
-          <span className='mq-score-player'>Wizard: {playerWins}</span>
+          <span className='mq-score-player'>Fire: {playerWins}</span>
           <span className='mq-score-computer'>Ice: {computerWins}</span>
         </div>
         <div className={`mq-board mq-${currentTurn.toLowerCase()}`}>
-          {showTitle && <h1 className='mq-ending-title'>{title}</h1>}
+          {showTitle && (
+            <h1
+              className={`mq-ending-title ${
+                winner === 'Ice' && 'glowingBlue-text'
+              }`}
+            >
+              {title}
+            </h1>
+          )}
 
           {board.map((row, rowIndex) =>
             row.map((cell, colIndex) => (
@@ -276,8 +292,15 @@ const Game = ({ setCurrentLevel }) => {
                 key={`${rowIndex}-${colIndex}`}
                 className={`mq-square ${
                   cell ? `mq-${cell.toLowerCase()}` : ''
+                } ${
+                  hoveredColumn === colIndex &&
+                  rowIndex === getLowestOpenRow(colIndex)
+                    ? 'mq-fire-preview'
+                    : ''
                 }`}
                 onClick={() => handleClick(colIndex)}
+                onMouseEnter={() => setHoveredColumn(colIndex)}
+                onMouseLeave={() => setHoveredColumn(null)}
               >
                 {cell}
               </div>

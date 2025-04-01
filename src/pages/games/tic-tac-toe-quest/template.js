@@ -242,7 +242,15 @@ const Game = ({ setCurrentLevel }) => {
           <span className='mq-score-computer'>Ice: {computerWins}</span>
         </div>
         <div className={`mq-board mq-${currentTurn.toLowerCase()}`}>
-          {showTitle && <h1 className='mq-ending-title'>{title}</h1>}
+          {showTitle && (
+            <h1
+              className={`mq-ending-title ${
+                winner === 'Ice' && 'glowingBlue-text'
+              }`}
+            >
+              {title}
+            </h1>
+          )}
 
           {board.map((square, index) => (
             <div
