@@ -16,9 +16,12 @@ jobs:
 
       # Set up Node.js (or whatever environment your project uses)
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v20
         with:
-          node-version: '20'  # Adjust to the version you're using
+          node-version: '20.12.2'  # Adjust to the version you're using
+
+      - name: Verify dependencies
+        run: npm list
 
       # Install dependencies and build the project
       - name: Install dependencies and build
