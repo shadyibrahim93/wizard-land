@@ -11,7 +11,9 @@ export default function GameCards({ target, imgSrc, alt, title }) {
       onMouseEnter={() => setShowTitle(true)} // Corrected: Use a function to set state
       onMouseLeave={() => setShowTitle(false)} // Added: Hides the title on mouse leave
     >
-      {showTitle && <h1 className='mq-ending-title'>{title}</h1>}
+      {showTitle && (
+        <h1 className='mq-ending-title glowingFire-text'>{title}</h1>
+      )}
       <img
         src={getImagePath(imgSrc)}
         alt={alt}

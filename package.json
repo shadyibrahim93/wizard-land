@@ -1,6 +1,7 @@
 {
   "name": "hubspot-project",
   "version": "0.1.0",
+  "homepage": "https://shadyibrahim93.github.io/wizard-land",
   "private": true,
   "dependencies": {
     "@supabase/supabase-js": "^2.49.1",
@@ -15,6 +16,8 @@
     "supabase": "^2.19.7"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -40,6 +43,7 @@
   },
   "devDependencies": {
     "css-loader": "^7.1.2",
+    "gh-pages": "^6.3.0",
     "sass": "^1.85.1",
     "sass-loader": "^16.0.5",
     "style-loader": "^4.0.0"

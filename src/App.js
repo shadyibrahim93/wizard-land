@@ -24,51 +24,51 @@ export default function App() {
     <Router>
       <Routes>
         <Route
-          path='/'
+          path='/wizard-land'
           element={<Home />}
         />
         <Route
-          path='/games/dropzone-quest'
+          path='wizard-land/games/dropzone-quest'
           element={<DropZoneQuest />}
         />
         <Route
-          path='/games/match-quest'
+          path='wizard-land/games/match-quest'
           element={<MatchQuest />}
         />
         <Route
-          path='/games/math-quest'
+          path='wizard-land/games/math-quest'
           element={<MathQuest />}
         />
         <Route
-          path='/games/memory-quest'
+          path='wizard-land/games/memory-quest'
           element={<MemoryQuest />}
         />
         <Route
-          path='/games/scramble-quest'
+          path='wizard-land/games/scramble-quest'
           element={<ScrambleQuest />}
         />
         <Route
-          path='/games/sudoku-quest'
+          path='wizard-land/games/sudoku-quest'
           element={<SudokuQuest />}
         />
         <Route
-          path='/games/puzzle-quest'
+          path='wizard-land/games/puzzle-quest'
           element={<PuzzleQuest />}
         />
         <Route
-          path='/games/personal-puzzle-quest'
+          path='wizard-land/games/personal-puzzle-quest'
           element={<PersonalPuzzleQuest />}
         />
         <Route
-          path='/games/tic-tac-toe-quest'
+          path='wizard-land/games/tic-tac-toe-quest'
           element={<TicTacToeQuest />}
         />
         <Route
-          path='/games/connect-four-quest'
+          path='wizard-land/games/connect-four-quest'
           element={<ConnectFourQuest />}
         />
         <Route
-          path='/games/bingo-quest'
+          path='wizard-land/games/bingo-quest'
           element={<BingoQuest />}
         />
       </Routes>

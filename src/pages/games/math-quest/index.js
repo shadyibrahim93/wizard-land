@@ -31,7 +31,7 @@ const MathQuest = () => {
     <div className='mq-math-game'>
       <Header
         title={`Math Quest`}
-        backTarget='/'
+        backTarget='/wizard-land'
         level='∞'
       />
 
