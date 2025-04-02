@@ -685,6 +685,10 @@ body {
     opacity: 0.5;
     font-size: 2rem;
     pointer-events: none;
+
+    @media (max-width: 480px) {
+      content: '';
+    }
   }
 
   .#{$identifier}-ice-preview {
@@ -699,6 +703,9 @@ body {
     opacity: 0.5;
     font-size: 2rem;
     pointer-events: none;
+    @media (max-width: 480px) {
+      content: '';
+    }
   }
 }
 
