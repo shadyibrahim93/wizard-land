@@ -9,9 +9,27 @@
     border-bottom: 2px solid #fff;
   }
 
+  .#{$identifier}-main {
+    @media (max-width: 480px) {
+      flex-direction: column-reverse;
+
+      .#{$identifier}-score-wrapper {
+        width: calc(100% - 80px);
+      }
+
+      .#{$identifier}-game-wrapper {
+        width: calc(100% - 48px);
+      }
+    }
+  }
+
   .#{$identifier}-equation-wrapper {
     .#{$identifier}-equation-question {
       padding: 80px;
+
+      @media (max-width: 480px) {
+        padding: 48px 0px;
+      }
 
       .#{$identifier}-number {
         font-size: 2.5em;
@@ -25,6 +43,9 @@
     }
 
     .#{$identifier}-equation-answer {
+      @media (max-width: 480px) {
+        display: flex;
+      }
       .#{$identifier}-btn {
         background-color: transparent;
         border: 2px solid;
@@ -32,6 +53,10 @@
         font-size: 2em;
         margin: 0px 20px;
         padding: 15px 30px;
+
+        @media (max-width: 480px) {
+          padding: 16px 24px;
+        }
 
         &:hover {
           background-color: $primary-color;

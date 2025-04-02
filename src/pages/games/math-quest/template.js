@@ -228,8 +228,7 @@ const Template = () => {
             Score: <span className='mq-value'>{score}</span>
           </p>
           <p className='mq-label'>
-            Difficulty Level:{' '}
-            <span className='mq-value'>{difficultyLevel}</span>
+            Difficulty: <span className='mq-value'>{difficultyLevel}</span>
           </p>
           <p className='mq-label'>
             Time: <span className='mq-value'>{formatTime(elapsedTime)}</span>

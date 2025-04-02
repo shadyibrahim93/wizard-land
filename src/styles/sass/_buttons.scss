@@ -57,9 +57,12 @@
   }
 
   @media (max-width: 480px) {
+    display: flex;
     font-size: 14px;
-    padding: 16px;
+    padding: 24px;
     margin: 12px 0px;
+    justify-content: center;
+    align-items: center;
   }
 }
 
