@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import GameIntro from '../../gameintro';
-import { playUncover, playDisappear } from '../../../hooks/useSound';
+import {
+  playUncover,
+  playDisappear,
+  playClick,
+  playDefeat,
+  playNextLevel
+} from '../../../hooks/useSound';
 import Button from '../../../components/Button';
 import { triggerConfetti } from '../../../hooks/useConfetti';
 
@@ -24,6 +30,7 @@ const Game = ({ setCurrentLevel }) => {
   const [winner, setWinner] = useState(null);
   const [startGame, setStartGame] = useState(false);
   const [markedCells, setMarkedCells] = useState([]);
+  const [winningNumbers, setWinningNumbers] = useState([]);
 
   // Refs for scrolling to winner
   const playerRef = useRef(null);
@@ -38,15 +45,18 @@ const Game = ({ setCurrentLevel }) => {
 
   useEffect(() => {
     if (drawnNumbers.length > 0) {
-      checkWin();
+      checkComputerWin();
     }
   }, [drawnNumbers]);
 
   useEffect(() => {
     if (winner) {
-      setGameOver(true);
-      playUncover();
-      triggerConfetti();
+      if (winner != 'You') {
+        playDefeat();
+      } else {
+        playNextLevel();
+        triggerConfetti();
+      }
 
       // Scroll to the winner's board
       const winnerRef =
@@ -60,12 +70,16 @@ const Game = ({ setCurrentLevel }) => {
         block: 'center'
       });
 
-      setDrawnNumbers([]);
+      setTimeout(() => {
+        setGameOver(true);
+        playUncover();
+      }, 4000);
 
       setTimeout(() => {
         playDisappear();
         handleRestart();
-      }, 5000);
+        setDrawnNumbers([]);
+      }, 8000);
     }
   }, [winner]);
 
@@ -82,12 +96,10 @@ const Game = ({ setCurrentLevel }) => {
   };
 
   const markPlayerBoard = (number) => {
-    if (!drawnNumbers.includes(number)) return;
-    setPlayerBoard((prev) =>
-      prev.map((row) => row.map((cell) => (cell === number ? cell : cell)))
-    );
+    if (!drawnNumbers.includes(number) || markedCells.includes(number)) return; // Ensure it's valid and not already marked
     setMarkedCells((prev) => [...prev, number]);
-    checkWin();
+    playClick();
+    checkPlayerWin();
   };
 
   const markComputerBoard = (board, number) => {
@@ -100,37 +112,45 @@ const Game = ({ setCurrentLevel }) => {
     setComputerBoards((prevBoards) =>
       prevBoards.map((board) => markComputerBoard(board, number))
     );
-    checkWin();
+    checkComputerWin();
   };
 
-  const checkWin = () => {
-    const checkBingo = (board) => {
-      const checkRow = board.some((row) =>
-        row.every((cell) => drawnNumbers.includes(cell))
-      );
-      const checkColumn = [...Array(5)].some((_, colIndex) =>
-        board.every((row) => drawnNumbers.includes(row[colIndex]))
-      );
-      const checkDiagonalLeftToRight = board.every((row, rowIndex) =>
-        drawnNumbers.includes(row[rowIndex])
-      );
-      const checkDiagonalRightToLeft = board.every((row, rowIndex) =>
-        drawnNumbers.includes(row[4 - rowIndex])
-      );
+  const checkBingo = (board, drawnNumbers) => {
+    for (let row of board) {
+      if (row.every((cell) => drawnNumbers.includes(cell))) {
+        setWinningNumbers(row);
+        return true;
+      }
+    }
 
-      return (
-        checkRow ||
-        checkColumn ||
-        checkDiagonalLeftToRight ||
-        checkDiagonalRightToLeft
-      );
-    };
+    for (let colIndex = 0; colIndex < 5; colIndex++) {
+      const column = board.map((row) => row[colIndex]);
+      if (column.every((cell) => drawnNumbers.includes(cell))) {
+        setWinningNumbers(column);
+        return true;
+      }
+    }
 
-    // Check for winners
-    const players = ['You', 'Computer1', 'Computer2'];
+    const diagonalLeftToRight = board.map((row, index) => row[index]);
+    if (diagonalLeftToRight.every((cell) => drawnNumbers.includes(cell))) {
+      setWinningNumbers(diagonalLeftToRight);
+      return true;
+    }
+
+    const diagonalRightToLeft = board.map((row, index) => row[4 - index]);
+    if (diagonalRightToLeft.every((cell) => drawnNumbers.includes(cell))) {
+      setWinningNumbers(diagonalRightToLeft);
+      return true;
+    }
+
+    return false;
+  };
+
+  const checkComputerWin = () => {
+    const players = ['Computer1', 'Computer2'];
     for (let i = 0; i < players.length; i++) {
-      const board = i === 0 ? playerBoard : computerBoards[i - 1];
-      if (checkBingo(board)) {
+      const board = computerBoards[i];
+      if (checkBingo(board, drawnNumbers)) {
         playUncover();
         setWinner(players[i]);
         return;
@@ -138,14 +158,25 @@ const Game = ({ setCurrentLevel }) => {
     }
   };
 
+  const checkPlayerWin = () => {
+    const player = 'You';
+    const board = playerBoard;
+    if (checkBingo(board, drawnNumbers)) {
+      playUncover();
+      setWinner(player);
+      return;
+    }
+  };
+
   const handleRestart = () => {
-    setPlayerBoard(generateBingoBoard());
-    setComputerBoards([generateBingoBoard(), generateBingoBoard()]);
     setDrawnNumbers([]);
     setGameOver(false);
     setWinner(null);
     setMarkedCells([]);
     playDisappear();
+    setPlayerBoard(generateBingoBoard());
+    setComputerBoards([generateBingoBoard(), generateBingoBoard()]);
+    setWinningNumbers([]);
   };
 
   const renderBoard = (board, playerName, ref) => (
@@ -155,31 +186,40 @@ const Game = ({ setCurrentLevel }) => {
         playerName === 'You'
           ? 'mq-board--player'
           : `mq-board--${playerName.toLowerCase()}`
-      }`}
+      } ${gameOver && 'mq-board-game-over'}`}
     >
-      {winner === playerName && <h1 className='mq-ending-title'>Bingo</h1>}
+      {gameOver && winner === playerName && (
+        <h1 className='mq-ending-title'>Bingo</h1>
+      )}
       {['B', 'I', 'N', 'G', 'O'].map((letter, colIndex) => (
         <div
           key={colIndex}
           className='mq-column'
         >
           <div className='mq-square mq-square--bingo'>{letter}</div>
-          {board.map((row, rowIndex) => (
-            <div
-              key={rowIndex}
-              className={`mq-square ${
-                drawnNumbers.includes(row[colIndex]) ||
-                markedCells.includes(row[colIndex])
-                  ? 'drawn'
-                  : ''
-              }`}
-              onClick={() =>
-                playerName === 'You' && markPlayerBoard(row[colIndex])
-              }
-            >
-              {row[colIndex]}
-            </div>
-          ))}
+          {board.map((row, rowIndex) => {
+            const cellValue = row[colIndex];
+            return (
+              <div
+                key={rowIndex}
+                className={`mq-square ${
+                  (playerName !== 'You' && drawnNumbers.includes(cellValue)) ||
+                  (playerName === 'You' && markedCells.includes(cellValue))
+                    ? 'drawn'
+                    : ''
+                } ${
+                  winner === playerName && winningNumbers.includes(cellValue)
+                    ? 'winner-number'
+                    : ''
+                }`}
+                onClick={() =>
+                  playerName === 'You' && markPlayerBoard(cellValue)
+                }
+              >
+                {cellValue}
+              </div>
+            );
+          })}
         </div>
       ))}
     </div>
@@ -209,16 +249,18 @@ const Game = ({ setCurrentLevel }) => {
         </div>
       </div>
       <div className='mq-control-container'>
-        <div className='mq-drawn-numbers-container'>
-          {drawnNumbers.map((num, index) => (
-            <span
-              key={index}
-              className='mq-drawn-number'
-            >
-              {num}
-            </span>
-          ))}
-        </div>
+        {!gameOver && (
+          <div className='mq-drawn-numbers-container'>
+            {drawnNumbers.map((num, index) => (
+              <span
+                key={index}
+                className='mq-drawn-number'
+              >
+                {num}
+              </span>
+            ))}
+          </div>
+        )}
         <div className='mq-draw-button-container'>
           <Button
             text='Draw Number'

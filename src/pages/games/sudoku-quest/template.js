@@ -117,7 +117,7 @@ const Game = ({
             {row.map((cell, cellIndex) => (
               <input
                 key={cellIndex}
-                type='text'
+                type='number'
                 value={cell.value}
                 onChange={(e) => {
                   const newValue = e.target.value;

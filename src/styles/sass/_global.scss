@@ -51,6 +51,15 @@ body {
   padding: 40px; /* Remove default padding */
   cursor: url('../../assets/images/cursor.cur'), default;
 
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+
   header {
     background-color: $primary-color; /* Soft coral color for a warm, inviting feel */
     border-radius: 10px;

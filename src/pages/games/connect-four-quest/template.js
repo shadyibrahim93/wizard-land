@@ -7,7 +7,7 @@ import {
   playNextLevel
 } from '../../../hooks/useSound';
 import Button from '../../../components/Button';
-import { triggerConfetti } from '../../../hooks/useConfetti';
+import { triggerConfetti } from './../../../hooks/useConfetti';
 
 const Game = ({ setCurrentLevel }) => {
   const [board, setBoard] = useState(

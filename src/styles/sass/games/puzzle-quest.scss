@@ -5,6 +5,11 @@
     padding: 48px;
     background-size: cover;
     border: 2px solid $secondary-color;
+    @media (max-width: 480px) {
+      display: flex;
+      justify-content: center;
+      padding: 24px;
+    }
   }
 
   @keyframes fadeIn {
@@ -25,6 +30,16 @@
     transition: box-shadow 1s ease-in-out;
     background-color: $black;
     animation: fadeIn 1s ease-in-out; /* Use animation instead of transition */
+
+    @media (max-width: 480px) {
+      width: 300px;
+      height: 300px;
+      background-size: 300px 300px;
+
+      .#{$identifier}-ending-title {
+        font-size: 24px;
+      }
+    }
   }
 
   .#{$identifier}-piece {
@@ -35,6 +50,10 @@
     user-select: none;
     border-bottom: 2px solid $secondary-color;
     border-right: 2px solid $secondary-color;
+
+    @media (max-width: 480px) {
+      background-size: 300px 300px;
+    }
 
     &.correct {
       border: none;

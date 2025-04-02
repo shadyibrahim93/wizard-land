@@ -11,14 +11,30 @@ const PersonalPuzzleQuest = ({ setCurrentLevel }) => {
   const [showTitle, setShowTitle] = useState(false); // State to control h1 visibility
   const [uploadedImage, setUploadedImage] = useState(null);
   const [startGame, setStartGame] = useState(false); // New state to manage game start
+  const [boardSize, setBoardSize] = useState(600);
 
   const [customDifficulty, setCustomDifficulty] = useState(3); // Default difficulty is 3
 
   const introText = `Welcome to the Custom Jigsaw Puzzle! In this game, you can upload your own image and turn it into a puzzle. Your goal is to piece together the scattered puzzle pieces to form the complete image. Drag and drop the pieces into their correct spots. The pieces that are in the right position will appear brighter than the others, helping guide you along the way. Enjoy the challenge of creating your own puzzle and solving it!`;
 
   useEffect(() => {
+    const updateBoardSize = () => {
+      const isSmallScreen = window.matchMedia('(max-width: 480px)').matches;
+      setBoardSize(isSmallScreen ? 300 : 600);
+    };
+
+    updateBoardSize(); // Set board size on mount
+    window.addEventListener('resize', updateBoardSize);
+
+    return () => {
+      window.removeEventListener('resize', updateBoardSize);
+    };
+  }, []); // Runs only on mount
+
+  useEffect(() => {
     setCurrentLevel(level);
-  }, [level]);
+    initializePuzzlePieces(customDifficulty); // Ensure pieces reinitialize on board size change
+  }, [boardSize, level]); // Add boardSize as a dependency
 
   const validatePieces = () => {
     setPieces((prevPieces) =>
@@ -35,10 +51,8 @@ const PersonalPuzzleQuest = ({ setCurrentLevel }) => {
     difficulty = Math.min(3 + (level - 1), 10)
   ) => {
     const puzzleSize = difficulty; // Level 1 starts at 3x3, increases up to 6x6
-    const boardWidth = 600;
-    const boardHeight = 600;
-    const pieceWidth = boardWidth / puzzleSize;
-    const pieceHeight = boardHeight / puzzleSize;
+    const pieceWidth = boardSize / puzzleSize;
+    const pieceHeight = boardSize / puzzleSize;
     const puzzlePieces = [];
 
     // Generate the initial positions

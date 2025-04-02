@@ -31,15 +31,30 @@ const PuzzleQuest = ({
   const [glow, setGlow] = useState(false); // State for glow effect
   const [showTitle, setShowTitle] = useState(false); // State to control h1 visibility
   const [startGame, setStartGame] = useState(false); // New state to manage game start
+  const [boardSize, setBoardSize] = useState(600);
   const maxLevel = 6;
 
   const introText = `Welcome to the Jigsaw Puzzle! Your goal is to piece together the scattered puzzle pieces to form a complete image. Drag and drop the pieces into their correct spots. The pieces that are in the right position will appear brighter than the others, helping guide you along the way. Take your time, and enjoy the challenge of completing the picture!`;
 
   useEffect(() => {
+    const updateBoardSize = () => {
+      const isSmallScreen = window.matchMedia('(max-width: 480px)').matches;
+      setBoardSize(isSmallScreen ? 300 : 600);
+    };
+
+    updateBoardSize(); // Set board size on mount
+    window.addEventListener('resize', updateBoardSize);
+
+    return () => {
+      window.removeEventListener('resize', updateBoardSize);
+    };
+  }, []); // Runs only on mount
+
+  useEffect(() => {
     initializePuzzlePieces();
     setCurrentLevel(level);
     setMaxLevel(maxLevel);
-  }, [level]);
+  }, [boardSize, level]);
 
   const validatePieces = () => {
     setPieces((prevPieces) =>
@@ -54,10 +69,8 @@ const PuzzleQuest = ({
 
   const initializePuzzlePieces = () => {
     const puzzleSize = Math.min(3 + (level - 1), 10); // Level 1 starts at 3x3, increases up to 6x6
-    const boardWidth = 600;
-    const boardHeight = 600;
-    const pieceWidth = boardWidth / puzzleSize;
-    const pieceHeight = boardHeight / puzzleSize;
+    const pieceWidth = boardSize / puzzleSize;
+    const pieceHeight = boardSize / puzzleSize;
     const puzzlePieces = [];
 
     // Generate the initial positions
@@ -65,19 +78,13 @@ const PuzzleQuest = ({
       for (let col = 0; col < puzzleSize; col++) {
         puzzlePieces.push({
           id: puzzlePieces.length,
-          originalPosition: {
-            x: col * pieceWidth,
-            y: row * pieceHeight
-          },
-          currentPosition: {
-            x: col * pieceWidth, // Temporarily set to originalPosition
-            y: row * pieceHeight
-          },
+          originalPosition: { x: col * pieceWidth, y: row * pieceHeight },
+          currentPosition: { x: col * pieceWidth, y: row * pieceHeight },
           width: pieceWidth,
           height: pieceHeight,
-          backgroundPosition: `-${col * pieceWidth}px -${row * pieceHeight}px`, // Offset for background image
+          backgroundPosition: `-${col * pieceWidth}px -${row * pieceHeight}px`,
           dropped: false,
-          correct: false // Track if the piece is correctly placed
+          correct: false
         });
       }
     }
@@ -85,21 +92,21 @@ const PuzzleQuest = ({
     // Shuffle by swapping positions between pieces
     for (let i = 0; i < puzzlePieces.length; i++) {
       const randomIndex = Math.floor(Math.random() * puzzlePieces.length);
-
-      // Swap currentPosition of the current piece and the randomly selected piece
-      const tempPosition = puzzlePieces[i].currentPosition;
-      puzzlePieces[i].currentPosition =
-        puzzlePieces[randomIndex].currentPosition;
-      puzzlePieces[randomIndex].currentPosition = tempPosition;
+      [
+        puzzlePieces[i].currentPosition,
+        puzzlePieces[randomIndex].currentPosition
+      ] = [
+        puzzlePieces[randomIndex].currentPosition,
+        puzzlePieces[i].currentPosition
+      ];
     }
 
-    // Ensure no piece remains in its originalPosition
+    // Ensure no piece remains in its original position
     for (let piece of puzzlePieces) {
       if (
         piece.currentPosition.x === piece.originalPosition.x &&
         piece.currentPosition.y === piece.originalPosition.y
       ) {
-        // Find another piece to swap with
         const otherPiece = puzzlePieces.find(
           (p) =>
             p.id !== piece.id &&
@@ -108,10 +115,10 @@ const PuzzleQuest = ({
         );
 
         if (otherPiece) {
-          // Swap positions with the other piece
-          const tempPosition = piece.currentPosition;
-          piece.currentPosition = otherPiece.currentPosition;
-          otherPiece.currentPosition = tempPosition;
+          [piece.currentPosition, otherPiece.currentPosition] = [
+            otherPiece.currentPosition,
+            piece.currentPosition
+          ];
         }
       }
     }

@@ -69,12 +69,26 @@
       }
 
       .#{$identifier}-square {
+        position: relative;
         width: 30px;
         height: 30px;
         margin-bottom: 10px;
         font-size: 14px;
         background-color: $primary-color;
         color: $white;
+
+        &.winner-number {
+          &::before {
+            content: '-'; /* Unicode for backslash (\) */
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 46px; /* Adjust size as needed */
+            font-weight: normal; /* Make it more visible */
+            color: $secondary-color; /* Adjust color if necessary */
+          }
+        }
 
         &--bingo {
           background-color: $secondary-color;
