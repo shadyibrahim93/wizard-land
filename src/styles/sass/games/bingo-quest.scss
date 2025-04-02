@@ -5,6 +5,11 @@
     justify-content: center;
     align-items: center;
     column-gap: 60px;
+
+    @media (max-width: 768px) {
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   .#{$identifier}-bingo-column {
@@ -16,6 +21,7 @@
 
   .#{$identifier}-global-container {
     row-gap: 30px;
+    margin-bottom: 24px;
     .#{$identifier}-board {
       grid-template-columns: repeat(5, 1fr);
       width: fit-content;
@@ -36,6 +42,12 @@
             width: 60px;
             height: 60px;
             font-size: 24px;
+
+            @media (max-width: 480px) {
+              height: 40px;
+              width: 40px;
+              font-size: 16px;
+            }
 
             &.drawn {
               border: 1px solid rgba(255, 123, 0, 0.7);
@@ -89,11 +101,13 @@
     flex-wrap: wrap;
     gap: 10px;
     margin-top: 30px;
+
     .#{$identifier}-drawn-number {
       width: 40px;
       height: 40px;
       font-size: 16px;
       display: flex;
+      letter-spacing: normal;
       justify-content: center;
       align-items: center;
       font-weight: bold;
@@ -103,6 +117,11 @@
       cursor: pointer;
       transition: background-color 0.3s ease, box-shadow 0.3s ease;
       border-radius: 20px;
+      @media (max-width: 480px) {
+        height: 25px;
+        width: 25px;
+        font-size: 12px;
+      }
       &:last-child {
         font-size: 24px;
         border-color: $secondary-color;
@@ -111,6 +130,28 @@
         border-radius: 50%;
         width: 50px;
         height: 50px;
+
+        @media (max-width: 480px) {
+          height: 40px;
+          width: 40px;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .#{$identifier}-control-container {
+      z-index: 2;
+      margin: 0px auto;
+      background-color: rgb(0 0 0 / 93%);
+      padding: 16px 24px;
+      border-radius: 20px;
+      position: sticky;
+      bottom: -12px;
+      .#{$identifier}-drawn-numbers-container {
+        margin-top: 0px;
+        justify-content: center;
       }
     }
   }

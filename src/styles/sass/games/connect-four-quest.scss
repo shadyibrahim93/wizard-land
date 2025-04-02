@@ -7,6 +7,12 @@
       .#{$identifier}-square {
         width: 70px;
         height: 70px;
+
+        @media (max-width: 480px) {
+          height: 35px;
+          width: 35px;
+          font-size: 16px;
+        }
       }
     }
   }

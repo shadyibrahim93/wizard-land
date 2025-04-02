@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import GameIntro from '../../gameintro';
 import { playUncover, playDisappear } from '../../../hooks/useSound';
 import Button from '../../../components/Button';
@@ -17,7 +17,6 @@ const Game = ({ setCurrentLevel }) => {
   const [playerBoard, setPlayerBoard] = useState(generateBingoBoard());
   const [computerBoards, setComputerBoards] = useState([
     generateBingoBoard(),
-    generateBingoBoard(),
     generateBingoBoard()
   ]);
   const [drawnNumbers, setDrawnNumbers] = useState([]);
@@ -25,6 +24,11 @@ const Game = ({ setCurrentLevel }) => {
   const [winner, setWinner] = useState(null);
   const [startGame, setStartGame] = useState(false);
   const [markedCells, setMarkedCells] = useState([]);
+
+  // Refs for scrolling to winner
+  const playerRef = useRef(null);
+  const computer1Ref = useRef(null);
+  const computer2Ref = useRef(null);
 
   const introText = `Welcome to Wizards Land Bingo! A magical game where numbers are drawn and marked on your board. Be the first to complete a row, column, or diagonal to shout ‘Bingo!’ and win. Let’s see who’s the luckiest wizard today!`;
 
@@ -44,6 +48,20 @@ const Game = ({ setCurrentLevel }) => {
       playUncover();
       triggerConfetti();
 
+      // Scroll to the winner's board
+      const winnerRef =
+        winner === 'You'
+          ? playerRef
+          : winner === 'Computer1'
+          ? computer1Ref
+          : computer2Ref;
+      winnerRef?.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+
+      setDrawnNumbers([]);
+
       setTimeout(() => {
         playDisappear();
         handleRestart();
@@ -58,7 +76,8 @@ const Game = ({ setCurrentLevel }) => {
       newNumber = Math.floor(Math.random() * 75) + 1;
     } while (drawnNumbers.includes(newNumber));
 
-    setDrawnNumbers((prev) => [...prev, newNumber]); // Triggers checkWin via useEffect
+    playDisappear();
+    setDrawnNumbers((prev) => [...prev, newNumber]);
     markBoards(newNumber);
   };
 
@@ -112,20 +131,16 @@ const Game = ({ setCurrentLevel }) => {
     for (let i = 0; i < players.length; i++) {
       const board = i === 0 ? playerBoard : computerBoards[i - 1];
       if (checkBingo(board)) {
+        playUncover();
         setWinner(players[i]);
         return;
       }
     }
-    console.log('No winner yet.');
   };
 
   const handleRestart = () => {
     setPlayerBoard(generateBingoBoard());
-    setComputerBoards([
-      generateBingoBoard(),
-      generateBingoBoard(),
-      generateBingoBoard()
-    ]);
+    setComputerBoards([generateBingoBoard(), generateBingoBoard()]);
     setDrawnNumbers([]);
     setGameOver(false);
     setWinner(null);
@@ -133,8 +148,9 @@ const Game = ({ setCurrentLevel }) => {
     playDisappear();
   };
 
-  const renderBoard = (board, playerName) => (
+  const renderBoard = (board, playerName, ref) => (
     <div
+      ref={ref}
       className={`mq-board ${
         playerName === 'You'
           ? 'mq-board--player'
@@ -180,33 +196,35 @@ const Game = ({ setCurrentLevel }) => {
         <div className='mq-global-container mq-bingo-row'>
           <div>
             <h1 className='mq-bingo-title--computer'>Ice 1</h1>
-            {renderBoard(computerBoards[0], 'Computer1')}
+            {renderBoard(computerBoards[0], 'Computer1', computer1Ref)}
           </div>
           <div>
             <h1 className='mq-bingo-title'>Fire</h1>
-            {renderBoard(playerBoard, 'You')}
+            {renderBoard(playerBoard, 'You', playerRef)}
           </div>
           <div>
             <h1 className='mq-bingo-title--computer'>Ice 2</h1>
-            {renderBoard(computerBoards[1], 'Computer2')}
+            {renderBoard(computerBoards[1], 'Computer2', computer2Ref)}
           </div>
         </div>
       </div>
-      <div className='mq-drawn-numbers-container'>
-        {drawnNumbers.map((num, index) => (
-          <span
-            key={index}
-            className='mq-drawn-number'
-          >
-            {num}
-          </span>
-        ))}
-      </div>
-      <div className='mq-draw-button-container'>
-        <Button
-          text='Draw Number'
-          onClick={drawNumber}
-        />
+      <div className='mq-control-container'>
+        <div className='mq-drawn-numbers-container'>
+          {drawnNumbers.map((num, index) => (
+            <span
+              key={index}
+              className='mq-drawn-number'
+            >
+              {num}
+            </span>
+          ))}
+        </div>
+        <div className='mq-draw-button-container'>
+          <Button
+            text='Draw Number'
+            onClick={drawNumber}
+          />
+        </div>
       </div>
     </div>
   );

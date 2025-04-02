@@ -8,6 +8,7 @@
     "axios": "^1.7.9",
     "canvas-confetti": "^1.9.3",
     "cra-template": "1.2.0",
+    "node": "^20.17.0",
     "random-words": "^2.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

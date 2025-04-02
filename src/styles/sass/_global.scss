@@ -102,14 +102,25 @@ body {
     }
   }
 
-  .mq-game-intro-text {
+  .#{$identifier}-game-intro-text {
     line-height: 2;
     font-size: 1.2em;
+    min-width: 100%;
+
+    @media (max-width: 480px) {
+      font-size: 21px;
+    }
 
     &.#{$identifier}-game-intro-text {
+      text-align: justify;
+      line-height: 2;
       font-size: 1.7em;
       max-width: 80%;
       text-shadow: 3px 3px 5px black;
+
+      @media (max-width: 480px) {
+        font-size: 21px;
+      }
 
       .word {
         opacity: 0.3;
@@ -375,7 +386,9 @@ body {
     }
 
     @media (max-width: 480px) {
-      padding: 20px;
+      padding: 24px;
+      max-height: calc(80vh - 54px);
+      overflow-y: auto;
     }
   }
 
@@ -438,6 +451,7 @@ body {
       display: flex;
       justify-content: center;
       align-items: center;
+      letter-spacing: normal;
       font-size: 2rem;
       font-weight: bold;
       color: $secondary-color;
@@ -595,6 +609,7 @@ body {
 
   @media (max-width: 480px) {
     padding: 12px;
+    margin-bottom: 48px;
     height: calc(100vh - 24px);
     width: calc(100vw - 24px);
 
@@ -604,7 +619,7 @@ body {
 
     .#{$identifier}-home {
       h1 {
-        display: block;
+        display: flex;
         margin: 0;
         font-size: 24px;
       }
@@ -616,11 +631,11 @@ body {
       }
 
       h2.#{$identifier}-level {
-        font-size: 16px;
+        font-size: 24px;
       }
 
       .#{$identifier}-back-arrow {
-        font-size: 16px;
+        font-size: 24px;
       }
     }
 
