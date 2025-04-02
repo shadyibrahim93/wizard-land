@@ -522,7 +522,7 @@ body {
     }
   }
 
-  .mq-countdown {
+  .#{$identifier}-countdown {
     font-size: 4rem;
     font-weight: bold;
     color: #ff5733;
@@ -619,11 +619,11 @@ body {
   @media (max-width: 480px) {
     padding: 12px;
     margin-bottom: 48px;
-    height: calc(100vh - 24px);
+    height: calc(100vh - 60px);
     width: calc(100vw - 24px);
 
     div#root {
-      max-height: calc(100vh - 24px);
+      max-height: calc(100vh - 60px);
     }
 
     .#{$identifier}-home {
