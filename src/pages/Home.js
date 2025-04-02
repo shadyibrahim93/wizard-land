@@ -8,67 +8,67 @@ export default function Home() {
   const gamesData = [
     {
       url: '/games/memory-quest',
-      imgSrc: 'memory_quest.png',
+      imgSrc: 'memory_quest.jpg',
       alt: 'Memory Game',
       title: 'Brain Vault'
     },
     {
       url: '/games/bingo-quest',
-      imgSrc: 'bingo_quest.png',
+      imgSrc: 'bingo_quest.jpg',
       alt: 'Bingo Game',
       title: 'Bingo'
     },
     {
       url: '/games/connect-four-quest',
-      imgSrc: 'connect_four_quest.png',
+      imgSrc: 'connect_four_quest.jpg',
       alt: 'Connect Four Game',
       title: 'Connect 4'
     },
     {
       url: '/games/tic-tac-toe-quest',
-      imgSrc: 'tictactoe_quest.png',
+      imgSrc: 'tictactoe_quest.jpg',
       alt: 'Tic Tac Toe Game',
       title: 'Tic Tac Toe'
     },
     {
       url: '/games/dropzone-quest',
-      imgSrc: 'dropzone_quest.png',
+      imgSrc: 'dropzone_quest.jpg',
       alt: 'Drop Game',
       title: 'Perfect Fit'
     },
     {
       url: '/games/scramble-quest',
-      imgSrc: 'scramble_quest.png',
+      imgSrc: 'scramble_quest.jpg',
       alt: 'Scramble Game',
       title: 'Scrambled'
     },
     {
       url: '/games/sudoku-quest',
-      imgSrc: 'sudoku_quest.png',
+      imgSrc: 'sudoku_quest.jpg',
       alt: 'Sudoku Game',
       title: 'Sudoku'
     },
     {
       url: '/games/math-quest',
-      imgSrc: 'math_quest.png',
+      imgSrc: 'math_quest.jpg',
       alt: 'Math Game',
       title: 'Math Marathon'
     },
     {
       url: '/games/puzzle-quest',
-      imgSrc: 'puzzle_quest.png',
+      imgSrc: 'puzzle_quest.jpg',
       alt: 'Puzzle Game',
       title: 'Jigsaw'
     },
     {
       url: '/games/personal-puzzle-quest',
-      imgSrc: 'personal_puzzle_quest.png',
+      imgSrc: 'personal_puzzle_quest.jpg',
       alt: 'Personal Puzzle Game',
       title: 'Personal Jigsaw'
     },
     {
       url: '/games/match-quest',
-      imgSrc: 'match_quest.png',
+      imgSrc: 'match_quest.jpg',
       alt: 'Matching Game',
       title: 'Pair Pursuit'
     }
