@@ -101,7 +101,12 @@ export const launchStarConfetti = () => {
   }, 5000);
 };
 
+let hasIntroStarConfettiPlayed = false; // Flag to ensure the animation plays only once
+
 export const introStarConfetti = () => {
+  if (hasIntroStarConfettiPlayed) return; // If already played, exit the function
+  hasIntroStarConfettiPlayed = true; // Set flag to true after it starts
+
   const colors = ['#5c5e3d', '#c47f3c', '#ffffff']; // Your colors
   const canvas = document.createElement('canvas');
   document.body.appendChild(canvas);
@@ -126,7 +131,6 @@ export const introStarConfetti = () => {
     alpha: 1 // Start with full opacity
   });
 
-  // Create an initial batch of stars
   const stars = Array.from({ length: 10 }).map(generateStar);
 
   const drawStar = (ctx, x, y, size, color, glowProgress, alpha) => {
@@ -142,29 +146,18 @@ export const introStarConfetti = () => {
     }
     ctx.closePath();
 
-    // Gradually increase the glow effect from 0 to 100
-    ctx.shadowBlur = glowProgress; // Use glowProgress to set shadow blur intensity
-    ctx.shadowColor = color; // Set the shadow color to match the star color
-
+    ctx.shadowBlur = glowProgress; // Glow effect
+    ctx.shadowColor = color;
     ctx.fillStyle = color;
-    ctx.globalAlpha = alpha; // Apply alpha to make the star fade out
+    ctx.globalAlpha = alpha;
     ctx.fill();
     ctx.restore();
   };
 
-  let animationFrameId;
-
   const animateStars = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     stars.forEach((star, index) => {
-      // Decrease opacity (alpha) as the star falls
-      if (star.alpha > 0) {
-        star.alpha -= 0.01; // Make fading a bit slower for testing
-      } else {
-        star.alpha = 0; // Ensure it doesn't go negative
-      }
-
-      // Draw the star with its fading opacity
+      star.alpha = Math.max(0, star.alpha - 0.01);
       drawStar(
         ctx,
         star.x,
@@ -174,30 +167,20 @@ export const introStarConfetti = () => {
         star.glowProgress,
         star.alpha
       );
-
-      // Move the star down
       star.y += star.speed;
-
-      // If the star has gone off the canvas and faded out, generate a new star
       if (star.y > canvas.height || star.alpha === 0) {
-        stars[index] = generateStar(); // Replace the old star with a new one
+        stars[index] = generateStar();
       }
-
-      // Increase glow intensity after the delay
       if (star.glowProgress < 100 && star.startDelay <= 0) {
-        star.glowProgress += 1; // Increase the glow intensity gradually
+        star.glowProgress += 1;
       } else if (star.startDelay > 0) {
-        star.startDelay -= 16; // Decrease the start delay gradually (based on frame rate)
+        star.startDelay -= 16;
       }
     });
-
-    // Use requestAnimationFrame to optimize the animation
-    animationFrameId = requestAnimationFrame(animateStars);
+    requestAnimationFrame(animateStars);
   };
 
   animateStars();
-
-  // The canvas will keep looping, so no timeout to remove it
 };
 
 // Regular confetti effect
