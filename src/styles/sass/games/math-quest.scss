@@ -79,11 +79,34 @@
     justify-content: center;
     align-items: center;
     z-index: 10;
+    @media (max-width: 480px) {
+      h1,
+      h2 {
+        margin: 0px;
+      }
+    }
   }
 
   .#{$identifier}-gameover-message-container {
     display: flex;
     flex-direction: row;
     gap: 100px;
+    @media (max-width: 480px) {
+      padding: 24px;
+      width: calc(100% - 48px);
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+
+  .#{$identifier}-btns-container {
+    @media (max-width: 480px) {
+      width: calc(100% - 48px);
+      margin-top: 0px;
+      padding: 0px 24px;
+      display: flex;
+      gap: 20px;
+    }
   }
 }

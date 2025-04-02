@@ -18,7 +18,7 @@ const Game = ({
   const maxLevel = 10;
 
   const introText =
-    'Welcome to Sudoku! The goal of the game is to fill the 9x9 grid with numbers from 1 to 9. Each row, column, and 3x3 subgrid must contain all the numbers from 1 to 9 without repetition. Use logic and deduction to solve the puzzle. Good luck!';
+    'Welcome to Sudoku! Your mission is to fill the 9x9 grid with numbers from 1 to 9. Click on any empty box, enter a number between 1 and 9, and make sure each row, column, and 3x3 subgrid contains all the numbers without any repeats. Once the board is complete, hit the "Check" button to see if you’ve cracked the puzzle. Ready to challenge your mind and solve the mystery? Good luck!';
 
   useEffect(() => {
     fetchBoard();

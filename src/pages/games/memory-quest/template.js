@@ -25,7 +25,7 @@ const Game = ({
   const [retry, setRetry] = useState(false);
   const maxLevel = 10; // Number of levels
 
-  const introText = `Welcome to the Memory Sequence game! Remember and repeat the shown sequence. Each level gets tougher as the sequence grows. Test your memory and see how far you can go!`;
+  const introText = `Welcome to the Memory Sequence game! Remember and repeat the shown sequence by clicking on the dots in the correct order. Each level gets tougher as the sequence grows. Test your memory and see how far you can go!`;
 
   // Fetch sequence data for the current level
   useEffect(() => {

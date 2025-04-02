@@ -5,10 +5,10 @@ import saveScoreToLocalStorage from '../../../hooks/scoreSaver';
 import ScoreBoard from '../scoreBoard';
 import {
   playBGMusic,
-  playWinning,
   playAnswerInCorrect,
   playDisappear,
-  playDefeat
+  playDefeat,
+  playNextLevel
 } from '../../../hooks/useSound';
 
 import { triggerConfetti } from '../../../hooks/useConfetti';
@@ -103,7 +103,7 @@ const Template = () => {
   };
 
   const getTopScoresFromLocalStorage = () => {
-    return JSON.parse(localStorage.getItem('gameScores')) || [];
+    return JSON.parse(localStorage.getItem('math-quest')) || [];
   };
 
   const handleAnswer = (selectedAnswer) => {
@@ -118,9 +118,15 @@ const Template = () => {
 
       setEquation(generateRandomEquation(difficultyLevel * 5));
 
-      const previousBest = getTopScoresFromLocalStorage()[0]?.score || 0;
-      if (score > previousBest && !bestScorePassed) {
-        playWinning();
+      // Check the highest score in the top scores list
+      const topScore = Math.max(
+        ...getTopScoresFromLocalStorage().map((entry) => entry.score || 0),
+        0 // Default to 0 if the list is empty
+      );
+
+      // Trigger playNextLevel only if the new score surpasses the highest score
+      if (newScore > topScore && !bestScorePassed) {
+        playNextLevel();
         triggerConfetti();
         setBestScorePassed(true);
       }
@@ -128,6 +134,7 @@ const Template = () => {
       playDefeat();
       playAnswerInCorrect();
       setIsPaused(true);
+      setBestScorePassed(false);
 
       const finalScore = { score, time: formatTime(elapsedTime) };
 
@@ -197,11 +204,11 @@ const Template = () => {
         <h1>Game Over</h1>
         <img
           className='mq-fade-in-out'
-          src='../assets/gif/smoke-disappear3.gif'
+          src='/wizard-land/assets/gif/smoke-disappear3.gif'
         />
 
         <h2>{gameOverMessage}</h2>
-        <div>
+        <div className='mq-btns-container'>
           <Button
             text='Play Again'
             onClick={restartGame}

@@ -22,7 +22,7 @@ const Game = ({ setCurrentLevel }) => {
   const [gameMode, setGameMode] = useState('Single'); // Track whether it's Single or Multiplayer mode
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  const introText = `Welcome to Tic Tac Toe! Play as '🔥', and the computer will play as '❄️'. Take turns placing your marks, aiming to align three in a row. Good luck!`;
+  const introText = `Welcome to Tic Tac Toe! Play as '🔥', and the computer will play as '❄️'. Take turns placing your marks, aiming to align three in a row, column, or diagonal. A helper will show you where your mark will go when you hover over a box. Good luck!`;
 
   useEffect(() => {
     setCurrentLevel('∞');

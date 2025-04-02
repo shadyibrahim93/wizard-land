@@ -22,7 +22,7 @@ const WordScrambleGame = ({
   const maxLevel = 10;
   const { handleDragStart, handleDrop, handleDragOver } = useDragAndDrop();
 
-  const introText = `Welcome to Word Scramble! Your goal is to rearrange the scrambled letters to form the correct word. Each level gets more challenging, so stay focused and complete all levels to win!`;
+  const introText = `Welcome to Word Scramble! Click on a letter and watch it magically jump to the next open spot in the word boxes. Rearrange the scrambled letters to form the correct word. Each level gets trickier, so stay sharp and complete all the levels to claim victory!`;
 
   useEffect(() => {
     async function fetchWord() {
