@@ -207,7 +207,7 @@ body {
         animation: levitate 4s ease-in-out infinite;
 
         .#{$identifier}-ending-title {
-          animation: fadeIn 0.5s ease-in-out, glowing 1.5s infinite alternate;
+          animation: fadeIn 0.5s ease-in-out, glowingRed 1.5s infinite alternate;
           font-size: 30px;
         }
 
@@ -715,5 +715,5 @@ body {
 
 .glowing {
   box-shadow: 0 0 15px 5px $secondary-color;
-  animation: glowing 1.5s infinite alternate;
+  animation: glowingRed 1.5s infinite alternate;
 }
