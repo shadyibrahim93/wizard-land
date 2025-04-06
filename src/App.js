@@ -12,6 +12,7 @@ import PersonalPuzzleQuest from './pages/games/personal-puzzle-quest';
 import TicTacToeQuest from './pages/games/tic-tac-toe-quest';
 import ConnectFourQuest from './pages/games/connect-four-quest';
 import BingoQuest from './pages/games/bingo-quest';
+import CheckerQuest from './pages/games/checker-quest';
 
 import './styles/sass/main.scss';
 import useMouseEffect from './hooks/useMouseEffect';
@@ -69,6 +70,10 @@ export default function App() {
         <Route
           path='/games/bingo-quest'
           element={<BingoQuest />}
+        />
+        <Route
+          path='/games/checker-quest'
+          element={<CheckerQuest />}
         />
       </Routes>
     </HashRouter>

@@ -1,0 +1,47 @@
+.#{$identifier}-board {
+  position: relative;
+  display: grid;
+  grid-template-rows: repeat(8, 70px); /* 8 rows */
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+  .#{$identifier}-row {
+    display: grid;
+    grid-template-columns: repeat(8, 70px);
+  }
+}
+
+.#{$identifier}-square {
+  width: 70px;
+  height: 70px;
+  font-size: 36px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Default background color for light squares */
+  background-color: $primary-color;
+}
+
+/* Checkerboard pattern: dark squares alternate with light squares */
+.#{$identifier}-row:nth-child(even) .#{$identifier}-square:nth-child(odd),
+.#{$identifier}-row:nth-child(odd) .#{$identifier}-square:nth-child(even) {
+  background-color: #333; /* Dark color */
+  &.valid {
+    background-color: #86f6868f;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .#{$identifier}-square {
+    width: 35px;
+    height: 35px;
+  }
+
+  .#{$identifier}-square {
+    font-size: 18px;
+    width: 22px;
+  }
+}

@@ -7,12 +7,6 @@ export default function Home() {
   // Define the static game data
   const gamesData = [
     {
-      url: '/games/memory-quest',
-      imgSrc: 'memory_quest.jpg',
-      alt: 'Memory Game',
-      title: 'Brain Vault'
-    },
-    {
       url: '/games/bingo-quest',
       imgSrc: 'bingo_quest.jpg',
       alt: 'Bingo Game',
@@ -31,12 +25,6 @@ export default function Home() {
       title: 'Tic Tac Toe'
     },
     {
-      url: '/games/dropzone-quest',
-      imgSrc: 'dropzone_quest.jpg',
-      alt: 'Drop Game',
-      title: 'Perfect Fit'
-    },
-    {
       url: '/games/scramble-quest',
       imgSrc: 'scramble_quest.jpg',
       alt: 'Scramble Game',
@@ -47,6 +35,12 @@ export default function Home() {
       imgSrc: 'sudoku_quest.jpg',
       alt: 'Sudoku Game',
       title: 'Sudoku'
+    },
+    {
+      url: '/games/checker-quest',
+      imgSrc: 'sudoku_quest.jpg',
+      alt: 'Checker Game',
+      title: 'Checker'
     },
     {
       url: '/games/math-quest',
@@ -71,6 +65,18 @@ export default function Home() {
       imgSrc: 'match_quest.jpg',
       alt: 'Matching Game',
       title: 'Pair Pursuit'
+    },
+    {
+      url: '/games/memory-quest',
+      imgSrc: 'memory_quest.jpg',
+      alt: 'Memory Game',
+      title: 'Brain Vault'
+    },
+    {
+      url: '/games/dropzone-quest',
+      imgSrc: 'dropzone_quest.jpg',
+      alt: 'Drop Game',
+      title: 'Perfect Fit'
     }
   ];
 
@@ -85,7 +91,7 @@ export default function Home() {
   return (
     <div className='mq-home'>
       <Header
-        title='Wizard Land'
+        title='Arcane Quests'
         suppressLevel
       />
       <main className='mq-dashboard-cards-wrapper'>
