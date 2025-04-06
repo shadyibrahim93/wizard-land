@@ -5,6 +5,7 @@ import iceKing from '../../../assets/images/pieces/iceKing.gif';
 import fireKing from '../../../assets/images/pieces/fireKing.gif';
 import {
   playDefeat,
+  playDisappear,
   playNextLevel,
   playUncover
 } from '../../../hooks/useSound';
@@ -71,17 +72,20 @@ const Checkers = () => {
       setGameOver(true);
     }, 2000);
 
-    setTimeout(() => handleRestart(), 5000); // Delay to show the winner before restarting
+    setTimeout(() => {
+      handleRestart();
+      playDisappear();
+    }, 5000); // Delay to show the winner before restarting
   };
 
   const checkGameOver = (b) => {
     const playerCount = b.flat().filter((c) => c.piece === 'Fire').length;
     const computerCount = b.flat().filter((c) => c.piece === 'Ice').length;
 
-    if (playerCount === 0) {
-      handleGameOver('Ice', playDefeat, null); // For computer win
-    } else if (computerCount === 0) {
-      handleGameOver('Fire', playNextLevel, playDefeat); // For player win
+    if (playerCount === 0 || !playerHasValidMoves('Fire')) {
+      handleGameOver('Ice', playDefeat, null);
+    } else if (computerCount === 0 || !playerHasValidMoves('Ice')) {
+      handleGameOver('Fire', playNextLevel, playDefeat);
     }
   };
 
@@ -115,6 +119,62 @@ const Checkers = () => {
     });
   };
 
+  const playerHasValidMoves = (player) => {
+    for (let r = 0; r < 8; r++) {
+      for (let c = 0; c < 8; c++) {
+        const cell = board[r][c];
+        if (cell.piece === player) {
+          // Check if this piece has any valid moves
+          const dirs = cell.king
+            ? [
+                [-1, -1],
+                [-1, 1],
+                [1, -1],
+                [1, 1]
+              ]
+            : player === 'Fire'
+            ? [
+                [-1, -1],
+                [-1, 1]
+              ]
+            : [
+                [1, -1],
+                [1, 1]
+              ];
+
+          // Check for regular moves
+          for (const [dx, dy] of dirs) {
+            const nr = r + dx,
+              nc = c + dy;
+            if (isWithinBounds(nr, nc)) {
+              if (!board[nr][nc].piece) {
+                return true; // Found at least one valid move
+              }
+            }
+          }
+
+          // Check for capture moves
+          for (const [dx, dy] of dirs) {
+            const nr = r + dx,
+              nc = c + dy;
+            const jr = r + 2 * dx,
+              jc = c + 2 * dy;
+            const opponent = player === 'Fire' ? 'Ice' : 'Fire';
+
+            if (
+              isWithinBounds(jr, jc) &&
+              board[nr]?.[nc]?.piece === opponent &&
+              !board[jr][jc].piece
+            ) {
+              return true; // Found at least one valid capture
+            }
+          }
+        }
+      }
+    }
+    return false; // No valid moves found
+  };
+
   const movePiece = (sr, sc, er, ec) => {
     const newBoard = board.map((r) => r.map((c) => ({ ...c })));
     const piece = newBoard[sr][sc].piece;
@@ -134,11 +194,11 @@ const Checkers = () => {
       const canContinue = checkForAdditionalCaptures(er, ec, newBoard);
       if (canContinue) {
         setBoard(clearValidMoves(newBoard));
-        if (piece === 'Ice') {
+        if (mode === 'Single' && piece === 'Ice') {
           setComputerChainCapture({ row: er, col: ec });
         } else {
           setSelectedPiece({ row: er, col: ec });
-          setPlayerChainCapture({ row: er, col: ec }); // Track player's chain capture
+          setPlayerChainCapture({ row: er, col: ec });
         }
         highlightValidMoves(er, ec, newBoard);
         return;
@@ -147,10 +207,25 @@ const Checkers = () => {
 
     setBoard(clearValidMoves(newBoard));
     setSelectedPiece(null);
-    setPlayerChainCapture(null); // Reset player chain capture if no more captures
+    setPlayerChainCapture(null);
     setComputerChainCapture(null);
-    checkGameOver(newBoard);
-    setCurrentTurn(currentTurn === 'Fire' ? 'Ice' : 'Fire');
+
+    // Check if the next player has any moves available
+    const nextTurn = currentTurn === 'Fire' ? 'Ice' : 'Fire';
+    const hasMoves = playerHasValidMoves(nextTurn);
+
+    if (!hasMoves) {
+      // Current player wins because opponent can't move
+      handleGameOver(
+        currentTurn,
+        currentTurn === 'Fire' ? playNextLevel : playDefeat,
+        currentTurn === 'Fire' ? playDefeat : null
+      );
+    } else {
+      // Continue the game normally
+      setCurrentTurn(nextTurn);
+      checkGameOver(newBoard);
+    }
   };
 
   const highlightValidMoves = (r, c, b = board) => {
@@ -378,73 +453,17 @@ const Checkers = () => {
     }, 1000);
   };
 
-  const findAdditionalCaptures = (r, c, b, player) => {
-    const opp = player === 'Fire' ? 'Ice' : 'Fire';
-    const cell = b[r][c];
-    const sequences = [];
-
-    const dirs = cell.king
-      ? [
-          [-1, -1],
-          [-1, 1],
-          [1, -1],
-          [1, 1]
-        ]
-      : player === 'Fire'
-      ? [
-          [-1, -1],
-          [-1, 1]
-        ]
-      : [
-          [1, -1],
-          [1, 1]
-        ];
-
-    for (const [dx, dy] of dirs) {
-      const nr = r + dx,
-        nc = c + dy;
-      const jr = r + 2 * dx,
-        jc = c + 2 * dy;
-
-      if (
-        isWithinBounds(jr, jc) &&
-        b[nr]?.[nc]?.piece === opp &&
-        !b[jr][jc].piece
-      ) {
-        // Simulate this capture
-        const simulatedBoard = JSON.parse(JSON.stringify(b));
-        simulatedBoard[jr][jc] = { ...simulatedBoard[r][c] };
-        simulatedBoard[r][c] = { piece: null, king: false, validMove: false };
-        simulatedBoard[(r + jr) / 2][(c + jc) / 2] = {
-          piece: null,
-          king: false,
-          validMove: false
-        };
-
-        const sequence = [{ from: { r, c }, to: { r: jr, c: jc } }];
-        const additionalCaptures = findAdditionalCaptures(
-          jr,
-          jc,
-          simulatedBoard,
-          player
-        );
-        if (additionalCaptures.length > 0) {
-          sequence.push(...additionalCaptures);
-        }
-        sequences.push(sequence);
-      }
-    }
-
-    if (sequences.length === 0) return [];
-
-    // Return the sequence with most captures
-    sequences.sort((a, b) => b.length - a.length);
-    return sequences[0];
-  };
-
   const handleCellClick = (r, c) => {
     const cell = board[r][c];
-    if (gameOver || currentTurn !== 'Fire') return;
+    if (gameOver) return;
+
+    // Check if it's the current player's turn
+    if (
+      (currentTurn === 'Fire' && cell.piece !== 'Fire' && !selectedPiece) ||
+      (currentTurn === 'Ice' && cell.piece !== 'Ice' && !selectedPiece)
+    ) {
+      return;
+    }
 
     // If player must continue capturing, only allow moves from that piece
     if (
@@ -454,7 +473,7 @@ const Checkers = () => {
       return;
     }
 
-    const captureExists = checkForAnyCaptures('Fire');
+    const captureExists = checkForAnyCaptures(currentTurn);
 
     // If the player has no captures to make, proceed with regular move
     if (!captureExists && selectedPiece && cell.validMove) {
@@ -463,9 +482,10 @@ const Checkers = () => {
     }
 
     // If a player piece is selected, handle the click and highlight valid moves
-    if (cell.piece === 'Fire') {
+    if (cell.piece === currentTurn) {
       // If captures exist, only allow selecting pieces that can capture
       if (captureExists) {
+        const opp = currentTurn === 'Fire' ? 'Ice' : 'Fire';
         const directions = cell.king
           ? [
               [-1, -1],
@@ -473,9 +493,14 @@ const Checkers = () => {
               [1, -1],
               [1, 1]
             ]
-          : [
+          : currentTurn === 'Fire'
+          ? [
               [-1, -1],
               [-1, 1]
+            ]
+          : [
+              [1, -1],
+              [1, 1]
             ];
 
         const canCapture = directions.some(([dx, dy]) => {
@@ -485,7 +510,7 @@ const Checkers = () => {
             jc = c + 2 * dy;
           return (
             isWithinBounds(jr, jc) &&
-            board[nr]?.[nc]?.piece === 'Ice' &&
+            board[nr]?.[nc]?.piece === opp &&
             !board[jr][jc].piece
           );
         });
@@ -503,6 +528,8 @@ const Checkers = () => {
     if (selectedPiece && captureExists) {
       const { row, col } = selectedPiece;
       const captureMoves = [];
+      const cell = board[row][col];
+      const opp = currentTurn === 'Fire' ? 'Ice' : 'Fire';
       const dirs = cell.king
         ? [
             [-1, -1],
@@ -510,9 +537,14 @@ const Checkers = () => {
             [1, -1],
             [1, 1]
           ]
-        : [
+        : currentTurn === 'Fire'
+        ? [
             [-1, -1],
             [-1, 1]
+          ]
+        : [
+            [1, -1],
+            [1, 1]
           ];
 
       // Find all possible continuation captures
@@ -524,7 +556,7 @@ const Checkers = () => {
 
         if (
           isWithinBounds(jr, jc) &&
-          board[nr]?.[nc]?.piece === 'Ice' &&
+          board[nr]?.[nc]?.piece === opp &&
           !board[jr][jc].piece
         ) {
           captureMoves.push({ from: { r: row, c: col }, to: { r: jr, c: jc } });
@@ -545,7 +577,7 @@ const Checkers = () => {
       } else {
         if (!captureMoves) {
           setPlayerChainCapture(null);
-          setCurrentTurn('Ice');
+          setCurrentTurn(currentTurn === 'Fire' ? 'Ice' : 'Fire');
         }
       }
     }
@@ -569,6 +601,10 @@ const Checkers = () => {
     setBoard(initialBoard());
     setGameOver(false);
     setWinner(null);
+    setCurrentTurn('Fire');
+    setSelectedPiece(null);
+    setPlayerChainCapture(null);
+    setComputerChainCapture(null);
   };
 
   const resetScore = () => {
@@ -595,7 +631,11 @@ const Checkers = () => {
       <div className='mq-global-container'>
         <div className='mq-score-container'>
           <span className='mq-score-player'>Fire: {playerWins}</span>
-          <span className='mq-score-computer'>Ice: {computerWins}</span>
+          {mode === 'Single' ? (
+            <span className='mq-score-computer'>Ice: {computerWins}</span>
+          ) : (
+            <span className='mq-score-computer'>Ice: {playerWins}</span>
+          )}
         </div>
         <div className={`mq-board mq-${currentTurn.toLowerCase()}`}>
           {gameOver && <h2 className='mq-ending-title'>{winner} wins!</h2>}
