@@ -1,38 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import GameIntro from '../../gameintro';
+import Button from '../../../components/Button';
+import iceKing from '../../../assets/images/pieces/iceKing.gif';
+import fireKing from '../../../assets/images/pieces/fireKing.gif';
+
+// Initial board setup
+const initialBoard = () => {
+  const board = [];
+  for (let i = 0; i < 8; i++) {
+    const row = [];
+    for (let j = 0; j < 8; j++) {
+      if ((i + j) % 2 === 1) {
+        if (i < 3) row.push({ piece: 'Ice', king: false, validMove: false });
+        else if (i > 4)
+          row.push({ piece: 'Fire', king: false, validMove: false });
+        else row.push({ piece: null, king: false, validMove: false });
+      } else {
+        row.push({ piece: null, king: false, validMove: false });
+      }
+    }
+    board.push(row);
+  }
+  return board;
+};
 
 const Checkers = () => {
   const [selectedPiece, setSelectedPiece] = useState(null);
-  const [turn, setTurn] = useState('player');
+  const [board, setBoard] = useState(initialBoard());
+  const [currentTurn, setCurrentTurn] = useState('Fire');
   const [gameOver, setGameOver] = useState(false);
   const [winner, setWinner] = useState(null);
   const [startGame, setStartGame] = useState(false);
+  const [playerWins, setPlayerWins] = useState(0);
+  const [computerWins, setComputerWins] = useState(0);
   const [mode, setMode] = useState(null); // single or multiplayer
   const [mustCapture, setMustCapture] = useState(null); // Track if player must continue capturing
   const [computerChainCapture, setComputerChainCapture] = useState(null);
   const [playerChainCapture, setPlayerChainCapture] = useState(null);
 
   const introText = `Welcome to Wizards Land Checkers Game! Play as '🔥', and the computer will play as '❄️'. Take turns moving your pieces into the corresponding box. A helper will show you where the piece can be dropped. Be the first to capture all pieces or block the opponent from making any more and win the game. Good luck!`;
-
-  const [board, setBoard] = useState(() => {
-    const initialBoard = [];
-    for (let i = 0; i < 8; i++) {
-      const row = [];
-      for (let j = 0; j < 8; j++) {
-        if ((i + j) % 2 === 1) {
-          if (i < 3)
-            row.push({ piece: 'computer', king: false, validMove: false });
-          else if (i > 4)
-            row.push({ piece: 'player', king: false, validMove: false });
-          else row.push({ piece: null, king: false, validMove: false });
-        } else {
-          row.push({ piece: null, king: false, validMove: false });
-        }
-      }
-      initialBoard.push(row);
-    }
-    return initialBoard;
-  });
 
   const isWithinBounds = (row, col) =>
     row >= 0 && row < 8 && col >= 0 && col < 8;
@@ -41,20 +47,24 @@ const Checkers = () => {
     b.map((r) => r.map((c) => ({ ...c, validMove: false })));
 
   const checkGameOver = (b) => {
-    const player = b.flat().filter((c) => c.piece === 'player').length;
-    const computer = b.flat().filter((c) => c.piece === 'computer').length;
+    const player = b.flat().filter((c) => c.piece === 'Fire').length;
+    const computer = b.flat().filter((c) => c.piece === 'Ice').length;
     if (player === 0) {
-      setWinner('computer');
+      setWinner('Ice');
+      setComputerWins(computerWins + 1);
       setGameOver(true);
+      setTimeout(() => handleRestart(), 2000); // Delay to show the winner before restarting
     } else if (computer === 0) {
-      setWinner('player');
+      setWinner('Fire');
+      setPlayerWins(playerWins + 1);
       setGameOver(true);
+      setTimeout(() => handleRestart(), 2000); // Delay to show the winner before restarting
     }
   };
 
   const checkForAdditionalCaptures = (r, c, b) => {
     const { piece, king } = b[r][c];
-    const opp = piece === 'player' ? 'computer' : 'player';
+    const opp = piece === 'Fire' ? 'Ice' : 'Fire';
     const dirs = king
       ? [
           [-1, -1],
@@ -62,7 +72,7 @@ const Checkers = () => {
           [1, -1],
           [1, 1]
         ]
-      : piece === 'player'
+      : piece === 'Fire'
       ? [
           [-1, -1],
           [-1, 1]
@@ -89,9 +99,7 @@ const Checkers = () => {
 
     newBoard[er][ec].piece = piece;
     newBoard[er][ec].king =
-      king ||
-      (piece === 'player' && er === 0) ||
-      (piece === 'computer' && er === 7);
+      king || (piece === 'Fire' && er === 0) || (piece === 'Ice' && er === 7);
     newBoard[sr][sc].piece = null;
     newBoard[sr][sc].king = false;
 
@@ -103,7 +111,7 @@ const Checkers = () => {
       const canContinue = checkForAdditionalCaptures(er, ec, newBoard);
       if (canContinue) {
         setBoard(clearValidMoves(newBoard));
-        if (piece === 'computer') {
+        if (piece === 'Ice') {
           setComputerChainCapture({ row: er, col: ec });
         } else {
           setSelectedPiece({ row: er, col: ec });
@@ -119,13 +127,13 @@ const Checkers = () => {
     setPlayerChainCapture(null); // Reset player chain capture if no more captures
     setComputerChainCapture(null);
     checkGameOver(newBoard);
-    setTurn(turn === 'player' ? 'computer' : 'player');
+    setCurrentTurn(currentTurn === 'Fire' ? 'Ice' : 'Fire');
   };
 
   const highlightValidMoves = (r, c, b = board) => {
     const newBoard = b.map((r) => r.map((c) => ({ ...c, validMove: false })));
     const { piece, king } = b[r][c];
-    const opp = piece === 'player' ? 'computer' : 'player';
+    const opp = piece === 'Fire' ? 'Ice' : 'Fire';
     const dirs = king
       ? [
           [-1, -1],
@@ -133,7 +141,7 @@ const Checkers = () => {
           [1, -1],
           [1, 1]
         ]
-      : piece === 'player'
+      : piece === 'Fire'
       ? [
           [-1, -1],
           [-1, 1]
@@ -181,7 +189,7 @@ const Checkers = () => {
   };
 
   const checkForAnyCaptures = (who) => {
-    const opp = who === 'player' ? 'computer' : 'player';
+    const opp = who === 'Fire' ? 'Ice' : 'Fire';
     let captureExists = false;
 
     board.forEach((row, ri) => {
@@ -194,7 +202,7 @@ const Checkers = () => {
                 [1, -1],
                 [1, 1]
               ]
-            : who === 'player'
+            : who === 'Fire'
             ? [
                 [-1, -1],
                 [-1, 1]
@@ -251,7 +259,7 @@ const Checkers = () => {
 
         if (
           isWithinBounds(jr, jc) &&
-          board[nr]?.[nc]?.piece === 'player' &&
+          board[nr]?.[nc]?.piece === 'Fire' &&
           !board[jr][jc].piece
         ) {
           captureMoves.push({ from: { r: row, c: col }, to: { r: jr, c: jc } });
@@ -271,19 +279,19 @@ const Checkers = () => {
       } else {
         // Chain capture complete
         setComputerChainCapture(null);
-        setTurn('player');
+        setCurrentTurn('Fire');
         return;
       }
     }
 
-    // Regular computer turn logic
+    // Regular computer currentTurn logic
     const captureMoves = [];
     const regularMoves = [];
 
     for (let r = 0; r < 8; r++) {
       for (let c = 0; c < 8; c++) {
         const cell = board[r][c];
-        if (cell.piece === 'computer') {
+        if (cell.piece === 'Ice') {
           const dirs = cell.king
             ? [
                 [-1, -1],
@@ -304,7 +312,7 @@ const Checkers = () => {
 
             if (
               isWithinBounds(jr, jc) &&
-              board[nr]?.[nc]?.piece === 'player' &&
+              board[nr]?.[nc]?.piece === 'Fire' &&
               !board[jr][jc].piece
             ) {
               captureMoves.push({ from: { r, c }, to: { r: jr, c: jc } });
@@ -338,12 +346,12 @@ const Checkers = () => {
         randomMove.to.c
       );
     } else {
-      setTurn('player');
+      setCurrentTurn('Fire');
     }
   };
 
   const findAdditionalCaptures = (r, c, b, player) => {
-    const opp = player === 'player' ? 'computer' : 'player';
+    const opp = player === 'Fire' ? 'Ice' : 'Fire';
     const cell = b[r][c];
     const sequences = [];
 
@@ -354,7 +362,7 @@ const Checkers = () => {
           [1, -1],
           [1, 1]
         ]
-      : player === 'player'
+      : player === 'Fire'
       ? [
           [-1, -1],
           [-1, 1]
@@ -408,7 +416,7 @@ const Checkers = () => {
 
   const handleCellClick = (r, c) => {
     const cell = board[r][c];
-    if (gameOver || turn !== 'player') return;
+    if (gameOver || currentTurn !== 'Fire') return;
 
     // If player must continue capturing, only allow moves from that piece
     if (
@@ -418,7 +426,7 @@ const Checkers = () => {
       return;
     }
 
-    const captureExists = checkForAnyCaptures('player');
+    const captureExists = checkForAnyCaptures('Fire');
 
     // If the player has no captures to make, proceed with regular move
     if (!captureExists && selectedPiece && cell.validMove) {
@@ -427,7 +435,7 @@ const Checkers = () => {
     }
 
     // If a player piece is selected, handle the click and highlight valid moves
-    if (cell.piece === 'player') {
+    if (cell.piece === 'Fire') {
       // If captures exist, only allow selecting pieces that can capture
       if (captureExists) {
         const directions = cell.king
@@ -449,7 +457,7 @@ const Checkers = () => {
             jc = c + 2 * dy;
           return (
             isWithinBounds(jr, jc) &&
-            board[nr]?.[nc]?.piece === 'computer' &&
+            board[nr]?.[nc]?.piece === 'Ice' &&
             !board[jr][jc].piece
           );
         });
@@ -488,7 +496,7 @@ const Checkers = () => {
 
         if (
           isWithinBounds(jr, jc) &&
-          board[nr]?.[nc]?.piece === 'computer' &&
+          board[nr]?.[nc]?.piece === 'Ice' &&
           !board[jr][jc].piece
         ) {
           captureMoves.push({ from: { r: row, c: col }, to: { r: jr, c: jc } });
@@ -509,18 +517,37 @@ const Checkers = () => {
       } else {
         if (!captureMoves) {
           setPlayerChainCapture(null);
-          setTurn('computer');
+          setCurrentTurn('Ice');
         }
       }
     }
   };
 
   useEffect(() => {
-    if (turn === 'computer' && !gameOver && mode === 'Single') {
+    if (currentTurn === 'Ice' && !gameOver && mode === 'Single') {
       const timer = setTimeout(handleComputerTurn, 400);
       return () => clearTimeout(timer);
     }
-  }, [turn, gameOver, mode, board, computerChainCapture, playerChainCapture]);
+  }, [
+    currentTurn,
+    gameOver,
+    mode,
+    board,
+    computerChainCapture,
+    playerChainCapture
+  ]);
+
+  const handleRestart = () => {
+    setBoard(initialBoard());
+    setGameOver(false);
+    setWinner(null);
+    setCurrentTurn(winner);
+  };
+
+  const resetScore = () => {
+    setComputerWins(0);
+    setPlayerWins(0);
+  };
 
   return !startGame ? (
     <GameIntro
@@ -537,29 +564,41 @@ const Checkers = () => {
       secondButtonText='Multiplayer'
     />
   ) : (
-    <div>
-      <div className='mq-board'>
-        {gameOver && <h2 className='mq-ending-title'>{winner} wins!</h2>}
+    <>
+      <div className={`mq-global-container`}>
+        <div className='mq-score-container'>
+          <span className='mq-score-player'>Fire: {playerWins}</span>
+          <span className='mq-score-computer'>Ice: {computerWins}</span>
+        </div>
+        <div className='mq-board'>
+          {gameOver && <h2 className='mq-ending-title'>{winner} wins!</h2>}
 
-        {board.map((row, r) => (
-          <div
-            key={r}
-            className='mq-row'
-          >
-            {row.map((cell, c) => (
-              <div
-                key={c}
-                className={`mq-square ${cell.validMove ? 'valid' : ''}`}
-                onClick={() => handleCellClick(r, c)}
-              >
-                {cell.piece === 'player' && (cell.king ? '👑🔥' : '🔥')}
-                {cell.piece === 'computer' && (cell.king ? '👑❄️' : '❄️')}
-              </div>
-            ))}
-          </div>
-        ))}
+          {board.map((row, r) => (
+            <div
+              key={r}
+              className='mq-row'
+            >
+              {row.map((cell, c) => (
+                <div
+                  key={c}
+                  className={`mq-square ${cell.validMove ? 'valid' : ''}`}
+                  onClick={() => handleCellClick(r, c)}
+                >
+                  {cell.piece === 'Fire' &&
+                    (cell.king ? <img src={fireKing} /> : '🔥')}
+                  {cell.piece === 'Ice' &&
+                    (cell.king ? <img src={iceKing} /> : '❄️')}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+      <Button
+        text='Reset Score'
+        onClick={resetScore}
+      />
+    </>
   );
 };
 
