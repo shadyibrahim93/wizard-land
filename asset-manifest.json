@@ -1,8 +1,12 @@
 {
   "files": {
-    "main.css": "/wizard-land/static/css/main.1a65164a.css",
-    "main.js": "/wizard-land/static/js/main.8f98f3ff.js",
+    "main.css": "/wizard-land/static/css/main.2bcd65a5.css",
+    "main.js": "/wizard-land/static/js/main.e554daac.js",
     "static/js/952.2f8df9f3.chunk.js": "/wizard-land/static/js/952.2f8df9f3.chunk.js",
+    "static/media/iceKing.gif": "/wizard-land/static/media/iceKing.050d445adf4e0755dcfc.gif",
+    "static/media/ice.gif": "/wizard-land/static/media/ice.c9ff3188179e16bd39d4.gif",
+    "static/media/fireKing.gif": "/wizard-land/static/media/fireKing.163a453176b8af04a095.gif",
+    "static/media/fire.gif": "/wizard-land/static/media/fire.d573202f0ef7c6a5d57c.gif",
     "static/media/scramble_quest.jpg": "/wizard-land/static/media/scramble_quest.7d612e84dde87589b6b4.jpg",
     "static/media/math_quest.jpg": "/wizard-land/static/media/math_quest.7266202028f17e9b699b.jpg",
     "static/media/personal_puzzle_quest.jpg": "/wizard-land/static/media/personal_puzzle_quest.a1ea3b3b3549e008f271.jpg",
@@ -10,6 +14,7 @@
     "static/media/sudoku_quest.jpg": "/wizard-land/static/media/sudoku_quest.55508d7bc3fbfa41068a.jpg",
     "static/media/puzzle_quest.jpg": "/wizard-land/static/media/puzzle_quest.0f05dc34cb4ae1ff1a20.jpg",
     "static/media/match_quest.jpg": "/wizard-land/static/media/match_quest.6dd14f93cb820246f7dc.jpg",
+    "static/media/checker_quest.jpg": "/wizard-land/static/media/checker_quest.299297c4a009d6775916.jpg",
     "static/media/bingo_quest.jpg": "/wizard-land/static/media/bingo_quest.0d0a592b65419fb0390c.jpg",
     "static/media/dropzone_quest.jpg": "/wizard-land/static/media/dropzone_quest.9291fcd5dcc0ba1f8eaa.jpg",
     "static/media/memory_quest.jpg": "/wizard-land/static/media/memory_quest.57ac1e69d7dc41ba8afb.jpg",
@@ -21,15 +26,16 @@
     "static/media/puzzlelevel5.jpg": "/wizard-land/static/media/puzzlelevel5.26bced16c138f5f26989.jpg",
     "static/media/tictactoe_quest.jpg": "/wizard-land/static/media/tictactoe_quest.3d95b1d203402642adee.jpg",
     "static/media/puzzlelevel6.jpg": "/wizard-land/static/media/puzzlelevel6.bc76aeb13e1fc2bffd0a.jpg",
+    "static/media/crown.gif": "/wizard-land/static/media/crown.7c5041a5702caf110e95.gif",
     "static/media/MagicalFull.otf": "/wizard-land/static/media/MagicalFull.252ecf326a2d31201a87.otf",
     "static/media/cursor.cur": "/wizard-land/static/media/cursor.2c46f5bc85e30429f077.cur",
     "index.html": "/wizard-land/index.html",
-    "main.1a65164a.css.map": "/wizard-land/static/css/main.1a65164a.css.map",
-    "main.8f98f3ff.js.map": "/wizard-land/static/js/main.8f98f3ff.js.map",
+    "main.2bcd65a5.css.map": "/wizard-land/static/css/main.2bcd65a5.css.map",
+    "main.e554daac.js.map": "/wizard-land/static/js/main.e554daac.js.map",
     "952.2f8df9f3.chunk.js.map": "/wizard-land/static/js/952.2f8df9f3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.1a65164a.css",
-    "static/js/main.8f98f3ff.js"
+    "static/css/main.2bcd65a5.css",
+    "static/js/main.e554daac.js"
   ]
 }
