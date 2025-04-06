@@ -4,24 +4,27 @@
       gap: 0;
       position: relative;
       display: grid;
-      grid-template-rows: repeat(8, 70px); /* 8 rows */
+      grid-template-rows: repeat(8, 1fr); /* 8 rows */
       grid-template-columns: repeat(1, 1fr);
-      border: 1px solid #ccc;
       border-radius: 10px;
       overflow: hidden;
       .#{$identifier}-row {
         display: grid;
-        grid-template-columns: repeat(8, 70px);
+        grid-template-columns: repeat(8, 1fr);
       }
     }
 
     .#{$identifier}-square {
-      width: 70px;
-      height: 70px;
+      width: 90px;
+      height: 90px;
       font-size: 36px;
       border-radius: 0;
-      cursor: default;
       border: none;
+      cursor: pointer;
+
+      &.empty {
+        cursor: default;
+      }
 
       &:hover {
         background-color: $primary-color;
@@ -44,22 +47,18 @@
     .#{$identifier}-row:nth-child(even) .#{$identifier}-square:nth-child(odd),
     .#{$identifier}-row:nth-child(odd) .#{$identifier}-square:nth-child(even) {
       background-color: #333; /* Dark color */
-      cursor: pointer;
       &.valid {
         background-color: #86f6868f;
+        cursor: pointer;
       }
     }
 
     /* Responsive adjustments */
     @media (max-width: 480px) {
       .#{$identifier}-square {
-        width: 35px;
-        height: 35px;
-      }
-
-      .#{$identifier}-square {
-        font-size: 18px;
-        width: 22px;
+        font-size: 16px;
+        width: 30px;
+        height: 30px;
       }
     }
   }
