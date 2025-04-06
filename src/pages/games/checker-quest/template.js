@@ -7,7 +7,10 @@ import {
   playDefeat,
   playDisappear,
   playNextLevel,
-  playUncover
+  playUncover,
+  playUpgrade,
+  playClick,
+  playSwallow
 } from '../../../hooks/useSound';
 import { triggerConfetti } from './../../../hooks/useConfetti';
 
@@ -44,6 +47,7 @@ const Checkers = () => {
   const [mustCapture, setMustCapture] = useState(null); // Track if player must continue capturing
   const [computerChainCapture, setComputerChainCapture] = useState(null);
   const [playerChainCapture, setPlayerChainCapture] = useState(null);
+  const [upgradingPieces, setUpgradingPieces] = useState([]); // Track pieces that are upgrading
 
   const introText = `Welcome to Wizards Land Checkers Game! Play as '🔥', and the computer will play as '❄️'. Take turns moving your pieces into the corresponding box. A helper will show you where the piece can be dropped. Be the first to capture all pieces or block the opponent from making any more and win the game. Good luck!`;
 
@@ -56,14 +60,21 @@ const Checkers = () => {
   const handleGameOver = (winner, playVictorySound, playDefeatSound) => {
     // Play appropriate sound and trigger confetti if necessary
     if (winner === 'Fire') {
-      playVictorySound();
+      playNextLevel(); // Always play victory sound for Fire player (human)
       triggerConfetti();
       setPlayerWins(playerWins + 1);
       setCurrentTurn('Fire');
     } else {
       setCurrentTurn('Ice');
-      playDefeatSound();
-      setComputerWins(computerWins + 1);
+      // Only play defeat sound in single player mode when computer wins
+      if (mode === 'Single') {
+        playDefeatSound();
+        setComputerWins(computerWins + 1);
+      } else {
+        // In multiplayer, both players are human so we play victory sound
+        playNextLevel();
+        setPlayerWins(playerWins + 1); // In multiplayer, this would be Player 2's win
+      }
     }
     setWinner(winner);
 
@@ -83,9 +94,17 @@ const Checkers = () => {
     const computerCount = b.flat().filter((c) => c.piece === 'Ice').length;
 
     if (playerCount === 0 || !playerHasValidMoves('Fire')) {
-      handleGameOver('Ice', playDefeat, null);
+      handleGameOver(
+        'Ice',
+        mode === 'Single' ? playDefeat : playNextLevel, // Use playNextLevel for multiplayer
+        mode === 'Single' ? playDefeat : null
+      );
     } else if (computerCount === 0 || !playerHasValidMoves('Ice')) {
-      handleGameOver('Fire', playNextLevel, playDefeat);
+      handleGameOver(
+        'Fire',
+        playNextLevel,
+        mode === 'Single' ? playDefeat : null // Don't use defeat sound in multiplayer
+      );
     }
   };
 
@@ -181,15 +200,26 @@ const Checkers = () => {
     const king = newBoard[sr][sc].king;
 
     newBoard[er][ec].piece = piece;
-    newBoard[er][ec].king =
-      king || (piece === 'Fire' && er === 0) || (piece === 'Ice' && er === 7);
+
+    // Check if piece is being promoted to king
+    const isPromoted =
+      !king &&
+      ((piece === 'Fire' && er === 0) || (piece === 'Ice' && er === 7));
+    newBoard[er][ec].king = king || isPromoted;
     newBoard[sr][sc].piece = null;
     newBoard[sr][sc].king = false;
+
+    playClick();
+
+    if (isPromoted) {
+      playUpgrade();
+    }
 
     if (Math.abs(sr - er) === 2) {
       const cr = (sr + er) / 2,
         cc = (sc + ec) / 2;
       newBoard[cr][cc].piece = null;
+      playSwallow();
 
       const canContinue = checkForAdditionalCaptures(er, ec, newBoard);
       if (canContinue) {
@@ -465,24 +495,59 @@ const Checkers = () => {
       return;
     }
 
-    // If player must continue capturing, only allow moves from that piece
-    if (
-      playerChainCapture &&
-      (r !== playerChainCapture.row || c !== playerChainCapture.col)
-    ) {
-      return;
-    }
-
-    const captureExists = checkForAnyCaptures(currentTurn);
-
-    // If the player has no captures to make, proceed with regular move
-    if (!captureExists && selectedPiece && cell.validMove) {
+    // If we have a selected piece and clicked on a valid move
+    if (selectedPiece && cell.validMove) {
       movePiece(selectedPiece.row, selectedPiece.col, r, c);
       return;
     }
 
-    // If a player piece is selected, handle the click and highlight valid moves
+    // If clicking on own piece during chain capture, allow switching only if it has captures
+    if (playerChainCapture && cell.piece === currentTurn) {
+      const captureExists = checkForAnyCaptures(currentTurn);
+      if (captureExists) {
+        const opp = currentTurn === 'Fire' ? 'Ice' : 'Fire';
+        const directions = cell.king
+          ? [
+              [-1, -1],
+              [-1, 1],
+              [1, -1],
+              [1, 1]
+            ]
+          : currentTurn === 'Fire'
+          ? [
+              [-1, -1],
+              [-1, 1]
+            ]
+          : [
+              [1, -1],
+              [1, 1]
+            ];
+
+        const canCapture = directions.some(([dx, dy]) => {
+          const nr = r + dx,
+            nc = c + dy;
+          const jr = r + 2 * dx,
+            jc = c + 2 * dy;
+          return (
+            isWithinBounds(jr, jc) &&
+            board[nr]?.[nc]?.piece === opp &&
+            !board[jr][jc].piece
+          );
+        });
+
+        if (canCapture) {
+          setSelectedPiece({ row: r, col: c });
+          setPlayerChainCapture({ row: r, col: c });
+          highlightValidMoves(r, c);
+          return;
+        }
+      }
+    }
+
+    // Normal piece selection
     if (cell.piece === currentTurn) {
+      const captureExists = checkForAnyCaptures(currentTurn);
+
       // If captures exist, only allow selecting pieces that can capture
       if (captureExists) {
         const opp = currentTurn === 'Fire' ? 'Ice' : 'Fire';
@@ -519,67 +584,6 @@ const Checkers = () => {
 
       setSelectedPiece({ row: r, col: c });
       highlightValidMoves(r, c);
-    } else if (selectedPiece && cell.validMove) {
-      movePiece(selectedPiece.row, selectedPiece.col, r, c);
-      return;
-    }
-
-    // Check for chain capture if player has made a capture move
-    if (selectedPiece && captureExists) {
-      const { row, col } = selectedPiece;
-      const captureMoves = [];
-      const cell = board[row][col];
-      const opp = currentTurn === 'Fire' ? 'Ice' : 'Fire';
-      const dirs = cell.king
-        ? [
-            [-1, -1],
-            [-1, 1],
-            [1, -1],
-            [1, 1]
-          ]
-        : currentTurn === 'Fire'
-        ? [
-            [-1, -1],
-            [-1, 1]
-          ]
-        : [
-            [1, -1],
-            [1, 1]
-          ];
-
-      // Find all possible continuation captures
-      for (const [dx, dy] of dirs) {
-        const nr = row + dx,
-          nc = col + dy;
-        const jr = row + 2 * dx,
-          jc = col + 2 * dy;
-
-        if (
-          isWithinBounds(jr, jc) &&
-          board[nr]?.[nc]?.piece === opp &&
-          !board[jr][jc].piece
-        ) {
-          captureMoves.push({ from: { r: row, c: col }, to: { r: jr, c: jc } });
-        }
-      }
-
-      // If there are captures to make, force the player to make one
-      if (captureMoves.length > 0) {
-        const randomMove =
-          captureMoves[Math.floor(Math.random() * captureMoves.length)];
-        movePiece(
-          randomMove.from.r,
-          randomMove.from.c,
-          randomMove.to.r,
-          randomMove.to.c
-        );
-        return;
-      } else {
-        if (!captureMoves) {
-          setPlayerChainCapture(null);
-          setCurrentTurn(currentTurn === 'Fire' ? 'Ice' : 'Fire');
-        }
-      }
     }
   };
 
@@ -650,13 +654,33 @@ const Checkers = () => {
                   key={c}
                   className={`mq-square ${!cell.piece ? 'empty' : ''} ${
                     cell.validMove ? 'valid' : ''
+                  } ${
+                    selectedPiece?.row === r && selectedPiece?.col === c
+                      ? 'selected'
+                      : ''
                   }`}
                   onClick={() => handleCellClick(r, c)}
                 >
                   {cell.piece === 'Fire' &&
-                    (cell.king ? <img src={fireKing} /> : '🔥')}
+                    (cell.king ? (
+                      <img
+                        className='upgrade'
+                        src={fireKing}
+                        alt='Fire King'
+                      />
+                    ) : (
+                      '🔥'
+                    ))}
                   {cell.piece === 'Ice' &&
-                    (cell.king ? <img src={iceKing} /> : '❄️')}
+                    (cell.king ? (
+                      <img
+                        className='upgrade'
+                        src={iceKing}
+                        alt='Ice King'
+                      />
+                    ) : (
+                      '❄️'
+                    ))}
                 </div>
               ))}
             </div>

@@ -20,6 +20,16 @@ export const playAppear = () => {
   audio.play();
 };
 
+export const playSwallow = () => {
+  const audio = new Audio(`${BASE_PATH}swallow.mp3`);
+  audio.play();
+};
+
+export const playUpgrade = () => {
+  const audio = new Audio(`${BASE_PATH}upgrade.mp3`);
+  audio.play();
+};
+
 export const playPlaceObject = () => {
   const audio = new Audio(`${BASE_PATH}place-object.mp3`);
   audio.currentTime = 0.26;

@@ -22,6 +22,10 @@
       border: none;
       cursor: pointer;
 
+      &.selected {
+        box-shadow: 0 0 10px $secondary-color;
+      }
+
       &.empty {
         cursor: default;
       }
@@ -33,6 +37,10 @@
       img {
         width: 70%;
         height: 70%;
+
+        .upgrade {
+          animation: upgradeAnimation 2s ease-in-out;
+        }
       }
 
       display: flex;
