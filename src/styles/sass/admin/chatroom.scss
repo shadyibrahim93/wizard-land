@@ -147,5 +147,9 @@
     align-items: center;
     background-color: $secondary-color;
     color: $white;
+    span {
+      width: 100%;
+      text-align: left;
+    }
   }
 }
