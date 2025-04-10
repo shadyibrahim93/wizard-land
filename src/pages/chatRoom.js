@@ -50,6 +50,13 @@ const GameChat = ({ chatTitle, gameChatRoomId }) => {
     }
   };
 
+  useEffect(() => {
+    const container = document.querySelector('.mq-messages');
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
+  }, [messages]);
+
   const handleToggleMinimize = () => {
     setIsMinimized(!isMinimized); // Toggle minimize state
   };
@@ -69,7 +76,7 @@ const GameChat = ({ chatTitle, gameChatRoomId }) => {
         <div className='mq-messages'>
           {messages.map((msg) => (
             <div
-              key={msg.id + msg.sender_name}
+              key={msg.id ?? Math.random()}
               className='mq-message'
             >
               <span className='mq-message--user'>{msg.sender_name}</span>
