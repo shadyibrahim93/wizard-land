@@ -38,7 +38,7 @@ export default function Home() {
     },
     {
       url: '/games/checker-quest',
-      imgSrc: 'sudoku_quest.jpg',
+      imgSrc: 'checker_quest.jpg',
       alt: 'Checker Game',
       title: 'Checker'
     },
@@ -93,6 +93,8 @@ export default function Home() {
       <Header
         title='Arcane Quests'
         suppressLevel
+        showSignUpLink
+        showSignInLink
       />
       <main className='mq-dashboard-cards-wrapper'>
         {games.map((game, index) => (

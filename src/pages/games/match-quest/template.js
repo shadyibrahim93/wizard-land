@@ -7,6 +7,7 @@ import { playUncover, playDisappear } from '../../../hooks/useSound';
 import { getMemoryShapes } from '../../../apiService';
 import GameOver from '../../gameover';
 import GameIntro from '../../gameintro';
+import GameChat from '../../chatRoom';
 
 const Game = ({
   setCurrentLevel,
@@ -150,6 +151,10 @@ const Game = ({
           />
         )}
       </div>
+      <GameChat
+        gameChatRoomId='1'
+        chatTitle='Matching Game Chat'
+      />
     </>
   ) : (
     <GameOver resetGame={resetGame} />

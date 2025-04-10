@@ -2,12 +2,7 @@
 @import 'variables';
 @import 'mixins';
 @import 'buttons';
-@import 'layout';
 @import 'typography';
 @import 'global';
 @import 'games';
-
-body {
-  background-color: $background-color;
-  font-family: Arial, sans-serif;
-}
+@import 'admin';
