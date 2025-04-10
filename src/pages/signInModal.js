@@ -107,21 +107,6 @@ export default function SignInModal({
           )}
         </form>
       </div>
-      <svg>
-        <filter id='wavy2'>
-          <feTurbulence
-            x='0'
-            y='0'
-            baseFrequency='0.005'
-            numOctaves='10'
-            seed='20'
-          />
-          <feDisplacementMap
-            in='SourceGraphic'
-            scale='10'
-          />
-        </filter>
-      </svg>
     </div>
   );
 }

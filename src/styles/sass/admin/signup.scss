@@ -37,6 +37,11 @@
     background-size: cover;
     background-blend-mode: multiply;
     animation: mq-crumple 0.5s ease-out, levitate 4s ease-in-out infinite;
+
+    @media (max-width: 768px) {
+      max-width: 250px;
+      padding: 24px 24px 16px 24px;
+    }
   }
 
   /* Heading */
