@@ -7,6 +7,8 @@ const TicTacToe = () => {
       title='Tic Tac Toe Quest'
       GameComponent={Game}
       gameClass={'mq-tic-tac-toe-game'}
+      gameChatRoomId='9'
+      chatTitle={'Tic Tac Toe Chat Room'}
     />
   );
 };

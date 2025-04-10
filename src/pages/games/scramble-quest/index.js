@@ -7,6 +7,8 @@ const WordScrambleGame = () => {
       title='Scramble Quest'
       GameComponent={Game}
       gameClass={'mq-scramble-game'}
+      gameChatRoomId='7'
+      chatTitle={'Scramble Chat Room'}
     />
   );
 };

@@ -1,8 +1,5 @@
 /* General chat styles */
 .#{$identifier}-game-chat {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
   width: 350px;
   background-color: $primary-color;
   border-radius: 8px;
@@ -53,13 +50,29 @@
     -ms-overflow-style: none;
   }
 
+  .#{$identifier}-local-user {
+    .#{$identifier}-message {
+      justify-content: flex-end;
+      align-items: flex-end;
+      &--user {
+        color: #ffb900;
+        justify-content: flex-end;
+      }
+
+      &--messsage {
+        justify-content: flex-end;
+      }
+
+      &--date {
+      }
+    }
+  }
+
   .#{$identifier}-message {
     position: relative;
-    background: $white;
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 0rem;
     border-radius: 0.75rem;
     margin-bottom: 0.5rem;
-    max-width: 90%;
     display: flex;
     flex-direction: column;
     align-self: flex-start;
@@ -69,25 +82,34 @@
     }
 
     &--user {
-      text-align: left;
-      color: $secondary-color;
+      display: flex;
+      justify-content: flex-start;
+      color: rgb(0 255 233 / 80%);
       font-weight: bold;
       margin-bottom: 0.25rem;
+      width: 100%;
     }
 
     &--messsage {
-      text-align: left;
-      color: $gray;
+      display: flex;
+      justify-content: flex-start;
+      color: $white;
       font-size: 1rem;
       line-height: 1.4;
       word-break: break-word;
+      border-radius: 8px;
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      background-color: $primary-color;
+      padding: 8px 12px;
+      width: fit-content;
+      text-align: left;
     }
 
     &--date {
       padding-top: 8px;
       font-size: 10px;
       color: $gray;
-      text-align: right;
+      width: 100%;
     }
   }
 
@@ -148,13 +170,17 @@
     padding: 12px 16px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    background-color: $secondary-color;
+    background-color: none;
+    border-bottom: 2px solid;
+    border-radius: 0;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    font-size: 21px;
     color: $white;
     span {
       width: 100%;
-      text-align: left;
     }
   }
 }

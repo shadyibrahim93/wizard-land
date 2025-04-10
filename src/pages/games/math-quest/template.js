@@ -179,11 +179,6 @@ const Template = () => {
   if (!startTime) {
     return (
       <div className='mq-main'>
-        <ScoreBoard
-          gameName={gameName}
-          setScoreBoard={setScoreBoard}
-          scoreBoard={scoreBoard}
-        />
         <div className='mq-game-wrapper'>
           <p
             className={`mq-game-intro-text mq-text--white`}
@@ -194,6 +189,11 @@ const Template = () => {
             onClick={startGame}
           ></Button>
         </div>
+        <ScoreBoard
+          gameName={gameName}
+          setScoreBoard={setScoreBoard}
+          scoreBoard={scoreBoard}
+        />
       </div>
     );
   }
@@ -224,11 +224,6 @@ const Template = () => {
 
   return (
     <div className='mq-main'>
-      <ScoreBoard
-        gameName={gameName}
-        setScoreBoard={setScoreBoard}
-        scoreBoard={scoreBoard}
-      />
       <div className='mq-game-wrapper'>
         <div className='mq-math-game-header'>
           <p className='mq-label'>
@@ -256,6 +251,11 @@ const Template = () => {
           </div>
         </div>
       </div>
+      <ScoreBoard
+        gameName={gameName}
+        setScoreBoard={setScoreBoard}
+        scoreBoard={scoreBoard}
+      />
     </div>
   );
 };

@@ -44,8 +44,6 @@ const GameChat = ({ chatTitle, gameChatRoomId }) => {
         message: newMessage,
         created_at: new Date().toISOString()
       };
-      setMessages((prevMessages) => [...prevMessages, newMessageObj]);
-
       setNewMessage('');
     }
   };
@@ -62,29 +60,28 @@ const GameChat = ({ chatTitle, gameChatRoomId }) => {
   };
 
   return (
-    <div className={`mq-game-chat ${isMinimized ? 'minimized' : ''}`}>
-      <header>
-        {isMinimized ? '' : <span>{chatTitle}</span>}
-        <button
-          onClick={handleToggleMinimize}
-          className='minimize-btn'
-        >
-          {isMinimized ? '+' : '-'}
-        </button>
-      </header>
+    <div className='mq-game-chat mq-chat-wrapper'>
+      <header>{isMinimized ? '' : <span>{chatTitle}</span>}</header>
       {!isMinimized && (
         <div className='mq-messages'>
           {messages.map((msg) => (
             <div
-              key={msg.id ?? Math.random()}
-              className='mq-message'
+              className={`${
+                msg.sender_name === userName ? 'mq-local-user' : ''
+              }`}
             >
-              <span className='mq-message--user'>{msg.sender_name}</span>
-              <hr></hr>
-              <span className='mq-message--messsage'>{msg.message}</span>
-              <span className='mq-message--date'>
-                {new Date(msg.created_at).toLocaleString()}
+              <span className='mq-message--user'>
+                {msg.sender_name === userName ? 'You' : msg.sender_name}
               </span>
+              <div
+                key={msg.id ?? Math.random()}
+                className='mq-message'
+              >
+                <span className='mq-message--messsage'>{msg.message}</span>
+                <span className='mq-message--date'>
+                  {new Date(msg.created_at).toLocaleString()}
+                </span>
+              </div>
             </div>
           ))}
         </div>

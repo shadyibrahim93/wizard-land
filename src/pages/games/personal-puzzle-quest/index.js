@@ -7,6 +7,8 @@ const PersonalPuzzleQuest = () => {
       title='Personal Puzzle Quest'
       GameComponent={Game}
       gameClass={'mq-puzzle-game'}
+      gameChatRoomId='5'
+      chatTitle={'Personal Jigsaw Chat Room'}
     />
   );
 };

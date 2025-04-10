@@ -7,6 +7,8 @@ const SuDokuQuest = () => {
       title='Sudoku Quest'
       GameComponent={Game}
       gameClass={'mq-sudoku-game'}
+      gameChatRoomId='8'
+      chatTitle={'Sudoku Chat Room'}
     />
   );
 };

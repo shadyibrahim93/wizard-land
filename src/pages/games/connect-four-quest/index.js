@@ -7,6 +7,8 @@ const TicTacToe = () => {
       title='Connect 4 Quest'
       GameComponent={Game}
       gameClass={'mq-connect-four-game'}
+      gameChatRoomId='4'
+      chatTitle={'Connect4 Chat Room'}
     />
   );
 };

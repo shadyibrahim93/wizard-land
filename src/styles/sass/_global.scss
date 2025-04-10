@@ -343,6 +343,12 @@ body {
       }
     }
 
+    .#{$identifier}-chat-wrapper {
+      justify-content: space-between;
+      width: 20%;
+      flex: 0 1 20%;
+    }
+
     .#{$identifier}-game-wrapper {
       width: 80%;
       flex: 1;
@@ -350,7 +356,8 @@ body {
   }
 
   .#{$identifier}-game-wrapper,
-  .#{$identifier}-score-wrapper {
+  .#{$identifier}-score-wrapper,
+  .#{$identifier}-chat-wrapper {
     background-color: rgb(8 8 8 / 60%);
     border-radius: 15px;
     padding: 40px;
@@ -378,6 +385,22 @@ body {
     @media (max-width: 480px) {
       .#{$identifier}-game-board {
         grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
+
+  .#{$identifier}-main {
+    @media (max-width: 480px) {
+      flex-direction: column;
+      row-gap: 20px;
+
+      .#{$identifier}-score-wrapper,
+      .#{$identifier}-chat-wrapper {
+        width: calc(100% - 80px);
+      }
+
+      .#{$identifier}-game-wrapper {
+        width: calc(100% - 48px);
       }
     }
   }

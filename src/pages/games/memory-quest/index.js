@@ -7,6 +7,8 @@ const DropZoneQuest = () => {
       title='Memory Quest'
       GameComponent={Game}
       gameClass={'mq-memory-game'}
+      gameChatRoomId='11'
+      chatTitle={'Memory Chat Room'}
     />
   );
 };

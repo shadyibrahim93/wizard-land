@@ -9,21 +9,6 @@
     border-bottom: 2px solid #fff;
   }
 
-  .#{$identifier}-main {
-    @media (max-width: 480px) {
-      flex-direction: column-reverse;
-      row-gap: 20px;
-
-      .#{$identifier}-score-wrapper {
-        width: calc(100% - 80px);
-      }
-
-      .#{$identifier}-game-wrapper {
-        width: calc(100% - 48px);
-      }
-    }
-  }
-
   .#{$identifier}-equation-wrapper {
     .#{$identifier}-equation-question {
       padding: 80px;
