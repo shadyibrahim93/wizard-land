@@ -1,0 +1,223 @@
+.#{$identifier}-user-greeting {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  color: $white;
+  font-size: 14px;
+
+  .#{$identifier}-user-sign {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    a {
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      align-items: center;
+      color: $white;
+      svg {
+        font-size: 21px;
+        color: $secondary-color;
+      }
+    }
+  }
+
+  &:has(.sign-up) {
+    justify-content: flex-end;
+    .#{$identifier}-user-name {
+      background-color: transparent;
+      padding: 0px;
+      font-size: 21px;
+      margin-bottom: 12px;
+    }
+  }
+
+  .#{$identifier}-user-name {
+    background-color: $light-overlay;
+    padding: 8px 16px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+
+    span {
+      background-color: $dark-overlay;
+      padding: 4px 12px;
+      margin-right: 12px;
+      border-radius: 10px;
+      color: $white;
+      text-align: center;
+    }
+  }
+
+  .#{$identifier}-user-progress {
+    display: flex;
+    flex-direction: row;
+    column-gap: 30px;
+
+    &--exp,
+    &--star,
+    &--euro {
+      background-color: $light-overlay;
+      padding: 8px 16px 8px 8px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    &--exp {
+      margin-left: 15px;
+      padding-left: 35px;
+      .#{$identifier}-user {
+        &-icon {
+          img {
+            left: -28px;
+            width: 60px;
+          }
+        }
+      }
+    }
+
+    &--euro {
+      margin-left: 15px;
+      padding-left: 45px;
+      .#{$identifier}-user {
+        &-icon {
+          img {
+            left: -30px;
+            width: 62px;
+          }
+        }
+      }
+    }
+
+    &--star {
+      margin-left: 15px;
+      padding-left: 45px;
+      .#{$identifier}-user {
+        &-icon {
+          img {
+            left: -30px;
+            width: 62px;
+          }
+        }
+      }
+    }
+
+    .#{$identifier}-user {
+      &-icon {
+        img {
+          position: absolute;
+          top: 0;
+        }
+      }
+      &-amount {
+        background-color: $dark-overlay;
+        padding: 4px 12px;
+        border-radius: 10px;
+        text-align: center;
+        width: 100%;
+      }
+      &-add {
+        margin: 0;
+        padding: 4px 0px;
+        margin-left: 12px;
+        background-color: $secondary-color;
+        text-align: center;
+        width: 60px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .#{$identifier}-user-greeting {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 16px;
+
+    &:has(.sign-up) {
+      align-items: flex-end;
+      .#{$identifier}-user-name {
+        width: auto;
+      }
+    }
+
+    .#{$identifier}-user-sign {
+      width: 100%;
+      justify-content: space-between;
+      a {
+        font-size: 14px;
+        svg {
+          font-size: 18px;
+        }
+      }
+    }
+
+    .#{$identifier}-user-name {
+      width: calc(100% - 24px);
+      font-size: 16px;
+      flex-wrap: wrap;
+      padding: 6px 12px;
+      margin-bottom: 0px;
+
+      span {
+        font-size: 14px;
+        margin-right: 8px;
+        padding: 4px 10px;
+      }
+    }
+
+    .#{$identifier}-user-progress {
+      width: 100%;
+      flex-wrap: nowrap;
+      row-gap: 10px;
+      column-gap: 21px;
+      margin-top: 0;
+      justify-content: space-between;
+
+      &--exp,
+      &--star,
+      &--euro {
+        flex: 1 1 25%;
+        padding: 0px;
+        margin-left: 8px;
+        background-color: transparent;
+      }
+
+      &--exp .#{$identifier}-user-icon img,
+      &--euro .#{$identifier}-user-icon img,
+      &--star .#{$identifier}-user-icon img {
+        left: -15px;
+        top: -5px;
+        width: 45px;
+      }
+
+      .#{$identifier}-user {
+        &-amount {
+          font-size: 14px;
+          padding: 4px 10px 4px 32px;
+          width: 100%;
+          max-width: 60px;
+          overflow-x: auto;
+        }
+
+        &-add {
+          font-size: 14px;
+          padding: 4px 10px;
+          margin-left: 8px;
+          width: 30px;
+        }
+      }
+    }
+  }
+}

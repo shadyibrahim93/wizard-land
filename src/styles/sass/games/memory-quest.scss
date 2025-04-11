@@ -32,7 +32,7 @@
     transition: transform 0.3s, background-color 0.3s;
 
     &:hover {
-      background-color: $primary-color; /* Bright hover color */
+      background-color: $light-overlay; /* Bright hover color */
       transform: scale(1.2) rotate(50deg); /* Fun scaling and rotating on hover */
       cursor: pointer;
     }

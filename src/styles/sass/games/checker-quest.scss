@@ -31,7 +31,7 @@
       }
 
       &:hover {
-        background-color: $primary-color;
+        background-color: $light-overlay;
       }
 
       img {
@@ -48,7 +48,7 @@
       align-items: center;
 
       /* Default background color for light squares */
-      background-color: $primary-color;
+      background-color: $light-overlay;
     }
 
     /* Checkerboard pattern: dark squares alternate with light squares */

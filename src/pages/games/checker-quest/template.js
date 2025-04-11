@@ -47,7 +47,6 @@ const Checkers = () => {
   const [mustCapture, setMustCapture] = useState(null); // Track if player must continue capturing
   const [computerChainCapture, setComputerChainCapture] = useState(null);
   const [playerChainCapture, setPlayerChainCapture] = useState(null);
-  const [upgradingPieces, setUpgradingPieces] = useState([]); // Track pieces that are upgrading
 
   const introText = `Welcome to Wizards Land Checkers Game! Play as '🔥', and the computer will play as '❄️'. Take turns moving your pieces into the corresponding box. A helper will show you where the piece can be dropped. Be the first to capture all pieces or block the opponent from making any more and win the game. Good luck!`;
 

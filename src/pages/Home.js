@@ -92,7 +92,7 @@ export default function Home() {
     <div className='mq-home'>
       <Header
         title='Arcane Quests'
-        suppressLevel
+        homePage
         showSignUpLink
         showSignInLink
       />

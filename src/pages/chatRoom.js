@@ -6,39 +6,33 @@ import {
 } from '../apiService';
 import Button from '../components/Button';
 import { playUncover, playDisappear } from '../hooks/useSound';
+import useUser from '../hooks/useUser';
 
-const GameChat = ({ chatTitle, gameChatRoomId }) => {
+const GameChat = ({ chatTitle, gameId }) => {
+  const { userId, userName } = useUser();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  const [userId, setUserId] = useState(null);
-  const [userName, setUserName] = useState(null);
   const [isMinimized, setIsMinimized] = useState(false);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('userFullName'));
-    if (user) {
-      setUserId(user.userId);
-      setUserName(user.fullName);
-    }
-
     const fetchMessagesForRoom = async () => {
-      const fetchedMessages = await fetchMessages(gameChatRoomId);
+      const fetchedMessages = await fetchMessages(gameId);
       setMessages(fetchedMessages);
     };
 
     fetchMessagesForRoom();
 
     // Subscribe to game chat room for real-time updates
-    subscribeToGameChatRoom(gameChatRoomId, (newMessage) => {
+    subscribeToGameChatRoom(gameId, (newMessage) => {
       playUncover();
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
-  }, [gameChatRoomId]);
+  }, [gameId]);
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (newMessage.trim()) {
-      await sendMessage(gameChatRoomId, userId, userName, newMessage);
+      await sendMessage(gameId, userId, userName, newMessage);
       playDisappear();
       setNewMessage('');
     }

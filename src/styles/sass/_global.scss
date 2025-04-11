@@ -54,12 +54,11 @@ body {
   }
 
   header {
-    background-color: $primary-color;
+    background-color: $light-overlay;
     border-radius: 10px;
     padding-left: 30px;
     padding-right: 30px;
     box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3);
-    margin-bottom: 20px;
     text-align: center;
 
     .#{$identifier}-header-container {
@@ -160,13 +159,12 @@ body {
       box-sizing: border-box;
 
       .#{$identifier}-header-container {
+        justify-content: center;
         @media (max-width: 768px) {
-          flex-direction: column;
           div {
             width: 100%;
             display: flex;
-            flex-direction: row;
-            justify-content: space-between;
+            justify-content: center;
 
             button {
               width: 150px;
@@ -491,19 +489,19 @@ body {
       border-radius: 20px;
 
       &:hover {
-        background-color: $primary-color-hover;
+        background-color: $light-overlay-hover;
         color: $secondary-color;
         box-shadow: 0 0 10px rgba($primary-color, 0.8);
       }
 
       &.#{$identifier}-x {
-        background-color: $primary-color;
+        background-color: $light-overlay;
         color: $secondary-color;
         box-shadow: 0 0 5px rgba($primary-color, 0.8);
       }
 
       &.#{$identifier}-o {
-        background-color: $primary-color;
+        background-color: $light-overlay;
         color: $white;
         box-shadow: 0 0 5px rgba($primary-color, 0.8);
       }
@@ -537,12 +535,6 @@ body {
       color: white;
       animation: partyColors 2s infinite linear;
     }
-  }
-
-  .#{$identifier}-user-greeting {
-    text-align: right;
-    color: $white;
-    font-size: 14px;
   }
 
   .#{$identifier}-countdown {

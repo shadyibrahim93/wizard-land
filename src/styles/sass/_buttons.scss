@@ -9,7 +9,7 @@
   font-size: 18px;
   border-radius: 10px;
   margin: 20px;
-  background-color: $primary-color;
+  background-color: $light-overlay;
   color: #fff;
   font-weight: bold;
   box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
@@ -19,7 +19,7 @@
 
   // Slight bounce effect on hover
   &:hover {
-    background-color: $primary-color-hover;
+    background-color: $light-overlay-hover;
     transform: scale(1.05);
     animation: ninjaSlash 0.3s ease-out;
     cursor: pointer;

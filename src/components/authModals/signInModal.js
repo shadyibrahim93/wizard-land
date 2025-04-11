@@ -1,12 +1,8 @@
 import { useState } from 'react';
-import { signIn } from '../../apiService'; // make sure to import signIn method
+import { signIn } from '../../apiService'; // assumes it returns a Supabase session/user
 import Button from '../Button';
 
-export default function SignInModal({
-  showSignInModal,
-  onClose,
-  setUserFullName
-}) {
+export default function SignInModal({ showSignInModal, onClose }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -21,19 +17,6 @@ export default function SignInModal({
       const user = await signIn({ email, password });
 
       if (user) {
-        const fullName = user.full_name;
-        const userId = user.id;
-
-        // Store the full name in localStorage with an expiration of 24 hours
-        const expirationTime = new Date().getTime() + 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-        localStorage.setItem(
-          'userFullName',
-          JSON.stringify({ fullName, userId, expirationTime })
-        );
-
-        // Pass the full name to the parent component
-        setUserFullName(fullName);
-
         setMessage({
           type: 'success',
           text: 'Sign-in successful! Redirecting...'
@@ -41,6 +24,9 @@ export default function SignInModal({
         setEmail('');
         setPassword('');
         onClose();
+
+        // ✅ Optional: Refresh to trigger `useUser()` to re-read session
+        window.location.reload();
       } else {
         setMessage({
           type: 'error',

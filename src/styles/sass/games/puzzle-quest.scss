@@ -81,7 +81,7 @@
     font-weight: bold;
     &:hover {
       &::file-selector-button {
-        background-color: $primary-color;
+        background-color: $light-overlay;
       }
     }
   }
@@ -96,7 +96,7 @@
     background-color: transparent;
 
     &:hover {
-      background-color: $primary-color;
+      background-color: $light-overlay;
       transform: scale(1.05);
       animation: ninjaSlash 0.3s ease-out;
       cursor: pointer;
@@ -105,7 +105,7 @@
 
   /* Hover state for the button */
   .#{$identifier}-file-input::file-selector-button:hover {
-    background-color: $primary-color; /* Darker green on hover */
+    background-color: $light-overlay; /* Darker green on hover */
   }
 
   .#{$identifier}-settings-label {

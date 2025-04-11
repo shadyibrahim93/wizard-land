@@ -7,7 +7,7 @@ const BingoQuest = () => {
       title='Bingo Quest'
       GameComponent={Game}
       gameClass={'mq-bingo-game'}
-      gameChatRoomId='2'
+      gameId='2'
       chatTitle={'Bingo Chat Room'}
     />
   );

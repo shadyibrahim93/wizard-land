@@ -7,7 +7,7 @@ const DropZoneQuest = () => {
       title='DropZone Quest'
       GameComponent={Game}
       gameClass={'mq-dropzone-game'}
-      gameChatRoomId='10'
+      gameId='10'
       chatTitle={'Dropzone Chat Room'}
     />
   );

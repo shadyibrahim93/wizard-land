@@ -5,23 +5,6 @@ const apiKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
 export const supabase = createClient(baseURL, apiKey);
 
-export async function getInstruments() {
-  const { data, error } = await supabase.from('instruments').select();
-  if (error) {
-    console.error('Error fetching instruments:', error);
-  }
-  return data;
-}
-
-export async function getGames() {
-  const { data, error } = await supabase.from('games').select('*');
-
-  if (error) {
-    console.error('Error fetching games:', error);
-  }
-  return data;
-}
-
 export async function getDropZoneShapes(level) {
   const { data, error } = await supabase
     .from('dropzone-shapes')
@@ -155,6 +138,7 @@ export async function signIn({ email, password }) {
   data.user.full_name = userData.full_name;
 
   console.log('Signed in user:', data.user);
+  window.location.reload();
   return data.user;
 }
 
@@ -165,6 +149,7 @@ export async function signOut() {
     console.error('Error signing out:', error.message);
   } else {
     console.log('User signed out successfully');
+    window.location.reload();
   }
 }
 
@@ -244,4 +229,132 @@ export function subscribeToGameChatRoom(gameChatRoomId, onNewMessage) {
 
   // Return the channel to unsubscribe when needed
   return channel;
+}
+
+// Fetch latest exp and stars for a user in a game
+export async function fetchUserGameProgress(userId, gameId) {
+  const { data, error } = await supabase
+    .from('user_game_progress')
+    .select('exp, stars')
+    .eq('user_id', userId)
+    .eq('game_id', gameId)
+    .single();
+
+  if (error) {
+    console.error('Error fetching progress:', error);
+    return null;
+  }
+
+  return data;
+}
+
+// Add exp and gold to a user's game progress
+export async function updateUserGameProgress(
+  userId,
+  gameId,
+  starsToAdd,
+  expToAdd
+) {
+  const { error } = await supabase.rpc('update_user_game_progress', {
+    input_user_id: userId,
+    input_game_id: gameId,
+    stars_to_add: starsToAdd,
+    exp_to_add: expToAdd
+  });
+
+  if (error) {
+    console.error('Error updating progress:', error);
+    return false;
+  }
+
+  return true;
+}
+
+// Fetch user's wallet information (e.g., euro) from user_wallet table
+export async function fetchUserWallet(userId) {
+  const { data, error } = await supabase
+    .from('user_wallet')
+    .select('euro') // Select the euro field
+    .eq('user_id', userId)
+    .single(); // Assumes each user has one wallet entry
+
+  if (error) {
+    console.error('Error fetching user wallet:', error);
+    return null;
+  }
+
+  return data || { euro: 0 }; // Return 0 if no data exists for the user
+}
+
+// Subscribe to progress changes in real-time (optional)
+export function subscribeToUserGameProgress(userId, gameId, onProgressUpdate) {
+  const channel = supabase
+    .channel(`progress-${userId}-${gameId}`)
+    .on(
+      'postgres_changes',
+      {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'user_game_progress',
+        filter: `user_id=eq.${userId},game_id=eq.${gameId}`
+      },
+      (payload) => {
+        onProgressUpdate(payload.new); // Contains updated exp and gold
+      }
+    )
+    .subscribe();
+
+  return channel;
+}
+
+export const fetchAllUserGameProgress = async (userId) => {
+  const { data, error } = await supabase
+    .from('user_game_progress')
+    .select('exp, stars')
+    .eq('user_id', userId);
+
+  if (error) {
+    console.error('Error fetching all game progress:', error);
+    return [];
+  }
+  return data;
+};
+
+export async function getCurrentUser() {
+  try {
+    const {
+      data: { user },
+      error: authError
+    } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      if (authError?.message !== 'Auth session missing!') {
+        console.error('Error getting current user:', authError.message);
+      }
+      return null;
+    }
+
+    // Fetch additional profile data
+    const { data: profile, error: profileError } = await supabase
+      .from('users')
+      .select('full_name')
+      .eq('id', user.id)
+      .single();
+
+    if (profileError) {
+      console.error('Error fetching profile data:', profileError.message);
+    }
+
+    // Merge full_name into user.user_metadata
+    return {
+      ...user,
+      user_metadata: {
+        ...user.user_metadata,
+        full_name: profile?.full_name || user.user_metadata?.full_name
+      }
+    };
+  } catch (err) {
+    console.error('Unexpected error getting current user:', err);
+    return null;
+  }
 }

@@ -4,13 +4,7 @@ import { useEffect, useState } from 'react';
 import { playBGMusic } from '../../hooks/useSound';
 import GameChat from '../chatRoom';
 
-const GameStart = ({
-  title,
-  GameComponent,
-  gameClass,
-  gameChatRoomId,
-  chatTitle
-}) => {
+const GameStart = ({ title, GameComponent, gameClass, gameId, chatTitle }) => {
   const [maxLevel, setMaxLevel] = useState(); // Default max level
 
   const {
@@ -31,6 +25,7 @@ const GameStart = ({
         title={title}
         backTarget='/'
         level={currentLevel > maxLevel ? 'Completed' : currentLevel}
+        gameId={gameId}
       />
       <div className='mq-main'>
         <div
@@ -46,7 +41,7 @@ const GameStart = ({
           />
         </div>
         <GameChat
-          gameChatRoomId={gameChatRoomId}
+          gameId={gameId}
           chatTitle={chatTitle}
         />
       </div>

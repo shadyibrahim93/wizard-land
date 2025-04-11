@@ -74,7 +74,7 @@
         height: 30px;
         margin-bottom: 10px;
         font-size: 14px;
-        background-color: $primary-color;
+        background-color: $light-overlay;
         color: $white;
 
         &.winner-number {
@@ -126,7 +126,7 @@
       align-items: center;
       font-weight: bold;
       color: $secondary-color;
-      background-color: $primary-color;
+      background-color: $light-overlay;
       border: 1px solid $primary-color; // For internal grid lines
       cursor: pointer;
       transition: background-color 0.3s ease, box-shadow 0.3s ease;

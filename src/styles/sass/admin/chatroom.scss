@@ -1,7 +1,7 @@
 /* General chat styles */
 .#{$identifier}-game-chat {
   width: 350px;
-  background-color: $primary-color;
+  background-color: $light-overlay;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   z-index: 9999;
@@ -99,7 +99,7 @@
       word-break: break-word;
       border-radius: 8px;
       font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-      background-color: $primary-color;
+      background-color: $light-overlay;
       padding: 8px 12px;
       width: fit-content;
       text-align: left;
@@ -128,7 +128,7 @@
     border: 1px solid #ddd;
     margin-right: 12px;
     padding: 0px 8px;
-    background-color: $primary-color;
+    background-color: $light-overlay;
     &::placeholder {
       color: $white;
       opacity: 1; // Ensures the white is fully visible

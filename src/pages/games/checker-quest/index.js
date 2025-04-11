@@ -7,7 +7,7 @@ const CheckerQuest = () => {
       title='Checker Quest'
       GameComponent={Game}
       gameClass={'mq-checker-game'}
-      gameChatRoomId='3'
+      gameId='3'
       chatTitle={'Checker Chat Room'}
     />
   );
