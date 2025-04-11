@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/wizard-land/static/css/main.1835db8c.css",
-    "main.js": "/wizard-land/static/js/main.e7e55d5e.js",
-    "static/js/952.2f8df9f3.chunk.js": "/wizard-land/static/js/952.2f8df9f3.chunk.js",
+    "main.css": "/wizard-land/static/css/main.79a9588d.css",
+    "main.js": "/wizard-land/static/js/main.3771ada3.js",
+    "static/js/952.406e2d23.chunk.js": "/wizard-land/static/js/952.406e2d23.chunk.js",
     "static/media/iceKing.gif": "/wizard-land/static/media/iceKing.050d445adf4e0755dcfc.gif",
     "static/media/ice.gif": "/wizard-land/static/media/ice.c9ff3188179e16bd39d4.gif",
     "static/media/fireKing.gif": "/wizard-land/static/media/fireKing.163a453176b8af04a095.gif",
@@ -27,15 +27,16 @@
     "static/media/tictactoe_quest.jpg": "/wizard-land/static/media/tictactoe_quest.3d95b1d203402642adee.jpg",
     "static/media/puzzlelevel6.jpg": "/wizard-land/static/media/puzzlelevel6.bc76aeb13e1fc2bffd0a.jpg",
     "static/media/crown.gif": "/wizard-land/static/media/crown.7c5041a5702caf110e95.gif",
+    "static/media/elements.png": "/wizard-land/static/media/elements.0f7f9f11575c0fd28b24.png",
     "static/media/MagicalFull.otf": "/wizard-land/static/media/MagicalFull.252ecf326a2d31201a87.otf",
     "static/media/cursor.cur": "/wizard-land/static/media/cursor.2c46f5bc85e30429f077.cur",
     "index.html": "/wizard-land/index.html",
-    "main.1835db8c.css.map": "/wizard-land/static/css/main.1835db8c.css.map",
-    "main.e7e55d5e.js.map": "/wizard-land/static/js/main.e7e55d5e.js.map",
-    "952.2f8df9f3.chunk.js.map": "/wizard-land/static/js/952.2f8df9f3.chunk.js.map"
+    "main.79a9588d.css.map": "/wizard-land/static/css/main.79a9588d.css.map",
+    "main.3771ada3.js.map": "/wizard-land/static/js/main.3771ada3.js.map",
+    "952.406e2d23.chunk.js.map": "/wizard-land/static/js/952.406e2d23.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.1835db8c.css",
-    "static/js/main.e7e55d5e.js"
+    "static/css/main.79a9588d.css",
+    "static/js/main.3771ada3.js"
   ]
 }
