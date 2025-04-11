@@ -5,6 +5,7 @@ import {
   subscribeToGameChatRoom
 } from '../apiService';
 import Button from '../components/Button';
+import { playUncover, playDisappear } from '../hooks/useSound';
 
 const GameChat = ({ chatTitle, gameChatRoomId }) => {
   const [messages, setMessages] = useState([]);
@@ -29,6 +30,7 @@ const GameChat = ({ chatTitle, gameChatRoomId }) => {
 
     // Subscribe to game chat room for real-time updates
     subscribeToGameChatRoom(gameChatRoomId, (newMessage) => {
+      playUncover();
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
   }, [gameChatRoomId]);
@@ -37,13 +39,7 @@ const GameChat = ({ chatTitle, gameChatRoomId }) => {
     e.preventDefault();
     if (newMessage.trim()) {
       await sendMessage(gameChatRoomId, userId, userName, newMessage);
-
-      // Directly update the state with the new message
-      const newMessageObj = {
-        sender_name: userName,
-        message: newMessage,
-        created_at: new Date().toISOString()
-      };
+      playDisappear();
       setNewMessage('');
     }
   };
@@ -54,10 +50,6 @@ const GameChat = ({ chatTitle, gameChatRoomId }) => {
       container.scrollTop = container.scrollHeight;
     }
   }, [messages]);
-
-  const handleToggleMinimize = () => {
-    setIsMinimized(!isMinimized); // Toggle minimize state
-  };
 
   return (
     <div className='mq-game-chat mq-chat-wrapper'>

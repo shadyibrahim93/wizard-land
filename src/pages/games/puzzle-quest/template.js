@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../../../components/Button';
-import GameOver from '../../gameover';
+import GameOver from '../../gameFlow/gameover';
 import level1Image from '../../../assets/images/jigsaw/puzzlelevel1.jpg';
 import level2Image from '../../../assets/images/jigsaw/puzzlelevel2.jpg';
 import level3Image from '../../../assets/images/jigsaw/puzzlelevel3.jpg';
@@ -8,7 +8,7 @@ import level4Image from '../../../assets/images/jigsaw/puzzlelevel4.jpg';
 import level5Image from '../../../assets/images/jigsaw/puzzlelevel5.jpg';
 import level6Image from '../../../assets/images/jigsaw/puzzlelevel6.jpg';
 import { playTeleport, playUncover } from '../../../hooks/useSound';
-import GameIntro from '../../gameintro';
+import GameIntro from '../../gameFlow/gameintro';
 
 const levelImages = [
   { image: level1Image, title: 'Cairo - Egypt' },

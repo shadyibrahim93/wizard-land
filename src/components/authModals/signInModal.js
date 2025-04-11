@@ -1,43 +1,66 @@
 import { useState } from 'react';
-import { signUp } from '../apiService';
-import Button from '../components/Button';
+import { signIn } from '../../apiService'; // make sure to import signIn method
+import Button from '../Button';
 
-export default function SignUpModal({ showSignUpModal, onClose }) {
+export default function SignInModal({
+  showSignInModal,
+  onClose,
+  setUserFullName
+}) {
   const [email, setEmail] = useState('');
-  const [fullName, setFullName] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
 
-  const handleSignup = async (e) => {
+  const handleSignIn = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage(null);
 
     try {
-      await signUp({ email, password, fullName });
-      setMessage({
-        type: 'success',
-        text: 'Signup successful! Please check your email to confirm your account.'
-      });
-      setEmail('');
-      setFullName('');
-      setPassword('');
-      onClose();
+      const user = await signIn({ email, password });
+
+      if (user) {
+        const fullName = user.full_name;
+        const userId = user.id;
+
+        // Store the full name in localStorage with an expiration of 24 hours
+        const expirationTime = new Date().getTime() + 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+        localStorage.setItem(
+          'userFullName',
+          JSON.stringify({ fullName, userId, expirationTime })
+        );
+
+        // Pass the full name to the parent component
+        setUserFullName(fullName);
+
+        setMessage({
+          type: 'success',
+          text: 'Sign-in successful! Redirecting...'
+        });
+        setEmail('');
+        setPassword('');
+        onClose();
+      } else {
+        setMessage({
+          type: 'error',
+          text: 'Sign-in failed. Please check your credentials.'
+        });
+      }
     } catch (error) {
       setMessage({
         type: 'error',
-        text: error.message || 'Something went wrong during signup.'
+        text: error.message || 'Something went wrong during sign-in.'
       });
     }
 
     setLoading(false);
   };
 
-  if (!showSignUpModal) return null;
+  if (!showSignInModal) return null;
 
   return (
-    <div className='mq-overlay mq-signup-page'>
+    <div className='mq-overlay mq-signin-page'>
       <div className='mq-wrapper'>
         <button
           onClick={onClose}
@@ -46,19 +69,9 @@ export default function SignUpModal({ showSignUpModal, onClose }) {
           ×
         </button>
         <form
-          onSubmit={handleSignup}
+          onSubmit={handleSignIn}
           className='mq-form'
         >
-          <div className='mq-form-group'>
-            <label className='mq-label'>Full Name</label>
-            <input
-              type='text'
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              className='mq-input'
-              required
-            />
-          </div>
           <div className='mq-form-group'>
             <label className='mq-label'>Email</label>
             <input
@@ -81,11 +94,11 @@ export default function SignUpModal({ showSignUpModal, onClose }) {
           </div>
           <Button
             type='submit'
-            text='Sign Up'
+            text='Log In'
             className='mq-button'
             disabled={loading}
           >
-            {loading ? 'Signing up...' : 'Sign Up'}
+            {loading ? 'Signing in...' : 'Log In'}
           </Button>
           {message && (
             <div className={`mq-message mq-${message.type}`}>

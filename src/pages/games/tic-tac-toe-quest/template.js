@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import GameIntro from '../../gameintro';
+import GameIntro from '../../gameFlow/gameintro';
 import {
   playUncover,
   playDisappear,

@@ -202,12 +202,17 @@ export async function sendMessage(
   }
 }
 
-// Fetch messages for a specific game chat room
+// Fetch messages from the last 7 days for a specific game chat room
 export async function fetchMessages(gameChatRoomId) {
+  const sevenDaysAgo = new Date(
+    Date.now() - 7 * 24 * 60 * 60 * 1000
+  ).toISOString();
+
   const { data, error } = await supabase
     .from('messages')
     .select('id, sender_id, sender_name, message, created_at')
-    .eq('game_chat_room_id', gameChatRoomId) // Correct filter for game_chat_room_id
+    .eq('game_chat_room_id', gameChatRoomId)
+    .gte('created_at', sevenDaysAgo)
     .order('created_at', { ascending: true });
 
   if (error) {

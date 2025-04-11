@@ -1,4 +1,4 @@
-import GameStart from '../../gamestart';
+import GameStart from '../../gameFlow/gamestart';
 import Game from './template';
 
 const BingoQuest = () => {

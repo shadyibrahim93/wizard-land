@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../../../components/Button';
 import { playUncover } from '../../../hooks/useSound';
-import GameIntro from '../../gameintro';
+import GameIntro from '../../gameFlow/gameintro';
 
 const PersonalPuzzleQuest = ({ setCurrentLevel }) => {
   const [pieces, setPieces] = useState([]);

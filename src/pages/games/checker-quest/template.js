@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import GameIntro from '../../gameintro';
+import GameIntro from '../../gameFlow/gameintro';
 import Button from '../../../components/Button';
 import iceKing from '../../../assets/images/pieces/iceKing.gif';
 import fireKing from '../../../assets/images/pieces/fireKing.gif';

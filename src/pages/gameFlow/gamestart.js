@@ -1,8 +1,8 @@
-import Header from '../components/Header';
-import useLevelProgression from '../hooks/useLevelProgression';
+import Header from '../../components/Header';
+import useLevelProgression from '../../hooks/useLevelProgression';
 import { useEffect, useState } from 'react';
-import { playBGMusic } from '../hooks/useSound';
-import GameChat from './chatRoom';
+import { playBGMusic } from '../../hooks/useSound';
+import GameChat from '../chatRoom';
 
 const GameStart = ({
   title,

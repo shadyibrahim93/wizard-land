@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Button from '../components/Button';
-import SignUpModal from '../pages/signUpModal';
-import SignInModal from '../pages/signInModal';
+import SignUpModal from './../components/authModals/signUpModal';
+import SignInModal from './../components/authModals/signInModal';
 import { signOut } from '../apiService';
 
 export default function Header({
@@ -44,6 +44,7 @@ export default function Header({
       {/* Show User's Full Name if logged in */}
       {userFullName && (
         <div className='mq-user-greeting'>
+          <div className='mq-user-exp'></div>
           <h3>Welcome, {userFullName}!</h3>
         </div>
       )}

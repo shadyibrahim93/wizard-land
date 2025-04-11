@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../../../components/Button';
 import { getSudokuBoard } from '../../../apiService';
-import GameOver from '../../gameover';
-import GameIntro from '../../gameintro';
+import GameOver from '../../gameFlow/gameover';
+import GameIntro from '../../gameFlow/gameintro';
 
 const Game = ({
   setCurrentLevel,

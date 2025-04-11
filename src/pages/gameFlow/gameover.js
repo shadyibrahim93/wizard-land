@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from '../components/Button';
-import { triggerGameOverConfetti } from '../hooks/useConfetti';
+import Button from '../../components/Button';
+import { triggerGameOverConfetti } from '../../hooks/useConfetti';
 const GameOver = ({ resetGame }) => {
   const navigate = useNavigate();
 

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import Button from '../../../components/Button';
 import { playClick, playPop } from '../../../hooks/useSound';
 import { getMemorySequence } from '../../../apiService'; // API to fetch sequence
-import GameOver from '../../gameover';
+import GameOver from '../../gameFlow/gameover';
 import shuffleArray from '../../../utils/ShuffleChildren'; // Shuffle function
-import GameIntro from '../../gameintro';
+import GameIntro from '../../gameFlow/gameintro';
 
 const Game = ({
   setCurrentLevel,

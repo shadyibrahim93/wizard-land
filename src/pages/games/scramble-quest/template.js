@@ -4,8 +4,8 @@ import { playDisappear } from '../../../hooks/useSound';
 import useDragAndDrop from '../../../utils/DragAndDrop';
 import { getScrambleWords } from '../../../apiService';
 import shuffleArray from '../../../utils/ShuffleChildren';
-import GameOver from '../../gameover';
-import GameIntro from '../../gameintro';
+import GameOver from '../../gameFlow/gameover';
+import GameIntro from '../../gameFlow/gameintro';
 
 const WordScrambleGame = ({
   setCurrentLevel,

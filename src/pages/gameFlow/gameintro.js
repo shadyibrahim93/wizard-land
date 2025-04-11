@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Button from '../components/Button';
-import { playTeleport } from '../hooks/useSound';
+import Button from '../../components/Button';
+import { playTeleport } from '../../hooks/useSound';
 
 const GameIntro = ({
   introText,

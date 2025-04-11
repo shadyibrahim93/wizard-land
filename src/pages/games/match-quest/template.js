@@ -5,8 +5,8 @@ import shuffleArray from '../../../utils/ShuffleChildren';
 import cardBackImage from '../../../assets/images/background.jpg';
 import { playUncover, playDisappear } from '../../../hooks/useSound';
 import { getMemoryShapes } from '../../../apiService';
-import GameOver from '../../gameover';
-import GameIntro from '../../gameintro';
+import GameOver from '../../gameFlow/gameover';
+import GameIntro from '../../gameFlow/gameintro';
 
 const Game = ({
   setCurrentLevel,
