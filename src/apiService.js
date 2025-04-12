@@ -237,8 +237,7 @@ export async function fetchUserGameProgress(userId, gameId) {
     .from('user_game_progress')
     .select('exp, stars')
     .eq('user_id', userId)
-    .eq('game_id', gameId)
-    .single();
+    .eq('game_id', gameId);
 
   if (error) {
     console.error('Error fetching progress:', error);
@@ -270,22 +269,23 @@ export async function updateUserGameProgress(
   return true;
 }
 
-// Fetch user's wallet information (e.g., euro) from user_wallet table
 export async function fetchUserWallet(userId) {
   const { data, error } = await supabase
     .from('user_wallet')
-    .select('euro') // Select the euro field
-    .eq('user_id', userId)
-    .single(); // Assumes each user has one wallet entry
+    .select('euro')
+    .eq('user_id', userId);
 
   if (error) {
     console.error('Error fetching user wallet:', error);
-    return null;
+    return { euro: 0 };
   }
 
-  return data || { euro: 0 }; // Return 0 if no data exists for the user
-}
+  if (!data || data.length === 0) {
+    return { euro: 0 };
+  }
 
+  return data[0]; // Return the first (and only) wallet row
+}
 // Subscribe to progress changes in real-time (optional)
 export function subscribeToUserGameProgress(userId, gameId, onProgressUpdate) {
   const channel = supabase
@@ -315,8 +315,13 @@ export const fetchAllUserGameProgress = async (userId) => {
 
   if (error) {
     console.error('Error fetching all game progress:', error);
-    return [];
+    return [{ exp: 0, stars: 0 }];
   }
+
+  if (!data || data.length === 0) {
+    return [{ exp: 0, stars: 0 }];
+  }
+
   return data;
 };
 
@@ -357,4 +362,156 @@ export async function getCurrentUser() {
     console.error('Unexpected error getting current user:', err);
     return null;
   }
+}
+
+// ✅ Fetch available rooms for a given game where player2 is not yet assigned
+export async function fetchAvailableRooms(gameId) {
+  const { data, error } = await supabase
+    .from('game_rooms')
+    .select('*')
+    .eq('game_id', gameId)
+    .is('player2', null); // Room has no second player yet
+
+  if (error) {
+    console.error('Error fetching available rooms:', error);
+    return [];
+  }
+
+  return data;
+}
+
+// ✅ Create a room if none are available, otherwise return an existing one
+export async function createRoomIfNeeded(gameId, userId) {
+  const availableRooms = await fetchAvailableRooms(gameId);
+
+  if (availableRooms.length === 0) {
+    // No open rooms, so create one
+    const roomCode = Math.floor(10000 + Math.random() * 90000); // 5-digit room ID
+
+    const { data, error } = await supabase
+      .from('game_rooms')
+      .insert([
+        {
+          player1: userId,
+          game_id: gameId,
+          room: roomCode,
+          created_at: new Date().toISOString()
+        }
+      ])
+      .select(); // Return newly created room(s)
+
+    if (error) {
+      console.error('Error creating new room:', error);
+      return null;
+    }
+
+    return data[0]; // Return the first room object created
+  } else {
+    // Return the first available room
+    return availableRooms[0];
+  }
+}
+
+// ✅ Join an available room by setting player2
+export async function joinRoom(roomId, userId) {
+  const { data, error } = await supabase
+    .from('game_rooms')
+    .update({ player2: userId })
+    .eq('room', roomId)
+    .select()
+    .single(); // Return the updated room
+
+  if (error) {
+    console.error('Error joining room:', error);
+    return null;
+  }
+
+  return data;
+}
+
+// Update your apiService.js subscribeToBoardUpdates function:
+export function subscribeToBoardUpdates(roomId, onBoardUpdate) {
+  const channel = supabase
+    .channel(`board-${roomId}`)
+    .on(
+      'postgres_changes',
+      {
+        event: '*', // Listen for all changes
+        schema: 'public',
+        table: 'game_state',
+        filter: `room=eq.${roomId}`
+      },
+      (payload) => {
+        console.log('Game state update:', payload);
+        onBoardUpdate(payload.new);
+      }
+    )
+    .subscribe();
+
+  return channel;
+}
+
+// Update your updateBoardState function to handle initial state:
+export async function updateBoardState(
+  roomId,
+  board,
+  gameId,
+  currentTurn,
+  winner = null
+) {
+  const { data, error } = await supabase
+    .from('game_state')
+    .upsert([
+      {
+        room: roomId,
+        board_state: board,
+        game_id: gameId,
+        current_turn: currentTurn,
+        winner: winner
+      }
+    ])
+    .eq('room', roomId)
+    .eq('game_id', gameId)
+    .select();
+
+  if (error) {
+    console.error('Error updating game state:', error);
+    return null;
+  }
+
+  return data;
+}
+
+export function subscribeToOpponentJoin(roomId, onOpponentJoin) {
+  const channel = supabase
+    .channel(`room-${roomId}`)
+    .on(
+      'postgres_changes',
+      {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'game_rooms',
+        filter: `room=eq.${roomId}`
+      },
+      (payload) => {
+        console.log('Room update payload:', payload);
+        // Send the full room data to the callback
+        onOpponentJoin(payload.new);
+      }
+    )
+    .subscribe();
+
+  return channel;
+}
+
+export function unsubscribeFromChannels(channels) {
+  if (!channels || !Array.isArray(channels)) return;
+
+  channels.forEach((channel) => {
+    try {
+      supabase.removeChannel(channel);
+    } catch (error) {
+      console.error('Error unsubscribing from channel:', error);
+    }
+  });
 }
