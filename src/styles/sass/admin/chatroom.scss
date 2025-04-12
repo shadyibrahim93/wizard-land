@@ -4,7 +4,6 @@
   background-color: $light-overlay;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  z-index: 9999;
   transition: all 0.3s ease-in-out;
 
   @media (max-width: 480px) {
@@ -31,7 +30,7 @@
 
   .#{$identifier}-messages {
     padding: 10px;
-    height: 400px;
+    height: 300px;
     overflow-y: auto;
 
     @media (max-width: 480px) {
