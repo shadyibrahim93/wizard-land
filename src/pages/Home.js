@@ -91,7 +91,7 @@ export default function Home() {
   return (
     <div className='mq-home'>
       <Header
-        title='Arcane Quests'
+        title='Wizard Land'
         homePage
         showSignUpLink
         showSignInLink

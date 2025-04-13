@@ -51,7 +51,7 @@ const MultiplayerModal = ({ isOpen, gameId, onClose, onStartGame }) => {
           <ul>
             {gameRooms.map((room) => (
               <li key={room.room}>
-                <span>Room Code: {room.room}</span>
+                <span>{room.room}</span>
                 <Button
                   text='Join'
                   onClick={() => handleJoinRoom(room)}

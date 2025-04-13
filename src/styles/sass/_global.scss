@@ -151,15 +151,26 @@ body {
     }
 
     header {
+      padding: 12px 36px;
       position: relative;
-      padding: 10px 20px;
-      background-color: transparent;
-      border: 5px solid white;
-      overflow: hidden;
-      box-sizing: border-box;
-
       .#{$identifier}-header-container {
-        justify-content: center;
+        .#{$identifier}-menu-item {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          row-gap: 4px;
+          cursor: pointer;
+          color: $white;
+
+          img {
+            width: 50px;
+          }
+
+          &:hover {
+            animation: glowingRed 4s infinite alternate;
+          }
+        }
         @media (max-width: 768px) {
           div {
             width: 100%;
@@ -187,7 +198,7 @@ body {
       gap: 20px;
       margin: 40px 0px;
       overflow-y: scroll;
-      padding: 16px;
+      padding: 16px 0px;
 
       @media (max-width: 768px) {
         grid-template-columns: repeat(2, 1fr);
@@ -204,14 +215,13 @@ body {
         justify-content: center;
         align-items: center;
         position: relative;
-        background-color: #fff;
+        background-color: $dark-overlay;
         border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         overflow: hidden;
         text-decoration: none;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         max-width: 100%;
-        padding: 20px;
+        padding: 12px;
         transform: rotate(0deg) skew(0deg) translate(0, 0);
         transition: 0.5s;
         animation: levitate 4s ease-in-out infinite;
@@ -246,21 +256,9 @@ body {
           text-align: center;
         }
 
-        &:before {
-          content: '';
-          position: absolute;
-          top: 10px;
-          left: -20px;
-          height: 100%;
-          width: 20px;
-          background: #b1b1b1;
-          transform: rotate(0deg) skewY(-45deg);
-        }
-
         &:hover {
           box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
           transform: translate(0px, -15px);
-          box-shadow: -10px 10px 10px rgba(0, 0, 0, 0.5098039216);
           animation-play-state: paused;
 
           img {
@@ -697,48 +695,189 @@ body {
   }
 
   .#{$identifier}-modal-overlay {
-    &.#{$identifier}-ending-title {
-      position: fixed;
-      top: 0;
-      left: 0;
-      background-color: rgba(0, 0, 0, 0.9);
-      font-size: 21px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9); // semi-transparent black
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; // high enough to float above everything
 
-      .#{$identifier}-modal-content {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 80vw;
+    .#{$identifier}-container {
+      position: relative;
+      overflow-y: auto;
+      padding: 48px;
+      background-color: rgb(24 24 23 / 82%);
+      width: 60%;
+      max-height: 70%;
+      border-radius: 20px;
+      animation: glowIce 4s infinite alternate;
+      .#{$identifier}-modal-category {
+        padding: 24px 24px 46px 24px;
+        background-color: #4bd0fb12;
+        border-radius: 10px;
       }
 
-      ul {
-        list-style: none;
-        border: 4px solid $primary-color;
-        border-radius: 10px;
-        padding: 24px;
-        width: 300px;
+      .#{$identifier}-modal-body {
+        display: flex;
+        flex-direction: column;
+        row-gap: 36px;
+      }
 
-        li {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          align-items: center;
-
-          .#{$identifier}-btn {
-            margin: 10px 0px;
-          }
-
-          span {
-            animation: glowingBlue 4s infinite alternate;
-          }
+      hr {
+        animation: glowBlue 4s infinite alternate;
+        margin-bottom: 36px;
+      }
+      .#{$identifier}-modal-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        h1 {
+          font-size: 24px;
+          color: $white;
+          margin: 0;
         }
       }
 
-      .#{$identifier}-btn {
-        padding: 12px;
-        width: fit-content;
+      .#{$identifier}-close-btn {
+        background-color: transparent;
+        outline: none;
+        border: none;
+        color: $white;
+        font-size: 21px;
+        cursor: pointer;
+        animation: glowingRed 4s infinite alternate;
       }
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      .#{$identifier}-modal-category-title {
+        text-align: left;
+        color: $white;
+        animation: none;
+        font-size: 21px;
+        padding-bottom: 16px;
+        margin: 0;
+      }
+
+      .#{$identifier}-modal-items-container {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 48px;
+
+        .#{$identifier}-modal-item {
+          position: relative;
+          border: 2px solid $secondary-color;
+          border-radius: 20px;
+          padding: 16px 16px 32px 16px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          row-gap: 16px;
+          animation: glowRed 4s infinite alternate;
+
+          .#{$identifier}-modal-title {
+            color: $white;
+            font-size: 21px;
+            margin: 0;
+          }
+
+          .#{$identifier}-modal-price {
+            background-color: $dark-overlay;
+            border: 2px solid $secondary-color;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            column-gap: 8px;
+            align-items: center;
+            width: 100%;
+            padding: 4px 0px;
+            border-radius: 10px;
+            margin: 0;
+            color: $white;
+            img {
+              width: 30px;
+            }
+          }
+
+          .#{$identifier}-piece {
+            background-color: $dark-overlay;
+            border: 2px solid $secondary-color;
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            font-size: 36px;
+            animation: glowRed 4s infinite alternate;
+
+            &:not(:has(.#{$identifier}-piece-image)) {
+              padding-left: 2px;
+            }
+          }
+
+          .#{$identifier}-btn {
+            position: absolute;
+            background-color: $secondary-color;
+            bottom: -15px;
+            width: 60%;
+            padding: 4px 0px;
+            margin: 0;
+            border: 2px solid $secondary-color;
+            animation: glowRed 4s infinite alternate;
+          }
+        }
+      }
+    }
+
+    h2 {
+      animation: glowingRed 4s infinite alternate;
+      font-size: 36px;
+    }
+
+    .#{$identifier}-modal-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 80vw;
+    }
+
+    ul {
+      list-style: none;
+      border: 4px solid $primary-color;
+      border-radius: 10px;
+      padding: 24px;
+      width: 300px;
+
+      li {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        .#{$identifier}-btn {
+          margin: 10px 0px;
+        }
+
+        span {
+          font-size: 24px;
+          animation: glowingBlue 4s infinite alternate;
+        }
+      }
+    }
+
+    .#{$identifier}-btn {
+      padding: 12px;
+      width: fit-content;
     }
   }
 
@@ -766,11 +905,11 @@ body {
       }
 
       h2.#{$identifier}-level {
-        font-size: 24px;
+        font-size: 16px;
       }
 
       .#{$identifier}-back-arrow {
-        font-size: 24px;
+        font-size: 16px;
       }
     }
 

@@ -3,47 +3,56 @@ import { signOut } from '../apiService';
 import {
   fetchUserGameProgress,
   fetchUserWallet,
-  fetchAllUserGameProgress
+  subscribeToUserData,
+  unsubscribeFromChannels
 } from '../apiService';
 import useUser from '../hooks/useUser';
 import UserStats from './Header/UserStats';
 import UserAuth from './Header/userAuth';
 import AuthModals from './Header/AuthModals';
 import HeaderContent from './Header/GameHeader';
+import Shop from './shop/shop';
 
 export default function Header({ title, backTarget, level, homePage, gameId }) {
   const [showSignUpModal, setShowSignUpModal] = useState(false);
   const [showSignInModal, setShowSignInModal] = useState(false);
+  const [showShop, setShowShop] = useState(false);
   const [exp, setExp] = useState(0);
   const [euro, setEuro] = useState(0);
   const [stars, setStars] = useState(0);
   const { userId, userName, loading } = useUser();
+  const [inventory, setInventory] = useState(null);
+  const [channels, setChannels] = useState(null);
+
+  useEffect(() => {
+    if (!userId) return;
+
+    const unsubscribe = subscribeToUserData(userId, {
+      onWalletChange: (euro) => setEuro(euro),
+      onStarsChange: (stars) => setStars(stars),
+      onInventoryChange: (newItem) => {
+        setInventory((prev) => [...prev, newItem]);
+      }
+    });
+  }, [userId]);
+
+  useEffect(() => {
+    return () => {
+      // Unsubscribe from all channels when component unmounts
+      if (channels) {
+        unsubscribeFromChannels(channels);
+      }
+    };
+  }, [channels]);
 
   useEffect(() => {
     if (userId) {
-      if (homePage) fetchUserTotalProgress(userId);
-      else if (gameId) {
-        fetchUserGameProgressData(userId, gameId);
-        fetchUserWalletData(userId);
-      }
+      fetchUserTotalProgress(userId);
     }
   }, [userId, gameId, homePage]);
 
-  const fetchUserGameProgressData = async (userId, gameId) => {
-    const data = await fetchUserGameProgress(userId, gameId);
-    if (data) {
-      setExp(data.exp || 0);
-      setStars(data.stars || 0);
-    }
-  };
-
-  const fetchUserWalletData = async (userId) => {
-    const data = await fetchUserWallet(userId);
-    if (data) setEuro(data.euro || 0);
-  };
-
   const fetchUserTotalProgress = async (userId) => {
-    const progressData = await fetchAllUserGameProgress(userId);
+    const progressData = await fetchUserGameProgress(userId);
     const walletData = await fetchUserWallet(userId);
     let totalExp = 0;
     let totalStars = 0;
@@ -83,10 +92,17 @@ export default function Header({ title, backTarget, level, homePage, gameId }) {
       </div>
 
       <HeaderContent
+        loading={loading}
+        userId={userId}
+        userName={userName}
         title={title}
         backTarget={backTarget}
         level={level}
         homePage={homePage}
+        onSignIn={() => setShowSignInModal(true)}
+        onSignUp={() => setShowSignUpModal(true)}
+        onLogout={handleLogout}
+        showShop={() => setShowShop(true)}
       />
 
       <AuthModals
@@ -95,6 +111,8 @@ export default function Header({ title, backTarget, level, homePage, gameId }) {
         showSignInModal={showSignInModal}
         setShowSignInModal={setShowSignInModal}
       />
+
+      {showShop && <Shop onClose={() => setShowShop(false)} />}
     </>
   );
 }

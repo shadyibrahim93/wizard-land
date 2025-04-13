@@ -125,7 +125,7 @@ export async function signIn({ email, password }) {
   // Fetch the full_name from the custom users table using the user ID
   const { data: userData, error: userError } = await supabase
     .from('users')
-    .select('full_name')
+    .select('full_name, exp, stars')
     .eq('id', data.user.id)
     .single();
 
@@ -134,12 +134,15 @@ export async function signIn({ email, password }) {
     return null;
   }
 
-  // Attach the full_name to the user object
-  data.user.full_name = userData.full_name;
-
-  console.log('Signed in user:', data.user);
-  window.location.reload();
-  return data.user;
+  return {
+    ...data.user,
+    full_name: userData.full_name,
+    user_metadata: {
+      ...data.user.user_metadata,
+      exp: userData.exp,
+      stars: userData.stars
+    }
+  };
 }
 
 export async function signOut() {
@@ -149,7 +152,6 @@ export async function signOut() {
     console.error('Error signing out:', error.message);
   } else {
     console.log('User signed out successfully');
-    window.location.reload();
   }
 }
 
@@ -231,13 +233,12 @@ export function subscribeToGameChatRoom(gameChatRoomId, onNewMessage) {
   return channel;
 }
 
-// Fetch latest exp and stars for a user in a game
-export async function fetchUserGameProgress(userId, gameId) {
+// Fetch user's game progress without gameId
+export async function fetchUserGameProgress(userId) {
   const { data, error } = await supabase
-    .from('user_game_progress')
+    .from('user_wallet')
     .select('exp, stars')
-    .eq('user_id', userId)
-    .eq('game_id', gameId);
+    .eq('user_id', userId);
 
   if (error) {
     console.error('Error fetching progress:', error);
@@ -247,16 +248,10 @@ export async function fetchUserGameProgress(userId, gameId) {
   return data;
 }
 
-// Add exp and gold to a user's game progress
-export async function updateUserGameProgress(
-  userId,
-  gameId,
-  starsToAdd,
-  expToAdd
-) {
+// Add exp and stars to a user's progress
+export async function updateUserGameProgress(userId, starsToAdd, expToAdd) {
   const { error } = await supabase.rpc('update_user_game_progress', {
     input_user_id: userId,
-    input_game_id: gameId,
     stars_to_add: starsToAdd,
     exp_to_add: expToAdd
   });
@@ -287,16 +282,16 @@ export async function fetchUserWallet(userId) {
   return data[0]; // Return the first (and only) wallet row
 }
 // Subscribe to progress changes in real-time (optional)
-export function subscribeToUserGameProgress(userId, gameId, onProgressUpdate) {
+export function subscribeToUserGameProgress(userId, onProgressUpdate) {
   const channel = supabase
-    .channel(`progress-${userId}-${gameId}`)
+    .channel(`progress-${userId}`)
     .on(
       'postgres_changes',
       {
         event: 'UPDATE',
         schema: 'public',
-        table: 'user_game_progress',
-        filter: `user_id=eq.${userId},game_id=eq.${gameId}`
+        table: 'users',
+        filter: `id=eq.${userId}`
       },
       (payload) => {
         onProgressUpdate(payload.new); // Contains updated exp and gold
@@ -307,59 +302,48 @@ export function subscribeToUserGameProgress(userId, gameId, onProgressUpdate) {
   return channel;
 }
 
-export const fetchAllUserGameProgress = async (userId) => {
-  const { data, error } = await supabase
-    .from('user_game_progress')
-    .select('exp, stars')
-    .eq('user_id', userId);
-
-  if (error) {
-    console.error('Error fetching all game progress:', error);
-    return [{ exp: 0, stars: 0 }];
-  }
-
-  if (!data || data.length === 0) {
-    return [{ exp: 0, stars: 0 }];
-  }
-
-  return data;
-};
-
 export async function getCurrentUser() {
   try {
+    // Get current session first (faster than getUser)
     const {
-      data: { user },
-      error: authError
-    } = await supabase.auth.getUser();
+      data: { session },
+      error: sessionError
+    } = await supabase.auth.getSession();
 
-    if (authError || !user) {
-      if (authError?.message !== 'Auth session missing!') {
-        console.error('Error getting current user:', authError.message);
-      }
+    if (sessionError || !session?.user) {
       return null;
     }
 
-    // Fetch additional profile data
-    const { data: profile, error: profileError } = await supabase
-      .from('users')
-      .select('full_name')
-      .eq('id', user.id)
-      .single();
-
-    if (profileError) {
-      console.error('Error fetching profile data:', profileError.message);
-    }
-
-    // Merge full_name into user.user_metadata
-    return {
-      ...user,
+    // Return basic user data immediately
+    const basicUser = {
+      ...session.user,
       user_metadata: {
-        ...user.user_metadata,
-        full_name: profile?.full_name || user.user_metadata?.full_name
+        ...session.user.user_metadata,
+        // Use email as fallback name for immediate response
+        full_name: session.user.user_metadata?.full_name || session.user.email
       }
     };
+
+    // Fetch profile data in background if needed
+    if (!session.user.user_metadata?.full_name) {
+      supabase
+        .from('users')
+        .select('full_name')
+        .eq('id', session.user.id)
+        .single()
+        .then(({ data: profile }) => {
+          if (profile?.full_name) {
+            // Update the user metadata in state if component is still mounted
+            supabase.auth.updateUser({
+              data: { full_name: profile.full_name }
+            });
+          }
+        });
+    }
+
+    return basicUser;
   } catch (err) {
-    console.error('Unexpected error getting current user:', err);
+    console.error('Error getting current user:', err);
     return null;
   }
 }
@@ -514,4 +498,240 @@ export function unsubscribeFromChannels(channels) {
       console.error('Error unsubscribing from channel:', error);
     }
   });
+}
+
+export async function getShopItemsGroupedByType() {
+  const { data, error } = await supabase.from('shop_items').select('*');
+
+  if (error) {
+    console.error('Error fetching shop items:', error);
+    return {};
+  }
+
+  const grouped = {};
+
+  data.forEach((item) => {
+    const type = item.type;
+
+    if (!grouped[type]) {
+      grouped[type] = [];
+    }
+
+    grouped[type].push(item);
+  });
+
+  // Sort each category by gold price (ascending)
+  Object.keys(grouped).forEach((type) => {
+    grouped[type].sort((a, b) => (a.stars || 0) - (b.stars || 0));
+  });
+
+  return grouped;
+}
+
+export async function getUserInventoryGroupedByType(userId) {
+  const { data, error } = await supabase
+    .from('user_inventory')
+    .select(
+      `
+      *,
+      shop_items:item_id (
+        id,
+        name,
+        type,
+        piece,
+        image,
+        stars,
+        euro
+      )
+    `
+    )
+    .eq('user_id', userId);
+
+  if (error) {
+    console.error('Error fetching user inventory:', error);
+    return {};
+  }
+
+  const grouped = {};
+
+  data.forEach((entry) => {
+    const item = entry.shop_items;
+    if (!item) return; // skip if item details are missing
+
+    const type = item.type;
+
+    if (!grouped[type]) {
+      grouped[type] = [];
+    }
+
+    grouped[type].push(item);
+  });
+
+  // Optionally, sort each group by price (lowest first)
+  Object.keys(grouped).forEach((type) => {
+    grouped[type].sort((a, b) => (a.gold || 0) - (b.gold || 0));
+  });
+
+  return grouped;
+}
+
+export async function purchaseItem(userId, itemId) {
+  try {
+    // 1. First get the item price to verify
+    const { data: itemData, error: itemError } = await supabase
+      .from('shop_items')
+      .select('stars, euro')
+      .eq('id', itemId)
+      .single();
+
+    if (itemError || !itemData) {
+      console.error('Error fetching item details:', itemError);
+      return { success: false, error: 'Item not found' };
+    }
+
+    // Use the item's actual price rather than the passed amount for security
+    const itemPrice = itemData.stars || itemData.euro || 0;
+    const currencyType = itemData.stars ? 'stars' : 'euro';
+
+    // 2. Get current user balance
+    let currentBalance;
+    if (currencyType === 'stars') {
+      const { data: progressData, error: progressError } = await supabase
+        .from('user_wallet')
+        .select('stars')
+        .eq('user_id', userId)
+        .single();
+
+      if (progressError || !progressData) {
+        console.error('Error fetching user stars:', progressError);
+        return { success: false, error: 'Could not fetch user data' };
+      }
+      currentBalance = progressData.stars;
+    } else {
+      const { data: walletData, error: walletError } = await supabase
+        .from('user_wallet')
+        .select('euro')
+        .eq('user_id', userId)
+        .single();
+
+      if (walletError || !walletData) {
+        console.error('Error fetching user wallet:', walletError);
+        return { success: false, error: 'Could not fetch wallet data' };
+      }
+      currentBalance = walletData.euro;
+    }
+
+    // 3. Check if user has enough balance
+    if (currentBalance < itemPrice) {
+      return {
+        success: false,
+        error: `Not enough ${currencyType} to purchase this item`
+      };
+    }
+
+    // 4. Deduct balance using RPC
+    let updateError;
+    await supabase.rpc('update_user_wallet', {
+      input_user_id: userId,
+      stars_to_add: currencyType === 'stars' ? -itemPrice : 0,
+      euro_to_add: currencyType === 'euro' ? -itemPrice : 0,
+      exp_to_add: 0
+    });
+
+    if (updateError) {
+      console.error(`Error updating ${currencyType} via RPC:`, updateError);
+      return { success: false, error: `Failed to deduct ${currencyType}` };
+    }
+
+    // 5. Add item to inventory
+    const { data: inventoryData, error: inventoryError } = await supabase
+      .from('user_inventory')
+      .insert([{ user_id: userId, item_id: itemId }])
+      .select();
+
+    if (inventoryError) {
+      console.error('Error adding item to inventory:', inventoryError);
+      // Refund the user if adding to inventory fails
+      if (currencyType === 'stars') {
+        await supabase.rpc('update_user_game_progress', {
+          input_user_id: userId,
+          stars_to_add: -itemPrice,
+          exp_to_add: 0
+        });
+      } else {
+        await supabase.rpc('user_wallet', {
+          user_id: userId,
+          euro: itemPrice
+        });
+      }
+      return { success: false, error: 'Failed to add item to inventory' };
+    }
+
+    // 6. Return success with updated balance
+    const newBalance = currentBalance - itemPrice;
+    return {
+      success: true,
+      data: inventoryData,
+      updatedBalance: newBalance,
+      balanceType: currencyType
+    };
+  } catch (e) {
+    console.error('Unexpected error during purchase:', e);
+    return { success: false, error: 'Unexpected error during purchase' };
+  }
+}
+
+export function subscribeToUserData(
+  userId,
+  { onWalletChange, onStarsChange, onInventoryChange }
+) {
+  const channel = supabase.channel(`user-updates-${userId}`);
+
+  // Subscribe to euro wallet changes
+  channel
+    .on(
+      'postgres_changes',
+      {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'user_wallet',
+        filter: `user_id=eq.${userId}`
+      },
+      (payload) => {
+        console.log('Wallet updated:', payload);
+        onWalletChange?.(payload.new.euro);
+      }
+    )
+
+    // Subscribe to stars changes in users table
+    .on(
+      'postgres_changes',
+      {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'users',
+        filter: `id=eq.${userId}`
+      },
+      (payload) => {
+        console.log('Stars updated:', payload);
+        onStarsChange?.(payload.new.stars);
+      }
+    )
+
+    // Subscribe to inventory changes
+    .on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'user_inventory',
+        filter: `user_id=eq.${userId}`
+      },
+      (payload) => {
+        console.log('Inventory updated:', payload);
+        onInventoryChange?.(payload.new);
+      }
+    )
+
+    .subscribe();
 }

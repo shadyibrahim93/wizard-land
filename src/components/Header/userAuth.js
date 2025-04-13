@@ -5,14 +5,7 @@ import { FaDoorOpen } from 'react-icons/fa6';
 import { FaDoorClosed } from 'react-icons/fa6';
 import { IoMdPersonAdd } from 'react-icons/io';
 
-const UserAuth = ({
-  loading,
-  userId,
-  userName,
-  onSignIn,
-  onSignUp,
-  onLogout
-}) => {
+const UserAuth = ({ loading, userId, userName, onSignUp }) => {
   if (loading) {
     return (
       <h3 className='mq-user-name'>
@@ -32,29 +25,13 @@ const UserAuth = ({
         {!userId ? (
           <>
             <CustomLink
-              Icon={<IoMdPersonAdd />}
               text='SIGN UP'
               onClick={onSignUp}
               className='sign-up'
             />
-            {' | '}
-            <CustomLink
-              Icon={<FaDoorOpen />}
-              text='LOG IN'
-              onClick={onSignIn}
-              className='log-in'
-            />
           </>
         ) : (
-          <>
-            <span>{userName}!</span>{' '}
-            <CustomLink
-              Icon={<FaDoorClosed />}
-              text='LOG OUT'
-              onClick={onLogout}
-              className='log-out'
-            />
-          </>
+          userName
         )}
       </div>
     </h3>

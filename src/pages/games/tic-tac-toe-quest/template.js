@@ -165,20 +165,9 @@ const Game = ({ setCurrentLevel }) => {
       const currentUser = await getCurrentUser();
       if (!currentUser) return;
 
-      console.log(
-        'Current turn:',
-        currentMultiplayerTurn,
-        'Current user:',
-        currentUser.id,
-        'Player1:',
-        player1,
-        'Player2:',
-        player2
-      );
-
       // Check if it's the current player's turn
       if (currentMultiplayerTurn !== currentUser.id) {
-        console.log('Not your turn!');
+        alert('Not your turn!');
         return;
       }
 
