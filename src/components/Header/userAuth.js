@@ -1,11 +1,21 @@
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import CustomLink from '../CustomLink';
-import { FaDoorOpen } from 'react-icons/fa6';
-import { FaDoorClosed } from 'react-icons/fa6';
-import { IoMdPersonAdd } from 'react-icons/io';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const UserAuth = ({ loading, userId, userName, onSignUp }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
+
+  const imageSrc = `/wizard-land/assets/elements/${
+    isHovered ? 'home_active.png' : 'home.png'
+  }`;
+
+  const handleClick = () => {
+    navigate('/'); // Change '/' to your desired home path
+  };
+
   if (loading) {
     return (
       <h3 className='mq-user-name'>
@@ -20,21 +30,31 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
   }
 
   return (
-    <h3 className='mq-user-name'>
-      <div className='mq-user-sign'>
-        {!userId ? (
-          <>
+    <div className='mq-user-container'>
+      <h3 className='mq-user-name'>
+        <div className='mq-user-sign'>
+          {!userId ? (
             <CustomLink
               text='SIGN UP'
               onClick={onSignUp}
               className='sign-up'
             />
-          </>
-        ) : (
-          userName
-        )}
-      </div>
-    </h3>
+          ) : (
+            <>
+              <img
+                src={imageSrc}
+                alt='Home'
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                onClick={handleClick}
+                title='Home'
+              />
+              {userName}
+            </>
+          )}
+        </div>
+      </h3>
+    </div>
   );
 };
 

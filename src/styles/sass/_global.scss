@@ -60,7 +60,45 @@ body {
     padding-right: 30px;
     box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3);
     text-align: center;
+    padding: 12px 36px;
+    position: relative;
+    .#{$identifier}-header-container {
+      .#{$identifier}-menu-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        row-gap: 4px;
+        cursor: pointer;
+        color: $white;
 
+        img {
+          width: 50px;
+        }
+
+        &:hover {
+          animation: glowingRed 4s infinite alternate;
+        }
+      }
+      @media (max-width: 768px) {
+        div {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+
+          button {
+            width: 150px;
+            height: 40px;
+          }
+        }
+      }
+    }
+
+    &:hover {
+      &::before {
+        margin: 18px;
+      }
+    }
     .#{$identifier}-header-container {
       display: flex;
       align-items: center;
@@ -100,6 +138,25 @@ body {
         animation-timing-function: linear;
         animation-iteration-count: 1;
         cursor: pointer;
+      }
+    }
+
+    @media (max-width: 768px) {
+      padding: 8px 0px;
+      .#{$identifier}-header-container {
+        h1 {
+          display: none;
+        }
+        .#{$identifier}-menu-item {
+          font-size: 14px;
+          img {
+            width: 35px;
+          }
+
+          &:hover {
+            animation: glowingRed 4s infinite alternate;
+          }
+        }
       }
     }
   }
@@ -148,48 +205,6 @@ body {
       bottom: 0;
       background-color: rgba(0, 0, 0, 0.4);
       z-index: 0;
-    }
-
-    header {
-      padding: 12px 36px;
-      position: relative;
-      .#{$identifier}-header-container {
-        .#{$identifier}-menu-item {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          row-gap: 4px;
-          cursor: pointer;
-          color: $white;
-
-          img {
-            width: 50px;
-          }
-
-          &:hover {
-            animation: glowingRed 4s infinite alternate;
-          }
-        }
-        @media (max-width: 768px) {
-          div {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-
-            button {
-              width: 150px;
-              height: 40px;
-            }
-          }
-        }
-      }
-
-      &:hover {
-        &::before {
-          margin: 18px;
-        }
-      }
     }
 
     .#{$identifier}-dashboard-cards-wrapper {
@@ -503,6 +518,20 @@ body {
         color: $white;
         box-shadow: 0 0 5px rgba($primary-color, 0.8);
       }
+
+      span {
+        display: none;
+        opacity: 0.4;
+      }
+
+      &.#{$identifier}-preview {
+        position: relative;
+
+        span {
+          display: block;
+          opacity: 0.3;
+        }
+      }
     }
   }
 
@@ -658,42 +687,6 @@ body {
     }
   }
 
-  .#{$identifier}-fire-preview {
-    position: relative;
-
-    &::before {
-      content: '🔥';
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0.5;
-      font-size: 2rem;
-      pointer-events: none;
-
-      @media (max-width: 480px) {
-        content: '';
-      }
-    }
-  }
-
-  .#{$identifier}-ice-preview {
-    position: relative;
-
-    &::before {
-      content: '❄️';
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0.5;
-      font-size: 2rem;
-      pointer-events: none;
-
-      @media (max-width: 480px) {
-        content: '';
-      }
-    }
-  }
-
   .#{$identifier}-modal-overlay {
     position: fixed;
     top: 0;
@@ -772,15 +765,15 @@ body {
 
         .#{$identifier}-modal-item {
           position: relative;
-          border: 2px solid $secondary-color;
+          border: 1px solid $blue;
           border-radius: 20px;
           padding: 16px 16px 32px 16px;
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          row-gap: 16px;
-          animation: glowRed 4s infinite alternate;
+          row-gap: 36px;
+          animation: glowIce 4s infinite alternate;
 
           .#{$identifier}-modal-title {
             color: $white;
@@ -790,7 +783,7 @@ body {
 
           .#{$identifier}-modal-price {
             background-color: $dark-overlay;
-            border: 2px solid $secondary-color;
+            animation: glowIce 4s infinite alternate;
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -808,7 +801,6 @@ body {
 
           .#{$identifier}-piece {
             background-color: $dark-overlay;
-            border: 2px solid $secondary-color;
             width: 75px;
             height: 75px;
             border-radius: 50%;
@@ -817,7 +809,7 @@ body {
             justify-content: center;
             align-items: center;
             font-size: 36px;
-            animation: glowRed 4s infinite alternate;
+            animation: glowIce 4s infinite alternate;
 
             &:not(:has(.#{$identifier}-piece-image)) {
               padding-left: 2px;
@@ -833,6 +825,12 @@ body {
             margin: 0;
             border: 2px solid $secondary-color;
             animation: glowRed 4s infinite alternate;
+
+            &:disabled {
+              background-color: $gray;
+              border: 2px solid $gray;
+              animation: glowIce 4s infinite alternate;
+            }
           }
         }
       }
@@ -922,6 +920,63 @@ body {
     .#{$identifier}-gameover-container {
       img {
         width: 80vw;
+      }
+    }
+
+    .#{$identifier}-modal-overlay {
+      .#{$identifier}-container {
+        padding: 21px;
+        width: 80%;
+
+        .#{$identifier}-modal-header {
+          h1 {
+            font-size: 18px;
+          }
+        }
+
+        .#{$identifier}-modal-body {
+          .#{$identifier}-modal-category {
+            hr {
+              margin-top: 0px;
+              margin-bottom: 32px;
+            }
+            .#{$identifier}-modal-category-title {
+              padding-bottom: 12px;
+              font-size: 16px;
+            }
+            .#{$identifier}-modal-items-container {
+              grid-template-columns: repeat(3, 1fr);
+              column-gap: 16px;
+              row-gap: 32px;
+
+              .#{$identifier}-modal-item {
+                padding: 16px 4px 24px 4px;
+                row-gap: 16px;
+
+                .#{$identifier}-piece {
+                  width: 40px;
+                  height: 40px;
+                  font-size: 21px;
+                }
+
+                .#{$identifier}-modal-price {
+                  width: 80%;
+                  padding: 4px;
+                  font-size: 10px;
+                  img {
+                    width: 16px;
+                  }
+                }
+                .#{$identifier}-btn {
+                  padding: 2px 0px;
+                  font-size: 12px;
+                  bottom: -10px;
+                  width: 70%;
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

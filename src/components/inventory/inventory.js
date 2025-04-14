@@ -1,47 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import ShopItem from './shopItem';
-import {
-  getUserInventoryGroupedByType,
-  getCurrentUser
-} from '../../apiService';
+import InventoryItem from './inventoryItem';
+import { getUserInventoryGroupedByType } from '../../apiService';
+import useUser from '../../hooks/useUser'; // Adjust path if needed
 
 const Inventory = ({ onClose }) => {
+  const { userId, loading } = useUser();
   const [inventoryItems, setInventoryItems] = useState({});
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchInventory = async () => {
-      const user = await getCurrentUser();
-      if (!user) return;
+    if (!userId) return;
 
-      const groupedInventory = await getUserInventoryGroupedByType(user.id);
-      setInventoryItems(groupedInventory);
-      setLoading(false);
+    const fetchInventory = async () => {
+      try {
+        const groupedInventory = await getUserInventoryGroupedByType(userId);
+        setInventoryItems(groupedInventory);
+      } catch (error) {
+        console.error('Failed to load inventory:', error);
+      }
     };
 
     fetchInventory();
-  }, []);
+  }, [userId]);
 
-  const handleUseItem = (item) => {
-    console.log('Using', item.name || item.emoji || item.image);
-    // Add logic for equipping or activating the item
+  // Function to refresh the inventory by re-fetching it
+  const refreshInventory = async () => {
+    if (!userId) return;
+    const groupedInventory = await getUserInventoryGroupedByType(userId);
+    setInventoryItems(groupedInventory);
   };
-
-  if (loading) {
-    return (
-      <div className='mq-modal-overlay'>
-        <div className='mq-container'>
-          <h1 className='mq-modal-title'>Loading Inventory...</h1>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className='mq-modal-overlay'>
       <div className='mq-container'>
         <div className='mq-modal-header'>
-          <h1 className='mq-modal-title'>Inventory</h1>
+          <h1 className='mq-modal-title'>
+            {loading ? 'Loading Inventory...' : `Inventory`}
+          </h1>
           <button
             className='mq-close-btn'
             onClick={onClose}
@@ -56,14 +50,16 @@ const Inventory = ({ onClose }) => {
               key={category}
               className='mq-modal-category'
             >
-              <h2 className='mq-modal-category-title'>Owned {category}s</h2>
+              <h2 className='mq-modal-category-title'>Board {category}s</h2>
               <hr />
               <div className='mq-modal-items-container'>
                 {items.map((item) => (
-                  <ShopItem
+                  <InventoryItem
                     key={item.id}
                     item={item}
-                    onActivate={handleUseItem}
+                    userId={userId}
+                    isActive={item.is_active}
+                    refreshInventory={refreshInventory} // Pass down refresh function
                   />
                 ))}
               </div>

@@ -25,7 +25,7 @@ const Game = ({ setCurrentLevel }) => {
   const [gameMode, setGameMode] = useState('Single'); // Tracks Single or Multiplayer mode
   const [hoveredColumn, setHoveredColumn] = useState(null);
 
-  const introText = `Welcome to Wizards Land Connect 4! Play as '🔥', and the computer will play as '❄️'. Take turns dropping your element into the corresponding column. A helper will show you where the element will land when you hover over a column. Align four in a row, column, or diagonal to win. Good luck!`;
+  const introText = `Welcome to Wizards Land Connect 4! Take turns dropping your element into the corresponding column. A helper will show you where the element will land when you hover over a column. Align four in a row, column, or diagonal to win. Good luck!`;
 
   useEffect(() => {
     setCurrentLevel('∞');

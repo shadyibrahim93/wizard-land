@@ -14,10 +14,12 @@ import {
   updateBoardState,
   subscribeToBoardUpdates,
   unsubscribeFromChannels,
-  getCurrentUser
+  clearGameData
 } from '../../../apiService';
+import { useSelectedPiece } from '../../../hooks/userSelectedPiece';
+import useUser from '../../../hooks/useUser';
 
-const Game = ({ setCurrentLevel }) => {
+const Game = () => {
   const [board, setBoard] = useState(Array(9).fill(null));
   const [gameOver, setGameOver] = useState(false);
   const [winner, setWinner] = useState(null);
@@ -38,41 +40,44 @@ const Game = ({ setCurrentLevel }) => {
   const [opponentWins, setOpponentWins] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [channels, setChannels] = useState([]);
+  const { userId, userName } = useUser();
+  const player1Symbol = useSelectedPiece(player1 || userId, '🔥');
+  const player2Symbol = useSelectedPiece(player2, '❄️');
 
-  const introText = `Welcome to Tic Tac Toe! Play as '🔥', and the opponent will play as '❄️'. Take turns placing your marks, aiming to align three in a row, column, or diagonal. A helper will show you where your mark will go when you hover over a box. Good luck!`;
+  const introText = `Welcome to Tic Tac Toe!. Take turns placing your marks, aiming to align three in a row, column, or diagonal. A helper will show you where your mark will go when you hover over a box. Good luck!`;
 
   useEffect(() => {
-    setCurrentLevel('∞');
+    const handleScoreUpdate = async () => {
+      if (winner || isBoardFull(board)) {
+        setGameOver(true);
+        playUncover();
+        setShowTitle(true);
 
-    if (winner || isBoardFull(board)) {
-      setGameOver(true);
-      playUncover();
-      setShowTitle(true);
+        if (gameMode === 'Multiplayer') {
+          console.log('userId', userId, 'winner', winner);
+          if (player1 === winner) {
+            setPlayerWins(playerWins + 1);
+          } else if (player2 === winner) {
+            setOpponentWins(opponentWins + 1);
+          }
+        } else {
+          if (winner === 'Fire') {
+            setPlayerWins(playerWins + 1);
+          }
+          if (winner === 'Ice') {
+            setComputerWins(computerWins + 1);
+            setComputerStarts(true);
+          }
+        }
 
-      if (gameMode === 'Multiplayer') {
-        if (winner === player1) {
-          setPlayerWins(playerWins + 1);
-        }
-        if (winner === player2) {
-          setOpponentWins(opponentWins + 1); // You may need to track this
-        }
-      } else {
-        if (winner === 'Fire') {
-          setPlayerWins(playerWins + 1);
-        }
-
-        if (winner === 'Ice') {
-          setComputerWins(computerWins + 1);
-          setComputerStarts(true); // Computer starts next game
-        }
+        setTimeout(() => {
+          handleRestart();
+        }, 3500);
       }
+    };
 
-      // Automatically restart the game after 3.5 seconds
-      setTimeout(() => {
-        handleRestart();
-      }, 3500);
-    }
-  }, [winner, board]);
+    handleScoreUpdate();
+  }, [winner]);
 
   const findBestMove = (squares, player) => {
     const lines = [
@@ -120,10 +125,10 @@ const Game = ({ setCurrentLevel }) => {
         playNextLevel();
         triggerConfetti();
         if (gameMode === 'Multiplayer') {
-          return squares[a] === '🔥' ? player1 : player2;
+          return squares[a] === player1Symbol ? player1 : player2;
         }
 
-        return squares[a] === '🔥' ? 'Fire' : 'Ice'; // Use Fire/Ice
+        return squares[a] === player1Symbol ? 'Fire' : 'Ice'; // Use Fire/Ice
       }
     }
     return null;
@@ -143,7 +148,7 @@ const Game = ({ setCurrentLevel }) => {
       if (currentTurn !== 'Fire') return;
 
       const newBoard = [...board];
-      newBoard[index] = '🔥'; // Always Fire in Single mode for player
+      newBoard[index] = player1Symbol; // Always Fire in Single mode for player
       setBoard(newBoard);
 
       const userWinner = calculateWinner(newBoard);
@@ -161,26 +166,24 @@ const Game = ({ setCurrentLevel }) => {
       handleComputerMove(newBoard);
     } else if (gameMode === 'Multiplayer') {
       if (!opponentJoined) return;
-
-      const currentUser = await getCurrentUser();
-      if (!currentUser) return;
+      if (!userId) return;
 
       // Check if it's the current player's turn
-      if (currentMultiplayerTurn !== currentUser.id) {
+      if (currentMultiplayerTurn !== userId) {
         alert('Not your turn!');
         return;
       }
 
       const newBoard = [...board];
-      newBoard[index] = currentUser.id === player1 ? '🔥' : '❄️';
+      newBoard[index] = userId === player1 ? player1Symbol : player2Symbol;
       setBoard(newBoard);
 
       const multiplayerWinner = calculateWinner(newBoard);
-      const nextTurn = currentUser.id === player1 ? player2 : player1;
+      console.log(multiplayerWinner);
+      const nextTurn = userId === player1 ? player2 : player1;
 
       // Update turn immediately for responsiveness
       setCurrentMultiplayerTurn(nextTurn);
-      console.log('Turn updated locally to:', nextTurn);
 
       if (multiplayerWinner) {
         setWinner(multiplayerWinner);
@@ -224,7 +227,7 @@ const Game = ({ setCurrentLevel }) => {
         return;
       }
 
-      const blockingMove = findBestMove(newBoard, '🔥');
+      const blockingMove = findBestMove(newBoard, player1Symbol);
       if (blockingMove !== null) {
         newBoard[blockingMove] = '❄️';
         setBoard(newBoard);
@@ -297,81 +300,53 @@ const Game = ({ setCurrentLevel }) => {
   };
 
   const onStartGame = async (roomData) => {
-    console.log('Game started with room:', roomData);
+    // Set room and players first
     setRoom(roomData);
-
-    const currentUser = await getCurrentUser();
-    if (!currentUser) {
-      console.error('No user logged in');
-      return;
-    }
-
-    // Set players from room data
     setPlayer1(roomData.player1);
     setPlayer2(roomData.player2);
 
     setGameMode('Multiplayer');
     setStartGame(true);
-
-    // Determine initial turn - creator goes first
-    const initialTurn = roomData.player1;
-    setCurrentMultiplayerTurn(initialTurn);
-
-    console.log(
-      'Initial turn set to:',
-      initialTurn,
-      'Player1:',
-      roomData.player1,
-      'Player2:',
-      roomData.player2
-    );
-
-    // Immediately set opponentJoined if both players are present
+    setCurrentMultiplayerTurn(roomData.player1);
     setOpponentJoined(!!roomData.player1 && !!roomData.player2);
 
     const opponentChannel = subscribeToOpponentJoin(
       roomData.room,
       (updatedRoom) => {
-        console.log('Room update:', updatedRoom);
+        // Use functional updates to ensure we have latest state
         setPlayer1(updatedRoom.player1);
         setPlayer2(updatedRoom.player2);
+        setOpponentJoined(!!updatedRoom.player1 && !!updatedRoom.player2);
 
-        // More reliable opponent detection
-        const bothPlayersPresent =
-          !!updatedRoom.player1 && !!updatedRoom.player2;
-        setOpponentJoined(bothPlayersPresent);
-
-        if (bothPlayersPresent && board.every((square) => square === null)) {
-          updateBoardState(roomData.room, Array(9).fill(null), gameId, player1);
+        // Check board state directly rather than relying on closure
+        const currentBoard = board; // This might still be stale - better solution below
+        if (
+          updatedRoom.player1 &&
+          updatedRoom.player2 &&
+          currentBoard.every((square) => square === null)
+        ) {
+          updateBoardState(
+            roomData.room,
+            Array(9).fill(null),
+            gameId,
+            updatedRoom.player1 // Use the updated player1 value
+          );
         }
       }
     );
 
     const boardChannel = subscribeToBoardUpdates(roomData.room, (gameState) => {
-      console.log('Board update received:', gameState);
-
-      // Always update board state if present
       if (gameState.board_state) {
         setBoard(gameState.board_state);
       }
-
-      // Update current turn if present
       if (
         gameState.current_turn !== undefined &&
         gameState.current_turn !== null
       ) {
-        console.log('Updating turn to:', gameState.current_turn);
         setCurrentMultiplayerTurn(gameState.current_turn);
       }
-
-      // Handle winner if present
       if (gameState.winner) {
         setWinner(gameState.winner);
-        if (gameState.winner === player1) {
-          setPlayerWins((prev) => prev + 1);
-        } else {
-          setOpponentWins((prev) => prev + 1);
-        }
       }
     });
 
@@ -381,26 +356,40 @@ const Game = ({ setCurrentLevel }) => {
   // Add cleanup for channels in useEffect
   useEffect(() => {
     return () => {
-      // Unsubscribe from all channels when component unmounts
-      if (channels) {
-        unsubscribeFromChannels(channels);
+      if (gameMode === 'Multiplayer') {
+        unsubscribeFromChannels(channels); // Clean up listeners
       }
     };
   }, [channels]);
 
   useEffect(() => {
-    console.log('Current multiplayer turn updated:', currentMultiplayerTurn);
-  }, [currentMultiplayerTurn]);
+    const handleBeforeUnload = async () => {
+      if (gameMode === 'Multiplayer' && room?.room) {
+        await clearGameData(room.room, gameId);
+        resetScore();
+      }
+    };
 
-  useEffect(() => {
-    console.log('Players updated - Player1:', player1, 'Player2:', player2);
-  }, [player1, player2]);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+
+      // If the component unmounts and game mode is Multiplayer, clear the game data
+      if (gameMode === 'Multiplayer' && room?.room) {
+        clearGameData(room.room, gameId);
+      }
+
+      // Also unsubscribe from any channels if you do that elsewhere
+      unsubscribeFromChannels();
+    };
+  }, [gameMode, room, gameId]);
 
   const title =
     winner === null && isBoardFull(board)
       ? "It's a Draw!"
       : winner
-      ? `${winner} wins!`
+      ? `${winner === player1 ? 'Fire' : 'Ice'} wins!`
       : `Your Turn: ${currentTurn}`;
 
   return !startGame ? (
@@ -437,7 +426,9 @@ const Game = ({ setCurrentLevel }) => {
       >
         <div className='mq-score-container'>
           <span className='mq-score-player'>Fire: {playerWins}</span>
-          <span className='mq-score-computer'>Ice: {computerWins}</span>
+          <span className='mq-score-computer'>
+            Ice: {gameMode === 'Multiplayer' ? opponentWins : computerWins}
+          </span>
         </div>
         <div
           className={`mq-board mq-${
@@ -464,25 +455,21 @@ const Game = ({ setCurrentLevel }) => {
             <div
               key={index}
               className={`mq-square ${
-                square ? `mq-${square === '🔥' ? 'Fire' : 'Ice'}` : ''
-              } ${
-                !square && hoveredIndex === index
-                  ? gameMode === 'Single'
-                    ? currentTurn === 'Fire'
-                      ? 'mq-fire-preview'
-                      : ''
-                    : gameMode === 'Multiplayer'
-                    ? currentMultiplayerTurn === player1
-                      ? 'mq-fire-preview'
-                      : 'mq-ice-preview'
-                    : ''
-                  : ''
-              }`}
+                square ? `mq-${square === player1Symbol ? 'Fire' : 'Ice'}` : ''
+              } ${!square && hoveredIndex === index ? 'mq-preview' : ''}`}
               onClick={() => handleClick(index)}
               onMouseEnter={() => setHoveredIndex(index)} // Track hover
               onMouseLeave={() => setHoveredIndex(null)} // Remove hover effect
             >
               {square}
+              {gameMode === 'Single' ? (
+                <span>{player1Symbol}</span>
+              ) : gameMode === 'Multiplayer' &&
+                currentMultiplayerTurn === player1 ? (
+                <span>{player1Symbol}</span>
+              ) : (
+                <span>{player2Symbol}</span>
+              )}
             </div>
           ))}
         </div>

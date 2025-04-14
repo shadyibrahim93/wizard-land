@@ -12,11 +12,13 @@ import UserAuth from './Header/userAuth';
 import AuthModals from './Header/AuthModals';
 import HeaderContent from './Header/GameHeader';
 import Shop from './shop/shop';
+import Inventory from './inventory/inventory';
 
 export default function Header({ title, backTarget, level, homePage, gameId }) {
   const [showSignUpModal, setShowSignUpModal] = useState(false);
   const [showSignInModal, setShowSignInModal] = useState(false);
   const [showShop, setShowShop] = useState(false);
+  const [showInventory, setShowInventory] = useState(false);
   const [exp, setExp] = useState(0);
   const [euro, setEuro] = useState(0);
   const [stars, setStars] = useState(0);
@@ -27,23 +29,22 @@ export default function Header({ title, backTarget, level, homePage, gameId }) {
   useEffect(() => {
     if (!userId) return;
 
-    const unsubscribe = subscribeToUserData(userId, {
+    const channel = subscribeToUserData(userId, {
       onWalletChange: (euro) => setEuro(euro),
       onStarsChange: (stars) => setStars(stars),
       onInventoryChange: (newItem) => {
-        setInventory((prev) => [...prev, newItem]);
+        setInventory((prev) => [...(prev || []), newItem]);
       }
     });
-  }, [userId]);
 
-  useEffect(() => {
+    setChannels(channel); // Store it for cleanup
+
     return () => {
-      // Unsubscribe from all channels when component unmounts
-      if (channels) {
-        unsubscribeFromChannels(channels);
+      if (channel) {
+        unsubscribeFromChannels(channel); // Cleanup
       }
     };
-  }, [channels]);
+  }, [userId]);
 
   useEffect(() => {
     if (userId) {
@@ -103,6 +104,7 @@ export default function Header({ title, backTarget, level, homePage, gameId }) {
         onSignUp={() => setShowSignUpModal(true)}
         onLogout={handleLogout}
         showShop={() => setShowShop(true)}
+        showInventory={() => setShowInventory(true)}
       />
 
       <AuthModals
@@ -113,6 +115,7 @@ export default function Header({ title, backTarget, level, homePage, gameId }) {
       />
 
       {showShop && <Shop onClose={() => setShowShop(false)} />}
+      {showInventory && <Inventory onClose={() => setShowInventory(false)} />}
     </>
   );
 }

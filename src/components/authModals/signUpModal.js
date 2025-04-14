@@ -15,22 +15,28 @@ export default function SignUpModal({ showSignUpModal, onClose }) {
     setMessage(null);
 
     try {
-      await signUp({ email, password, fullName });
-      setMessage({
-        type: 'success',
-        text: 'Signup successful! Please check your email to confirm your account.'
-      });
-      setEmail('');
-      setFullName('');
-      setPassword('');
-      onClose();
+      // Await the signUp function and get the response result
+      const result = await signUp({ email, password, fullName });
+
+      if (result && result.success) {
+        setMessage({
+          type: 'success',
+          text: 'Signup successful! Please check your email to confirm your account.'
+        });
+        setEmail('');
+        setFullName('');
+        setPassword('');
+        onClose(); // Only close the modal if signUp was successful
+      } else {
+        throw new Error(result.error || 'Something went wrong during signup.');
+      }
     } catch (error) {
+      console.log(error);
       setMessage({
         type: 'error',
         text: error.message || 'Something went wrong during signup.'
       });
     }
-
     setLoading(false);
   };
 
@@ -50,7 +56,7 @@ export default function SignUpModal({ showSignUpModal, onClose }) {
           className='mq-form'
         >
           <div className='mq-form-group'>
-            <label className='mq-label'>Full Name</label>
+            <label className='mq-label'>Nickname</label>
             <input
               type='text'
               value={fullName}
@@ -81,12 +87,10 @@ export default function SignUpModal({ showSignUpModal, onClose }) {
           </div>
           <Button
             type='submit'
-            text='Sign Up'
+            text={loading ? 'Signing up...' : 'Sign Up'}
             className='mq-button'
             disabled={loading}
-          >
-            {loading ? 'Signing up...' : 'Sign Up'}
-          </Button>
+          />
           {message && (
             <div className={`mq-message mq-${message.type}`}>
               {message.text}

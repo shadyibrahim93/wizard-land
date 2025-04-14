@@ -84,15 +84,31 @@ export async function getPuzzleImageData(level) {
 }
 
 export async function signUp({ email, password, fullName }) {
-  console.log('Full Name:', fullName);
+  // Validate password length first
+  if (password.length < 6) {
+    return {
+      success: false,
+      error: 'Password must be at least 6 characters long.'
+    };
+  }
+
+  // Attempt to sign up via Supabase Auth
   const { data: authUser, error } = await supabase.auth.signUp({
     email,
     password
   });
 
   if (error) {
+    // Check if the error indicates the email is already registered
+    if (
+      error.code === 'user_already_exists' ||
+      (error.message &&
+        error.message.toLowerCase().includes('user already exists'))
+    ) {
+      return { success: false, error: 'The email address is already in use.' };
+    }
     console.error('Signup error:', error.message);
-    return;
+    return { success: false, error: error.message || 'Signup error' };
   }
 
   const userId = authUser.user.id;
@@ -106,9 +122,15 @@ export async function signUp({ email, password, fullName }) {
 
   if (insertError) {
     console.error('User insert error:', insertError.message);
+    return {
+      success: false,
+      error: insertError.message || 'User insert error'
+    };
   } else {
     console.log('User signed up and added to DB!');
   }
+
+  return { success: true };
 }
 
 export async function signIn({ email, password }) {
@@ -125,7 +147,7 @@ export async function signIn({ email, password }) {
   // Fetch the full_name from the custom users table using the user ID
   const { data: userData, error: userError } = await supabase
     .from('users')
-    .select('full_name, exp, stars')
+    .select('full_name')
     .eq('id', data.user.id)
     .single();
 
@@ -138,9 +160,7 @@ export async function signIn({ email, password }) {
     ...data.user,
     full_name: userData.full_name,
     user_metadata: {
-      ...data.user.user_metadata,
-      exp: userData.exp,
-      stars: userData.stars
+      ...data.user.user_metadata
     }
   };
 }
@@ -426,7 +446,6 @@ export function subscribeToBoardUpdates(roomId, onBoardUpdate) {
         filter: `room=eq.${roomId}`
       },
       (payload) => {
-        console.log('Game state update:', payload);
         onBoardUpdate(payload.new);
       }
     )
@@ -466,6 +485,32 @@ export async function updateBoardState(
   return data;
 }
 
+export const clearGameData = async (roomId, gameId) => {
+  // Step 1: Delete from game_state first
+  const { error: gameStateError } = await supabase
+    .from('game_state')
+    .delete()
+    .match({ room: roomId, game_id: gameId });
+
+  if (gameStateError) {
+    console.error('Error deleting game state:', gameStateError.message);
+    return { success: false, error: gameStateError };
+  }
+
+  // Step 2: Delete from game_rooms after game_state
+  const { error: gameRoomError } = await supabase
+    .from('game_rooms')
+    .delete()
+    .match({ room: roomId, game_id: gameId });
+
+  if (gameRoomError) {
+    console.error('Error deleting game room:', gameRoomError.message);
+    return { success: false, error: gameRoomError };
+  }
+
+  return { success: true };
+};
+
 export function subscribeToOpponentJoin(roomId, onOpponentJoin) {
   const channel = supabase
     .channel(`room-${roomId}`)
@@ -478,8 +523,6 @@ export function subscribeToOpponentJoin(roomId, onOpponentJoin) {
         filter: `room=eq.${roomId}`
       },
       (payload) => {
-        console.log('Room update payload:', payload);
-        // Send the full room data to the callback
         onOpponentJoin(payload.new);
       }
     )
@@ -501,7 +544,10 @@ export function unsubscribeFromChannels(channels) {
 }
 
 export async function getShopItemsGroupedByType() {
-  const { data, error } = await supabase.from('shop_items').select('*');
+  const { data, error } = await supabase
+    .from('shop_items')
+    .select('*')
+    .eq('is_active', true);
 
   if (error) {
     console.error('Error fetching shop items:', error);
@@ -531,20 +577,7 @@ export async function getShopItemsGroupedByType() {
 export async function getUserInventoryGroupedByType(userId) {
   const { data, error } = await supabase
     .from('user_inventory')
-    .select(
-      `
-      *,
-      shop_items:item_id (
-        id,
-        name,
-        type,
-        piece,
-        image,
-        stars,
-        euro
-      )
-    `
-    )
+    .select('*, shop_items(*), is_active') // this joins the shop_items data
     .eq('user_id', userId);
 
   if (error) {
@@ -564,12 +597,16 @@ export async function getUserInventoryGroupedByType(userId) {
       grouped[type] = [];
     }
 
-    grouped[type].push(item);
+    grouped[type].push({
+      ...item,
+      acquired_at: entry.acquired_at, // merge any inventory-specific info if needed
+      inventory_id: entry.id,
+      is_active: entry.is_active
+    });
   });
 
-  // Optionally, sort each group by price (lowest first)
   Object.keys(grouped).forEach((type) => {
-    grouped[type].sort((a, b) => (a.gold || 0) - (b.gold || 0));
+    grouped[type].sort((a, b) => (a.acquired_at || 0) - (b.acquired_at || 0));
   });
 
   return grouped;
@@ -685,10 +722,8 @@ export function subscribeToUserData(
   userId,
   { onWalletChange, onStarsChange, onInventoryChange }
 ) {
-  const channel = supabase.channel(`user-updates-${userId}`);
-
-  // Subscribe to euro wallet changes
-  channel
+  const channel = supabase
+    .channel(`user_wallet_updates_${userId}`)
     .on(
       'postgres_changes',
       {
@@ -698,40 +733,76 @@ export function subscribeToUserData(
         filter: `user_id=eq.${userId}`
       },
       (payload) => {
-        console.log('Wallet updated:', payload);
-        onWalletChange?.(payload.new.euro);
+        const newData = payload.new;
+        if (onWalletChange && newData?.euro !== undefined)
+          onWalletChange(newData.euro);
+        if (onStarsChange && newData?.stars !== undefined)
+          onStarsChange(newData.stars);
+        if (onInventoryChange && newData?.inventory_item)
+          onInventoryChange(newData.inventory_item);
       }
     )
-
-    // Subscribe to stars changes in users table
-    .on(
-      'postgres_changes',
-      {
-        event: 'UPDATE',
-        schema: 'public',
-        table: 'users',
-        filter: `id=eq.${userId}`
-      },
-      (payload) => {
-        console.log('Stars updated:', payload);
-        onStarsChange?.(payload.new.stars);
-      }
-    )
-
-    // Subscribe to inventory changes
-    .on(
-      'postgres_changes',
-      {
-        event: 'INSERT',
-        schema: 'public',
-        table: 'user_inventory',
-        filter: `user_id=eq.${userId}`
-      },
-      (payload) => {
-        console.log('Inventory updated:', payload);
-        onInventoryChange?.(payload.new);
-      }
-    )
-
     .subscribe();
+
+  return channel;
+}
+
+export async function activateItem(userId, itemId) {
+  // 1. Get the selected item's details (including type from shop_items) from user_inventory
+  const { data: selected, error: selectError } = await supabase
+    .from('user_inventory')
+    .select('id, item_id, shop_items(type), is_active')
+    .eq('item_id', itemId) // use item_id as stored in user_inventory (which equals shop_items.id)
+    .eq('user_id', userId)
+    .single();
+
+  if (selectError || !selected) {
+    console.error('Error getting selected item:', selectError);
+    return;
+  }
+
+  const itemType = selected.shop_items.type;
+
+  // 2. Get all inventory records for this user (with joined shop_items data)
+  const { data: allItems, error: fetchError } = await supabase
+    .from('user_inventory')
+    .select('id, item_id, shop_items(type), is_active')
+    .eq('user_id', userId);
+
+  if (fetchError || !allItems) {
+    console.error('Error fetching inventory for deactivation:', fetchError);
+    return;
+  }
+
+  // 3. Filter to get the IDs of all items of the same type
+  const sameTypeItemIds = allItems
+    .filter((entry) => entry.shop_items?.type === itemType)
+    .map((i) => i.id);
+
+  // 4. Deactivate all items of that type for this user
+  if (sameTypeItemIds.length > 0) {
+    const { error: deactivationError } = await supabase
+      .from('user_inventory')
+      .update({ is_active: false })
+      .in('id', sameTypeItemIds);
+    if (deactivationError) {
+      console.error('Error deactivating items:', deactivationError);
+      return;
+    }
+  }
+
+  // 5. Activate the selected item
+  const { error: activateError } = await supabase
+    .from('user_inventory')
+    .update({ is_active: true })
+    .eq('item_id', itemId) // update based on the stored shop item id
+    .eq('user_id', userId);
+
+  if (activateError) {
+    console.error('Error activating item:', activateError);
+    return;
+  }
+
+  // 6. Alert user upon successful activation
+  alert('Item has been successfully activated!');
 }

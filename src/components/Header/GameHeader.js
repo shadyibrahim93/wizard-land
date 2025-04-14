@@ -9,61 +9,48 @@ const HeaderContent = ({
   userId,
   onSignIn,
   onLogout,
-  showShop
+  showShop,
+  showInventory
 }) => {
   return (
     <header>
       <div className='mq-header-container'>
-        {homePage && (
-          <>
-            <MenuItem
-              imgSrc='shop.png'
-              onHoverImgSrc='shop_active.png'
-              onClick={showShop}
-              title='SHOP'
-            />
-            <MenuItem
-              imgSrc='inventory.png'
-              onHoverImgSrc='inventory_active.png'
-              showModal={undefined}
-              title='INVENTORY'
-            />
-          </>
-        )}
-        {backTarget && (
-          <Link
-            to={backTarget}
-            className='mq-back-arrow'
-          >
-            ← Games
-          </Link>
-        )}
-        <h1>{title}</h1>
-        {!homePage && <h2 className='mq-level'>Level {level}</h2>}
-        {homePage && (
+        <>
           <MenuItem
-            imgSrc='about.png'
-            onHoverImgSrc='about_active.png'
-            onClick={undefined}
-            title='ABOUT'
+            imgSrc='shop.png'
+            onHoverImgSrc='shop_active.png'
+            onClick={showShop}
+            title='SHOP'
+          />
+          <MenuItem
+            imgSrc='inventory.png'
+            onHoverImgSrc='inventory_active.png'
+            onClick={showInventory}
+            title='INVENTORY'
+          />
+        </>
+        <h1>{title}</h1>
+        <MenuItem
+          imgSrc='about.png'
+          onHoverImgSrc='about_active.png'
+          onClick={undefined}
+          title='ABOUT'
+        />
+        {userId ? (
+          <MenuItem
+            imgSrc='logout.png'
+            onHoverImgSrc='logout_active.png'
+            onClick={onLogout}
+            title='LOGOUT'
+          />
+        ) : (
+          <MenuItem
+            imgSrc='login.png'
+            onHoverImgSrc='login_active.png'
+            onClick={onSignIn}
+            title='LOGIN'
           />
         )}
-        {homePage &&
-          (userId ? (
-            <MenuItem
-              imgSrc='logout.png'
-              onHoverImgSrc='logout_active.png'
-              onClick={onLogout}
-              title='LOGOUT'
-            />
-          ) : (
-            <MenuItem
-              imgSrc='login.png'
-              onHoverImgSrc='login_active.png'
-              onClick={onSignIn}
-              title='LOGIN'
-            />
-          ))}
       </div>
     </header>
   );

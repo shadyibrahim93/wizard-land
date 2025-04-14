@@ -1,6 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { activateItem } from '../../apiService';
+import Button from '../Button';
 
-const ShopItem = ({ item, onActivate }) => {
+const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
+  const handleEquip = async () => {
+    if (!userId || !item?.id) return;
+
+    await activateItem(userId, item.id);
+    refreshInventory?.(); // optional callback to refresh UI after activation
+  };
+
   return (
     <div className='mq-modal-item'>
       {item.image && (
@@ -12,14 +21,15 @@ const ShopItem = ({ item, onActivate }) => {
       )}
 
       {item.emoji && <span className='mq-piece'>{item.emoji}</span>}
-      <button
-        onClick={() => onActivate(item)}
+
+      <Button
+        onClick={handleEquip}
         className='mq-btn'
-      >
-        Activate
-      </button>
+        isDisabled={isActive}
+        text={isActive ? 'Active' : 'Equip'} // Disable button if the item is active
+      ></Button>
     </div>
   );
 };
 
-export default ShopItem;
+export default InventoryItem;
