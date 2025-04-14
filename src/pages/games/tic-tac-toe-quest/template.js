@@ -105,6 +105,7 @@ const Game = () => {
   };
 
   const calculateWinner = (squares) => {
+    console.log(squares);
     const lines = [
       [0, 1, 2],
       [3, 4, 5],
@@ -159,6 +160,8 @@ const Game = () => {
 
       if (isBoardFull(newBoard)) {
         setWinner(null); // It's a draw
+        setShowTitle(true);
+        handleRestart();
         return;
       }
 
@@ -389,7 +392,7 @@ const Game = () => {
     winner === null && isBoardFull(board)
       ? "It's a Draw!"
       : winner
-      ? `${winner === player1 ? 'Fire' : 'Ice'} wins!`
+      ? `${winner} wins!`
       : `Your Turn: ${currentTurn}`;
 
   return !startGame ? (
