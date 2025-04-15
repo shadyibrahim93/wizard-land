@@ -1,75 +1,108 @@
 import React, { useEffect, useState } from 'react';
 import {
   fetchAvailableRooms,
-  createRoomIfNeeded,
-  joinRoom
+  createRoom,
+  joinRoom,
+  subscribeToNewRooms,
+  supabase
 } from '../../apiService';
 import Button from '../Button';
 import useUser from '../../hooks/useUser';
 
-const MultiplayerModal = ({ isOpen, gameId, onClose, onStartGame }) => {
+const MultiplayerModal = ({ gameId, onStartGame, setGameMode }) => {
   const { userId, loading } = useUser();
   const [gameRooms, setGameRooms] = useState([]);
+  const [noRooms, setNoRooms] = useState(false);
 
   useEffect(() => {
-    if (isOpen && userId && !loading) {
-      const setupRooms = async () => {
-        const availableRooms = await fetchAvailableRooms(gameId);
-
-        if (availableRooms.length > 0) {
-          // Show the list for user to choose from
-          setGameRooms(availableRooms);
-        } else {
-          // No available rooms → create and auto-join
-          const newRoom = await createRoomIfNeeded(gameId, userId);
-          if (newRoom) {
-            onStartGame(newRoom); // immediately start game with new room
-            onClose();
-          }
-        }
-      };
-
-      setupRooms();
+    if (userId && !loading) {
+      showAvailableRooms();
     }
-  }, [isOpen, gameId, userId, loading]);
+  }, [gameId, userId, loading]);
+
+  // ✅ Subscribe to new rooms using API method
+  useEffect(() => {
+    const channel = subscribeToNewRooms(gameId, (newRoom) => {
+      setGameRooms((prevRooms) => {
+        const exists = prevRooms.some((room) => room.room === newRoom.room);
+        return exists ? prevRooms : [...prevRooms, newRoom];
+      });
+      setNoRooms(false);
+    });
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [gameId]);
+
+  const showAvailableRooms = async () => {
+    const availableRooms = await fetchAvailableRooms(gameId);
+    if (availableRooms.length > 0) {
+      setGameRooms(availableRooms);
+      setNoRooms(false);
+    } else {
+      setGameRooms([]);
+      setNoRooms(true);
+    }
+  };
+
+  const handleCreateAndJoinRoom = async () => {
+    const newRoom = await createRoom(gameId, userId);
+    if (newRoom) {
+      setGameMode('Multiplayer');
+      onStartGame(newRoom, userId);
+    }
+  };
 
   const handleJoinRoom = async (room) => {
     const joinedRoom = await joinRoom(room.room, userId);
     if (joinedRoom) {
-      onStartGame(joinedRoom);
-      onClose();
+      setGameMode('Multiplayer');
+      onStartGame(joinedRoom, userId);
     }
   };
 
-  if (!isOpen) return null;
+  const handlePractice = () => {
+    setGameMode('Single');
+    onStartGame({}, userId);
+  };
 
   return (
-    <div className='mq-modal-overlay mq-ending-title'>
-      <div className='mq-modal-content'>
-        <h2>Available Rooms</h2>
-        {gameRooms.length > 0 ? (
-          <ul>
-            {gameRooms.map((room) => (
-              <li key={room.room}>
-                <span>{room.room}</span>
-                <Button
-                  text='Join'
-                  onClick={() => handleJoinRoom(room)}
-                >
-                  Join
-                </Button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>Creating a new room...</p>
-        )}
+    <div className='mq-game-side-modal'>
+      <header>
+        <span>Multiplayer: Available Rooms</span>
+      </header>
+
+      {gameRooms.length > 0 ? (
+        <ul className='mq-rooms-list'>
+          {gameRooms.map((room) => (
+            <li
+              key={room.room}
+              className='mq-room'
+            >
+              <span>{room.room}</span>
+              <Button
+                text='Join'
+                onClick={() => handleJoinRoom(room)}
+              />
+            </li>
+          ))}
+        </ul>
+      ) : noRooms ? (
+        <p>No rooms available!</p>
+      ) : (
+        <p>Loading rooms...</p>
+      )}
+
+      <div className='mq-btns-container'>
         <Button
-          onClick={onClose}
-          text='Close'
-        >
-          Close
-        </Button>
+          onClick={handlePractice}
+          text='Practice'
+        />
+        <Button
+          onClick={handleCreateAndJoinRoom}
+          text='Create Room'
+        />
       </div>
     </div>
   );

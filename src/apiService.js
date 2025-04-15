@@ -384,36 +384,46 @@ export async function fetchAvailableRooms(gameId) {
   return data;
 }
 
-// ✅ Create a room if none are available, otherwise return an existing one
-export async function createRoomIfNeeded(gameId, userId) {
-  const availableRooms = await fetchAvailableRooms(gameId);
+export async function createRoom(gameId, userId) {
+  // Check if the user already has a room open as player1 and it's still active
+  const { data: existingRooms, error: checkError } = await supabase
+    .from('game_rooms')
+    .select('*')
+    .eq('game_id', gameId)
+    .eq('player1', userId);
 
-  if (availableRooms.length === 0) {
-    // No open rooms, so create one
-    const roomCode = Math.floor(10000 + Math.random() * 90000); // 5-digit room ID
-
-    const { data, error } = await supabase
-      .from('game_rooms')
-      .insert([
-        {
-          player1: userId,
-          game_id: gameId,
-          room: roomCode,
-          created_at: new Date().toISOString()
-        }
-      ])
-      .select(); // Return newly created room(s)
-
-    if (error) {
-      console.error('Error creating new room:', error);
-      return null;
-    }
-
-    return data[0]; // Return the first room object created
-  } else {
-    // Return the first available room
-    return availableRooms[0];
+  if (checkError) {
+    console.error('Error checking for existing rooms:', checkError);
+    return null;
   }
+
+  if (existingRooms.length > 0) {
+    // User already has a room created
+    return existingRooms[0];
+  }
+
+  // Create a new room if user doesn't have one
+  const roomCode = Math.floor(10000 + Math.random() * 90000); // 5-digit room ID
+
+  const { data, error } = await supabase
+    .from('game_rooms')
+    .insert([
+      {
+        player1: userId,
+        game_id: gameId,
+        room: roomCode,
+        created_at: new Date().toISOString()
+      }
+    ])
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error creating new room:', error);
+    return null;
+  }
+
+  return data;
 }
 
 // ✅ Join an available room by setting player2
@@ -806,3 +816,23 @@ export async function activateItem(userId, itemId) {
   // 6. Alert user upon successful activation
   alert('Item has been successfully activated!');
 }
+
+export const subscribeToNewRooms = (gameId, callback) => {
+  const channel = supabase
+    .channel(`room_updates_${gameId}`)
+    .on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'game_rooms',
+        filter: `game_id=eq.${gameId}`
+      },
+      (payload) => {
+        if (callback) callback(payload.new);
+      }
+    )
+    .subscribe();
+
+  return channel;
+};

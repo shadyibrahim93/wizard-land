@@ -12,7 +12,6 @@ const GameChat = ({ chatTitle, gameId }) => {
   const { userId, userName } = useUser();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  const [isMinimized, setIsMinimized] = useState(false);
 
   useEffect(() => {
     const fetchMessagesForRoom = async () => {
@@ -46,37 +45,32 @@ const GameChat = ({ chatTitle, gameId }) => {
   }, [messages]);
 
   return (
-    <div className='mq-game-chat mq-chat-wrapper'>
-      <header>{isMinimized ? '' : <span>{chatTitle}</span>}</header>
-      {!isMinimized && (
-        <div className='mq-messages'>
-          {messages.map((msg) => (
+    <div className='mq-game-side-modal mq-side-modal-wrapper'>
+      <header>
+        <span>{chatTitle}</span>
+      </header>
+      <div className='mq-messages'>
+        {messages.map((msg) => (
+          <div
+            className={`${msg.sender_name === userName ? 'mq-local-user' : ''}`}
+          >
+            <span className='mq-message--user'>
+              {msg.sender_name === userName ? 'You' : msg.sender_name}
+            </span>
             <div
-              className={`${
-                msg.sender_name === userName ? 'mq-local-user' : ''
-              }`}
+              key={msg.id ?? Math.random()}
+              className='mq-message'
             >
-              <span className='mq-message--user'>
-                {msg.sender_name === userName ? 'You' : msg.sender_name}
+              <span className='mq-message--messsage'>{msg.message}</span>
+              <span className='mq-message--date'>
+                {new Date(msg.created_at).toLocaleString()}
               </span>
-              <div
-                key={msg.id ?? Math.random()}
-                className='mq-message'
-              >
-                <span className='mq-message--messsage'>{msg.message}</span>
-                <span className='mq-message--date'>
-                  {new Date(msg.created_at).toLocaleString()}
-                </span>
-              </div>
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        ))}
+      </div>
 
-      <form
-        onSubmit={handleSendMessage}
-        style={{ display: isMinimized ? 'none' : 'flex' }}
-      >
+      <form onSubmit={handleSendMessage}>
         <input
           type='text'
           value={newMessage}

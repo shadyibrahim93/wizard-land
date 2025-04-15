@@ -38,7 +38,6 @@ const Game = () => {
   const [room, setRoom] = useState(null);
   const [opponentJoined, setOpponentJoined] = useState(false);
   const [opponentWins, setOpponentWins] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [channels, setChannels] = useState([]);
   const { userId, userName } = useUser();
   const player1Symbol = useSelectedPiece(player1 || userId, '🔥');
@@ -105,7 +104,6 @@ const Game = () => {
   };
 
   const calculateWinner = (squares) => {
-    console.log(squares);
     const lines = [
       [0, 1, 2],
       [3, 4, 5],
@@ -304,73 +302,74 @@ const Game = () => {
     setPlayerWins(0);
   };
 
-  const onSecondButtonClick = () => {
-    setGameMode('Multiplayer');
-    setIsModalOpen(true);
-  };
-
   const onStartGame = async (roomData) => {
-    // Set room and players first
-    setRoom(roomData);
-    setPlayer1(roomData.player1);
-    setPlayer2(roomData.player2);
+    if (roomData && roomData.room) {
+      // Multiplayer logic
+      setRoom(roomData);
+      setPlayer1(roomData.player1);
+      setPlayer2(roomData.player2);
+      setGameMode('Multiplayer');
+      setStartGame(true);
+      setCurrentMultiplayerTurn(roomData.player1);
+      setOpponentJoined(!!roomData.player1 && !!roomData.player2);
 
-    setGameMode('Multiplayer');
-    setStartGame(true);
-    setCurrentMultiplayerTurn(roomData.player1);
-    setOpponentJoined(!!roomData.player1 && !!roomData.player2);
+      const opponentChannel = subscribeToOpponentJoin(
+        roomData.room,
+        (updatedRoom) => {
+          setPlayer1(updatedRoom.player1);
+          setPlayer2(updatedRoom.player2);
+          setOpponentJoined(!!updatedRoom.player1 && !!updatedRoom.player2);
 
-    const opponentChannel = subscribeToOpponentJoin(
-      roomData.room,
-      (updatedRoom) => {
-        // Use functional updates to ensure we have latest state
-        setPlayer1(updatedRoom.player1);
-        setPlayer2(updatedRoom.player2);
-        setOpponentJoined(!!updatedRoom.player1 && !!updatedRoom.player2);
-
-        // Check board state directly rather than relying on closure
-        const currentBoard = board; // This might still be stale - better solution below
-        if (
-          updatedRoom.player1 &&
-          updatedRoom.player2 &&
-          currentBoard.every((square) => square === null)
-        ) {
-          updateBoardState(
-            roomData.room,
-            Array(9).fill(null),
-            gameId,
-            updatedRoom.player1 // Use the updated player1 value
-          );
+          const currentBoard = board;
+          if (
+            updatedRoom.player1 &&
+            updatedRoom.player2 &&
+            currentBoard.every((square) => square === null)
+          ) {
+            updateBoardState(
+              roomData.room,
+              Array(9).fill(null),
+              gameId,
+              updatedRoom.player1
+            );
+          }
         }
-      }
-    );
+      );
 
-    const boardChannel = subscribeToBoardUpdates(roomData.room, (gameState) => {
-      if (gameState.board_state) {
-        setBoard(gameState.board_state);
-      }
-      if (
-        gameState.current_turn !== undefined &&
-        gameState.current_turn !== null
-      ) {
-        setCurrentMultiplayerTurn(gameState.current_turn);
-      }
-      if (gameState.winner) {
-        setWinner(gameState.winner);
-      }
-      if (
-        gameState.board_state &&
-        isBoardFull(gameState.board_state) &&
-        !gameState.winner
-      ) {
-        setShowTitle(true);
-        setTimeout(() => {
-          setShowTitle(false);
-        }, 2000);
-      }
-    });
+      const boardChannel = subscribeToBoardUpdates(
+        roomData.room,
+        (gameState) => {
+          if (gameState.board_state) {
+            setBoard(gameState.board_state);
+          }
+          if (
+            gameState.current_turn !== undefined &&
+            gameState.current_turn !== null
+          ) {
+            setCurrentMultiplayerTurn(gameState.current_turn);
+          }
+          if (gameState.winner) {
+            setWinner(gameState.winner);
+          }
+          if (
+            gameState.board_state &&
+            isBoardFull(gameState.board_state) &&
+            !gameState.winner
+          ) {
+            setShowTitle(true);
+            setTimeout(() => {
+              setShowTitle(false);
+            }, 2000);
+          }
+        }
+      );
 
-    setChannels([opponentChannel, boardChannel]);
+      setChannels([opponentChannel, boardChannel]);
+    } else {
+      // Single player fallback logic
+      setGameMode('Single');
+      setStartGame(true);
+    }
   };
 
   // Add cleanup for channels in useEffect
@@ -414,20 +413,10 @@ const Game = () => {
 
   return !startGame ? (
     <>
-      <GameIntro
-        introText={introText}
-        onStart={() => {
-          setGameMode('Single');
-          setStartGame(true);
-        }}
-        firstButtonText='Single Player'
-        onSecondButtonClick={onSecondButtonClick}
-        secondButtonText='Multiplayer'
-      />
+      <GameIntro introText={introText} />
       <MultiplayerModal
-        isOpen={isModalOpen}
         gameId={gameId}
-        onClose={() => setIsModalOpen(false)}
+        setGameMode={setGameMode}
         onStartGame={(roomData, playerId) => onStartGame(roomData, playerId)}
       />
     </>
@@ -446,6 +435,7 @@ const Game = () => {
       >
         <div className='mq-score-container'>
           <span className='mq-score-player'>Fire: {playerWins}</span>
+          <span className='mq-room-number'>{room && room.room}</span>
           <span className='mq-score-computer'>
             Ice: {gameMode === 'Multiplayer' ? opponentWins : computerWins}
           </span>

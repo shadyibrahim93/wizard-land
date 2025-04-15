@@ -3,6 +3,7 @@ import useLevelProgression from '../../hooks/useLevelProgression';
 import { useEffect, useState } from 'react';
 import { playBGMusic } from '../../hooks/useSound';
 import GameChat from '../chatRoom';
+import MultiplayerModal from '../../components/generalModals/multiplayerModal';
 
 const GameStart = ({ title, GameComponent, gameClass, gameId, chatTitle }) => {
   const [maxLevel, setMaxLevel] = useState(); // Default max level

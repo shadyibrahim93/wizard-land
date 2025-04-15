@@ -37,10 +37,12 @@ const GameIntro = ({
         dangerouslySetInnerHTML={{ __html: formattedText }}
       ></div>
       <div className='mq-btns-container'>
-        <Button
-          text={firstButtonText}
-          onClick={handleFirstButtonClick}
-        />
+        {onStart && (
+          <Button
+            text={firstButtonText}
+            onClick={handleFirstButtonClick}
+          />
+        )}
         {secondButtonText && onSecondButtonClick && (
           <Button
             text={secondButtonText}

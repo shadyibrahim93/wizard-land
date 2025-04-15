@@ -19,7 +19,7 @@
 
   // Slight bounce effect on hover
   &:hover {
-    background-color: $light-overlay-hover;
+    background-color: $secondary-color;
     transform: scale(1.05);
     animation: ninjaSlash 0.3s ease-out;
     cursor: pointer;
