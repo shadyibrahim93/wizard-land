@@ -54,7 +54,6 @@ const Game = () => {
         setShowTitle(true);
 
         if (gameMode === 'Multiplayer') {
-          console.log('userId', userId, 'winner', winner);
           if (player1 === winner) {
             setPlayerWins(playerWins + 1);
           } else if (player2 === winner) {
@@ -72,6 +71,7 @@ const Game = () => {
 
         setTimeout(() => {
           handleRestart();
+          setShowTitle(false);
         }, 3500);
       }
     };
@@ -159,9 +159,12 @@ const Game = () => {
       }
 
       if (isBoardFull(newBoard)) {
-        setWinner(null); // It's a draw
-        setShowTitle(true);
-        handleRestart();
+        updateBoardState(room.room, newBoard, gameId, null, null);
+        setWinner(null);
+        setGameOver(true);
+        setTimeout(() => {
+          handleRestart();
+        }, 2000);
         return;
       }
 
@@ -182,7 +185,6 @@ const Game = () => {
       setBoard(newBoard);
 
       const multiplayerWinner = calculateWinner(newBoard);
-      console.log(multiplayerWinner);
       const nextTurn = userId === player1 ? player2 : player1;
 
       // Update turn immediately for responsiveness
@@ -201,8 +203,13 @@ const Game = () => {
       }
 
       if (isBoardFull(newBoard)) {
-        updateBoardState(room.room, newBoard, gameId, null, null);
+        updateBoardState(room.room, newBoard, gameId, null, multiplayerWinner);
         setWinner(null);
+        setGameOver(true);
+        setTimeout(() => {
+          handleRestart();
+        }, 2000);
+
         return;
       }
 
@@ -351,6 +358,16 @@ const Game = () => {
       if (gameState.winner) {
         setWinner(gameState.winner);
       }
+      if (
+        gameState.board_state &&
+        isBoardFull(gameState.board_state) &&
+        !gameState.winner
+      ) {
+        setShowTitle(true);
+        setTimeout(() => {
+          setShowTitle(false);
+        }, 2000);
+      }
     });
 
     setChannels([opponentChannel, boardChannel]);
@@ -393,7 +410,7 @@ const Game = () => {
       ? "It's a Draw!"
       : winner
       ? `${winner} wins!`
-      : `Your Turn: ${currentTurn}`;
+      : `Opponent Turn`;
 
   return !startGame ? (
     <>
