@@ -37,7 +37,7 @@ const Game = () => {
   const [currentMultiplayerTurn, setCurrentMultiplayerTurn] = useState(null); // Track the current turn
   const [computerStarts, setComputerStarts] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [gameId, setGameId] = useState(9);
+  const [gameId, setGameId] = useState(4);
   const [player1, setPlayer1] = useState(null);
   const [player2, setPlayer2] = useState(null);
   const [room, setRoom] = useState(null);
