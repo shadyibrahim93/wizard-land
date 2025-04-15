@@ -159,9 +159,9 @@ const Game = () => {
       }
 
       if (isBoardFull(newBoard)) {
-        updateBoardState(room.room, newBoard, gameId, null, null);
         setWinner(null);
         setGameOver(true);
+        setShowTitle(true);
         setTimeout(() => {
           handleRestart();
         }, 2000);
