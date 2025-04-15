@@ -117,6 +117,7 @@ export default function Home() {
           <h2 className='mq-section-title mq-section-title--multiplayer'>
             ⚔️ Multiplayer Games
           </h2>
+          <hr></hr>
           <div className='mq-cards-grid'>
             {multiplayerGames.map((game, index) => (
               <GameCards
@@ -129,11 +130,11 @@ export default function Home() {
             ))}
           </div>
         </section>
-
         <section>
           <h2 className='mq-section-title mq-section-title--solo'>
             🗡️ Solo Games
           </h2>
+          <hr></hr>
           <div className='mq-cards-grid'>
             {singleplayerGames.map((game, index) => (
               <GameCards
