@@ -546,22 +546,16 @@ body {
       transition: background-color 0.3s ease, box-shadow 0.3s ease;
       border-radius: 20px;
 
+      @import './pieces';
+
       &:hover {
         background-color: $light-overlay-hover;
         color: $secondary-color;
         box-shadow: 0 0 10px rgba($primary-color, 0.8);
       }
 
-      &.#{$identifier}-x {
-        background-color: $light-overlay;
-        color: $secondary-color;
-        box-shadow: 0 0 5px rgba($primary-color, 0.8);
-      }
-
-      &.#{$identifier}-o {
-        background-color: $light-overlay;
-        color: $white;
-        box-shadow: 0 0 5px rgba($primary-color, 0.8);
+      img {
+        width: 60px;
       }
 
       span {
@@ -859,6 +853,10 @@ body {
             &:not(:has(.#{$identifier}-piece-image)) {
               padding-left: 2px;
             }
+
+            img {
+              width: 45px;
+            }
           }
 
           .#{$identifier}-btn {
@@ -1002,6 +1000,10 @@ body {
                   width: 40px;
                   height: 40px;
                   font-size: 21px;
+
+                  img {
+                    width: 30px;
+                  }
                 }
 
                 .#{$identifier}-modal-price {

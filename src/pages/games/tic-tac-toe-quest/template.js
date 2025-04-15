@@ -124,10 +124,10 @@ const Game = () => {
         playNextLevel();
         triggerConfetti();
         if (gameMode === 'Multiplayer') {
-          return squares[a] === player1Symbol ? player1 : player2;
+          return squares[a] === player1Symbol.key ? player1 : player2;
         }
 
-        return squares[a] === player1Symbol ? 'Fire' : 'Ice'; // Use Fire/Ice
+        return squares[a] === player1Symbol.key ? 'Fire' : 'Ice'; // Use Fire/Ice
       }
     }
     return null;
@@ -147,7 +147,7 @@ const Game = () => {
       if (currentTurn !== 'Fire') return;
 
       const newBoard = [...board];
-      newBoard[index] = player1Symbol; // Always Fire in Single mode for player
+      newBoard[index] = player1Symbol.key; // Always Fire in Single mode for player
       setBoard(newBoard);
 
       const userWinner = calculateWinner(newBoard);
@@ -179,7 +179,8 @@ const Game = () => {
       }
 
       const newBoard = [...board];
-      newBoard[index] = userId === player1 ? player1Symbol : player2Symbol;
+      newBoard[index] =
+        userId === player1 ? player1Symbol.key : player2Symbol.key;
       setBoard(newBoard);
 
       const multiplayerWinner = calculateWinner(newBoard);
@@ -235,7 +236,7 @@ const Game = () => {
         return;
       }
 
-      const blockingMove = findBestMove(newBoard, player1Symbol);
+      const blockingMove = findBestMove(newBoard, player1Symbol.key);
       if (blockingMove !== null) {
         newBoard[blockingMove] = '❄️';
         setBoard(newBoard);
@@ -464,22 +465,38 @@ const Game = () => {
           {board.map((square, index) => (
             <div
               key={index}
-              className={`mq-square ${
-                square ? `mq-${square === player1Symbol ? 'Fire' : 'Ice'}` : ''
-              } ${!square && hoveredIndex === index ? 'mq-preview' : ''}`}
+              className={`mq-square 
+                      ${
+                        square
+                          ? `mq-${
+                              square === player1Symbol.key
+                                ? player1Symbol.key
+                                : square === player2Symbol.key
+                                ? player2Symbol.key
+                                : 'ice'
+                            }`
+                          : ''
+                      } 
+                      ${!square && hoveredIndex === index ? 'mq-preview' : ''} 
+                      ${
+                        (square === player1Symbol.key &&
+                          !player1Symbol.display) ||
+                        (square === player2Symbol.key && !player2Symbol.display)
+                          ? 'mq-image'
+                          : ''
+                      }`}
               onClick={() => handleClick(index)}
               onMouseEnter={() => setHoveredIndex(index)} // Track hover
               onMouseLeave={() => setHoveredIndex(null)} // Remove hover effect
             >
               {square}
-              {gameMode === 'Single' ? (
-                <span>{player1Symbol}</span>
-              ) : gameMode === 'Multiplayer' &&
-                currentMultiplayerTurn === player1 ? (
-                <span>{player1Symbol}</span>
-              ) : (
-                <span>{player2Symbol}</span>
-              )}
+              <span>
+                {gameMode === 'Single' ||
+                (gameMode === 'Multiplayer' &&
+                  currentMultiplayerTurn === player1)
+                  ? player1Symbol.display || player1Symbol.image
+                  : player2Symbol.display || player2Symbol.image}
+              </span>
             </div>
           ))}
         </div>

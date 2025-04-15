@@ -12,15 +12,15 @@ const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
 
   return (
     <div className='mq-modal-item'>
-      {item.image && (
-        <img
-          src={item.image}
-          alt={item.name}
-          className='mq-piece mq-piece-image'
-        />
-      )}
-
-      {item.emoji && <span className='mq-piece'>{item.emoji}</span>}
+      <span className='mq-piece'>
+        {item.emoji && item.emoji}
+        {item.image_url && (
+          <img
+            src={`wizard-land/assets/elements/board_pieces/${item.image_url}`}
+            alt={`Board Piece - ${item.className}`}
+          />
+        )}
+      </span>
 
       <Button
         onClick={handleEquip}

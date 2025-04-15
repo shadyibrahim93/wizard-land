@@ -44,8 +44,15 @@ const ShopItem = ({ item, purchased }) => {
         />
       )}
 
-      {item.emoji && <span className='mq-piece'>{item.emoji}</span>}
-
+      <span className='mq-piece'>
+        {item.emoji && item.emoji}
+        {item.image_url && (
+          <img
+            src={`wizard-land/assets/elements/board_pieces/${item.image_url}`}
+            alt={`Board Piece - ${item.className}`}
+          />
+        )}
+      </span>
       <p className='mq-modal-price'>
         <img src='wizard-land/assets/elements/star_single.png' />
         {item.stars}

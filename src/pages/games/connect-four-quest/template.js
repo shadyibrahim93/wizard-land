@@ -123,9 +123,9 @@ const Game = () => {
           if (winnerSymbol) {
             if (gameMode === 'Multiplayer') {
               // Return player1 or player2 ID based on the symbol
-              return winnerSymbol === player1Symbol ? player1 : player2;
+              return winnerSymbol === player1Symbol.key ? player1 : player2;
             } else {
-              return winnerSymbol === player1Symbol ? 'Fire' : 'Ice';
+              return winnerSymbol === player1Symbol.key ? 'Fire' : 'Ice';
             }
           }
         }
@@ -165,14 +165,14 @@ const Game = () => {
     if (gameMode === 'Single') {
       if (currentTurn !== 'Fire') return;
 
-      newBoard[placedRow][col] = player1Symbol;
+      newBoard[placedRow][col] = player1Symbol.key;
       setBoard(newBoard);
 
       const currentWinner = calculateWinner(newBoard);
       if (currentWinner) {
-        setWinner(currentWinner);
         playNextLevel();
         triggerConfetti();
+        setWinner(currentWinner);
         return;
       }
 
@@ -199,7 +199,8 @@ const Game = () => {
         return;
       }
 
-      const playerSymbol = userId === player1 ? player1Symbol : player2Symbol;
+      const playerSymbol =
+        userId === player1 ? player1Symbol.key : player2Symbol.key;
       newBoard[placedRow][col] = playerSymbol;
       setBoard(newBoard);
 
@@ -210,6 +211,8 @@ const Game = () => {
 
       if (multiplayerWinner) {
         setWinner(multiplayerWinner);
+        playNextLevel();
+        triggerConfetti();
         updateBoardState(room.room, newBoard, gameId, null, multiplayerWinner);
         return;
       }
@@ -265,7 +268,7 @@ const Game = () => {
         }
       }
 
-      const blockingMove = checkForWinOrBlock(player1Symbol);
+      const blockingMove = checkForWinOrBlock(player1Symbol.key);
       if (blockingMove !== null) {
         for (let row = 5; row >= 0; row--) {
           if (!newBoard[row][blockingMove]) {
@@ -500,11 +503,24 @@ const Game = () => {
               <div
                 key={`${rowIndex}-${colIndex}`}
                 className={`mq-square ${
-                  cell ? `mq-${cell === player1Symbol ? 'Fire' : 'Ice'}` : ''
-                } ${
+                  cell
+                    ? `mq-${
+                        cell === player1Symbol.key
+                          ? player1Symbol.key
+                          : cell === player2Symbol.key
+                          ? player2Symbol.key
+                          : 'ice'
+                      }`
+                    : ''
+                }  ${
                   hoveredColumn === colIndex &&
                   rowIndex === getLowestOpenRow(colIndex)
                     ? 'mq-preview' // Ice's turn preview (only in Multiplayer mode)
+                    : ''
+                } ${
+                  (cell === player1Symbol.key && !player1Symbol.display) ||
+                  (cell === player2Symbol.key && !player2Symbol.display)
+                    ? 'mq-image'
                     : ''
                 }`}
                 onClick={() => handleClick(colIndex)}
@@ -513,9 +529,11 @@ const Game = () => {
               >
                 {cell}
                 <span>
-                  {gameMode === 'Single' || currentMultiplayerTurn === player1
-                    ? player1Symbol
-                    : player2Symbol}
+                  {gameMode === 'Single' ||
+                  (gameMode === 'Multiplayer' &&
+                    currentMultiplayerTurn === player1)
+                    ? player1Symbol.display || player1Symbol.image
+                    : player2Symbol.display || player2Symbol.image}
                 </span>
               </div>
             ))

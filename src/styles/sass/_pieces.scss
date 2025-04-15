@@ -1,0 +1,19 @@
+&.#{$identifier} {
+  &-image {
+    font-size: 0 !important;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-size: 60px;
+    background-position: center;
+    @media (max-width: 480px) {
+      background-size: 25px;
+    }
+  }
+  &-angry {
+    background-image: url('../../assets/images/elements/board_pieces/angry.gif');
+  }
+
+  &-fire {
+    background-image: url('../../assets/images/elements/board_pieces/fire.gif');
+  }
+}
