@@ -1,0 +1,13 @@
+.#{$identifier}-tic-tac-toe-game {
+  .#{$identifier}-global-container {
+    .#{$identifier}-square {
+      &.#{$identifier} {
+        &-image {
+          @media (max-width: 768px) {
+            background-size: 50px;
+          }
+        }
+      }
+    }
+  }
+}

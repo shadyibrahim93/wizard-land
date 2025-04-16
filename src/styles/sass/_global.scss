@@ -863,10 +863,7 @@ body {
             align-items: center;
             font-size: 36px;
             animation: glowIce 4s infinite alternate;
-
-            &:not(:has(.#{$identifier}-piece-image)) {
-              padding-left: 2px;
-            }
+            padding-left: 2px;
 
             img {
               width: 45px;
