@@ -1,22 +1,18 @@
 {
   "files": {
-    "main.css": "/wizard-land/static/css/main.9cd59b41.css",
-    "main.js": "/wizard-land/static/js/main.800c4a0c.js",
+    "main.css": "/wizard-land/static/css/main.1a7c57b7.css",
+    "main.js": "/wizard-land/static/js/main.5e11b15d.js",
     "static/js/952.406e2d23.chunk.js": "/wizard-land/static/js/952.406e2d23.chunk.js",
     "static/media/angry.gif": "/wizard-land/static/media/angry.ae52afe8bfc633f3017a.gif",
     "static/media/iceKing.gif": "/wizard-land/static/media/iceKing.050d445adf4e0755dcfc.gif",
-    "static/media/flirt.gif": "/wizard-land/static/media/flirt.06601984710b4848d3c3.gif",
     "static/media/ice.gif": "/wizard-land/static/media/ice.c9ff3188179e16bd39d4.gif",
-    "static/media/sleepy.gif": "/wizard-land/static/media/sleepy.076983822d4c8572c94f.gif",
     "static/media/fireKing.gif": "/wizard-land/static/media/fireKing.163a453176b8af04a095.gif",
     "static/media/fire.gif": "/wizard-land/static/media/fire.d573202f0ef7c6a5d57c.gif",
     "static/media/scramble_quest.jpg": "/wizard-land/static/media/scramble_quest.7d612e84dde87589b6b4.jpg",
-    "static/media/poo.gif": "/wizard-land/static/media/poo.a9906246c63aad4953fe.gif",
     "static/media/math_quest.jpg": "/wizard-land/static/media/math_quest.7266202028f17e9b699b.jpg",
     "static/media/personal_puzzle_quest.jpg": "/wizard-land/static/media/personal_puzzle_quest.a1ea3b3b3549e008f271.jpg",
     "static/media/connect_four_quest.jpg": "/wizard-land/static/media/connect_four_quest.fb16b3aafc58e14383c8.jpg",
     "static/media/sudoku_quest.jpg": "/wizard-land/static/media/sudoku_quest.55508d7bc3fbfa41068a.jpg",
-    "static/media/wind.gif": "/wizard-land/static/media/wind.744d899bb7cb8a267ecf.gif",
     "static/media/puzzle_quest.jpg": "/wizard-land/static/media/puzzle_quest.0f05dc34cb4ae1ff1a20.jpg",
     "static/media/match_quest.jpg": "/wizard-land/static/media/match_quest.6dd14f93cb820246f7dc.jpg",
     "static/media/checker_quest.jpg": "/wizard-land/static/media/checker_quest.299297c4a009d6775916.jpg",
@@ -36,12 +32,12 @@
     "static/media/MagicalFull.otf": "/wizard-land/static/media/MagicalFull.252ecf326a2d31201a87.otf",
     "static/media/cursor.cur": "/wizard-land/static/media/cursor.2c46f5bc85e30429f077.cur",
     "index.html": "/wizard-land/index.html",
-    "main.9cd59b41.css.map": "/wizard-land/static/css/main.9cd59b41.css.map",
-    "main.800c4a0c.js.map": "/wizard-land/static/js/main.800c4a0c.js.map",
+    "main.1a7c57b7.css.map": "/wizard-land/static/css/main.1a7c57b7.css.map",
+    "main.5e11b15d.js.map": "/wizard-land/static/js/main.5e11b15d.js.map",
     "952.406e2d23.chunk.js.map": "/wizard-land/static/js/952.406e2d23.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9cd59b41.css",
-    "static/js/main.800c4a0c.js"
+    "static/css/main.1a7c57b7.css",
+    "static/js/main.5e11b15d.js"
   ]
 }
