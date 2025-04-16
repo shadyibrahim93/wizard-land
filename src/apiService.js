@@ -822,7 +822,7 @@ export async function activateItem(userId, itemId) {
   alert('Item has been successfully activated!');
 }
 
-export const subscribeToNewRooms = (gameId, callback) => {
+export const subscribeToRoomChanges = (gameId, onInsert, onDelete) => {
   const channel = supabase
     .channel(`room_updates_${gameId}`)
     .on(
@@ -834,7 +834,19 @@ export const subscribeToNewRooms = (gameId, callback) => {
         filter: `game_id=eq.${gameId}`
       },
       (payload) => {
-        if (callback) callback(payload.new);
+        if (onInsert) onInsert(payload.new);
+      }
+    )
+    .on(
+      'postgres_changes',
+      {
+        event: 'DELETE',
+        schema: 'public',
+        table: 'game_rooms',
+        filter: `game_id=eq.${gameId}`
+      },
+      (payload) => {
+        if (onDelete) onDelete(payload.old);
       }
     )
     .subscribe();

@@ -3,7 +3,7 @@ import {
   fetchAvailableRooms,
   createRoom,
   joinRoom,
-  subscribeToNewRooms,
+  subscribeToRoomChanges,
   supabase
 } from '../../apiService';
 import Button from '../Button';
@@ -22,13 +22,23 @@ const MultiplayerModal = ({ gameId, onStartGame, setGameMode }) => {
 
   // ✅ Subscribe to new rooms using API method
   useEffect(() => {
-    const channel = subscribeToNewRooms(gameId, (newRoom) => {
-      setGameRooms((prevRooms) => {
-        const exists = prevRooms.some((room) => room.room === newRoom.room);
-        return exists ? prevRooms : [...prevRooms, newRoom];
-      });
-      setNoRooms(false);
-    });
+    const channel = subscribeToRoomChanges(
+      gameId,
+      (newRoom) => {
+        // Handle INSERT
+        setGameRooms((prevRooms) => {
+          const exists = prevRooms.some((room) => room.room === newRoom.room);
+          return exists ? prevRooms : [...prevRooms, newRoom];
+        });
+        setNoRooms(false);
+      },
+      (deletedRoom) => {
+        // Handle DELETE
+        setGameRooms((prevRooms) =>
+          prevRooms.filter((room) => room.room !== deletedRoom.room)
+        );
+      }
+    );
 
     return () => {
       supabase.removeChannel(channel);
