@@ -751,6 +751,8 @@ body {
       max-height: 70%;
       border-radius: 20px;
       animation: glowIce 4s infinite alternate;
+      transform: translateZ(0);
+
       .#{$identifier}-modal-category {
         padding: 24px 24px 46px 24px;
         background-color: #4bd0fb12;
