@@ -11,7 +11,7 @@ const useSelectedItems = (userId) => {
     const fetchSelectedItems = async () => {
       const { data, error } = await supabase
         .from('user_inventory')
-        .select('*, shop_items(*)')
+        .select('*, shop_items!user_inventory_item_id_fkey(*)')
         .eq('user_id', userId)
         .eq('is_active', true);
 

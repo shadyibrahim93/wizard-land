@@ -1,7 +1,7 @@
 import { updateUserGameProgress } from '../apiService';
 
-export async function handleMultiplayerWin(userId, winner, difficulty) {
-  if (!userId || !winner || !difficulty) return;
+export async function handleMultiplayerWin(userId, difficulty) {
+  if (!userId || !difficulty) return;
 
   let exp = 0;
   let stars = 0;
@@ -24,9 +24,15 @@ export async function handleMultiplayerWin(userId, winner, difficulty) {
       return;
   }
 
-  const success = await updateUserGameProgress(userId, stars, exp);
+  try {
+    const success = await updateUserGameProgress(userId, stars, exp);
 
-  if (!success) {
-    console.error('Failed to update user progress');
+    if (!success) {
+      throw new Error(`Failed to update stars for user ${userId}`);
+    }
+  } catch (error) {
+    console.error(error.message);
+    // You can rethrow the error or handle it accordingly
+    throw error;
   }
 }

@@ -807,7 +807,7 @@ export async function activateItem(userId, itemId) {
   // 1. Get the selected item's details (including type from shop_items) from user_inventory
   const { data: selected, error: selectError } = await supabase
     .from('user_inventory')
-    .select('id, item_id, shop_items(type), is_active')
+    .select('id, item_id, shop_items!user_inventory_item_id_fkey(*), is_active') // specify the correct relationship
     .eq('item_id', itemId) // use item_id as stored in user_inventory (which equals shop_items.id)
     .eq('user_id', userId)
     .single();
@@ -822,7 +822,7 @@ export async function activateItem(userId, itemId) {
   // 2. Get all inventory records for this user (with joined shop_items data)
   const { data: allItems, error: fetchError } = await supabase
     .from('user_inventory')
-    .select('id, item_id, shop_items(type), is_active')
+    .select('id, item_id, shop_items!user_inventory_item_id_fkey(*), is_active') // specify the correct relationship
     .eq('user_id', userId);
 
   if (fetchError || !allItems) {

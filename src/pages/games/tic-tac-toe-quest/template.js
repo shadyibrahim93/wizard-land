@@ -352,7 +352,7 @@ const Game = () => {
           }
           if (gameState.winner) {
             setWinner(gameState.winner);
-            handleMultiplayerWin(gameState.winner, gameState.winner, 'easy');
+            handleMultiplayerWin(gameState.winner, 'easy');
           }
           if (
             gameState.board_state &&
