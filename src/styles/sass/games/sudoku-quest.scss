@@ -1,7 +1,7 @@
 // Sudoku board styles using dynamic identifier
 .#{$identifier}-sudoku-game {
   .#{$identifier}-sudoku-btns {
-    @media (max-width: 480px) {
+    @media (max-width: 768px) {
       flex-direction: row;
       display: flex;
       column-gap: 20px;
@@ -20,7 +20,7 @@
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     animation: teleport 2s ease-in-out;
 
-    @media (max-width: 480px) {
+    @media (max-width: 768px) {
       padding: 12px;
     }
 
@@ -43,7 +43,7 @@
       font-weight: bold;
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 
-      @media (max-width: 480px) {
+      @media (max-width: 768px) {
         width: 15px;
         height: 24px;
         font-size: 14px;

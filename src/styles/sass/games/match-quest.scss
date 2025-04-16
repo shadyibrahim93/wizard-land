@@ -5,7 +5,7 @@
       width: 125px;
       height: 125px;
 
-      @media (max-width: 480px) {
+      @media (max-width: 768px) {
         width: 100px;
         height: 100px;
       }
@@ -14,7 +14,7 @@
 
   [data-level='3'] {
     .#{$identifier}-match-card {
-      @media (max-width: 480px) {
+      @media (max-width: 768px) {
         width: 50px;
         height: 50px;
       }

@@ -13,7 +13,7 @@
     .#{$identifier}-equation-question {
       padding: 80px;
 
-      @media (max-width: 480px) {
+      @media (max-width: 768px) {
         padding: 48px 0px;
       }
 
@@ -29,7 +29,7 @@
     }
 
     .#{$identifier}-equation-answer {
-      @media (max-width: 480px) {
+      @media (max-width: 768px) {
         display: flex;
       }
       .#{$identifier}-btn {
@@ -40,7 +40,7 @@
         margin: 0px 20px;
         padding: 15px 30px;
 
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
           padding: 16px 24px;
         }
 
@@ -64,7 +64,7 @@
     justify-content: center;
     align-items: center;
     z-index: 10;
-    @media (max-width: 480px) {
+    @media (max-width: 768px) {
       h1,
       h2 {
         margin: 0px;
@@ -76,7 +76,7 @@
     display: flex;
     flex-direction: row;
     gap: 100px;
-    @media (max-width: 480px) {
+    @media (max-width: 768px) {
       padding: 24px;
       width: calc(100% - 48px);
       gap: 20px;
@@ -86,7 +86,7 @@
   }
 
   .#{$identifier}-btns-container {
-    @media (max-width: 480px) {
+    @media (max-width: 768px) {
       width: calc(100% - 48px);
       margin-top: 0px;
       padding: 0px 24px;
