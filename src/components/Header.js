@@ -6,7 +6,7 @@ import {
   subscribeToUserData,
   unsubscribeFromChannels
 } from '../apiService';
-import useUser from '../hooks/useUser';
+import { useUser } from '../context/UserContext';
 import UserStats from './Header/UserStats';
 import UserAuth from './Header/userAuth';
 import AuthModals from './Header/AuthModals';

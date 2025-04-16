@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import InventoryItem from './inventoryItem';
 import { getUserInventoryGroupedByType } from '../../apiService';
-import useUser from '../../hooks/useUser'; // Adjust path if needed
+import { useUser } from '../../context/UserContext';
 
 const Inventory = ({ onClose }) => {
   const { userId, loading } = useUser();

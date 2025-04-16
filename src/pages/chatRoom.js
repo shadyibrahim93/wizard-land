@@ -6,7 +6,7 @@ import {
 } from '../apiService';
 import Button from '../components/Button';
 import { playUncover, playDisappear } from '../hooks/useSound';
-import useUser from '../hooks/useUser';
+import { useUser } from '../context/UserContext';
 
 const GameChat = ({ chatTitle, gameId }) => {
   const { userId, userName } = useUser();

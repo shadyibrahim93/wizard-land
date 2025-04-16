@@ -7,7 +7,7 @@ import {
   supabase
 } from '../../apiService';
 import Button from '../Button';
-import useUser from '../../hooks/useUser';
+import { useUser } from '../../context/UserContext';
 
 const MultiplayerModal = ({ gameId, onStartGame, setGameMode }) => {
   const { userId, loading } = useUser();

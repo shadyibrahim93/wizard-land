@@ -17,7 +17,7 @@ import {
   clearGameData
 } from '../../../apiService';
 import { useSelectedPiece } from '../../../hooks/userSelectedPiece';
-import useUser from '../../../hooks/useUser';
+import { useUser } from '../../../context/UserContext';
 
 const Game = () => {
   const [board, setBoard] = useState(Array(9).fill(null));

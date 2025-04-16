@@ -17,7 +17,7 @@ import {
 } from '../../../apiService';
 import MultiplayerModal from '../../../components/generalModals/multiplayerModal';
 import { useSelectedPiece } from '../../../hooks/userSelectedPiece';
-import useUser from '../../../hooks/useUser';
+import { useUser } from '../../../context/UserContext';
 
 const Game = () => {
   const [board, setBoard] = useState(

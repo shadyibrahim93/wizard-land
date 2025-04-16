@@ -1,6 +1,6 @@
 import React from 'react';
 import { purchaseItem } from '../../apiService';
-import useUser from '../../hooks/useUser';
+import { useUser } from '../../context/UserContext';
 
 const ShopItem = ({ item, purchased }) => {
   const { userId, loading } = useUser(); // Directly use your useUser hook
