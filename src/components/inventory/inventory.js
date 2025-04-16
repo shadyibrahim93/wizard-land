@@ -45,26 +45,32 @@ const Inventory = ({ onClose }) => {
         </div>
         <hr />
         <div className='mq-modal-body'>
-          {Object.entries(inventoryItems).map(([category, items]) => (
-            <div
-              key={category}
-              className='mq-modal-category'
-            >
-              <h2 className='mq-modal-category-title'>Board {category}s</h2>
-              <hr />
-              <div className='mq-modal-items-container'>
-                {items.map((item) => (
-                  <InventoryItem
-                    key={item.id}
-                    item={item}
-                    userId={userId}
-                    isActive={item.is_active}
-                    refreshInventory={refreshInventory} // Pass down refresh function
-                  />
-                ))}
+          {userId ? (
+            Object.entries(inventoryItems).map(([category, items]) => (
+              <div
+                key={category}
+                className='mq-modal-category'
+              >
+                <h2 className='mq-modal-category-title'>Board {category}s</h2>
+                <hr />
+                <div className='mq-modal-items-container'>
+                  {items.map((item) => (
+                    <InventoryItem
+                      key={item.id}
+                      item={item}
+                      userId={userId}
+                      isActive={item.is_active}
+                      refreshInventory={refreshInventory} // Pass down refresh function
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <h2 className='mq-modal-category-title mq-modal-category-title--no-user'>
+              Must be signed in to view inventory!
+            </h2>
+          )}
         </div>
         <div className='mq-modal-footer'></div>
       </div>

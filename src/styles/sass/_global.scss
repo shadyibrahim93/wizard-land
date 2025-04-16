@@ -781,7 +781,11 @@ body {
         color: $white;
         font-size: 21px;
         cursor: pointer;
-        animation: glowingRed 4s infinite alternate;
+        animation: glowingBlue 4s infinite alternate;
+
+        &:hover {
+          animation: glowingRed 4s infinite alternate;
+        }
       }
 
       &::-webkit-scrollbar {
@@ -795,6 +799,12 @@ body {
         font-size: 21px;
         padding-bottom: 16px;
         margin: 0;
+
+        &--no-user {
+          text-align: center;
+          animation: glowingRed 4s infinite alternate;
+          padding-bottom: 0px;
+        }
       }
 
       .#{$identifier}-modal-items-container {
