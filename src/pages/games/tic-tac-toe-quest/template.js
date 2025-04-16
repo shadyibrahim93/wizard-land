@@ -18,6 +18,7 @@ import {
 } from '../../../apiService';
 import { useSelectedPiece } from '../../../hooks/userSelectedPiece';
 import { useUser } from '../../../context/UserContext';
+import { handleMultiplayerWin } from '../../../hooks/handleProgressUpdate';
 
 const Game = () => {
   const [board, setBoard] = useState(Array(9).fill(null));
@@ -351,6 +352,8 @@ const Game = () => {
           }
           if (gameState.winner) {
             setWinner(gameState.winner);
+            handleMultiplayerWin(gameState.winner, gameState.winner, 'easy');
+            console.log(gameState.winner, gameState.winner, 'easy');
           }
           if (
             gameState.board_state &&

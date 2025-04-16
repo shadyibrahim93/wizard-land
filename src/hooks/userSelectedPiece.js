@@ -6,8 +6,6 @@ export const useSelectedPiece = (userId, fallback = '🔥') => {
   const image = selected.piece?.image_url || null;
   const name = selected.piece?.className || null;
 
-  console.log(emoji, image, name);
-
   return {
     key: name || emoji || null, // used for comparison
     display: emoji,

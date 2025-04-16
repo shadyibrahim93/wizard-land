@@ -18,6 +18,7 @@ import {
 import MultiplayerModal from '../../../components/generalModals/multiplayerModal';
 import { useSelectedPiece } from '../../../hooks/userSelectedPiece';
 import { useUser } from '../../../context/UserContext';
+import { handleMultiplayerWin } from '../../../hooks/handleProgressUpdate';
 
 const Game = () => {
   const [board, setBoard] = useState(
@@ -392,6 +393,7 @@ const Game = () => {
           }
           if (gameState.winner) {
             setWinner(gameState.winner);
+            handleMultiplayerWin(userId, gameState.winner, 'easy');
           }
           if (
             gameState.board_state &&
