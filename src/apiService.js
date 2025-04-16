@@ -84,7 +84,6 @@ export async function getPuzzleImageData(level) {
 }
 
 export async function signUp({ email, password, fullName }) {
-  // Validate password length first
   if (password.length < 6) {
     return {
       success: false,
@@ -92,7 +91,6 @@ export async function signUp({ email, password, fullName }) {
     };
   }
 
-  // Attempt to sign up via Supabase Auth
   const { data: authUser, error } = await supabase.auth.signUp({
     email,
     password,
@@ -104,7 +102,6 @@ export async function signUp({ email, password, fullName }) {
   });
 
   if (error) {
-    // Check if the error indicates the email is already registered
     if (
       error.code === 'user_already_exists' ||
       (error.message &&
@@ -118,23 +115,66 @@ export async function signUp({ email, password, fullName }) {
 
   const userId = authUser.user.id;
 
-  // Insert into your custom `users` table
-  const { error: insertError } = await supabase.from('users').insert({
+  // Insert into profiles
+  const { error: insertProfileError } = await supabase.from('profiles').insert({
     id: userId,
     email,
     full_name: fullName
   });
 
-  if (insertError) {
-    console.error('User insert error:', insertError.message);
+  if (insertProfileError) {
+    console.error('Profile insert error:', insertProfileError.message);
     return {
       success: false,
-      error: insertError.message || 'User insert error'
+      error: insertProfileError.message || 'Profile insert error'
     };
-  } else {
-    console.log('User signed up and added to DB!');
   }
 
+  // Insert default items into user_inventory
+  const { error: inventoryError } = await supabase
+    .from('user_inventory')
+    .insert([
+      {
+        id: crypto.randomUUID(),
+        user_id: userId,
+        item_id: '9a4243a1-1e76-4c7b-9a49-f1caaad9b2a2',
+        acquired_at: new Date().toISOString(),
+        is_active: true
+      },
+      {
+        id: crypto.randomUUID(),
+        user_id: userId,
+        item_id: '9f61795f-0f84-43c4-a5b6-d561f53f6616',
+        acquired_at: new Date().toISOString(),
+        is_active: false
+      }
+    ]);
+
+  if (inventoryError) {
+    console.error('Inventory insert error:', inventoryError.message);
+    return {
+      success: false,
+      error: inventoryError.message || 'Inventory insert error'
+    };
+  }
+
+  // Insert into user_wallet
+  const { error: walletError } = await supabase.from('user_wallet').insert({
+    user_id: userId,
+    exp: 0,
+    stars: 0,
+    euro: 0
+  });
+
+  if (walletError) {
+    console.error('Wallet insert error:', walletError.message);
+    return {
+      success: false,
+      error: walletError.message || 'Wallet insert error'
+    };
+  }
+
+  console.log('User fully registered: profile, inventory, wallet created!');
   return { success: true };
 }
 
@@ -151,7 +191,7 @@ export async function signIn({ email, password }) {
 
   // Fetch the full_name from the custom users table using the user ID
   const { data: userData, error: userError } = await supabase
-    .from('users')
+    .from('profiles')
     .select('full_name')
     .eq('id', data.user.id)
     .single();
@@ -306,6 +346,7 @@ export async function fetchUserWallet(userId) {
 
   return data[0]; // Return the first (and only) wallet row
 }
+
 // Subscribe to progress changes in real-time (optional)
 export function subscribeToUserGameProgress(userId, onProgressUpdate) {
   const channel = supabase
@@ -315,7 +356,7 @@ export function subscribeToUserGameProgress(userId, onProgressUpdate) {
       {
         event: 'UPDATE',
         schema: 'public',
-        table: 'users',
+        table: 'profiles',
         filter: `id=eq.${userId}`
       },
       (payload) => {
@@ -352,7 +393,7 @@ export async function getCurrentUser() {
     // Fetch profile data in background if needed
     if (!session.user.user_metadata?.full_name) {
       supabase
-        .from('users')
+        .from('profiles')
         .select('full_name')
         .eq('id', session.user.id)
         .single()
@@ -592,7 +633,7 @@ export async function getShopItemsGroupedByType() {
 export async function getUserInventoryGroupedByType(userId) {
   const { data, error } = await supabase
     .from('user_inventory')
-    .select('*, shop_items(*), is_active') // this joins the shop_items data
+    .select('*, shop_items!user_inventory_item_id_fkey(*), is_active') // this joins the shop_items data
     .eq('user_id', userId);
 
   if (error) {
