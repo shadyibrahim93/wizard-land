@@ -3,6 +3,9 @@ import { activateItem } from '../../apiService';
 import Button from '../Button';
 
 const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
+  const getImagePath = (fileName) =>
+    require(`../../assets/images/elements/${fileName}`);
+
   const handleEquip = async () => {
     if (!userId || !item?.id) return;
 
@@ -16,7 +19,7 @@ const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
         {item.emoji && item.emoji}
         {item.image_url && (
           <img
-            src={`wizard-land/assets/elements/board_pieces/${item.image_url}`}
+            src={getImagePath('board_pieces/' + item.image_url)}
             alt={`Board Piece - ${item.className}`}
           />
         )}

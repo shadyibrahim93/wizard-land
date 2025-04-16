@@ -4,6 +4,8 @@ import { useUser } from '../../context/UserContext';
 
 const ShopItem = ({ item, purchased }) => {
   const { userId, loading } = useUser(); // Directly use your useUser hook
+  const getImagePath = (fileName) =>
+    require(`../../assets/images/elements/${fileName}`);
 
   const handlePurchase = async (item) => {
     if (loading) {
@@ -48,13 +50,13 @@ const ShopItem = ({ item, purchased }) => {
         {item.emoji && item.emoji}
         {item.image_url && (
           <img
-            src={`wizard-land/assets/elements/board_pieces/${item.image_url}`}
+            src={getImagePath('board_pieces/' + item.image_url)}
             alt={`Board Piece - ${item.className}`}
           />
         )}
       </span>
       <p className='mq-modal-price'>
-        <img src='wizard-land/assets/elements/star_single.png' />
+        <img src={getImagePath('star_single.png')} />
         {item.stars}
       </p>
       <button
