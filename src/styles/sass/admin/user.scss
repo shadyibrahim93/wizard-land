@@ -7,6 +7,15 @@
   color: $white;
   font-size: 14px;
 
+  &:has(.sign-up) {
+    justify-content: flex-end;
+    .#{$identifier}-link {
+      .#{$identifier}-user-name {
+        padding: 8px 16px;
+      }
+    }
+  }
+
   .#{$identifier}-user-container {
     display: flex;
     flex-direction: row;
@@ -54,16 +63,6 @@
       }
     }
 
-    &:has(.sign-up) {
-      justify-content: flex-end;
-      .#{$identifier}-user-name {
-        background-color: transparent;
-        padding: 0px;
-        font-size: 21px;
-        margin-bottom: 12px;
-      }
-    }
-
     .#{$identifier}-user-name {
       background-color: $light-overlay;
       padding: 8px 16px 8px 36px;
@@ -73,6 +72,10 @@
       justify-content: space-between;
       align-items: center;
       position: relative;
+
+      &:has(.sign-up) {
+        padding: 8px 16px;
+      }
 
       @media (max-width: 768px) {
         width: fit-content;

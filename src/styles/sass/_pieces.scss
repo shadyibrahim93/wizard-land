@@ -1,6 +1,5 @@
 &.#{$identifier} {
   &-image {
-    font-size: 0 !important;
     background-size: contain;
     background-repeat: no-repeat;
     background-size: 60px;
@@ -11,9 +10,11 @@
   }
   &-angry {
     background-image: url('../../assets/images/elements/board_pieces/angry.gif');
+    font-size: 0 !important;
   }
 
   &-fire {
     background-image: url('../../assets/images/elements/board_pieces/fire.gif');
+    font-size: 0 !important;
   }
 }

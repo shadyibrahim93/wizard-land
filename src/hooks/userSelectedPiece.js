@@ -7,7 +7,7 @@ export const useSelectedPiece = (userId, fallback = '🔥') => {
   const name = selected.piece?.className || null;
 
   return {
-    key: name || emoji || null, // used for comparison
+    key: name || emoji || fallback, // used for comparison
     display: emoji,
     image: image ? (
       <img
