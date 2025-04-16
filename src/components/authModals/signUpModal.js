@@ -43,60 +43,68 @@ export default function SignUpModal({ showSignUpModal, onClose }) {
   if (!showSignUpModal) return null;
 
   return (
-    <div className='mq-overlay mq-signup-page'>
-      <div className='mq-wrapper'>
-        <button
-          onClick={onClose}
-          className='mq-close-button'
-        >
-          ×
-        </button>
-        <form
-          onSubmit={handleSignup}
-          className='mq-form'
-        >
-          <div className='mq-form-group'>
-            <label className='mq-label'>Nickname</label>
-            <input
-              type='text'
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              className='mq-input'
-              required
-            />
+    <div className='mq-modal-overlay'>
+      <div className='mq-container mq-signup-page'>
+        <div className='mq-modal-header'>
+          <h1 className='mq-modal-title'>Sign Up</h1>
+          <button
+            className='mq-close-btn'
+            onClick={onClose}
+          >
+            ✕
+          </button>
+        </div>
+        <hr />
+        <div className='mq-modal-body'>
+          <div className='mq-wrapper'>
+            <form
+              onSubmit={handleSignup}
+              className='mq-form'
+            >
+              <div className='mq-form-group'>
+                <label className='mq-label'>Nickname</label>
+                <input
+                  type='text'
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  className='mq-input'
+                  required
+                />
+              </div>
+              <div className='mq-form-group'>
+                <label className='mq-label'>Email</label>
+                <input
+                  type='email'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className='mq-input'
+                  required
+                />
+              </div>
+              <div className='mq-form-group'>
+                <label className='mq-label'>Password</label>
+                <input
+                  type='password'
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className='mq-input'
+                  required
+                />
+              </div>
+              {message && (
+                <div className={`mq-message mq-${message.type}`}>
+                  {message.text}
+                </div>
+              )}
+              <Button
+                type='submit'
+                text={loading ? 'Signing up...' : 'Sign Up'}
+                className='mq-button'
+                disabled={loading}
+              />
+            </form>
           </div>
-          <div className='mq-form-group'>
-            <label className='mq-label'>Email</label>
-            <input
-              type='email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className='mq-input'
-              required
-            />
-          </div>
-          <div className='mq-form-group'>
-            <label className='mq-label'>Password</label>
-            <input
-              type='password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className='mq-input'
-              required
-            />
-          </div>
-          <Button
-            type='submit'
-            text={loading ? 'Signing up...' : 'Sign Up'}
-            className='mq-button'
-            disabled={loading}
-          />
-          {message && (
-            <div className={`mq-message mq-${message.type}`}>
-              {message.text}
-            </div>
-          )}
-        </form>
+        </div>
       </div>
     </div>
   );

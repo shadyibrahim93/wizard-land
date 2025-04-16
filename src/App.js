@@ -22,9 +22,9 @@ export default function App() {
   useMouseEffect();
 
   return (
-    <Div100vh>
-      <UserProvider>
-        <HashRouter>
+    <UserProvider>
+      <HashRouter>
+        <Div100vh>
           <Routes>
             <Route
               path='/'
@@ -79,8 +79,8 @@ export default function App() {
               element={<CheckerQuest />}
             />
           </Routes>
-        </HashRouter>
-      </UserProvider>
-    </Div100vh>
+        </Div100vh>
+      </HashRouter>
+    </UserProvider>
   );
 }
