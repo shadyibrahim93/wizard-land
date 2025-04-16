@@ -32,6 +32,7 @@ export default function Header({ title, backTarget, level, homePage, gameId }) {
     const channel = subscribeToUserData(userId, {
       onWalletChange: (euro) => setEuro(euro),
       onStarsChange: (stars) => setStars(stars),
+      onExpChange: (exp) => setExp(exp),
       onInventoryChange: (newItem) => {
         setInventory((prev) => [...(prev || []), newItem]);
       }

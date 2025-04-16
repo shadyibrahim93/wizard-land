@@ -2,6 +2,7 @@ import useSelectedItems from './useSelectedItems';
 
 export const useSelectedPiece = (userId, fallback = '🔥') => {
   const selected = useSelectedItems(userId);
+
   const emoji = selected.piece?.emoji || null;
   const image = selected.piece?.image_url || null;
   const name = selected.piece?.className || null;

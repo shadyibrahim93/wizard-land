@@ -776,7 +776,7 @@ export async function purchaseItem(userId, itemId) {
 
 export function subscribeToUserData(
   userId,
-  { onWalletChange, onStarsChange, onInventoryChange }
+  { onWalletChange, onStarsChange, onExpChange, onInventoryChange }
 ) {
   const channel = supabase
     .channel(`user_wallet_updates_${userId}`)
@@ -794,6 +794,7 @@ export function subscribeToUserData(
           onWalletChange(newData.euro);
         if (onStarsChange && newData?.stars !== undefined)
           onStarsChange(newData.stars);
+        if (onExpChange && newData?.exp !== undefined) onExpChange(newData.exp);
         if (onInventoryChange && newData?.inventory_item)
           onInventoryChange(newData.inventory_item);
       }
