@@ -31,6 +31,10 @@ div#root {
   }
 }
 
+html {
+  height: -webkit-fill-available;
+}
+
 body {
   overflow: hidden;
   font-family: 'MagicalWorld', sans-serif;
@@ -935,7 +939,7 @@ body {
   @media (max-width: 480px) {
     padding: 12px;
     margin-bottom: 72px;
-    height: calc(100vh - 84px);
+    height: -webkit-fill-available;
     width: calc(100vw - 24px);
 
     div#root {
