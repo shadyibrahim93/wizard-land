@@ -2,7 +2,7 @@ import React from 'react';
 import { purchaseItem } from '../../apiService';
 import { useUser } from '../../context/UserContext';
 
-const ShopItem = ({ item, purchased }) => {
+const ShopItem = ({ item }) => {
   const { userId, loading } = useUser(); // Directly use your useUser hook
   const getImagePath = (fileName) =>
     require(`../../assets/images/elements/${fileName}`);
@@ -37,16 +37,18 @@ const ShopItem = ({ item, purchased }) => {
   };
 
   return (
-    <div className={`mq-modal-item ${purchased}`}>
-      {item.image && (
-        <img
-          src={item.image}
-          alt={item.name}
-          className='mq-piece mq-piece-image'
-        />
+    <div className={`mq-modal-item `}>
+      {!item.emoji && !item.image_url && item.className && (
+        <p className='mq-modal-title'>{item.className.toUpperCase()}</p>
       )}
-
-      <span className='mq-piece'>
+      <span
+        className={`mq-piece ${
+          !item.emoji &&
+          !item.image_url &&
+          item.className &&
+          'mq-theme mq-' + item.className
+        }`}
+      >
         {item.emoji && item.emoji}
         {item.image_url && (
           <img
@@ -56,8 +58,21 @@ const ShopItem = ({ item, purchased }) => {
         )}
       </span>
       <p className='mq-modal-price'>
-        <img src={getImagePath('star_single.png')} />
-        {item.stars}
+        {item.stars !== 0 && (
+          <>
+            <img src={getImagePath('star_single.png')} />
+            {item.stars}
+          </>
+        )}
+        {item.euro !== 0 && (
+          <>
+            <img
+              src={getImagePath('euro_single.png')}
+              className='mq-sparkle'
+            />
+            {item.euro}
+          </>
+        )}
       </p>
       <button
         onClick={() => handlePurchase(item)}

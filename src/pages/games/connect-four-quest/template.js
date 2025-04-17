@@ -46,9 +46,9 @@ const Game = () => {
   const [opponentJoined, setOpponentJoined] = useState(false);
   const [opponentWins, setOpponentWins] = useState(0);
   const [channels, setChannels] = useState([]);
-  const { userId, userName } = useUser();
-  const player1Symbol = useSelectedPiece(player1 || userId, '🔥');
-  const player2Symbol = useSelectedPiece(player2, '❄️');
+  const { userId } = useUser();
+  const player1Symbol = useSelectedPiece(player1 || userId, '🔥', 'fire');
+  const player2Symbol = useSelectedPiece(player2, '❄️', 'ice');
   const [winnerName, SetWinnerName] = useState('');
 
   const introText = `Welcome to Wizards Land Connect 4! Take turns dropping your element into the corresponding column. A helper will show you where the element will land when you hover over a column. Align four in a row, column, or diagonal to win. Good luck!`;
@@ -86,6 +86,7 @@ const Game = () => {
         setTimeout(() => {
           handleRestart();
           setShowTitle(false);
+          SetWinnerName('');
         }, 3500);
       }
     };
@@ -461,7 +462,9 @@ const Game = () => {
     winner === null && isBoardFull(board)
       ? "It's a Draw!"
       : winner
-      ? `${winnerName} wins!`
+      ? gameMode === 'Multiplayer'
+        ? `${winnerName} wins!`
+        : `${winner} wins!`
       : `Opponent Turn`;
 
   return !startGame ? (
@@ -475,7 +478,7 @@ const Game = () => {
     </>
   ) : (
     <>
-      <div className={`mq-global-container mq-${currentTurn.toLowerCase()}`}>
+      <div className={`mq-global-container`}>
         <div className='mq-score-container'>
           <span className='mq-score-player'>Fire: {playerWins}</span>
           <span className='mq-room-number'>{room && room.room}</span>
@@ -487,10 +490,10 @@ const Game = () => {
           className={`mq-board mq-${
             gameMode === 'Multiplayer'
               ? currentMultiplayerTurn === player1
-                ? 'fire'
-                : 'ice'
+                ? player1Symbol.theme
+                : player2Symbol.theme
               : currentTurn === 'Fire'
-              ? 'fire'
+              ? player1Symbol.theme
               : 'ice'
           }`}
         >

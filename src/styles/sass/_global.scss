@@ -521,17 +521,11 @@ body {
       gap: 10px;
       margin: 10px 0;
       border-radius: 20px;
-      border: 2px solid $primary-color;
+      border: 2px solid transparent;
       padding: 24px;
       position: relative;
 
-      &.#{$identifier}-fire {
-        animation: glowFire 1.5s infinite alternate;
-      }
-
-      &.#{$identifier}-ice {
-        animation: glowIce 1.5s infinite alternate;
-      }
+      @import './themes';
     }
 
     .#{$identifier}-square {
@@ -820,15 +814,19 @@ body {
 
         .#{$identifier}-modal-item {
           position: relative;
-          border: 1px solid $blue;
+          border: 1px solid $white;
           border-radius: 20px;
-          padding: 16px 16px 32px 16px;
+          padding: 24px 16px 46px 16px;
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          row-gap: 36px;
-          animation: glowIce 4s infinite alternate;
+          row-gap: 24px;
+          animation: glowSnow 4s infinite alternate;
+
+          &:has(.#{$identifier}-modal-price) {
+            padding: 24px 16px 32px 16px;
+          }
 
           .#{$identifier}-modal-title {
             color: $white;
@@ -838,7 +836,7 @@ body {
 
           .#{$identifier}-modal-price {
             background-color: $dark-overlay;
-            animation: glowIce 4s infinite alternate;
+            animation: glowSnow 4s infinite alternate;
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -864,8 +862,14 @@ body {
             justify-content: center;
             align-items: center;
             font-size: 36px;
-            animation: glowIce 4s infinite alternate;
+            animation: glowSnow 4s infinite alternate;
             padding-left: 2px;
+
+            @import './themes';
+
+            &.#{$identifier}-theme {
+              border-radius: 10px;
+            }
 
             img {
               width: 45px;
@@ -885,7 +889,7 @@ body {
             &:disabled {
               background-color: $gray;
               border: 2px solid $gray;
-              animation: glowIce 4s infinite alternate;
+              animation: glowSnow 4s infinite alternate;
             }
           }
         }
@@ -933,6 +937,41 @@ body {
       padding: 12px;
       width: fit-content;
     }
+  }
+  img.#{$identifier}-sparkle {
+    position: relative;
+    display: inline-block;
+  }
+
+  img.#{$identifier}-sparkle::after {
+    content: '★';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    font-size: 24px;
+    color: gold;
+    animation: sparkle 1s infinite alternate;
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  img.#{$identifier}-sparkle::before {
+    content: '★';
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    font-size: 24px;
+    color: gold;
+    animation: sparkle 1s infinite alternate;
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  img.#{$identifier}-sparkle:hover::after,
+  img.#{$identifier}-sparkle:hover::before {
+    opacity: 1;
   }
 
   @media (max-width: 768px) {

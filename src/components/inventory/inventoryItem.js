@@ -3,6 +3,7 @@ import { activateItem } from '../../apiService';
 import Button from '../Button';
 
 const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
+  console.log(item);
   const getImagePath = (fileName) =>
     require(`../../assets/images/elements/${fileName}`);
 
@@ -15,7 +16,17 @@ const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
 
   return (
     <div className='mq-modal-item'>
-      <span className='mq-piece'>
+      {!item.emoji && !item.image_url && item.className && (
+        <p className='mq-modal-title'>{item.className.toUpperCase()}</p>
+      )}
+      <span
+        className={`mq-piece ${
+          !item.emoji &&
+          !item.image_url &&
+          item.className &&
+          'mq-theme mq-' + item.className
+        }`}
+      >
         {item.emoji && item.emoji}
         {item.image_url && (
           <img

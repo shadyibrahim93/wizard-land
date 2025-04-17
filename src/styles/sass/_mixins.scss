@@ -224,31 +224,6 @@
   }
 }
 
-// Add the glowing animation keyframes
-@keyframes glowFire {
-  0% {
-    box-shadow: 0px 0px 8px rgba(255, 69, 0, 0.3),
-      0px 0px 15px rgba(255, 140, 0, 0.4), 0px 0px 25px rgba(255, 165, 0, 0.3);
-  }
-  100% {
-    box-shadow: 0px 0px 12px rgba(255, 69, 0, 0.4),
-      0px 0px 20px rgba(255, 140, 0, 0.4), 0px 0px 30px rgba(255, 165, 0, 0.3);
-  }
-}
-
-@keyframes glowIce {
-  0% {
-    box-shadow: 0px 0px 8px rgba(0, 191, 255, 0.3),
-      0px 0px 15px rgba(135, 206, 250, 0.4),
-      0px 0px 25px rgba(175, 238, 238, 0.3);
-  }
-  100% {
-    box-shadow: 0px 0px 12px rgba(0, 191, 255, 0.4),
-      0px 0px 20px rgba(135, 206, 250, 0.4),
-      0px 0px 30px rgba(175, 238, 238, 0.3);
-  }
-}
-
 @keyframes upgradeAnimation {
   0% {
     transform: scale(0);
@@ -294,6 +269,21 @@ $quantity: 15; // Make sure $quantity is defined
           scale(#{(random(75) / 100) + 0.25});
       }
     }
+  }
+}
+
+@keyframes sparkle {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
   }
 }
 
