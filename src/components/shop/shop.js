@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import ShopItem from './shopItem';
 import { getShopItemsGroupedByType } from '../../apiService';
+import { useUser } from '../../context/UserContext';
 
 const Shop = ({ onClose }) => {
   const [shopItems, setShopItems] = useState({});
   const [loading, setLoading] = useState(true);
+  const { userId } = useUser();
 
   useEffect(() => {
     const fetchShopItems = async () => {
-      const groupedItems = await getShopItemsGroupedByType();
+      const groupedItems = await getShopItemsGroupedByType(userId);
       setShopItems(groupedItems);
       setLoading(false);
     };

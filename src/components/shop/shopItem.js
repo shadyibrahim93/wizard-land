@@ -77,8 +77,9 @@ const ShopItem = ({ item }) => {
       <button
         onClick={() => handlePurchase(item)}
         className='mq-btn'
+        disabled={item.purchased && 'disabled'}
       >
-        Buy
+        {item.purchased ? 'Bound' : 'Buy'}
       </button>
     </div>
   );

@@ -614,32 +614,54 @@ export function unsubscribeFromChannels(channels) {
   });
 }
 
-export async function getShopItemsGroupedByType() {
-  const { data, error } = await supabase
+export async function getShopItemsGroupedByType(userId = null) {
+  // Fetch all active shop items
+  const { data: shopItems, error: shopError } = await supabase
     .from('shop_items')
     .select('*')
     .eq('is_active', true);
 
-  if (error) {
-    console.error('Error fetching shop items:', error);
+  if (shopError) {
+    console.error('Error fetching shop items:', shopError);
     return {};
+  }
+
+  // Fallback: If no userId, no items are marked as purchased
+  let purchasedItemIds = new Set();
+
+  if (userId) {
+    const { data: userInventoryRaw, error: inventoryError } = await supabase
+      .from('user_inventory')
+      .select('item_id')
+      .eq('user_id', userId);
+
+    if (inventoryError) {
+      console.error('Error fetching user inventory:', inventoryError);
+    } else {
+      purchasedItemIds = new Set(userInventoryRaw.map((item) => item.item_id));
+    }
   }
 
   const grouped = {};
 
-  data.forEach((item) => {
+  shopItems.forEach((item) => {
     const type = item.type;
+    if (!grouped[type]) grouped[type] = [];
 
-    if (!grouped[type]) {
-      grouped[type] = [];
-    }
-
-    grouped[type].push(item);
+    grouped[type].push({
+      ...item,
+      purchased: purchasedItemIds.has(item.id)
+    });
   });
 
-  // Sort each category by gold price (ascending)
+  // Sort by stars first, then push purchased to the end
   Object.keys(grouped).forEach((type) => {
-    grouped[type].sort((a, b) => (a.stars || 0) - (b.stars || 0));
+    grouped[type].sort((a, b) => {
+      if (a.purchased !== b.purchased) {
+        return a.purchased ? 1 : -1; // Purchased goes last
+      }
+      return (a.stars || 0) - (b.stars || 0); // Sort by stars
+    });
   });
 
   return grouped;

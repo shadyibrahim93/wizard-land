@@ -3,7 +3,6 @@ import { activateItem } from '../../apiService';
 import Button from '../Button';
 
 const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
-  console.log(item);
   const getImagePath = (fileName) =>
     require(`../../assets/images/elements/${fileName}`);
 
