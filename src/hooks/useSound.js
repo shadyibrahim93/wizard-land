@@ -26,21 +26,33 @@ export const playCoinCollection = () => {
   audio.play();
 };
 
-let doorAudio = null; // This will hold the audio reference
+let doorAudio = null;
+let fadeOutInterval = null;
 
 export const playDoor = (isPlaying) => {
   if (isPlaying) {
     if (!doorAudio) {
-      // If audio is not already playing, play it
       doorAudio = new Audio(`${BASE_PATH}door.mp3`);
+      doorAudio.volume = 1;
       doorAudio.play();
     }
   } else {
     if (doorAudio) {
-      // If audio is playing, stop it
-      doorAudio.pause();
-      doorAudio.currentTime = 0; // Reset audio to start position
-      doorAudio = null; // Reset reference
+      // Clear any previous fade out
+      clearInterval(fadeOutInterval);
+
+      // Start fade out
+      fadeOutInterval = setInterval(() => {
+        if (doorAudio.volume > 0.05) {
+          doorAudio.volume -= 0.05;
+        } else {
+          // Stop and clean up
+          doorAudio.pause();
+          doorAudio.currentTime = 0;
+          doorAudio = null;
+          clearInterval(fadeOutInterval);
+        }
+      }, 20); // Adjust this for faster/slower fade
     }
   }
 };
@@ -57,10 +69,21 @@ export const playEquip = (isPlaying) => {
     }
   } else {
     if (equipAudio) {
-      // If audio is playing, stop it
-      equipAudio.pause();
-      equipAudio.currentTime = 0; // Reset audio to start position
-      equipAudio = null; // Reset reference
+      // Clear any previous fade out
+      clearInterval(fadeOutInterval);
+
+      // Start fade out
+      fadeOutInterval = setInterval(() => {
+        if (equipAudio.volume > 0.05) {
+          equipAudio.volume -= 0.05;
+        } else {
+          // Stop and clean up
+          equipAudio.pause();
+          equipAudio.currentTime = 0;
+          equipAudio = null;
+          clearInterval(fadeOutInterval);
+        }
+      }, 20); // Adjust this for faster/slower fade
     }
   }
 };
@@ -76,10 +99,21 @@ export const playHorn = (isPlaying) => {
     }
   } else {
     if (hornAudio) {
-      // If audio is playing, stop it
-      hornAudio.pause();
-      hornAudio.currentTime = 0; // Reset audio to start position
-      hornAudio = null; // Reset reference
+      // Clear any previous fade out
+      clearInterval(fadeOutInterval);
+
+      // Start fade out
+      fadeOutInterval = setInterval(() => {
+        if (hornAudio.volume > 0.05) {
+          hornAudio.volume -= 0.05;
+        } else {
+          // Stop and clean up
+          hornAudio.pause();
+          hornAudio.currentTime = 0;
+          hornAudio = null;
+          clearInterval(fadeOutInterval);
+        }
+      }, 20); // Adjust this for faster/slower fade
     }
   }
 };
@@ -96,10 +130,21 @@ export const playChest = (isPlaying) => {
     }
   } else {
     if (chestAudio) {
-      // If audio is playing, stop it
-      chestAudio.pause();
-      chestAudio.currentTime = 0; // Reset audio to start position
-      chestAudio = null; // Reset reference
+      // Clear any previous fade out
+      clearInterval(fadeOutInterval);
+
+      // Start fade out
+      fadeOutInterval = setInterval(() => {
+        if (chestAudio.volume > 0.05) {
+          chestAudio.volume -= 0.05;
+        } else {
+          // Stop and clean up
+          chestAudio.pause();
+          chestAudio.currentTime = 0;
+          chestAudio = null;
+          clearInterval(fadeOutInterval);
+        }
+      }, 20); // Adjust this for faster/slower fade
     }
   }
 };
@@ -115,10 +160,21 @@ export const playLogInOut = (isPlaying) => {
     }
   } else {
     if (logInOutAudio) {
-      // If audio is playing, stop it
-      logInOutAudio.pause();
-      logInOutAudio.currentTime = 0; // Reset audio to start position
-      logInOutAudio = null; // Reset reference
+      // Clear any previous fade out
+      clearInterval(fadeOutInterval);
+
+      // Start fade out
+      fadeOutInterval = setInterval(() => {
+        if (logInOutAudio.volume > 0.05) {
+          logInOutAudio.volume -= 0.05;
+        } else {
+          // Stop and clean up
+          logInOutAudio.pause();
+          logInOutAudio.currentTime = 0;
+          logInOutAudio = null;
+          clearInterval(fadeOutInterval);
+        }
+      }, 20); // Adjust this for faster/slower fade
     }
   }
 };
@@ -130,15 +186,26 @@ export const playPageFlip = (isPlaying) => {
     if (!pageFlip) {
       // If audio is not already playing, play it
       pageFlip = new Audio(`${BASE_PATH}page-flip.mp3`);
-      pageFlip.currentTime = 1;
+      pageFlip.currentTime = 1.3;
       pageFlip.play();
     }
   } else {
     if (pageFlip) {
-      // If audio is playing, stop it
-      pageFlip.pause();
-      pageFlip.currentTime = 0; // Reset audio to start position
-      pageFlip = null; // Reset reference
+      // Clear any previous fade out
+      clearInterval(fadeOutInterval);
+
+      // Start fade out
+      fadeOutInterval = setInterval(() => {
+        if (pageFlip.volume > 0.05) {
+          pageFlip.volume -= 0.05;
+        } else {
+          // Stop and clean up
+          pageFlip.pause();
+          pageFlip.currentTime = 0;
+          pageFlip = null;
+          clearInterval(fadeOutInterval);
+        }
+      }, 20); // Adjust this for faster/slower fade
     }
   }
 };
@@ -230,18 +297,34 @@ export const playIntro = () => {
   audio.play();
 };
 
-let bgMusicInstance = null; // Global variable to track the audio instance
+let bgMusicInstance = null;
 
 export const playBGMusic = () => {
-  if (bgMusicInstance) {
-    // If an instance already exists, exit to prevent overlapping
+  if (bgMusicInstance && !bgMusicInstance.paused) {
+    // Already playing, don't start again
     return;
   }
 
-  bgMusicInstance = new Audio(`${BASE_PATH}bgmusic.mp3`);
-  bgMusicInstance.loop = true;
-  bgMusicInstance.volume = 0.5;
-  bgMusicInstance.play();
+  if (!bgMusicInstance) {
+    bgMusicInstance = new Audio(`${BASE_PATH}bgmusic.mp3`);
+    bgMusicInstance.loop = true;
+    bgMusicInstance.volume = 0.5;
+
+    // Optional: handle audio errors
+    bgMusicInstance.addEventListener('error', (e) => {
+      console.error('BG music failed to play:', e);
+      bgMusicInstance = null;
+    });
+
+    // Optional: clean up on end (though loop is true, this is just extra safety)
+    bgMusicInstance.addEventListener('ended', () => {
+      bgMusicInstance = null;
+    });
+  }
+
+  bgMusicInstance.play().catch((err) => {
+    console.warn('Auto-play failed or was interrupted:', err);
+  });
 };
 
 // React Hook for managing sounds
