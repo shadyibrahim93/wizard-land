@@ -211,3 +211,133 @@
     }
   }
 }
+
+&.#{$identifier}-ninja {
+  animation: glowNinjaRadiance 6s infinite linear;
+
+  @keyframes glowNinjaRadiance {
+    0% {
+      box-shadow: 0 -7px 7px rgba(255, 69, 0, 0.6); // Top
+    }
+    2.5% {
+      box-shadow: 1px -7px 7px rgba(255, 69, 0, 0.5); // Slightly top-right
+    }
+    5% {
+      box-shadow: 2px -7px 7px rgba(255, 69, 0, 0.5); // Top-right (angle)
+    }
+    7.5% {
+      box-shadow: 4px -6px 7px rgba(255, 69, 0, 0.5); // Top-right
+    }
+    10% {
+      box-shadow: 6px -5px 7px rgba(255, 69, 0, 0.5); // Moving closer to the right
+    }
+    12.5% {
+      box-shadow: 7px -4px 7px rgba(255, 69, 0, 0.4); // Nearing the right side
+    }
+    15% {
+      box-shadow: 7px 0 7px rgba(255, 69, 0, 0.4); // Right
+    }
+    17.5% {
+      box-shadow: 6px 3px 7px rgba(255, 69, 0, 0.5); // Bottom-right angle
+    }
+    20% {
+      box-shadow: 5px 5px 7px rgba(255, 69, 0, 0.5); // Bottom-right
+    }
+    22.5% {
+      box-shadow: 3px 6px 7px rgba(255, 69, 0, 0.5); // Moving closer to the bottom
+    }
+    25% {
+      box-shadow: 0 7px 7px rgba(255, 69, 0, 0.6); // Bottom
+    }
+    27.5% {
+      box-shadow: -3px 6px 7px rgba(255, 69, 0, 0.6); // Bottom-left angle
+    }
+    30% {
+      box-shadow: -5px 5px 7px rgba(255, 69, 0, 0.6); // Bottom-left
+    }
+    32.5% {
+      box-shadow: -6px 3px 7px rgba(255, 69, 0, 0.5); // Moving closer to the left
+    }
+    35% {
+      box-shadow: -7px 0 7px rgba(255, 69, 0, 0.5); // Left
+    }
+    37.5% {
+      box-shadow: -7px -3px 7px rgba(255, 69, 0, 0.5); // Top-left angle
+    }
+    40% {
+      box-shadow: -6px -5px 7px rgba(255, 69, 0, 0.5); // Top-left
+    }
+    42.5% {
+      box-shadow: -5px -6px 7px rgba(255, 69, 0, 0.5); // Moving closer to the top
+    }
+    45% {
+      box-shadow: 0 -7px 7px rgba(255, 69, 0, 0.6); // Back to top
+    }
+    47.5% {
+      box-shadow: 1px -7px 7px rgba(255, 69, 0, 0.5); // Slightly top-right
+    }
+    50% {
+      box-shadow: 3px -7px 7px rgba(255, 69, 0, 0.5); // Top-right angle
+    }
+    52.5% {
+      box-shadow: 5px -6px 7px rgba(255, 69, 0, 0.5); // Top-right
+    }
+    55% {
+      box-shadow: 6px -5px 7px rgba(255, 69, 0, 0.5); // Right angle
+    }
+    57.5% {
+      box-shadow: 7px -3px 7px rgba(255, 69, 0, 0.4); // Nearing the right side
+    }
+    60% {
+      box-shadow: 7px 0 7px rgba(255, 69, 0, 0.4); // Right
+    }
+    62.5% {
+      box-shadow: 6px 3px 7px rgba(255, 69, 0, 0.5); // Bottom-right angle
+    }
+    65% {
+      box-shadow: 5px 5px 7px rgba(255, 69, 0, 0.5); // Bottom-right
+    }
+    67.5% {
+      box-shadow: 3px 6px 7px rgba(255, 69, 0, 0.5); // Moving closer to the bottom
+    }
+    70% {
+      box-shadow: 0 7px 7px rgba(255, 69, 0, 0.6); // Bottom
+    }
+    72.5% {
+      box-shadow: -3px 6px 7px rgba(255, 69, 0, 0.6); // Bottom-left angle
+    }
+    75% {
+      box-shadow: -5px 5px 7px rgba(255, 69, 0, 0.6); // Bottom-left
+    }
+    77.5% {
+      box-shadow: -6px 3px 7px rgba(255, 69, 0, 0.5); // Moving closer to the left
+    }
+    80% {
+      box-shadow: -7px 0 7px rgba(255, 69, 0, 0.5); // Left
+    }
+    82.5% {
+      box-shadow: -7px -3px 7px rgba(255, 69, 0, 0.5); // Top-left angle
+    }
+    85% {
+      box-shadow: -6px -5px 7px rgba(255, 69, 0, 0.5); // Top-left
+    }
+    87.5% {
+      box-shadow: -5px -6px 7px rgba(255, 69, 0, 0.5); // Moving closer to the top
+    }
+    90% {
+      box-shadow: -3px -7px 7px rgba(255, 69, 0, 0.5); // Near top-left
+    }
+    92.5% {
+      box-shadow: -2px -7px 7px rgba(255, 69, 0, 0.6); // Back to top
+    }
+    95% {
+      box-shadow: -1px -7px 7px rgba(255, 69, 0, 0.5); // Top-right again
+    }
+    97.5% {
+      box-shadow: -0.5px -7px 7px rgba(255, 69, 0, 0.5); // Loop continues
+    }
+    100% {
+      box-shadow: 0px -7px 7px rgba(255, 69, 0, 0.6); // Full loop back to Top
+    }
+  }
+}

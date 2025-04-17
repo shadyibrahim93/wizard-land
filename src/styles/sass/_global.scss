@@ -767,7 +767,7 @@ body {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        h1 {
+        .#{$identifier}-modal-title {
           font-size: 24px;
           color: $white;
           margin: 0;
@@ -802,8 +802,8 @@ body {
 
         &--no-user {
           text-align: center;
-          animation: glowingRed 4s infinite alternate;
           padding-bottom: 0px;
+          animation: glowingRed 4s infinite alternate;
         }
       }
 
