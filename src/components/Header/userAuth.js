@@ -3,6 +3,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import CustomLink from '../CustomLink';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { playDoor } from '../../hooks/useSound';
 
 const UserAuth = ({ loading, userId, userName, onSignUp }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -14,6 +15,16 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
 
   const handleClick = () => {
     navigate('/'); // Change '/' to your desired home path
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    playDoor(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    playDoor(false);
   };
 
   if (loading) {
@@ -44,8 +55,8 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
               <img
                 src={imageSrc}
                 alt='Home'
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
                 onClick={handleClick}
                 title='Home'
               />

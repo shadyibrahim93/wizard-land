@@ -11,8 +11,130 @@ export const playCelebrationSound = () => {
 
 export const playDisappear = () => {
   const audio = new Audio(`${BASE_PATH}disappear.mp3`);
-  audio.volume = 0.5;
+  audio.volume = 0.2;
   audio.play();
+};
+
+export const playPurchase = () => {
+  const audio = new Audio(`${BASE_PATH}item-purchase.mp3`);
+  audio.play();
+};
+
+let doorAudio = null; // This will hold the audio reference
+
+export const playDoor = (isPlaying) => {
+  if (isPlaying) {
+    if (!doorAudio) {
+      // If audio is not already playing, play it
+      doorAudio = new Audio(`${BASE_PATH}door.mp3`);
+      doorAudio.play();
+    }
+  } else {
+    if (doorAudio) {
+      // If audio is playing, stop it
+      doorAudio.pause();
+      doorAudio.currentTime = 0; // Reset audio to start position
+      doorAudio = null; // Reset reference
+    }
+  }
+};
+
+let equipAudio = null; // This will hold the audio reference
+
+export const playEquip = (isPlaying) => {
+  if (isPlaying) {
+    if (!equipAudio) {
+      // If audio is not already playing, play it
+      equipAudio = new Audio(`${BASE_PATH}item-equip.mp3`);
+      equipAudio.currentTime = 1.3;
+      equipAudio.play();
+    }
+  } else {
+    if (equipAudio) {
+      // If audio is playing, stop it
+      equipAudio.pause();
+      equipAudio.currentTime = 0; // Reset audio to start position
+      equipAudio = null; // Reset reference
+    }
+  }
+};
+
+let hornAudio = null; // This will hold the audio reference
+
+export const playHorn = (isPlaying) => {
+  if (isPlaying) {
+    if (!hornAudio) {
+      // If audio is not already playing, play it
+      hornAudio = new Audio(`${BASE_PATH}horn.mp3`);
+      hornAudio.play();
+    }
+  } else {
+    if (hornAudio) {
+      // If audio is playing, stop it
+      hornAudio.pause();
+      hornAudio.currentTime = 0; // Reset audio to start position
+      hornAudio = null; // Reset reference
+    }
+  }
+};
+
+let chestAudio = null; // This will hold the audio reference
+
+export const playChest = (isPlaying) => {
+  if (isPlaying) {
+    if (!chestAudio) {
+      // If audio is not already playing, play it
+      chestAudio = new Audio(`${BASE_PATH}chest.mp3`);
+      chestAudio.currentTime = 0.5;
+      chestAudio.play();
+    }
+  } else {
+    if (chestAudio) {
+      // If audio is playing, stop it
+      chestAudio.pause();
+      chestAudio.currentTime = 0; // Reset audio to start position
+      chestAudio = null; // Reset reference
+    }
+  }
+};
+
+let logInOutAudio = null; // This will hold the audio reference
+
+export const playLogInOut = (isPlaying) => {
+  if (isPlaying) {
+    if (!logInOutAudio) {
+      // If audio is not already playing, play it
+      logInOutAudio = new Audio(`${BASE_PATH}log-in-out.mp3`);
+      logInOutAudio.play();
+    }
+  } else {
+    if (logInOutAudio) {
+      // If audio is playing, stop it
+      logInOutAudio.pause();
+      logInOutAudio.currentTime = 0; // Reset audio to start position
+      logInOutAudio = null; // Reset reference
+    }
+  }
+};
+
+let pageFlip = null; // This will hold the audio reference
+
+export const playPageFlip = (isPlaying) => {
+  if (isPlaying) {
+    if (!pageFlip) {
+      // If audio is not already playing, play it
+      pageFlip = new Audio(`${BASE_PATH}page-flip.mp3`);
+      pageFlip.currentTime = 1;
+      pageFlip.play();
+    }
+  } else {
+    if (pageFlip) {
+      // If audio is playing, stop it
+      pageFlip.pause();
+      pageFlip.currentTime = 0; // Reset audio to start position
+      pageFlip = null; // Reset reference
+    }
+  }
 };
 
 export const playAppear = () => {

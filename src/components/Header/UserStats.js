@@ -35,7 +35,12 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
           <span className='mq-user-icon'>
             <img src={expIcon} />
           </span>
-          <span className='mq-user-amount'>{exp}</span>
+          <span
+            className='mq-user-amount'
+            id='expCounterRef'
+          >
+            {exp}
+          </span>
         </span>
         <span className='mq-user-progress--euro'>
           <span className='mq-user-icon'>
@@ -51,7 +56,12 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
           <span className='mq-user-icon'>
             <img src={starIcon} />
           </span>
-          <span className='mq-user-amount'>{stars}</span>
+          <span
+            className='mq-user-amount'
+            id='coinCounterRef'
+          >
+            {stars}
+          </span>
         </span>
       </h3>
     )

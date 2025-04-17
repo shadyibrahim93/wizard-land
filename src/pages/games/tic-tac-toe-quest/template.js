@@ -20,6 +20,7 @@ import {
 import { useSelectedPiece } from '../../../hooks/userSelectedPiece';
 import { useUser } from '../../../context/UserContext';
 import { handleMultiplayerWin } from '../../../hooks/handleProgressUpdate';
+import { CollectionBurst } from '../../../components/collect';
 
 const Game = () => {
   const [board, setBoard] = useState(Array(9).fill(null));
@@ -45,6 +46,7 @@ const Game = () => {
   const player1Symbol = useSelectedPiece(player1 || userId, '🔥', 'fire');
   const player2Symbol = useSelectedPiece(player2, '❄️', 'ice');
   const [winnerName, SetWinnerName] = useState('');
+  const [showCoinAnimation, setShowCoinAnimation] = useState(false);
 
   const introText = `Welcome to Tic Tac Toe!. Take turns placing your marks, aiming to align three in a row, column, or diagonal. A helper will show you where your mark will go when you hover over a box. Good luck!`;
 
@@ -54,6 +56,11 @@ const Game = () => {
         setGameOver(true);
         playUncover();
         setShowTitle(true);
+
+        if (winner === userId) {
+          setShowCoinAnimation(true);
+          setShowCoinAnimation(true);
+        }
 
         if (gameMode === 'Multiplayer') {
           if (player1 === winner) {
@@ -504,6 +511,11 @@ const Game = () => {
         text='Reset Score'
         onClick={resetScore}
       />
+      {showCoinAnimation && (
+        <CollectionBurst
+          onComplete={() => setShowCoinAnimation(false)} // Hide animation after completion
+        />
+      )}
     </>
   );
 };

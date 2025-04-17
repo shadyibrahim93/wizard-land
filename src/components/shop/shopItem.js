@@ -1,6 +1,8 @@
 import React from 'react';
 import { purchaseItem } from '../../apiService';
 import { useUser } from '../../context/UserContext';
+import { playPurchase } from '../../hooks/useSound';
+import Button from '../Button';
 
 const ShopItem = ({ item }) => {
   const { userId, loading } = useUser(); // Directly use your useUser hook
@@ -74,13 +76,15 @@ const ShopItem = ({ item }) => {
           </>
         )}
       </p>
-      <button
-        onClick={() => handlePurchase(item)}
+      <Button
+        onClick={() => {
+          handlePurchase(item);
+          playPurchase();
+        }}
         className='mq-btn'
-        disabled={item.purchased && 'disabled'}
-      >
-        {item.purchased ? 'Bound' : 'Buy'}
-      </button>
+        isDisabled={item.purchased}
+        text={item.purchased ? 'Bound' : 'Buy'}
+      ></Button>
     </div>
   );
 };

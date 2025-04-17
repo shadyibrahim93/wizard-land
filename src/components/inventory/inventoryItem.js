@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { activateItem } from '../../apiService';
 import Button from '../Button';
+import { playEquip } from '../../hooks/useSound';
 
 const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
   const getImagePath = (fileName) =>
@@ -36,7 +37,10 @@ const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
       </span>
 
       <Button
-        onClick={handleEquip}
+        onClick={() => {
+          handleEquip();
+          playEquip();
+        }}
         className='mq-btn'
         isDisabled={isActive}
         text={isActive ? 'Active' : 'Equip'} // Disable button if the item is active

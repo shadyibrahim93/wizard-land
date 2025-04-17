@@ -1,11 +1,14 @@
-import { Link } from 'react-router-dom';
 import MenuItem from '../menu/menuItem';
+import {
+  playChest,
+  playEquip,
+  playHorn,
+  playLogInOut,
+  playPageFlip
+} from '../../hooks/useSound';
 
 const HeaderContent = ({
   title,
-  backTarget,
-  level,
-  homePage,
   userId,
   onSignIn,
   onLogout,
@@ -20,12 +23,14 @@ const HeaderContent = ({
             imgSrc='shop.png'
             onHoverImgSrc='shop_active.png'
             onClick={showShop}
+            playHoverSound={playChest}
             title='SHOP'
           />
           <MenuItem
             imgSrc='inventory.png'
             onHoverImgSrc='inventory_active.png'
             onClick={showInventory}
+            playHoverSound={playEquip}
             title='INVENTORY'
           />
         </>
@@ -34,6 +39,7 @@ const HeaderContent = ({
           imgSrc='about.png'
           onHoverImgSrc='about_active.png'
           onClick={undefined}
+          playHoverSound={playPageFlip}
           title='ABOUT'
         />
         {userId ? (
@@ -41,6 +47,7 @@ const HeaderContent = ({
             imgSrc='logout.png'
             onHoverImgSrc='logout_active.png'
             onClick={onLogout}
+            playHoverSound={playLogInOut}
             title='LOGOUT'
           />
         ) : (
@@ -48,6 +55,7 @@ const HeaderContent = ({
             imgSrc='login.png'
             onHoverImgSrc='login_active.png'
             onClick={onSignIn}
+            playHoverSound={playLogInOut}
             title='LOGIN'
           />
         )}
