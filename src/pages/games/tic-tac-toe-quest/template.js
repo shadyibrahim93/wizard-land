@@ -14,7 +14,8 @@ import {
   updateBoardState,
   subscribeToBoardUpdates,
   unsubscribeFromChannels,
-  clearGameData
+  clearGameData,
+  clearGameState
 } from '../../../apiService';
 import { useSelectedPiece } from '../../../hooks/userSelectedPiece';
 import { useUser } from '../../../context/UserContext';
@@ -43,6 +44,7 @@ const Game = () => {
   const { userId, userName } = useUser();
   const player1Symbol = useSelectedPiece(player1 || userId, '🔥');
   const player2Symbol = useSelectedPiece(player2, '❄️');
+  const [winnerName, SetWinnerName] = useState('');
 
   const introText = `Welcome to Tic Tac Toe!. Take turns placing your marks, aiming to align three in a row, column, or diagonal. A helper will show you where your mark will go when you hover over a box. Good luck!`;
 
@@ -351,8 +353,10 @@ const Game = () => {
             setCurrentMultiplayerTurn(gameState.current_turn);
           }
           if (gameState.winner) {
+            SetWinnerName(gameState.name);
             setWinner(gameState.winner);
             handleMultiplayerWin(gameState.winner, 'easy');
+            clearGameState(gameState.room, gameState.game_id);
           }
           if (
             gameState.board_state &&
@@ -411,7 +415,7 @@ const Game = () => {
     winner === null && isBoardFull(board)
       ? "It's a Draw!"
       : winner
-      ? `${winner} wins!`
+      ? `${winnerName} wins!`
       : `Opponent Turn`;
 
   return !startGame ? (

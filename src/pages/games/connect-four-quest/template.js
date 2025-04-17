@@ -13,7 +13,8 @@ import {
   updateBoardState,
   subscribeToBoardUpdates,
   unsubscribeFromChannels,
-  clearGameData
+  clearGameData,
+  clearGameState
 } from '../../../apiService';
 import MultiplayerModal from '../../../components/generalModals/multiplayerModal';
 import { useSelectedPiece } from '../../../hooks/userSelectedPiece';
@@ -48,6 +49,7 @@ const Game = () => {
   const { userId, userName } = useUser();
   const player1Symbol = useSelectedPiece(player1 || userId, '🔥');
   const player2Symbol = useSelectedPiece(player2, '❄️');
+  const [winnerName, SetWinnerName] = useState('');
 
   const introText = `Welcome to Wizards Land Connect 4! Take turns dropping your element into the corresponding column. A helper will show you where the element will land when you hover over a column. Align four in a row, column, or diagonal to win. Good luck!`;
 
@@ -392,8 +394,10 @@ const Game = () => {
             setCurrentMultiplayerTurn(gameState.current_turn);
           }
           if (gameState.winner) {
+            SetWinnerName(gameState.name);
             setWinner(gameState.winner);
             handleMultiplayerWin(gameState.winner, 'easy');
+            clearGameState(gameState.room, gameState.game_id);
           }
           if (
             gameState.board_state &&
@@ -457,7 +461,7 @@ const Game = () => {
     winner === null && isBoardFull(board)
       ? "It's a Draw!"
       : winner
-      ? `${winner} wins!`
+      ? `${winnerName} wins!`
       : `Opponent Turn`;
 
   return !startGame ? (

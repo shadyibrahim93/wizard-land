@@ -567,6 +567,21 @@ export const clearGameData = async (roomId, gameId) => {
   return { success: true };
 };
 
+export const clearGameState = async (roomId, gameId) => {
+  // Step 1: Delete from game_state first
+  const { error: gameStateError } = await supabase
+    .from('game_state')
+    .delete()
+    .match({ room: roomId, game_id: gameId });
+
+  if (gameStateError) {
+    console.error('Error deleting game state:', gameStateError.message);
+    return { success: false, error: gameStateError };
+  }
+
+  return { success: true };
+};
+
 export function subscribeToOpponentJoin(roomId, onOpponentJoin) {
   const channel = supabase
     .channel(`room-${roomId}`)
