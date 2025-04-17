@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { playCoinCollection } from '../hooks/useSound';
 
 export const CollectionBurst = ({ count = 15, onComplete }) => {
   const coinContainerRef = useRef();
@@ -37,6 +38,7 @@ export const CollectionBurst = ({ count = 15, onComplete }) => {
     const expTarget = document.querySelector('#expCounterRef');
 
     if (coinItems && coinTarget) {
+      playCoinCollection();
       animateBurst(coinItems, coinTarget);
     }
 

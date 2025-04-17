@@ -20,6 +20,12 @@ export const playPurchase = () => {
   audio.play();
 };
 
+export const playCoinCollection = () => {
+  const audio = new Audio(`${BASE_PATH}coin.mp3`);
+  audio.currentTime = 0.3;
+  audio.play();
+};
+
 let doorAudio = null; // This will hold the audio reference
 
 export const playDoor = (isPlaying) => {
