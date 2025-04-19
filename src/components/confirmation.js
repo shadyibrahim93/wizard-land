@@ -34,12 +34,6 @@ const MultiplayerConfirmModal = ({
       <div className='mq-container mq-signin-page'>
         <div className='mq-modal-header'>
           <h1 className='mq-modal-title'>Play another round?</h1>
-          <button
-            className='mq-close-btn'
-            onClick={onClose}
-          >
-            ✕
-          </button>
         </div>
         <hr />
         <div className='modal-buttons thumbs-btns'>

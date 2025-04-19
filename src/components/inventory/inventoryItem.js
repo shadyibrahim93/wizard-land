@@ -16,9 +16,9 @@ const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
 
   return (
     <div className='mq-modal-item'>
-      {!item.emoji && !item.image_url && item.className && (
+      {/* {!item.emoji && !item.image_url && item.className && (
         <p className='mq-modal-title'>{item.className.toUpperCase()}</p>
-      )}
+      )} */}
       <span
         className={`mq-piece ${
           !item.emoji &&

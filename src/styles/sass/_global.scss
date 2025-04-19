@@ -763,6 +763,17 @@ body {
         animation: glowBlue 4s infinite alternate;
         margin-bottom: 36px;
       }
+
+      &:has(.thumbs-btns) {
+        @media (max-width: 768px) {
+          max-width: 200px;
+        }
+
+        .#{$identifier}-modal-header {
+          justify-content: center;
+          margin-bottom: 21px;
+        }
+      }
       .#{$identifier}-modal-header {
         display: flex;
         flex-direction: row;
@@ -771,6 +782,14 @@ body {
           font-size: 24px;
           color: $white;
           margin: 0;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .thumbs-btns {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
         }
       }
 
@@ -814,7 +833,6 @@ body {
 
         .#{$identifier}-modal-item {
           position: relative;
-          border: 1px solid $white;
           border-radius: 20px;
           padding: 24px 16px 46px 16px;
           display: flex;
