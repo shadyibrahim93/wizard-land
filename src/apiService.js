@@ -932,3 +932,114 @@ export const subscribeToRoomChanges = (gameId, onInsert, onDelete) => {
 
   return channel;
 };
+
+export const getUserProgress = async (userId, gameId) => {
+  const { data, error } = await supabase
+    .from('user_progress')
+    .select('wins, losses, draws')
+    .eq('user_id', userId)
+    .eq('game_id', gameId)
+    .single();
+
+  if (error && error.code !== 'PGRST116') {
+    console.error('Error fetching progress:', error);
+    throw error;
+  }
+
+  return data || null;
+};
+
+export const updateUserWinsByGame = async (userId, gameId) => {
+  const progress = await getUserProgress(userId, gameId);
+
+  if (progress) {
+    const { error } = await supabase
+      .from('user_progress')
+      .update({
+        wins: progress.wins + 1,
+        updated_at: new Date().toISOString()
+      })
+      .match({ user_id: userId, game_id: gameId });
+
+    if (error) throw error;
+  } else {
+    const { error } = await supabase.from('user_progress').insert({
+      user_id: userId,
+      game_id: gameId,
+      wins: 1,
+      losses: 0,
+      draws: 0,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    });
+
+    if (error) throw error;
+  }
+};
+
+export const updateUserLosesByGame = async (userId, gameId) => {
+  const progress = await getUserProgress(userId, gameId);
+
+  if (progress) {
+    const { error } = await supabase
+      .from('user_progress')
+      .update({
+        losses: progress.losses + 1,
+        updated_at: new Date().toISOString()
+      })
+      .match({ user_id: userId, game_id: gameId });
+
+    if (error) throw error;
+  } else {
+    const { error } = await supabase.from('user_progress').insert({
+      user_id: userId,
+      game_id: gameId,
+      wins: 0,
+      losses: 1,
+      draws: 0,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    });
+
+    if (error) throw error;
+  }
+};
+
+export function subscribeToThumbs(roomId, onNewChoice) {
+  const channel = supabase
+    .channel(`room-thumbs-${roomId}`)
+    .on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'thumbs_choices',
+        filter: `room=eq.${roomId}`
+      },
+      (payload) => {
+        onNewChoice(payload.new);
+      }
+    )
+    .subscribe();
+
+  return channel;
+}
+
+// insert a choice when this user clicks
+export async function sendThumbsChoice(roomId, userId, choice) {
+  const { error } = await supabase
+    .from('thumbs_choices')
+    .insert([{ room: roomId, user_id: userId, choice }]);
+  if (error) throw error;
+}
+
+export async function clearThumbsChoices(roomId) {
+  const { error } = await supabase
+    .from('thumbs_choices')
+    .delete()
+    .eq('room', roomId);
+
+  if (error) {
+    console.error('Error clearing thumbs choices:', error);
+  }
+}

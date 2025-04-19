@@ -14,12 +14,21 @@ import {
   subscribeToBoardUpdates,
   unsubscribeFromChannels,
   clearGameData,
-  clearGameState
+  clearGameState,
+  updateUserLosesByGame,
+  updateUserWinsByGame,
+  subscribeToThumbs,
+  sendThumbsChoice,
+  clearThumbsChoices,
+  supabase
 } from '../../../apiService';
 import MultiplayerModal from '../../../components/generalModals/multiplayerModal';
 import { useSelectedPiece } from '../../../hooks/userSelectedPiece';
 import { useUser } from '../../../context/UserContext';
 import { handleMultiplayerWin } from '../../../hooks/handleProgressUpdate';
+import { CollectionBurst } from '../../../components/collect';
+import MultiplayerConfirmModal from '../../../components/confirmation';
+import { useNavigate } from 'react-router-dom';
 
 const Game = () => {
   const [board, setBoard] = useState(
@@ -38,7 +47,6 @@ const Game = () => {
   const [hoveredColumn, setHoveredColumn] = useState(null);
   const [currentMultiplayerTurn, setCurrentMultiplayerTurn] = useState(null); // Track the current turn
   const [computerStarts, setComputerStarts] = useState(false);
-  const [hoveredIndex, setHoveredIndex] = useState(null);
   const [gameId, setGameId] = useState(4);
   const [player1, setPlayer1] = useState(null);
   const [player2, setPlayer2] = useState(null);
@@ -50,41 +58,51 @@ const Game = () => {
   const player1Symbol = useSelectedPiece(player1 || userId, '🔥', 'fire');
   const player2Symbol = useSelectedPiece(player2, '❄️', 'ice');
   const [winnerName, SetWinnerName] = useState('');
+  const [showCoinAnimation, setShowCoinAnimation] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [myChoice, setMyChoice] = useState(null);
+  const [oppChoice, setOppChoice] = useState(null);
+  const navigate = useNavigate();
 
   const introText = `Welcome to Wizards Land Connect 4! Take turns dropping your element into the corresponding column. A helper will show you where the element will land when you hover over a column. Align four in a row, column, or diagonal to win. Good luck!`;
 
   useEffect(() => {
     const handleScoreUpdate = async () => {
-      if (winner || (isBoardFull(board) && !winner)) {
+      if (winner || isBoardFull(board)) {
         setGameOver(true);
-        playUncover();
-        setShowTitle(true);
+
+        if (winner === userId) {
+          setShowCoinAnimation(true);
+          await updateUserWinsByGame(winner, gameId);
+        } else if (winner !== userId) {
+          await updateUserLosesByGame(userId, gameId);
+        }
 
         if (gameMode === 'Multiplayer') {
           if (player1 === winner) {
-            setPlayerWins((prev) => prev + 1);
+            setPlayerWins(playerWins + 1);
           } else if (player2 === winner) {
-            setOpponentWins((prev) => prev + 1);
+            setOpponentWins(opponentWins + 1);
           }
-          updateBoardState(
-            room.room,
-            board,
-            gameId,
-            currentMultiplayerTurn,
-            winner
-          );
         } else {
           if (winner === 'Fire') {
-            setPlayerWins((prev) => prev + 1);
+            setPlayerWins(playerWins + 1);
           }
           if (winner === 'Ice') {
-            setComputerWins((prev) => prev + 1);
+            setComputerWins(computerWins + 1);
             setComputerStarts(true);
           }
         }
 
+        playUncover();
+        setShowTitle(true);
+
         setTimeout(() => {
-          handleRestart();
+          if (gameMode === 'Multiplayer') {
+            setShowModal(true);
+          } else {
+            handleRestart();
+          }
           setShowTitle(false);
           SetWinnerName('');
         }, 3500);
@@ -93,6 +111,34 @@ const Game = () => {
 
     handleScoreUpdate();
   }, [winner]);
+
+  useEffect(() => {
+    // don’t subscribe until we know the room ID
+    if (!room?.room) return;
+
+    const subscription = subscribeToThumbs(room.room, ({ user_id, choice }) => {
+      // the payload gives you user_id and choice
+      if (user_id === userId) {
+        setMyChoice(choice);
+      } else {
+        setOppChoice(choice);
+      }
+    });
+
+    return () => {
+      supabase.realtime.removeChannel(subscription);
+    };
+  }, [room, userId]);
+
+  useEffect(() => {
+    if (myChoice && oppChoice) {
+      if (myChoice === 'up' && oppChoice === 'up') {
+        handleRestart();
+      } else {
+        handleQuit();
+      }
+    }
+  }, [myChoice, oppChoice]);
 
   const calculateWinner = (board) => {
     if (!board || !Array.isArray(board) || board.length === 0) return null;
@@ -325,6 +371,9 @@ const Game = () => {
     setGameOver(false);
     setWinner(null);
     setShowTitle(false);
+    setShowModal(false);
+    setMyChoice(null);
+    setOppChoice(null);
 
     // Set first turn dynamically based on previous winner
     if (gameMode === 'Single') {
@@ -344,6 +393,16 @@ const Game = () => {
     }
 
     playDisappear();
+
+    setTimeout(() => {
+      clearThumbsChoices(room.room);
+    }, 2000);
+  };
+
+  const handleQuit = () => {
+    clearGameData(room.room, gameId);
+    unsubscribeFromChannels(room.room);
+    navigate('/');
   };
 
   const onStartGame = async (roomData) => {
@@ -397,7 +456,7 @@ const Game = () => {
           if (gameState.winner) {
             SetWinnerName(gameState.name);
             setWinner(gameState.winner);
-            handleMultiplayerWin(gameState.winner, 'easy');
+            handleMultiplayerWin(gameState.winner, 'medium');
             clearGameState(gameState.room, gameState.game_id);
           }
           if (
@@ -552,6 +611,24 @@ const Game = () => {
       <Button
         text='Reset Score'
         onClick={resetScore}
+      />
+      {showCoinAnimation && (
+        <CollectionBurst
+          onComplete={() => setShowCoinAnimation(false)} // Hide animation after completion
+        />
+      )}
+      <MultiplayerConfirmModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onThumbsUp={() => {
+          setMyChoice('up');
+          // send your own userId along:
+          sendThumbsChoice(room.room, userId, 'up');
+        }}
+        onThumbsDown={() => {
+          setMyChoice('down');
+          sendThumbsChoice(room.room, userId, 'down');
+        }}
       />
     </>
   );

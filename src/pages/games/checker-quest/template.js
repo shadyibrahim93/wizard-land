@@ -1,18 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import GameIntro from '../../gameFlow/gameintro';
-import Button from '../../../components/Button';
-import iceKing from '../../../assets/images/pieces/iceKing.gif';
-import fireKing from '../../../assets/images/pieces/fireKing.gif';
 import {
-  playDefeat,
-  playDisappear,
-  playNextLevel,
   playUncover,
-  playUpgrade,
-  playClick,
-  playSwallow
+  playDisappear,
+  playPlaceObject,
+  playNextLevel
 } from '../../../hooks/useSound';
-import { triggerConfetti } from './../../../hooks/useConfetti';
+import Button from '../../../components/Button';
+import { triggerConfetti } from '../../../hooks/useConfetti';
+import {
+  subscribeToOpponentJoin,
+  updateBoardState,
+  subscribeToBoardUpdates,
+  unsubscribeFromChannels,
+  clearGameData,
+  clearGameState,
+  updateUserLosesByGame,
+  updateUserWinsByGame,
+  subscribeToThumbs,
+  sendThumbsChoice,
+  clearThumbsChoices,
+  supabase
+} from '../../../apiService';
+import MultiplayerModal from '../../../components/generalModals/multiplayerModal';
+import { useSelectedPiece } from '../../../hooks/userSelectedPiece';
+import { useUser } from '../../../context/UserContext';
+import { handleMultiplayerWin } from '../../../hooks/handleProgressUpdate';
+import { CollectionBurst } from '../../../components/collect';
+import MultiplayerConfirmModal from '../../../components/confirmation';
+import { useNavigate } from 'react-router-dom';
 
 // Initial board setup
 const initialBoard = () => {
@@ -35,18 +51,35 @@ const initialBoard = () => {
 };
 
 const Checkers = () => {
-  const [selectedPiece, setSelectedPiece] = useState(null);
   const [board, setBoard] = useState(initialBoard());
-  const [currentTurn, setCurrentTurn] = useState('Fire');
   const [gameOver, setGameOver] = useState(false);
   const [winner, setWinner] = useState(null);
   const [startGame, setStartGame] = useState(false);
   const [playerWins, setPlayerWins] = useState(0);
   const [computerWins, setComputerWins] = useState(0);
-  const [mode, setMode] = useState(null); // single or multiplayer
-  const [mustCapture, setMustCapture] = useState(null); // Track if player must continue capturing
-  const [computerChainCapture, setComputerChainCapture] = useState(null);
+  const [showTitle, setShowTitle] = useState(false);
+  const [currentTurn, setCurrentTurn] = useState('Fire');
+  const [currentMultiplayerTurn, setCurrentMultiplayerTurn] = useState(null);
+  const [gameMode, setGameMode] = useState('Single');
+  const [selectedPiece, setSelectedPiece] = useState(null);
   const [playerChainCapture, setPlayerChainCapture] = useState(null);
+  const [computerChainCapture, setComputerChainCapture] = useState(null);
+  const [gameId, setGameId] = useState(3);
+  const [player1, setPlayer1] = useState(null);
+  const [player2, setPlayer2] = useState(null);
+  const [room, setRoom] = useState(null);
+  const [opponentJoined, setOpponentJoined] = useState(false);
+  const [opponentWins, setOpponentWins] = useState(0);
+  const [channels, setChannels] = useState([]);
+  const { userId, userName } = useUser();
+  const player1Symbol = useSelectedPiece(player1 || userId, '🔥', 'fire');
+  const player2Symbol = useSelectedPiece(player2, '❄️', 'ice');
+  const [winnerName, SetWinnerName] = useState('');
+  const [showCoinAnimation, setShowCoinAnimation] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [myChoice, setMyChoice] = useState(null);
+  const [oppChoice, setOppChoice] = useState(null);
+  const navigate = useNavigate();
 
   const introText = `Welcome to Wizards Land Checkers Game! Play as '🔥'. Take turns moving your pieces into the corresponding box. A helper will show you where the piece can be dropped. Be the first to capture all pieces or block the opponent from making any more and win the game. Good luck!`;
 
@@ -56,55 +89,142 @@ const Checkers = () => {
   const clearValidMoves = (b) =>
     b.map((r) => r.map((c) => ({ ...c, validMove: false })));
 
-  const handleGameOver = (winner, playVictorySound, playDefeatSound) => {
-    // Play appropriate sound and trigger confetti if necessary
-    if (winner === 'Fire') {
-      playNextLevel(); // Always play victory sound for Fire player (human)
-      triggerConfetti();
-      setPlayerWins(playerWins + 1);
-      setCurrentTurn('Fire');
-    } else {
-      setCurrentTurn('Ice');
-      // Only play defeat sound in single player mode when computer wins
-      if (mode === 'Single') {
-        playDefeatSound();
-        setComputerWins(computerWins + 1);
+  useEffect(() => {
+    const handleScoreUpdate = async () => {
+      const gameEnded = checkGameOver(board);
+      if (gameEnded || winner) {
+        setGameOver(true);
+
+        if (winner === userId) {
+          setShowCoinAnimation(true);
+          await updateUserWinsByGame(winner, gameId);
+        } else if (winner !== userId) {
+          await updateUserLosesByGame(userId, gameId);
+        }
+
+        if (gameMode === 'Multiplayer') {
+          if (player1 === winner) {
+            setPlayerWins(playerWins + 1);
+          } else if (player2 === winner) {
+            setOpponentWins(opponentWins + 1);
+          }
+        } else {
+          if (winner === 'Fire') {
+            setPlayerWins(playerWins + 1);
+          }
+          if (winner === 'Ice') {
+            setComputerWins(computerWins + 1);
+          }
+        }
+
+        playUncover();
+        setShowTitle(true);
+
+        playUncover();
+        setShowTitle(true);
+
+        setTimeout(() => {
+          if (gameMode === 'Multiplayer') {
+            setShowModal(true);
+          } else {
+            handleRestart();
+          }
+          setShowTitle(false);
+          SetWinnerName('');
+        }, 3500);
+      }
+    };
+
+    handleScoreUpdate();
+  }, [winner, board]);
+
+  useEffect(() => {
+    if (!room?.room) return;
+
+    const subscription = subscribeToThumbs(room.room, ({ user_id, choice }) => {
+      if (user_id === userId) {
+        setMyChoice(choice);
       } else {
-        // In multiplayer, both players are human so we play victory sound
-        playNextLevel();
-        setPlayerWins(playerWins + 1); // In multiplayer, this would be Player 2's win
+        setOppChoice(choice);
+      }
+    });
+
+    return () => {
+      supabase.realtime.removeChannel(subscription);
+    };
+  }, [room, userId]);
+
+  useEffect(() => {
+    if (myChoice && oppChoice) {
+      if (myChoice === 'up' && oppChoice === 'up') {
+        handleRestart();
+      } else {
+        handleQuit();
       }
     }
-    setWinner(winner);
-
-    setTimeout(() => {
-      playUncover();
-      setGameOver(true);
-    }, 2000);
-
-    setTimeout(() => {
-      handleRestart();
-      playDisappear();
-    }, 5000); // Delay to show the winner before restarting
-  };
+  }, [myChoice, oppChoice]);
 
   const checkGameOver = (b) => {
-    const playerCount = b.flat().filter((c) => c.piece === 'Fire').length;
-    const computerCount = b.flat().filter((c) => c.piece === 'Ice').length;
+    const fireCount = b.flat().filter((c) => c.piece === 'Fire').length;
+    const iceCount = b.flat().filter((c) => c.piece === 'Ice').length;
+    const fireCanMove = playerHasValidMoves('Fire');
+    const iceCanMove = playerHasValidMoves('Ice');
 
-    if (playerCount === 0 || !playerHasValidMoves('Fire')) {
-      handleGameOver(
-        'Ice',
-        mode === 'Single' ? playDefeat : playNextLevel, // Use playNextLevel for multiplayer
-        mode === 'Single' ? playDefeat : null
-      );
-    } else if (computerCount === 0 || !playerHasValidMoves('Ice')) {
-      handleGameOver(
-        'Fire',
-        playNextLevel,
-        mode === 'Single' ? playDefeat : null // Don't use defeat sound in multiplayer
-      );
+    if (fireCount === 0 || !fireCanMove) {
+      setWinner(gameMode === 'Multiplayer' ? player2 : 'Ice');
+      return true;
+    } else if (iceCount === 0 || !iceCanMove) {
+      setWinner(gameMode === 'Multiplayer' ? player1 : 'Fire');
+      return true;
     }
+    return false;
+  };
+
+  const playerHasValidMoves = (player) => {
+    for (let r = 0; r < 8; r++) {
+      for (let c = 0; c < 8; c++) {
+        const cell = board[r][c];
+        if (cell.piece === player) {
+          const dirs = cell.king
+            ? [
+                [-1, -1],
+                [-1, 1],
+                [1, -1],
+                [1, 1]
+              ]
+            : player === 'Fire'
+            ? [
+                [-1, -1],
+                [-1, 1]
+              ]
+            : [
+                [1, -1],
+                [1, 1]
+              ];
+
+          for (const [dx, dy] of dirs) {
+            const nr = r + dx,
+              nc = c + dy;
+            const jr = r + 2 * dx,
+              jc = c + 2 * dy;
+            const opponent = player === 'Fire' ? 'Ice' : 'Fire';
+
+            if (isWithinBounds(nr, nc)) {
+              if (!board[nr][nc].piece) {
+                return true;
+              } else if (
+                isWithinBounds(jr, jc) &&
+                board[nr][nc].piece === opponent &&
+                !board[jr][jc].piece
+              ) {
+                return true;
+              }
+            }
+          }
+        }
+      }
+    }
+    return false;
   };
 
   const checkForAdditionalCaptures = (r, c, b) => {
@@ -137,93 +257,30 @@ const Checkers = () => {
     });
   };
 
-  const playerHasValidMoves = (player) => {
-    for (let r = 0; r < 8; r++) {
-      for (let c = 0; c < 8; c++) {
-        const cell = board[r][c];
-        if (cell.piece === player) {
-          // Check if this piece has any valid moves
-          const dirs = cell.king
-            ? [
-                [-1, -1],
-                [-1, 1],
-                [1, -1],
-                [1, 1]
-              ]
-            : player === 'Fire'
-            ? [
-                [-1, -1],
-                [-1, 1]
-              ]
-            : [
-                [1, -1],
-                [1, 1]
-              ];
-
-          // Check for regular moves
-          for (const [dx, dy] of dirs) {
-            const nr = r + dx,
-              nc = c + dy;
-            if (isWithinBounds(nr, nc)) {
-              if (!board[nr][nc].piece) {
-                return true; // Found at least one valid move
-              }
-            }
-          }
-
-          // Check for capture moves
-          for (const [dx, dy] of dirs) {
-            const nr = r + dx,
-              nc = c + dy;
-            const jr = r + 2 * dx,
-              jc = c + 2 * dy;
-            const opponent = player === 'Fire' ? 'Ice' : 'Fire';
-
-            if (
-              isWithinBounds(jr, jc) &&
-              board[nr]?.[nc]?.piece === opponent &&
-              !board[jr][jc].piece
-            ) {
-              return true; // Found at least one valid capture
-            }
-          }
-        }
-      }
-    }
-    return false; // No valid moves found
-  };
-
-  const movePiece = (sr, sc, er, ec) => {
+  const movePiece = async (sr, sc, er, ec) => {
     const newBoard = board.map((r) => r.map((c) => ({ ...c })));
     const piece = newBoard[sr][sc].piece;
     const king = newBoard[sr][sc].king;
 
     newBoard[er][ec].piece = piece;
-
-    // Check if piece is being promoted to king
-    const isPromoted =
-      !king &&
-      ((piece === 'Fire' && er === 0) || (piece === 'Ice' && er === 7));
-    newBoard[er][ec].king = king || isPromoted;
+    newBoard[er][ec].king =
+      king ||
+      (!king &&
+        ((piece === 'Fire' && er === 0) || (piece === 'Ice' && er === 7)));
     newBoard[sr][sc].piece = null;
     newBoard[sr][sc].king = false;
 
-    playClick();
-
-    if (isPromoted) {
-      playUpgrade();
-    }
+    playPlaceObject();
 
     if (Math.abs(sr - er) === 2) {
       const cr = (sr + er) / 2,
         cc = (sc + ec) / 2;
       newBoard[cr][cc].piece = null;
-      playSwallow();
 
       const canContinue = checkForAdditionalCaptures(er, ec, newBoard);
       if (canContinue) {
         setBoard(clearValidMoves(newBoard));
-        if (mode === 'Single' && piece === 'Ice') {
+        if (gameMode === 'Single' && piece === 'Ice') {
           setComputerChainCapture({ row: er, col: ec });
         } else {
           setSelectedPiece({ row: er, col: ec });
@@ -239,20 +296,17 @@ const Checkers = () => {
     setPlayerChainCapture(null);
     setComputerChainCapture(null);
 
-    // Check if the next player has any moves available
-    const nextTurn = currentTurn === 'Fire' ? 'Ice' : 'Fire';
-    const hasMoves = playerHasValidMoves(nextTurn);
-
-    if (!hasMoves) {
-      // Current player wins because opponent can't move
-      handleGameOver(
-        currentTurn,
-        currentTurn === 'Fire' ? playNextLevel : playDefeat,
-        currentTurn === 'Fire' ? playDefeat : null
-      );
+    if (gameMode === 'Multiplayer') {
+      const nextTurn = currentMultiplayerTurn === player1 ? player2 : player1;
+      setCurrentMultiplayerTurn(nextTurn);
+      const winner = checkGameOver(newBoard)
+        ? newBoard[er][ec].piece === 'Fire'
+          ? player1
+          : player2
+        : null;
+      updateBoardState(room.room, newBoard, gameId, nextTurn, winner);
     } else {
-      // Continue the game normally
-      setCurrentTurn(nextTurn);
+      setCurrentTurn(piece === 'Fire' ? 'Ice' : 'Fire');
       checkGameOver(newBoard);
     }
   };
@@ -295,7 +349,7 @@ const Checkers = () => {
       }
     });
 
-    if (!hasCapture && !mustCapture) {
+    if (!hasCapture) {
       dirs.forEach(([dx, dy]) => {
         const nr = r + dx,
           nc = c + dy;
@@ -304,59 +358,7 @@ const Checkers = () => {
       });
     }
 
-    if (hasCapture) {
-      newBoard.forEach((r) =>
-        r.forEach((c) => {
-          if (!c.validMove) c.validMove = false;
-        })
-      );
-    }
-
     setBoard(newBoard);
-  };
-
-  const checkForAnyCaptures = (who) => {
-    const opp = who === 'Fire' ? 'Ice' : 'Fire';
-    let captureExists = false;
-
-    board.forEach((row, ri) => {
-      row.forEach((cell, ci) => {
-        if (cell.piece === who) {
-          const dirs = cell.king
-            ? [
-                [-1, -1],
-                [-1, 1],
-                [1, -1],
-                [1, 1]
-              ]
-            : who === 'Fire'
-            ? [
-                [-1, -1],
-                [-1, 1]
-              ]
-            : [
-                [1, -1],
-                [1, 1]
-              ];
-
-          dirs.forEach(([dx, dy]) => {
-            const nr = ri + dx,
-              nc = ci + dy;
-            const jr = ri + 2 * dx,
-              jc = ci + 2 * dy;
-            if (
-              isWithinBounds(jr, jc) &&
-              board[nr]?.[nc]?.piece === opp &&
-              !board[jr][jc].piece
-            ) {
-              captureExists = true;
-            }
-          });
-        }
-      });
-    });
-
-    return captureExists;
   };
 
   const handleComputerTurn = () => {
@@ -482,103 +484,93 @@ const Checkers = () => {
     }, 1000);
   };
 
+  const checkForAnyCaptures = (player) => {
+    for (let r = 0; r < 8; r++) {
+      for (let c = 0; c < 8; c++) {
+        const cell = board[r][c];
+        if (cell.piece === player) {
+          const dirs = cell.king
+            ? [
+                [-1, -1],
+                [-1, 1],
+                [1, -1],
+                [1, 1]
+              ]
+            : player === 'Fire'
+            ? [
+                [-1, -1],
+                [-1, 1]
+              ]
+            : [
+                [1, -1],
+                [1, 1]
+              ];
+
+          for (const [dx, dy] of dirs) {
+            const nr = r + dx,
+              nc = c + dy;
+            const jr = r + 2 * dx,
+              jc = c + 2 * dy;
+            const opponent = player === 'Fire' ? 'Ice' : 'Fire';
+
+            if (
+              isWithinBounds(jr, jc) &&
+              board[nr]?.[nc]?.piece === opponent &&
+              !board[jr][jc].piece
+            ) {
+              return true;
+            }
+          }
+        }
+      }
+    }
+    return false;
+  };
+
   const handleCellClick = (r, c) => {
     const cell = board[r][c];
     if (gameOver) return;
 
-    // Check if it's the current player's turn
-    if (
-      (currentTurn === 'Fire' && cell.piece !== 'Fire' && !selectedPiece) ||
-      (currentTurn === 'Ice' && cell.piece !== 'Ice' && !selectedPiece)
-    ) {
-      return;
+    if (gameMode === 'Multiplayer') {
+      if (!opponentJoined) return;
+      if (currentMultiplayerTurn !== userId) {
+        alert('Not your turn!');
+        return;
+      }
+    } else {
+      if (
+        (currentTurn === 'Fire' && cell.piece !== 'Fire' && !selectedPiece) ||
+        (currentTurn === 'Ice' && cell.piece !== 'Ice' && !selectedPiece)
+      ) {
+        return;
+      }
     }
 
-    // If we have a selected piece and clicked on a valid move
     if (selectedPiece && cell.validMove) {
       movePiece(selectedPiece.row, selectedPiece.col, r, c);
       return;
     }
 
-    // If clicking on own piece during chain capture, allow switching only if it has captures
-    if (playerChainCapture && cell.piece === currentTurn) {
-      const captureExists = checkForAnyCaptures(currentTurn);
+    if (
+      (gameMode === 'Multiplayer' &&
+        cell.piece === (userId === player1 ? 'Fire' : 'Ice')) ||
+      (gameMode === 'Single' && cell.piece === currentTurn)
+    ) {
+      const currentPlayer =
+        gameMode === 'Multiplayer'
+          ? userId === player1
+            ? 'Fire'
+            : 'Ice'
+          : currentTurn;
+
+      const captureExists = checkForAnyCaptures(currentPlayer);
+
       if (captureExists) {
-        const opp = currentTurn === 'Fire' ? 'Ice' : 'Fire';
-        const directions = cell.king
-          ? [
-              [-1, -1],
-              [-1, 1],
-              [1, -1],
-              [1, 1]
-            ]
-          : currentTurn === 'Fire'
-          ? [
-              [-1, -1],
-              [-1, 1]
-            ]
-          : [
-              [1, -1],
-              [1, 1]
-            ];
-
-        const canCapture = directions.some(([dx, dy]) => {
-          const nr = r + dx,
-            nc = c + dy;
-          const jr = r + 2 * dx,
-            jc = c + 2 * dy;
-          return (
-            isWithinBounds(jr, jc) &&
-            board[nr]?.[nc]?.piece === opp &&
-            !board[jr][jc].piece
-          );
-        });
-
-        if (canCapture) {
-          setSelectedPiece({ row: r, col: c });
-          setPlayerChainCapture({ row: r, col: c });
-          highlightValidMoves(r, c);
+        const canCapture = checkForAdditionalCaptures(r, c, board);
+        if (!canCapture) {
+          alert('You must make a capture move if available!');
           return;
         }
-      }
-    }
-
-    // Normal piece selection
-    if (cell.piece === currentTurn) {
-      const captureExists = checkForAnyCaptures(currentTurn);
-
-      // If captures exist, only allow selecting pieces that can capture
-      if (captureExists) {
-        const opp = currentTurn === 'Fire' ? 'Ice' : 'Fire';
-        const directions = cell.king
-          ? [
-              [-1, -1],
-              [-1, 1],
-              [1, -1],
-              [1, 1]
-            ]
-          : currentTurn === 'Fire'
-          ? [
-              [-1, -1],
-              [-1, 1]
-            ]
-          : [
-              [1, -1],
-              [1, 1]
-            ];
-
-        const canCapture = directions.some(([dx, dy]) => {
-          const nr = r + dx,
-            nc = c + dy;
-          const jr = r + 2 * dx,
-            jc = c + 2 * dy;
-          return (
-            isWithinBounds(jr, jc) &&
-            board[nr]?.[nc]?.piece === opp &&
-            !board[jr][jc].piece
-          );
-        });
-        if (!canCapture) return;
       }
 
       setSelectedPiece({ row: r, col: c });
@@ -587,99 +579,214 @@ const Checkers = () => {
   };
 
   useEffect(() => {
-    if (currentTurn === 'Ice' && !gameOver && mode === 'Single') {
-      const timer = setTimeout(handleComputerTurn, 400);
-      return () => clearTimeout(timer);
+    if (gameMode === 'Single' && currentTurn === 'Ice' && !gameOver) {
+      handleComputerTurn();
     }
-  }, [
-    currentTurn,
-    gameOver,
-    mode,
-    board,
-    computerChainCapture,
-    playerChainCapture
-  ]);
+  }, [currentTurn, gameOver, gameMode]);
+
+  const onStartGame = async (roomData) => {
+    if (roomData && roomData.room) {
+      setRoom(roomData);
+      setPlayer1(roomData.player1);
+      setPlayer2(roomData.player2);
+      setGameMode('Multiplayer');
+      setStartGame(true);
+      setCurrentMultiplayerTurn(roomData.player1);
+      setOpponentJoined(!!roomData.player1 && !!roomData.player2);
+
+      const opponentChannel = subscribeToOpponentJoin(
+        roomData.room,
+        (updatedRoom) => {
+          setPlayer1(updatedRoom.player1);
+          setPlayer2(updatedRoom.player2);
+          setOpponentJoined(!!updatedRoom.player1 && !!updatedRoom.player2);
+
+          const currentBoard = board;
+          if (
+            updatedRoom.player1 &&
+            updatedRoom.player2 &&
+            currentBoard.every((row) =>
+              row.every((cell) => cell.piece === null)
+            )
+          ) {
+            updateBoardState(
+              roomData.room,
+              initialBoard(),
+              gameId,
+              updatedRoom.player1
+            );
+          }
+        }
+      );
+
+      const boardChannel = subscribeToBoardUpdates(
+        roomData.room,
+        (gameState) => {
+          if (gameState.board_state) {
+            setBoard(gameState.board_state);
+          }
+          if (
+            gameState.current_turn !== undefined &&
+            gameState.current_turn !== null
+          ) {
+            setCurrentMultiplayerTurn(gameState.current_turn);
+          }
+          if (gameState.winner) {
+            SetWinnerName(gameState.name);
+            setWinner(gameState.winner);
+            handleMultiplayerWin(gameState.winner, 'easy');
+            clearGameState(gameState.room, gameState.game_id);
+          }
+        }
+      );
+
+      setChannels([opponentChannel, boardChannel]);
+    } else {
+      setGameMode('Single');
+      setStartGame(true);
+    }
+  };
 
   const handleRestart = () => {
-    setBoard(initialBoard());
+    const newBoard = initialBoard();
+    setBoard(newBoard);
     setGameOver(false);
     setWinner(null);
-    setCurrentTurn('Fire');
+    setShowTitle(false);
+    setShowModal(false);
     setSelectedPiece(null);
     setPlayerChainCapture(null);
     setComputerChainCapture(null);
+    setMyChoice(null);
+    setOppChoice(null);
+
+    if (gameMode === 'Single') {
+      setCurrentTurn('Fire');
+    } else if (gameMode === 'Multiplayer') {
+      const newStartingPlayer = winner === player2 ? player2 : player1;
+      setCurrentMultiplayerTurn(newStartingPlayer);
+      updateBoardState(room.room, newBoard, gameId, newStartingPlayer);
+    }
+
+    playDisappear();
+    setTimeout(() => {
+      if (gameMode === 'Multiplayer') {
+        clearThumbsChoices(room.room);
+      }
+    }, 2000);
+  };
+
+  const handleQuit = () => {
+    if (gameMode === 'Multiplayer') {
+      clearGameData(room.room, gameId);
+      unsubscribeFromChannels(room.room);
+    }
+    navigate('/');
   };
 
   const resetScore = () => {
     setComputerWins(0);
     setPlayerWins(0);
+    setOpponentWins(0);
   };
 
+  const title =
+    winner === null && checkGameOver(board)
+      ? "It's a Draw!"
+      : winner
+      ? gameMode === 'Multiplayer'
+        ? `${winnerName} wins!`
+        : `${winner} wins!`
+      : gameMode === 'Multiplayer'
+      ? currentMultiplayerTurn === userId
+        ? 'Your Turn'
+        : 'Opponent Turn'
+      : currentTurn === 'Fire'
+      ? 'Your Turn'
+      : 'Computer Turn';
+
   return !startGame ? (
-    <GameIntro
-      introText={introText}
-      onStart={() => {
-        setMode('Single');
-        setStartGame(true);
-      }}
-      firstButtonText='Single Player'
-      onSecondButtonClick={() => {
-        setMode('Multiplayer');
-        setStartGame(true);
-      }}
-      secondButtonText='Multiplayer'
-    />
+    <>
+      <GameIntro introText={introText} />
+      <MultiplayerModal
+        gameId={gameId}
+        setGameMode={setGameMode}
+        onStartGame={(roomData) => onStartGame(roomData)}
+      />
+    </>
   ) : (
     <>
-      <div className='mq-global-container'>
+      <div className={`mq-global-container`}>
         <div className='mq-score-container'>
           <span className='mq-score-player'>Fire: {playerWins}</span>
-          {mode === 'Single' ? (
-            <span className='mq-score-computer'>Ice: {computerWins}</span>
-          ) : (
-            <span className='mq-score-computer'>Ice: {playerWins}</span>
-          )}
+          <span className='mq-room-number'>{room && room.room}</span>
+          <span className='mq-score-computer'>
+            Ice: {gameMode === 'Multiplayer' ? opponentWins : computerWins}
+          </span>
         </div>
-        <div className={`mq-board mq-${currentTurn.toLowerCase()}`}>
-          {gameOver && <h2 className='mq-ending-title'>{winner} wins!</h2>}
+        <div
+          className={`mq-board mq-${
+            gameMode === 'Multiplayer'
+              ? currentMultiplayerTurn === player1
+                ? player1Symbol.theme
+                : player2Symbol.theme
+              : currentTurn === 'Fire'
+              ? player1Symbol.theme
+              : 'ice'
+          }`}
+        >
+          {showTitle && (
+            <h1
+              className={`mq-ending-title ${
+                (winner === 'Ice' || winner === player2) && 'glowingBlue-text'
+              }`}
+            >
+              {title}
+            </h1>
+          )}
 
-          {board.map((row, r) => (
+          {board.map((row, rowIndex) => (
             <div
-              key={r}
+              key={rowIndex}
               className='mq-row'
             >
-              {row.map((cell, c) => (
+              {row.map((cell, colIndex) => (
                 <div
-                  key={c}
-                  className={`mq-square ${!cell.piece ? 'empty' : ''} ${
-                    cell.validMove ? 'valid' : ''
-                  } ${
-                    selectedPiece?.row === r && selectedPiece?.col === c
-                      ? 'selected'
-                      : ''
-                  }`}
-                  onClick={() => handleCellClick(r, c)}
+                  key={`${rowIndex}-${colIndex}`}
+                  className={`mq-square ${
+                    (rowIndex + colIndex) % 2 === 1 ? 'mq-dark' : 'mq-light'
+                  } 
+          ${
+            cell.piece
+              ? `mq-${
+                  !cell.king
+                    ? cell.piece === 'Fire'
+                      ? player1Symbol.key
+                      : player2Symbol.key
+                    : cell.piece === 'Fire'
+                    ? `${player1Symbol.key}-king`
+                    : `${player2Symbol.key}-king`
+                }`
+              : ''
+          } 
+          ${cell.validMove ? 'valid' : ''} 
+          ${
+            selectedPiece?.row === rowIndex && selectedPiece?.col === colIndex
+              ? 'mq-selected'
+              : ''
+          } 
+          ${
+            (cell.piece === 'Fire' && !player1Symbol.display && !cell.king) ||
+            (cell.piece === 'Ice' && !player2Symbol.display && !cell.king)
+              ? 'mq-image'
+              : ''
+          }`}
+                  onClick={() => handleCellClick(rowIndex, colIndex)}
                 >
                   {cell.piece === 'Fire' &&
-                    (cell.king ? (
-                      <img
-                        className='upgrade'
-                        src={fireKing}
-                        alt='Fire King'
-                      />
-                    ) : (
-                      '🔥'
-                    ))}
+                    (cell.king ? '♔' : player1Symbol.display || '🔥')}
                   {cell.piece === 'Ice' &&
-                    (cell.king ? (
-                      <img
-                        className='upgrade'
-                        src={iceKing}
-                        alt='Ice King'
-                      />
-                    ) : (
-                      '❄️'
-                    ))}
+                    (cell.king ? '♚' : player2Symbol.display || '❄️')}
                 </div>
               ))}
             </div>
@@ -689,6 +796,21 @@ const Checkers = () => {
       <Button
         text='Reset Score'
         onClick={resetScore}
+      />
+      {showCoinAnimation && (
+        <CollectionBurst onComplete={() => setShowCoinAnimation(false)} />
+      )}
+      <MultiplayerConfirmModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onThumbsUp={() => {
+          setMyChoice('up');
+          sendThumbsChoice(room.room, userId, 'up');
+        }}
+        onThumbsDown={() => {
+          setMyChoice('down');
+          sendThumbsChoice(room.room, userId, 'down');
+        }}
       />
     </>
   );

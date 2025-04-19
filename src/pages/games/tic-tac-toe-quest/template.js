@@ -8,20 +8,27 @@ import {
 } from '../../../hooks/useSound';
 import Button from '../../../components/Button';
 import { triggerConfetti } from '../../../hooks/useConfetti';
-import MultiplayerModal from '../../../components/generalModals/multiplayerModal';
 import {
   subscribeToOpponentJoin,
   updateBoardState,
   subscribeToBoardUpdates,
   unsubscribeFromChannels,
   clearGameData,
-  clearGameState
+  clearGameState,
+  updateUserLosesByGame,
+  updateUserWinsByGame,
+  subscribeToThumbs,
+  sendThumbsChoice,
+  clearThumbsChoices,
+  supabase
 } from '../../../apiService';
+import MultiplayerModal from '../../../components/generalModals/multiplayerModal';
 import { useSelectedPiece } from '../../../hooks/userSelectedPiece';
 import { useUser } from '../../../context/UserContext';
 import { handleMultiplayerWin } from '../../../hooks/handleProgressUpdate';
 import { CollectionBurst } from '../../../components/collect';
-
+import MultiplayerConfirmModal from '../../../components/confirmation';
+import { useNavigate } from 'react-router-dom';
 const Game = () => {
   const [board, setBoard] = useState(Array(9).fill(null));
   const [gameOver, setGameOver] = useState(false);
@@ -47,6 +54,10 @@ const Game = () => {
   const player2Symbol = useSelectedPiece(player2, '❄️', 'ice');
   const [winnerName, SetWinnerName] = useState('');
   const [showCoinAnimation, setShowCoinAnimation] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [myChoice, setMyChoice] = useState(null);
+  const [oppChoice, setOppChoice] = useState(null);
+  const navigate = useNavigate();
 
   const introText = `Welcome to Tic Tac Toe!. Take turns placing your marks, aiming to align three in a row, column, or diagonal. A helper will show you where your mark will go when you hover over a box. Good luck!`;
 
@@ -54,12 +65,12 @@ const Game = () => {
     const handleScoreUpdate = async () => {
       if (winner || isBoardFull(board)) {
         setGameOver(true);
-        playUncover();
-        setShowTitle(true);
 
         if (winner === userId) {
           setShowCoinAnimation(true);
-          setShowCoinAnimation(true);
+          await updateUserWinsByGame(winner, gameId);
+        } else if (winner !== userId) {
+          await updateUserLosesByGame(userId, gameId);
         }
 
         if (gameMode === 'Multiplayer') {
@@ -78,8 +89,15 @@ const Game = () => {
           }
         }
 
+        playUncover();
+        setShowTitle(true);
+
         setTimeout(() => {
-          handleRestart();
+          if (gameMode === 'Multiplayer') {
+            setShowModal(true);
+          } else {
+            handleRestart();
+          }
           setShowTitle(false);
           SetWinnerName('');
         }, 3500);
@@ -88,6 +106,34 @@ const Game = () => {
 
     handleScoreUpdate();
   }, [winner]);
+
+  useEffect(() => {
+    // don’t subscribe until we know the room ID
+    if (!room?.room) return;
+
+    const subscription = subscribeToThumbs(room.room, ({ user_id, choice }) => {
+      // the payload gives you user_id and choice
+      if (user_id === userId) {
+        setMyChoice(choice);
+      } else {
+        setOppChoice(choice);
+      }
+    });
+
+    return () => {
+      supabase.realtime.removeChannel(subscription);
+    };
+  }, [room, userId]);
+
+  useEffect(() => {
+    if (myChoice && oppChoice) {
+      if (myChoice === 'up' && oppChoice === 'up') {
+        handleRestart();
+      } else {
+        handleQuit();
+      }
+    }
+  }, [myChoice, oppChoice]);
 
   const findBestMove = (squares, player) => {
     const lines = [
@@ -288,6 +334,9 @@ const Game = () => {
     setGameOver(false);
     setWinner(null);
     setShowTitle(false);
+    setShowModal(false);
+    setMyChoice(null);
+    setOppChoice(null);
 
     // Set first turn dynamically based on previous winner
     if (gameMode === 'Single') {
@@ -307,6 +356,16 @@ const Game = () => {
     }
 
     playDisappear();
+
+    setTimeout(() => {
+      clearThumbsChoices(room.room);
+    }, 2000);
+  };
+
+  const handleQuit = () => {
+    clearGameData(room.room, gameId);
+    unsubscribeFromChannels(room.room);
+    navigate('/');
   };
 
   const resetScore = () => {
@@ -516,6 +575,19 @@ const Game = () => {
           onComplete={() => setShowCoinAnimation(false)} // Hide animation after completion
         />
       )}
+      <MultiplayerConfirmModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onThumbsUp={() => {
+          setMyChoice('up');
+          // send your own userId along:
+          sendThumbsChoice(room.room, userId, 'up');
+        }}
+        onThumbsDown={() => {
+          setMyChoice('down');
+          sendThumbsChoice(room.room, userId, 'down');
+        }}
+      />
     </>
   );
 };

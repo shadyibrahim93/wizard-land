@@ -10,7 +10,7 @@ export default function Home() {
       imgSrc: 'bingo_quest.jpg',
       alt: 'Bingo Game',
       title: 'Bingo',
-      type: 'Multiplayer'
+      type: 'Singleplayer'
     },
     {
       url: '/games/connect-four-quest',
