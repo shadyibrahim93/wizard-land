@@ -4,7 +4,9 @@ import {
   playUncover,
   playDisappear,
   playPlaceObject,
-  playNextLevel
+  playNextLevel,
+  playSwallow,
+  playDefeat
 } from '../../../hooks/useSound';
 import Button from '../../../components/Button';
 import { triggerConfetti } from '../../../hooks/useConfetti';
@@ -96,9 +98,12 @@ const Checkers = () => {
         setGameOver(true);
 
         if (winner === userId) {
+          playNextLevel();
+          triggerConfetti();
           setShowCoinAnimation(true);
           await updateUserWinsByGame(winner, gameId);
         } else if (winner !== userId) {
+          playDefeat();
           await updateUserLosesByGame(userId, gameId);
         }
 
@@ -276,6 +281,7 @@ const Checkers = () => {
       const cr = (sr + er) / 2,
         cc = (sc + ec) / 2;
       newBoard[cr][cc].piece = null;
+      playSwallow();
 
       const canContinue = checkForAdditionalCaptures(er, ec, newBoard);
       if (canContinue) {
@@ -689,6 +695,29 @@ const Checkers = () => {
     setPlayerWins(0);
     setOpponentWins(0);
   };
+
+  useEffect(() => {
+    const handleBeforeUnload = async () => {
+      if (gameMode === 'Multiplayer' && room?.room) {
+        await clearGameData(room.room, gameId);
+        resetScore();
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+
+      // If the component unmounts and game mode is Multiplayer, clear the game data
+      if (gameMode === 'Multiplayer' && room?.room) {
+        clearGameData(room.room, gameId);
+      }
+
+      // Also unsubscribe from any channels if you do that elsewhere
+      unsubscribeFromChannels();
+    };
+  }, [gameMode, room, gameId]);
 
   const title =
     winner === null && checkGameOver(board)

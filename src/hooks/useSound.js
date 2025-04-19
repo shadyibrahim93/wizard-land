@@ -251,6 +251,11 @@ export const playDefeat = () => {
   audio.play();
 };
 
+export const playShift = () => {
+  const audio = new Audio(`${BASE_PATH}shift.mp3`);
+  audio.play();
+};
+
 export const playNextLevel = () => {
   const audio = new Audio(`${BASE_PATH}appear.mp3`);
   audio.play();

@@ -1,0 +1,68 @@
+.#{$identifier}-orbito-game {
+  .#{$identifier}-global-container {
+    .#{$identifier}-board {
+      position: relative;
+      width: min-content;
+      grid-template-rows: repeat(4, 1fr);
+      grid-template-columns: repeat(4, 1fr);
+      gap: 36px;
+
+      &.#{$identifier}-rotating {
+        animation: orbitShift 0.5s ease-in-out;
+
+        .#{$identifier}-square {
+          box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+      }
+
+      .#{$identifier}-moving {
+        transform: scale(1.1);
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+      }
+
+      @keyframes orbitShift {
+        0% {
+          transform: rotate(0deg);
+        }
+        50% {
+          transform: rotate(180deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @media (max-width: 768px) {
+        gap: 21px;
+      }
+
+      .#{$identifier}-square {
+        position: relative;
+
+        @media (max-width: 768px) {
+          height: 50px;
+          width: 50px;
+          font-size: 16px;
+        }
+      }
+
+      button {
+        position: absolute;
+        margin: 0px;
+        padding: 8px 12px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 0;
+        @media (max-width: 768px) {
+          width: fit-content;
+          padding: 4px 8px;
+        }
+        &:hover {
+          transform: translate(-50%, -50%);
+          animation: none;
+        }
+      }
+    }
+  }
+}

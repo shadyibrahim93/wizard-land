@@ -13,6 +13,13 @@ export default function Home() {
       type: 'Singleplayer'
     },
     {
+      url: '/games/orbito-quest',
+      imgSrc: 'orbito_quest.jpg',
+      alt: 'Orbito Game',
+      title: 'Orbito',
+      type: 'Multiplayer'
+    },
+    {
       url: '/games/connect-four-quest',
       imgSrc: 'connect_four_quest.jpg',
       alt: 'Connect Four Game',

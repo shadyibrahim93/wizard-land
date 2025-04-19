@@ -4,7 +4,8 @@ import {
   playUncover,
   playDisappear,
   playPlaceObject,
-  playNextLevel
+  playNextLevel,
+  playDefeat
 } from '../../../hooks/useSound';
 import Button from '../../../components/Button';
 import { triggerConfetti } from './../../../hooks/useConfetti';
@@ -72,9 +73,12 @@ const Game = () => {
         setGameOver(true);
 
         if (winner === userId) {
+          playNextLevel();
+          triggerConfetti();
           setShowCoinAnimation(true);
           await updateUserWinsByGame(winner, gameId);
         } else if (winner !== userId) {
+          playDefeat();
           await updateUserLosesByGame(userId, gameId);
         }
 
@@ -220,8 +224,6 @@ const Game = () => {
 
       const currentWinner = calculateWinner(newBoard);
       if (currentWinner) {
-        playNextLevel();
-        triggerConfetti();
         setWinner(currentWinner);
         return;
       }
@@ -261,8 +263,6 @@ const Game = () => {
 
       if (multiplayerWinner) {
         setWinner(multiplayerWinner);
-        playNextLevel();
-        triggerConfetti();
         updateBoardState(room.room, newBoard, gameId, null, multiplayerWinner);
         return;
       }

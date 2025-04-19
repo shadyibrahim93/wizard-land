@@ -5,7 +5,8 @@ import {
   playDisappear,
   playPlaceObject,
   playNextLevel,
-  playDefeat
+  playDefeat,
+  playShift
 } from '../../../hooks/useSound';
 import Button from '../../../components/Button';
 import { triggerConfetti } from '../../../hooks/useConfetti';
@@ -16,8 +17,8 @@ import {
   unsubscribeFromChannels,
   clearGameData,
   clearGameState,
-  updateUserLosesByGame,
   updateUserWinsByGame,
+  updateUserLosesByGame,
   subscribeToThumbs,
   sendThumbsChoice,
   clearThumbsChoices,
@@ -30,8 +31,10 @@ import { handleMultiplayerWin } from '../../../hooks/handleProgressUpdate';
 import { CollectionBurst } from '../../../components/collect';
 import MultiplayerConfirmModal from '../../../components/confirmation';
 import { useNavigate } from 'react-router-dom';
-const Game = () => {
-  const [board, setBoard] = useState(Array(9).fill(null));
+
+const Orbito = () => {
+  // --- state & setup ---
+  const [board, setBoard] = useState(Array(16).fill(null));
   const [gameOver, setGameOver] = useState(false);
   const [winner, setWinner] = useState(null);
   const [startGame, setStartGame] = useState(false);
@@ -39,10 +42,11 @@ const Game = () => {
   const [computerWins, setComputerWins] = useState(0);
   const [showTitle, setShowTitle] = useState(false);
   const [currentTurn, setCurrentTurn] = useState('Fire');
-  const [currentMultiplayerTurn, setCurrentMultiplayerTurn] = useState(null); // Track the current turn
-  const [gameMode, setGameMode] = useState('Single'); // Track whether it's Single or Multiplayer mode
-  const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [gameId, setGameId] = useState(9);
+  const [currentMultiplayerTurn, setCurrentMultiplayerTurn] = useState(null);
+  const [gameMode, setGameMode] = useState('Single');
+  const [gamePhase, setGamePhase] = useState('place');
+  const [extraShifts, setExtraShifts] = useState(0);
+  const [gameId] = useState(12);
   const [player1, setPlayer1] = useState(null);
   const [player2, setPlayer2] = useState(null);
   const [room, setRoom] = useState(null);
@@ -59,12 +63,73 @@ const Game = () => {
   const [oppChoice, setOppChoice] = useState(null);
   const navigate = useNavigate();
 
-  const introText = `Welcome to Tic Tac Toe!. Take turns placing your marks, aiming to align three in a row, column, or diagonal. A helper will show you where your mark will go when you hover over a box. Good luck!`;
+  // rings defined clockwise
+  const outerRing = [0, 1, 2, 3, 7, 11, 15, 14, 13, 12, 8, 4];
+  const innerRing = [5, 6, 10, 9];
 
+  const introText = `
+    Welcome to Orbito! Align 4 of your marbles in a row.
+    1) Place your marble on any free square.
+    2) Press Shift to rotate all marbles once around the rings.
+    First to 4 in a row wins!`;
+
+  // --- utility functions ---
+
+  const isBoardFull = (b) => b.every((cell) => cell !== null);
+
+  const calculateWinner = (b) => {
+    const lines = [
+      [0, 1, 2, 3],
+      [4, 5, 6, 7],
+      [8, 9, 10, 11],
+      [12, 13, 14, 15],
+      [0, 4, 8, 12],
+      [1, 5, 9, 13],
+      [2, 6, 10, 14],
+      [3, 7, 11, 15],
+      [0, 5, 10, 15],
+      [3, 6, 9, 12]
+    ];
+
+    for (let [a, b1, c, d] of lines) {
+      if (b[a] && b[a] === b[b1] && b[a] === b[c] && b[a] === b[d]) {
+        if (gameMode === 'Multiplayer') {
+          return b[a] === player1Symbol.key ? player1 : player2;
+        }
+
+        return b[a] === player1Symbol.key ? 'Fire' : 'Ice'; // Use Fire/Ice
+      }
+    }
+
+    return null;
+  };
+
+  const orbitShift = (curr) => {
+    playShift();
+    const b = [...curr];
+    const shiftCCW = (idxs) => {
+      const tmp = b[idxs[0]];
+      for (let i = 0; i < idxs.length - 1; i++) {
+        b[idxs[i]] = b[idxs[i + 1]];
+      }
+      b[idxs[idxs.length - 1]] = tmp;
+    };
+    shiftCCW(outerRing);
+    shiftCCW(innerRing);
+    return b;
+  };
+
+  // --- scoring & endgame ---
   useEffect(() => {
     const handleScoreUpdate = async () => {
-      if (winner || isBoardFull(board)) {
+      if (winner || (!winner && isBoardFull(board) && extraShifts >= 5)) {
         setGameOver(true);
+        setWinner(winner || 'draw');
+
+        if (gameMode === 'Multiplayer' && winner) {
+          // send the winner ID up to supabase; backend will fill in `name`
+          updateBoardState(room.room, board, gameId, winner);
+        }
 
         if (winner === userId) {
           playNextLevel();
@@ -105,106 +170,29 @@ const Game = () => {
         }, 3500);
       }
     };
-
     handleScoreUpdate();
   }, [winner]);
 
-  useEffect(() => {
-    // don’t subscribe until we know the room ID
-    if (!room?.room) return;
+  // --- human & computer turns ---
 
-    const subscription = subscribeToThumbs(room.room, ({ user_id, choice }) => {
-      // the payload gives you user_id and choice
-      if (user_id === userId) {
-        setMyChoice(choice);
-      } else {
-        setOppChoice(choice);
-      }
-    });
+  const handleCellClick = (idx) => {
+    if (gameMode === 'Single' && currentTurn === 'Ice') return;
+    if (gameOver || isBoardFull(board)) return;
+    if (gamePhase !== 'place') return;
+    if (board[idx] !== null) return;
 
-    return () => {
-      supabase.realtime.removeChannel(subscription);
-    };
-  }, [room, userId]);
-
-  useEffect(() => {
-    if (myChoice && oppChoice) {
-      if (myChoice === 'up' && oppChoice === 'up') {
-        handleRestart();
-      } else {
-        handleQuit();
-      }
-    }
-  }, [myChoice, oppChoice]);
-
-  const findBestMove = (squares, player) => {
-    const lines = [
-      [0, 1, 2], // Rows
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6], // Columns
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8], // Diagonals
-      [2, 4, 6]
-    ];
-
-    for (let i = 0; i < lines.length; i++) {
-      const [a, b, c] = lines[i];
-      if (squares[a] === player && squares[b] === player && squares[c] === null)
-        return c;
-      if (squares[a] === player && squares[c] === player && squares[b] === null)
-        return b;
-      if (squares[b] === player && squares[c] === player && squares[a] === null)
-        return a;
-    }
-
-    return null; // No move found
-  };
-
-  const calculateWinner = (squares) => {
-    const lines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6]
-    ];
-    for (let i = 0; i < lines.length; i++) {
-      const [a, b, c] = lines[i];
-      if (
-        squares[a] &&
-        squares[a] === squares[b] &&
-        squares[a] === squares[c]
-      ) {
-        if (gameMode === 'Multiplayer') {
-          return squares[a] === player1Symbol.key ? player1 : player2;
-        }
-
-        return squares[a] === player1Symbol.key ? 'Fire' : 'Ice'; // Use Fire/Ice
-      }
-    }
-    return null;
-  };
-
-  const isBoardFull = (squares) => {
-    return squares.every((square) => square !== null);
-  };
-
-  const handleClick = async (index) => {
-    playPlaceObject();
-
-    // Prevent clicking on filled cell, if game over, or not Fire's turn in Single mode
-    if (board[index] || gameOver) return;
+    const symbol =
+      gameMode === 'Multiplayer'
+        ? currentMultiplayerTurn === player1
+          ? player1Symbol.key
+          : player2Symbol.key
+        : currentTurn === 'Fire'
+        ? player1Symbol.key
+        : player2Symbol.key;
 
     if (gameMode === 'Single') {
-      if (currentTurn !== 'Fire') return;
-
       const newBoard = [...board];
-      newBoard[index] = player1Symbol.key; // Always Fire in Single mode for player
+      newBoard[idx] = symbol;
       setBoard(newBoard);
 
       const userWinner = calculateWinner(newBoard);
@@ -212,39 +200,25 @@ const Game = () => {
         setWinner(userWinner);
         return;
       }
-
-      if (isBoardFull(newBoard)) {
-        setWinner(null);
-        setGameOver(true);
-        setShowTitle(true);
-        setTimeout(() => {
-          handleRestart();
-        }, 2000);
-        return;
-      }
-
-      setCurrentTurn('Ice'); // Switch to computer
-      handleComputerMove(newBoard);
+      setGamePhase('orbit');
     } else if (gameMode === 'Multiplayer') {
       if (!opponentJoined) return;
       if (!userId) return;
 
-      // Check if it's the current player's turn
       if (currentMultiplayerTurn !== userId) {
         alert('Not your turn!');
         return;
       }
 
       const newBoard = [...board];
-      newBoard[index] =
+      newBoard[idx] =
         userId === player1 ? player1Symbol.key : player2Symbol.key;
       setBoard(newBoard);
 
+      setGamePhase('orbit');
+
       const multiplayerWinner = calculateWinner(newBoard);
       const nextTurn = userId === player1 ? player2 : player1;
-
-      // Update turn immediately for responsiveness
-      setCurrentMultiplayerTurn(nextTurn);
 
       if (multiplayerWinner) {
         setWinner(multiplayerWinner);
@@ -257,125 +231,135 @@ const Game = () => {
         );
         return;
       }
+    }
 
-      if (isBoardFull(newBoard)) {
-        updateBoardState(room.room, newBoard, gameId, null, multiplayerWinner);
-        setWinner(null);
-        setGameOver(true);
-        setTimeout(() => {
-          handleRestart();
-        }, 2000);
+    playPlaceObject();
+  };
 
+  const handleOrbitShift = () => {
+    const newBoard = orbitShift(board);
+
+    if (gameMode === 'Multiplayer') {
+      const multiplayerWinner = calculateWinner(newBoard);
+      const nextTurn = userId === player1 ? player2 : player1;
+      setCurrentMultiplayerTurn(nextTurn);
+      setGamePhase('place');
+      updateBoardState(room.room, newBoard, gameId, nextTurn);
+      if (multiplayerWinner) {
+        setWinner(multiplayerWinner);
+        updateBoardState(
+          room.room,
+          newBoard,
+          gameId,
+          null, // No next turn (game over)
+          multiplayerWinner
+        );
         return;
       }
+    } else {
+      setBoard(newBoard);
+      setCurrentTurn('Ice');
+      setGamePhase('place');
 
-      // Update server with new state and turn
-      updateBoardState(room.room, newBoard, gameId, nextTurn);
+      setTimeout(handleComputerTurn, 500);
+    }
+
+    if (isBoardFull(newBoard)) {
+      setExtraShifts((prev) => prev + 1);
     }
   };
 
-  const handleComputerMove = (currentBoard) => {
-    const newBoard = [...currentBoard];
+  const handleComputerTurn = () => {
+    // Don't proceed if game is already over
+    if (gameOver) return;
 
-    setTimeout(() => {
-      playPlaceObject();
-      const winningMove = findBestMove(newBoard, '❄️');
-      if (winningMove !== null) {
-        newBoard[winningMove] = '❄️'; // Computer's move
-        setBoard(newBoard);
-
-        const computerWinner = calculateWinner(newBoard);
-        if (computerWinner) {
-          setWinner(computerWinner);
-        } else {
-          setCurrentTurn('Fire'); // Switch turn back to Fire
-        }
-        return;
+    setBoard((prevBoard) => {
+      // 1) Check for winner before making any moves
+      const currentWinner = calculateWinner(prevBoard);
+      if (currentWinner) {
+        return prevBoard; // Return unchanged board if there's already a winner
       }
 
-      const blockingMove = findBestMove(newBoard, player1Symbol.key);
-      if (blockingMove !== null) {
-        newBoard[blockingMove] = '❄️';
-        setBoard(newBoard);
+      // 2) clone previous board
+      const nextBoard = [...prevBoard];
 
-        const computerWinner = calculateWinner(newBoard);
-        if (computerWinner) {
-          setWinner(computerWinner);
-        } else {
-          setCurrentTurn('Fire'); // Switch turn back to Fire
-        }
-        return;
-      }
+      // 3) place Ice marble only if board isn't full
+      if (!isBoardFull(nextBoard)) {
+        const empties = nextBoard
+          .map((v, i) => (v === null ? i : null))
+          .filter((i) => i !== null);
 
-      const emptySquares = newBoard
-        .map((value, idx) => (value === null ? idx : null))
-        .filter((v) => v !== null);
-
-      if (emptySquares.length > 0) {
-        const computerMove =
-          emptySquares[Math.floor(Math.random() * emptySquares.length)];
-        newBoard[computerMove] = '❄️';
-
-        setBoard(newBoard);
-
-        const computerWinner = calculateWinner(newBoard);
-        if (computerWinner) {
-          setWinner(computerWinner);
-        } else {
-          setCurrentTurn('Fire'); // Switch turn back to Fire
+        if (empties.length > 0) {
+          const idx = empties[Math.floor(Math.random() * empties.length)];
+          nextBoard[idx] = player2Symbol.key; // computer = Ice
+          playPlaceObject();
         }
       }
-    }, 2000); // Adds a 2-second delay
+
+      // 4) Check for winner after placement but before rotation
+      const placementWinner = calculateWinner(nextBoard);
+      if (placementWinner) {
+        return nextBoard; // Return board with placement if it created a winner
+      }
+
+      // 5) Only rotate if no winner after placement
+      const rotated = orbitShift(nextBoard);
+
+      // Check for winner after rotation
+
+      return rotated;
+    });
+
+    // 6) prepare for human turn if game isn't over
+    if (!gameOver) {
+      setGamePhase('place');
+      setCurrentTurn('Fire');
+    }
   };
 
+  // --- restart, reset, quit ---
+
   const handleRestart = () => {
-    const initialBoard = Array(9).fill(null);
-    setBoard(initialBoard);
+    setBoard(Array(16).fill(null));
     setGameOver(false);
     setWinner(null);
     setShowTitle(false);
     setShowModal(false);
-    setMyChoice(null);
-    setOppChoice(null);
+    setGamePhase('place');
+    setExtraShifts(0);
 
-    // Set first turn dynamically based on previous winner
     if (gameMode === 'Single') {
-      if (winner === 'Ice') {
-        setCurrentTurn('Ice');
-        setTimeout(() => {
-          handleComputerMove(initialBoard);
-        }, 500); // Delay for smooth restart
-      } else {
-        setCurrentTurn('Fire');
-      }
-    } else if (gameMode === 'Multiplayer') {
-      // Alternate starting player based on previous winner
-      const newStartingPlayer = winner === player2 ? player2 : player1;
-      setCurrentMultiplayerTurn(newStartingPlayer);
-      updateBoardState(room.room, initialBoard, gameId, newStartingPlayer);
+      setCurrentTurn('Fire');
+    } else {
+      const nextStarter = winner === player2 ? player2 : player1;
+      setCurrentMultiplayerTurn(nextStarter);
+      updateBoardState(room.room, Array(16).fill(null), gameId, nextStarter);
     }
 
     playDisappear();
-
     setTimeout(() => {
       clearThumbsChoices(room.room);
     }, 2000);
   };
 
+  const resetScore = () => {
+    setPlayerWins(0);
+    setComputerWins(0);
+    setOpponentWins(0);
+  };
+
   const handleQuit = () => {
-    clearGameData(room.room, gameId);
-    unsubscribeFromChannels(room.room);
+    if (gameMode === 'Multiplayer') {
+      clearGameData(room.room, gameId);
+      unsubscribeFromChannels(room.room);
+    }
     navigate('/');
   };
 
-  const resetScore = () => {
-    setComputerWins(0);
-    setPlayerWins(0);
-  };
+  // --- multiplayer setup & teardown ---
 
   const onStartGame = async (roomData) => {
     if (roomData && roomData.room) {
-      // Multiplayer logic
       setRoom(roomData);
       setPlayer1(roomData.player1);
       setPlayer2(roomData.player2);
@@ -399,7 +383,7 @@ const Game = () => {
           ) {
             updateBoardState(
               roomData.room,
-              Array(9).fill(null),
+              Array(16).fill(null),
               gameId,
               updatedRoom.player1
             );
@@ -410,6 +394,7 @@ const Game = () => {
       const boardChannel = subscribeToBoardUpdates(
         roomData.room,
         (gameState) => {
+          console.log('🔔 board update:', gameState);
           if (gameState.board_state) {
             setBoard(gameState.board_state);
           }
@@ -420,6 +405,7 @@ const Game = () => {
             setCurrentMultiplayerTurn(gameState.current_turn);
           }
           if (gameState.winner) {
+            console.log('🏆 winner payload:', gameState.winner, gameState.name);
             setWinnerName(gameState.name);
             setWinner(gameState.winner);
             handleMultiplayerWin(gameState.winner, 'easy');
@@ -440,20 +426,37 @@ const Game = () => {
 
       setChannels([opponentChannel, boardChannel]);
     } else {
-      // Single player fallback logic
       setGameMode('Single');
       setStartGame(true);
     }
   };
 
-  // Add cleanup for channels in useEffect
   useEffect(() => {
     return () => {
       if (gameMode === 'Multiplayer') {
-        unsubscribeFromChannels(channels); // Clean up listeners
+        unsubscribeFromChannels(channels);
       }
     };
-  }, [channels]);
+  }, [channels, gameMode]);
+
+  useEffect(() => {
+    if (!room?.room) return;
+    const sub = subscribeToThumbs(room.room, ({ user_id, choice }) => {
+      if (user_id === userId) setMyChoice(choice);
+      else setOppChoice(choice);
+    });
+    return () => supabase.realtime.removeChannel(sub);
+  }, [room, userId]);
+
+  useEffect(() => {
+    if (myChoice && oppChoice) {
+      if (myChoice === 'up' && oppChoice === 'up') {
+        handleRestart();
+      } else {
+        handleQuit();
+      }
+    }
+  }, [myChoice, oppChoice]);
 
   useEffect(() => {
     const handleBeforeUnload = async () => {
@@ -479,7 +482,7 @@ const Game = () => {
   }, [gameMode, room, gameId]);
 
   const title =
-    winner === null && isBoardFull(board)
+    winner === null && isBoardFull(board) && extraShifts >= 5
       ? "It's a Draw!"
       : winner
       ? gameMode === 'Multiplayer'
@@ -493,19 +496,20 @@ const Game = () => {
       <MultiplayerModal
         gameId={gameId}
         setGameMode={setGameMode}
-        onStartGame={(roomData, playerId) => onStartGame(roomData, playerId)}
+        onStartGame={onStartGame}
       />
     </>
   ) : (
     <>
-      <div className={`mq-global-container`}>
+      <div className='mq-global-container'>
         <div className='mq-score-container'>
           <span className='mq-score-player'>Fire: {playerWins}</span>
-          <span className='mq-room-number'>{room && room.room}</span>
+          <span className='mq-room-number'>{room?.room}</span>
           <span className='mq-score-computer'>
             Ice: {gameMode === 'Multiplayer' ? opponentWins : computerWins}
           </span>
         </div>
+
         <div
           className={`mq-board mq-${
             gameMode === 'Multiplayer'
@@ -520,67 +524,58 @@ const Game = () => {
           {showTitle && (
             <h1
               className={`mq-ending-title ${
-                (winner === 'Ice' || winner === player2) && 'glowingBlue-text'
+                winner === 'Ice' || winner === player2 ? 'glowingBlue-text' : ''
               }`}
             >
               {title}
             </h1>
           )}
 
-          {board.map((square, index) => (
+          {board.map((cell, idx) => (
             <div
-              key={index}
-              className={`mq-square 
-                      ${
-                        square
-                          ? `mq-${
-                              square === player1Symbol.key
-                                ? player1Symbol.key
-                                : square === player2Symbol.key
-                                ? player2Symbol.key
-                                : 'ice'
-                            }`
-                          : ''
-                      } 
-                      ${!square && hoveredIndex === index ? 'mq-preview' : ''} 
-                      ${
-                        (square === player1Symbol.key &&
-                          !player1Symbol.display) ||
-                        (square === player2Symbol.key && !player2Symbol.display)
-                          ? 'mq-image'
-                          : ''
-                      }`}
-              onClick={() => handleClick(index)}
-              onMouseEnter={() => setHoveredIndex(index)} // Track hover
-              onMouseLeave={() => setHoveredIndex(null)} // Remove hover effect
+              key={idx}
+              className={`mq-square
+                ${cell ? `mq-${cell}` : ''}
+                ${innerRing.includes(idx) ? 'mq-inner' : 'mq-outer'}
+                ${
+                  (cell === player1Symbol.key && !player1Symbol.display) ||
+                  (cell === player2Symbol.key && !player2Symbol.display)
+                    ? 'mq-image'
+                    : ''
+                }`}
+              onClick={() => handleCellClick(idx)}
             >
-              {square}
-              <span>
-                {gameMode === 'Single' ||
-                (gameMode === 'Multiplayer' &&
-                  currentMultiplayerTurn === player1)
-                  ? player1Symbol.display || player1Symbol.image
-                  : player2Symbol.display || player2Symbol.image}
-              </span>
+              {cell}
             </div>
           ))}
+          <Button
+            text={
+              isBoardFull(board) && extraShifts < 5 ? `${5 - extraShifts}` : '↺'
+            }
+            onClick={handleOrbitShift}
+            isDisabled={
+              (gamePhase !== 'orbit' && !isBoardFull(board)) ||
+              (isBoardFull(board) && gameOver) ||
+              extraShifts >= 5
+            }
+          />
         </div>
       </div>
+
       <Button
         text='Reset Score'
         onClick={resetScore}
       />
+
       {showCoinAnimation && (
-        <CollectionBurst
-          onComplete={() => setShowCoinAnimation(false)} // Hide animation after completion
-        />
+        <CollectionBurst onComplete={() => setShowCoinAnimation(false)} />
       )}
+
       <MultiplayerConfirmModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onThumbsUp={() => {
           setMyChoice('up');
-          // send your own userId along:
           sendThumbsChoice(room.room, userId, 'up');
         }}
         onThumbsDown={() => {
@@ -592,4 +587,4 @@ const Game = () => {
   );
 };
 
-export default Game;
+export default Orbito;
