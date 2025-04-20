@@ -45,7 +45,7 @@ const Orbito = () => {
   const [currentMultiplayerTurn, setCurrentMultiplayerTurn] = useState(null);
   const [gameMode, setGameMode] = useState('Single');
   const [gamePhase, setGamePhase] = useState('place');
-  const [extraShifts, setExtraShifts] = useState(0);
+  const [extraShifts, setExtraShifts] = useState(5);
   const [gameId] = useState(12);
   const [player1, setPlayer1] = useState(null);
   const [player2, setPlayer2] = useState(null);
@@ -122,12 +122,9 @@ const Orbito = () => {
   // --- scoring & endgame ---
   useEffect(() => {
     const handleScoreUpdate = async () => {
-      if (winner || (!winner && isBoardFull(board) && extraShifts >= 5)) {
+      if (winner || (!winner && isBoardFull(board) && extraShifts === 0)) {
         setGameOver(true);
-        setWinner(winner || 'draw');
-
         if (gameMode === 'Multiplayer' && winner) {
-          // send the winner ID up to supabase; backend will fill in `name`
           updateBoardState(room.room, board, gameId, winner);
         }
 
@@ -171,7 +168,7 @@ const Orbito = () => {
       }
     };
     handleScoreUpdate();
-  }, [winner]);
+  }, [winner, board, extraShifts]);
 
   // --- human & computer turns ---
 
@@ -218,7 +215,7 @@ const Orbito = () => {
       setGamePhase('orbit');
 
       const multiplayerWinner = calculateWinner(newBoard);
-      const nextTurn = userId === player1 ? player2 : player1;
+      updateBoardState(room.room, newBoard, gameId, currentMultiplayerTurn);
 
       if (multiplayerWinner) {
         setWinner(multiplayerWinner);
@@ -238,6 +235,37 @@ const Orbito = () => {
 
   const handleOrbitShift = () => {
     const newBoard = orbitShift(board);
+
+    if (isBoardFull(board) && extraShifts > 0) {
+      setExtraShifts((prev) => {
+        const newExtra = prev - 1;
+        if (newExtra === 0) {
+          const winner = calculateWinner(newBoard);
+          setWinner(winner);
+          if (winner) {
+            updateBoardState(room.room, newBoard, gameId, winner);
+          }
+        }
+        return newExtra;
+      });
+      const multiplayerWinner = calculateWinner(newBoard);
+      const nextTurn = userId === player1 ? player2 : player1;
+      setBoard(newBoard);
+      updateBoardState(room.room, newBoard, gameId, nextTurn);
+
+      if (multiplayerWinner) {
+        setWinner(multiplayerWinner);
+        updateBoardState(
+          room.room,
+          newBoard,
+          gameId,
+          null, // No next turn (game over)
+          multiplayerWinner
+        );
+        return;
+      }
+      return;
+    }
 
     if (gameMode === 'Multiplayer') {
       const multiplayerWinner = calculateWinner(newBoard);
@@ -262,10 +290,6 @@ const Orbito = () => {
       setGamePhase('place');
 
       setTimeout(handleComputerTurn, 500);
-    }
-
-    if (isBoardFull(newBoard)) {
-      setExtraShifts((prev) => prev + 1);
     }
   };
 
@@ -326,7 +350,7 @@ const Orbito = () => {
     setShowTitle(false);
     setShowModal(false);
     setGamePhase('place');
-    setExtraShifts(0);
+    setExtraShifts(5);
 
     if (gameMode === 'Single') {
       setCurrentTurn('Fire');
@@ -337,9 +361,7 @@ const Orbito = () => {
     }
 
     playDisappear();
-    setTimeout(() => {
-      clearThumbsChoices(room.room);
-    }, 2000);
+    clearThumbsChoices(room.room);
   };
 
   const resetScore = () => {
@@ -394,7 +416,6 @@ const Orbito = () => {
       const boardChannel = subscribeToBoardUpdates(
         roomData.room,
         (gameState) => {
-          console.log('🔔 board update:', gameState);
           if (gameState.board_state) {
             setBoard(gameState.board_state);
           }
@@ -405,21 +426,10 @@ const Orbito = () => {
             setCurrentMultiplayerTurn(gameState.current_turn);
           }
           if (gameState.winner) {
-            console.log('🏆 winner payload:', gameState.winner, gameState.name);
             setWinnerName(gameState.name);
             setWinner(gameState.winner);
             handleMultiplayerWin(gameState.winner, 'easy');
             clearGameState(gameState.room, gameState.game_id);
-          }
-          if (
-            gameState.board_state &&
-            isBoardFull(gameState.board_state) &&
-            !gameState.winner
-          ) {
-            setShowTitle(true);
-            setTimeout(() => {
-              setShowTitle(false);
-            }, 2000);
           }
         }
       );
@@ -481,8 +491,18 @@ const Orbito = () => {
     };
   }, [gameMode, room, gameId]);
 
+  const shiftDisabled = () => {
+    if (gameOver) return true;
+    if (gameMode === 'Multiplayer' && currentMultiplayerTurn !== userId)
+      return true;
+    // only allow when in orbit phase or in extra shift mode
+    if (!isBoardFull(board) && gamePhase !== 'orbit') return true;
+    if (isBoardFull(board) && extraShifts <= 0) return true;
+    return false;
+  };
+
   const title =
-    winner === null && isBoardFull(board) && extraShifts >= 5
+    winner === null && isBoardFull(board) && extraShifts <= 0
       ? "It's a Draw!"
       : winner
       ? gameMode === 'Multiplayer'
@@ -549,15 +569,9 @@ const Orbito = () => {
             </div>
           ))}
           <Button
-            text={
-              isBoardFull(board) && extraShifts < 5 ? `${5 - extraShifts}` : '↺'
-            }
+            text={isBoardFull(board) ? `${extraShifts}` : '↺'}
             onClick={handleOrbitShift}
-            isDisabled={
-              (gamePhase !== 'orbit' && !isBoardFull(board)) ||
-              (isBoardFull(board) && gameOver) ||
-              extraShifts >= 5
-            }
+            isDisabled={shiftDisabled()}
           />
         </div>
       </div>
