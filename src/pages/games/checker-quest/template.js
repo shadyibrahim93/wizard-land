@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useBeforeUnload } from 'react-router-dom';
 import GameIntro from '../../gameFlow/gameintro';
 import {
   playUncover,
@@ -31,6 +32,7 @@ import { handleMultiplayerWin } from '../../../hooks/handleProgressUpdate';
 import { CollectionBurst } from '../../../components/collect';
 import MultiplayerConfirmModal from '../../../components/playAgain';
 import { useNavigate } from 'react-router-dom';
+import ConfirmationModal from '../../../components/confirmation';
 
 // Initial board setup
 const initialBoard = () => {
@@ -82,6 +84,7 @@ const Checkers = () => {
   const [myChoice, setMyChoice] = useState(null);
   const [oppChoice, setOppChoice] = useState(null);
   const navigate = useNavigate();
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
   const introText = `Welcome to Wizards Land Checkers Game! Play as '🔥'. Take turns moving your pieces into the corresponding box. A helper will show you where the piece can be dropped. Be the first to capture all pieces or block the opponent from making any more and win the game. Good luck!`;
 
@@ -694,8 +697,18 @@ const Checkers = () => {
   };
 
   const handleQuit = () => {
+    setIsConfirmationModalOpen(false);
     if (gameMode === 'Multiplayer') {
       clearGameData(room.room, gameId);
+      unsubscribeFromChannels(room.room);
+    }
+    navigate('/');
+  };
+
+  const handleLeave = () => {
+    setIsConfirmationModalOpen(false);
+    alert('Ops, Opponent left the game! What a bummer!');
+    if (gameMode === 'Multiplayer') {
       unsubscribeFromChannels(room.room);
     }
     navigate('/');
@@ -704,31 +717,85 @@ const Checkers = () => {
   const resetScore = () => {
     setComputerWins(0);
     setPlayerWins(0);
-    setOpponentWins(0);
   };
 
+  // Add cleanup for channels in useEffect
   useEffect(() => {
-    const handleBeforeUnload = async () => {
-      if (gameMode === 'Multiplayer' && room?.room) {
-        await clearGameData(room.room, gameId);
-        resetScore();
+    return () => {
+      if (gameMode === 'Multiplayer') {
+        unsubscribeFromChannels(channels); // Clean up listeners
       }
     };
+  }, [channels]);
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
+  useEffect(() => {
+    let timeoutId;
+
+    // 1) resetTimer — shows modal after 30s of no activity
+    const resetTimer = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setIsConfirmationModalOpen(true);
+      }, 30000);
+    };
+
+    // 2) handlePop — traps back/forward nav and shows modal
+    const handlePop = (e) => {
+      e.preventDefault();
+      // re‑push so the user stays on the same page
+      window.history.pushState(null, '', window.location.href);
+      setIsConfirmationModalOpen(true);
+    };
+
+    // Prime history so popstate will fire at least once
+    window.history.pushState(null, '', window.location.href);
+
+    // Listen for activity events
+    const activityEvents = ['mousemove', 'keydown', 'mousedown', 'touchstart'];
+    activityEvents.forEach((ev) => window.addEventListener(ev, resetTimer));
+
+    // Listen for back/forward
+    window.addEventListener('popstate', handlePop);
+
+    // Kick off the first timer
+    resetTimer();
 
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+      // Clean up timeout
+      clearTimeout(timeoutId);
 
-      // If the component unmounts and game mode is Multiplayer, clear the game data
-      if (gameMode === 'Multiplayer' && room?.room) {
-        clearGameData(room.room, gameId);
-      }
-
-      // Also unsubscribe from any channels if you do that elsewhere
-      unsubscribeFromChannels();
+      // Remove all listeners
+      activityEvents.forEach((ev) =>
+        window.removeEventListener(ev, resetTimer)
+      );
+      window.removeEventListener('popstate', handlePop);
     };
-  }, [gameMode, room, gameId]);
+  }, []);
+
+  useBeforeUnload((event) => {
+    if (!gameOver) {
+      // Show modal for both modes
+      setIsConfirmationModalOpen(true);
+      // Force show browser's default prompt as fallback
+      event.preventDefault();
+      event.returnValue = '';
+    }
+  });
+
+  useEffect(() => {
+    if (!room?.room || gameMode !== 'Multiplayer') return;
+
+    // Track last update timestamp
+    let lastUpdate = Date.now();
+    const checkInterval = setInterval(() => {
+      // If no updates for 10 seconds, assume opponent left
+      if (Date.now() - lastUpdate > 60000) {
+        handleLeave();
+      }
+    }, 10000); // Check every 5 seconds
+
+    return () => clearInterval(checkInterval);
+  }, [board]);
 
   const title =
     winner === null && checkGameOver(board)
@@ -851,6 +918,12 @@ const Checkers = () => {
           setMyChoice('down');
           sendThumbsChoice(room.room, userId, 'down');
         }}
+      />
+      <ConfirmationModal
+        isOpen={isConfirmationModalOpen}
+        onConfirm={handleQuit}
+        onCancel={() => setIsConfirmationModalOpen(false)}
+        title='Leave Game?'
       />
     </>
   );
