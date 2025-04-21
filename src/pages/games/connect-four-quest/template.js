@@ -28,7 +28,7 @@ import { useSelectedPiece } from '../../../hooks/userSelectedPiece';
 import { useUser } from '../../../context/UserContext';
 import { handleMultiplayerWin } from '../../../hooks/handleProgressUpdate';
 import { CollectionBurst } from '../../../components/collect';
-import MultiplayerConfirmModal from '../../../components/confirmation';
+import MultiplayerConfirmModal from '../../../components/playAgain';
 import { useNavigate } from 'react-router-dom';
 
 const Game = () => {
