@@ -367,7 +367,11 @@ const Orbito = () => {
     }
 
     playDisappear();
-    clearThumbsChoices(room.room);
+    setTimeout(() => {
+      if (gameMode === 'Multiplayer') {
+        clearThumbsChoices(room.room);
+      }
+    }, 2000);
   };
 
   const resetScore = () => {

@@ -358,7 +358,9 @@ const Game = () => {
     playDisappear();
 
     setTimeout(() => {
-      clearThumbsChoices(room.room);
+      if (gameMode === 'Multiplayer') {
+        clearThumbsChoices(room.room);
+      }
     }, 2000);
   };
 
