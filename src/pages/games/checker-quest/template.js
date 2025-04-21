@@ -585,6 +585,17 @@ const Checkers = () => {
   };
 
   useEffect(() => {
+    if (
+      gameMode === 'Single' &&
+      currentTurn === 'Ice' &&
+      computerChainCapture &&
+      !gameOver
+    ) {
+      handleComputerTurn();
+    }
+  }, [computerChainCapture, currentTurn, gameOver, gameMode]);
+
+  useEffect(() => {
     if (gameMode === 'Single' && currentTurn === 'Ice' && !gameOver) {
       handleComputerTurn();
     }
