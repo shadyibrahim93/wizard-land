@@ -46,6 +46,7 @@ const ConfirmationModal = ({ isOpen = false, onConfirm, onCancel, title }) => {
           <Button
             onClick={onCancel}
             text='No'
+            secondaryButton
           />
         </div>
       </div>

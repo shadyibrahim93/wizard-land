@@ -1,9 +1,11 @@
 import { playButtonHover } from '../hooks/useSound';
 
-const Button = ({ isDisabled, text, onClick, className }) => {
+const Button = ({ isDisabled, text, onClick, className, secondaryButton }) => {
   return (
     <button
-      className={`mq-btn ${className || ''}`}
+      className={`mq-btn${secondaryButton ? '--secondary' : ''} ${
+        className || ''
+      }`}
       onClick={onClick}
       disabled={isDisabled}
       onMouseEnter={() => playButtonHover()}
