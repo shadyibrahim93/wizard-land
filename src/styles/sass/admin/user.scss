@@ -225,24 +225,33 @@
       &--exp,
       &--star,
       &--euro {
-        flex: 1 1 25%;
+        flex: 1 1 fit-content;
         padding: 0px;
-        margin-left: 8px;
+        margin-left: 0px;
         background-color: transparent;
       }
 
       &--exp .#{$identifier}-user-icon img,
       &--euro .#{$identifier}-user-icon img,
       &--star .#{$identifier}-user-icon img {
-        left: -15px;
-        top: -5px;
-        width: 45px;
+        width: 37px;
+      }
+
+      &--exp .#{$identifier}-user-icon img,
+      &--euro .#{$identifier}-user-icon img {
+        top: 0px;
+        left: 0px;
+      }
+
+      &--star .#{$identifier}-user-icon img {
+        top: 0px;
+        left: 0px;
       }
 
       .#{$identifier}-user {
         &-amount {
           font-size: 14px;
-          padding: 4px 10px 4px 32px;
+          padding: 4px 10px 4px 36px;
           width: 100%;
           max-width: 60px;
           overflow-x: auto;
