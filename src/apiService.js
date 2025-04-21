@@ -516,7 +516,8 @@ export async function updateBoardState(
   board,
   gameId,
   currentTurn,
-  winner = null
+  winner = null,
+  extraShifts = 5
 ) {
   const { data, error } = await supabase
     .from('game_state')
@@ -526,7 +527,8 @@ export async function updateBoardState(
         board_state: board,
         game_id: gameId,
         current_turn: currentTurn,
-        winner: winner
+        winner: winner,
+        extraShifts: extraShifts
       }
     ])
     .eq('room', roomId)

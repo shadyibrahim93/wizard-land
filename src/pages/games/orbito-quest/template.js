@@ -237,59 +237,66 @@ const Orbito = () => {
     const newBoard = orbitShift(board);
 
     if (isBoardFull(board) && extraShifts > 0) {
-      setExtraShifts((prev) => {
-        const newExtra = prev - 1;
-        if (newExtra === 0) {
-          const winner = calculateWinner(newBoard);
-          setWinner(winner);
-          if (winner) {
-            updateBoardState(room.room, newBoard, gameId, winner);
-          }
-        }
-        return newExtra;
-      });
-      const multiplayerWinner = calculateWinner(newBoard);
-      const nextTurn = userId === player1 ? player2 : player1;
-      setBoard(newBoard);
-      updateBoardState(room.room, newBoard, gameId, nextTurn);
+      const newExtraShifts = extraShifts - 1;
+      setExtraShifts(newExtraShifts);
 
+      // Update the board state with the new extraShifts
+      updateBoardState(room.room, newBoard, gameId, null, null, newExtraShifts);
+
+      if (newExtraShifts === 0) {
+        const winner = calculateWinner(newBoard);
+        if (winner) {
+          setWinner(winner);
+          updateBoardState(
+            room.room,
+            newBoard,
+            gameId,
+            null,
+            winner,
+            newExtraShifts
+          );
+        }
+        return;
+      }
+
+      const multiplayerWinner = calculateWinner(newBoard);
       if (multiplayerWinner) {
         setWinner(multiplayerWinner);
         updateBoardState(
           room.room,
           newBoard,
           gameId,
-          null, // No next turn (game over)
-          multiplayerWinner
+          null,
+          multiplayerWinner,
+          newExtraShifts
         );
         return;
       }
-      return;
-    }
 
-    if (gameMode === 'Multiplayer') {
+      const nextTurn = userId === player1 ? player2 : player1;
+      setCurrentMultiplayerTurn(nextTurn);
+      setGamePhase('place');
+      updateBoardState(
+        room.room,
+        newBoard,
+        gameId,
+        nextTurn,
+        null,
+        newExtraShifts
+      );
+    } else {
+      // Handle cases when the board isn't full
       const multiplayerWinner = calculateWinner(newBoard);
       const nextTurn = userId === player1 ? player2 : player1;
       setCurrentMultiplayerTurn(nextTurn);
       setGamePhase('place');
       updateBoardState(room.room, newBoard, gameId, nextTurn);
+
       if (multiplayerWinner) {
         setWinner(multiplayerWinner);
-        updateBoardState(
-          room.room,
-          newBoard,
-          gameId,
-          null, // No next turn (game over)
-          multiplayerWinner
-        );
+        updateBoardState(room.room, newBoard, gameId, null, multiplayerWinner);
         return;
       }
-    } else {
-      setBoard(newBoard);
-      setCurrentTurn('Ice');
-      setGamePhase('place');
-
-      setTimeout(handleComputerTurn, 500);
     }
   };
 
@@ -350,7 +357,6 @@ const Orbito = () => {
     setShowTitle(false);
     setShowModal(false);
     setGamePhase('place');
-    setExtraShifts(5);
 
     if (gameMode === 'Single') {
       setCurrentTurn('Fire');
@@ -418,6 +424,9 @@ const Orbito = () => {
         (gameState) => {
           if (gameState.board_state) {
             setBoard(gameState.board_state);
+          }
+          if (gameState.extraShifts !== undefined) {
+            setExtraShifts(gameState.extraShifts);
           }
           if (
             gameState.current_turn !== undefined &&
