@@ -127,6 +127,10 @@ const Orbito = () => {
     const handleScoreUpdate = async () => {
       if (gameOver) return;
 
+      if (board.every((cell) => cell === null)) {
+        setWinner(null);
+      }
+
       if (isBoardFull(board) && extraShifts === 0) {
         setGameOver(true);
         // Show win title and schedule reset
@@ -273,6 +277,7 @@ const Orbito = () => {
     const newBoard = orbitShift(board);
 
     if (gameMode === 'Single') {
+      setBoard(newBoard);
       // consume an extra shift if the board was full
       if (isBoardFull(newBoard) && extraShifts > 0) {
         setExtraShifts((es) => es - 1);
@@ -299,7 +304,6 @@ const Orbito = () => {
       if (newExtraShifts === 0) {
         const winner = calculateWinner(newBoard);
         if (winner) {
-          setWinner(winner);
           updateBoardState(
             room.room,
             newBoard,
@@ -308,13 +312,13 @@ const Orbito = () => {
             winner,
             newExtraShifts
           );
+          setWinner(winner);
         }
         return;
       }
 
       const multiplayerWinner = calculateWinner(newBoard);
       if (multiplayerWinner) {
-        setWinner(multiplayerWinner);
         updateBoardState(
           room.room,
           newBoard,
@@ -323,12 +327,11 @@ const Orbito = () => {
           multiplayerWinner,
           newExtraShifts
         );
+        setWinner(multiplayerWinner);
         return;
       }
 
       const nextTurn = userId === player1 ? player2 : player1;
-      setCurrentMultiplayerTurn(nextTurn);
-      setGamePhase('place');
       updateBoardState(
         room.room,
         newBoard,
@@ -337,17 +340,19 @@ const Orbito = () => {
         null,
         newExtraShifts
       );
+      setCurrentMultiplayerTurn(nextTurn);
+      setGamePhase('place');
     } else if (gameMode === 'Multiplayer') {
       // Handle cases when the board isn't full
       const multiplayerWinner = calculateWinner(newBoard);
       const nextTurn = userId === player1 ? player2 : player1;
+      updateBoardState(room.room, newBoard, gameId, nextTurn);
       setCurrentMultiplayerTurn(nextTurn);
       setGamePhase('place');
-      updateBoardState(room.room, newBoard, gameId, nextTurn);
 
       if (multiplayerWinner) {
-        setWinner(multiplayerWinner);
         updateBoardState(room.room, newBoard, gameId, null, multiplayerWinner);
+        setWinner(multiplayerWinner);
         return;
       }
     }
@@ -356,41 +361,68 @@ const Orbito = () => {
   const handleComputerTurn = () => {
     if (gameOver) return;
 
-    // 1) If there's already a winner on the *current* board, bail out
+    // 1) Don’t move if there’s already a winner
     const currentWinner = calculateWinner(board);
     if (currentWinner) return;
 
-    // 2) Clone the current board
-    let nextBoard = [...board];
+    // 2) Pick and apply the placement to a fresh copy
+    const nextBoard = [...board];
 
-    // 3) Place the Ice marble if there's space
-    if (!isBoardFull(nextBoard)) {
-      const empties = nextBoard
-        .map((v, i) => (v === null ? i : null))
-        .filter((i) => i !== null);
+    if (isBoardFull(board) && extraShifts > 0) {
+      setTimeout(() => {
+        const rotated = orbitShift(board); // plays shift sound
+        setBoard(rotated);
+        setExtraShifts((es) => es - 1); // consume one shift
 
-      if (empties.length > 0) {
-        const idx = empties[Math.floor(Math.random() * empties.length)];
-        nextBoard[idx] = player2Symbol.key;
-        playPlaceObject();
-      }
-    }
+        const winnerAfter = calculateWinner(rotated);
+        if (winnerAfter) {
+          setWinner(winnerAfter);
+          return;
+        }
 
-    // 4) If that placement just won the game, set it and stop
-    const placementWinner = calculateWinner(nextBoard);
-    if (placementWinner) {
-      setBoard(nextBoard);
-      setWinner(placementWinner);
+        setGamePhase('place');
+        setCurrentTurn('Fire');
+      }, 500);
+
       return;
     }
 
-    // 5) Otherwise do the ring‑shift and commit it
-    const rotated = orbitShift(nextBoard);
-    setBoard(rotated);
+    const empties = nextBoard
+      .map((v, i) => (v === null ? i : null))
+      .filter((i) => i != null);
+    if (empties.length === 0) return;
 
-    // 6) Finally hand control back to the human
-    setGamePhase('place');
-    setCurrentTurn('Fire');
+    const idx = empties[Math.floor(Math.random() * empties.length)];
+    nextBoard[idx] = player2Symbol.key;
+
+    // 3) Delay placement
+    setTimeout(() => {
+      setBoard(nextBoard);
+      playPlaceObject();
+
+      // 4) Check for a win *after* placement
+      const placementWinner = calculateWinner(nextBoard);
+      if (placementWinner) {
+        setWinner(placementWinner);
+        return;
+      }
+
+      // 5) Delay the orbit‐shift
+      setTimeout(() => {
+        const rotated = orbitShift(nextBoard); // orbitShift calls playShift()
+        setBoard(rotated);
+
+        const placementWinner = calculateWinner(rotated);
+        if (placementWinner) {
+          setWinner(placementWinner);
+          return;
+        }
+
+        // 6) Hand turn back to the human
+        setGamePhase('place');
+        setCurrentTurn('Fire');
+      }, 500);
+    }, 500);
   };
 
   useEffect(() => {
@@ -404,9 +436,46 @@ const Orbito = () => {
     }
   }, [gameMode, gamePhase, currentTurn, gameOver]);
 
+  // Add new useEffect to handle the computer's orbit phase
+  useEffect(() => {
+    if (
+      gameMode === 'Single' &&
+      gamePhase === 'orbit' &&
+      currentTurn === 'Ice' &&
+      !gameOver
+    ) {
+      // Perform the orbit shift
+      const newBoard = orbitShift(board);
+
+      // Check for winner after shift
+      const shiftWinner = calculateWinner(newBoard);
+      if (shiftWinner) {
+        setBoard(newBoard);
+        setWinner(shiftWinner);
+        return;
+      }
+
+      // Consume extra shift if the board is full
+      if (isBoardFull(newBoard) && extraShifts > 0) {
+        setExtraShifts((es) => es - 1);
+      }
+
+      // Update the board state after shifting
+      setBoard(newBoard);
+
+      // Switch back to human's turn
+      setGamePhase('place');
+      setCurrentTurn('Fire');
+    }
+  }, [gamePhase, currentTurn, board, gameMode, gameOver, extraShifts]);
+
   // --- restart, reset, quit ---
 
   const handleRestart = () => {
+    // Reset choice states
+    setMyChoice(null);
+    setOppChoice(null);
+
     setBoard(Array(16).fill(null));
     setGameOver(false);
     setWinner(null);
@@ -414,20 +483,19 @@ const Orbito = () => {
     setShowModal(false);
     setGamePhase('place');
 
-    if (gameMode === 'Single') {
-      setCurrentTurn('Fire');
-    } else {
+    if (gameMode === 'Multiplayer') {
       const nextStarter = winner === player2 ? player2 : player1;
       setCurrentMultiplayerTurn(nextStarter);
       updateBoardState(room.room, Array(16).fill(null), gameId, nextStarter);
+      // Immediately clear previous choices
+      setTimeout(() => {
+        clearThumbsChoices(room.room);
+      }, 1000);
+    } else {
+      setCurrentTurn('Fire');
     }
 
     playDisappear();
-    setTimeout(() => {
-      if (gameMode === 'Multiplayer') {
-        clearThumbsChoices(room.room);
-      }
-    }, 2000);
   };
 
   // --- multiplayer setup & teardown ---
@@ -512,6 +580,9 @@ const Orbito = () => {
       } else {
         handleQuit();
       }
+      // Reset choices after handling
+      setMyChoice(null);
+      setOppChoice(null);
     }
   }, [myChoice, oppChoice]);
 
@@ -712,7 +783,15 @@ const Orbito = () => {
 
       <MultiplayerConfirmModal
         isOpen={showModal}
-        onClose={() => setShowModal(false)}
+        onClose={() => {
+          setShowModal(false);
+          // Reset choices when closing modal
+          setMyChoice(null);
+          setOppChoice(null);
+          if (gameMode === 'Multiplayer') {
+            clearThumbsChoices(room.room);
+          }
+        }}
         onThumbsUp={() => {
           setMyChoice('up');
           sendThumbsChoice(room.room, userId, 'up');

@@ -69,6 +69,10 @@ const Game = () => {
       if (winner || isBoardFull(board)) {
         setGameOver(true);
 
+        if (board.every((cell) => cell === null)) {
+          setWinner(null);
+        }
+
         if (winner === userId) {
           playNextLevel();
           triggerConfetti();
@@ -137,6 +141,9 @@ const Game = () => {
       } else {
         handleQuit();
       }
+      // Reset choices after handling
+      setMyChoice(null);
+      setOppChoice(null);
     }
   }, [myChoice, oppChoice]);
 
@@ -356,15 +363,12 @@ const Game = () => {
       const newStartingPlayer = winner === player2 ? player2 : player1;
       setCurrentMultiplayerTurn(newStartingPlayer);
       updateBoardState(room.room, initialBoard, gameId, newStartingPlayer);
+      setTimeout(() => {
+        clearThumbsChoices(room.room);
+      }, 1000);
     }
 
     playDisappear();
-
-    setTimeout(() => {
-      if (gameMode === 'Multiplayer') {
-        clearThumbsChoices(room.room);
-      }
-    }, 2000);
   };
 
   const onStartGame = async (roomData) => {
@@ -640,10 +644,17 @@ const Game = () => {
       )}
       <MultiplayerConfirmModal
         isOpen={showModal}
-        onClose={() => setShowModal(false)}
+        onClose={() => {
+          setShowModal(false);
+          // Reset choices when closing modal
+          setMyChoice(null);
+          setOppChoice(null);
+          if (gameMode === 'Multiplayer') {
+            clearThumbsChoices(room.room);
+          }
+        }}
         onThumbsUp={() => {
           setMyChoice('up');
-          // send your own userId along:
           sendThumbsChoice(room.room, userId, 'up');
         }}
         onThumbsDown={() => {

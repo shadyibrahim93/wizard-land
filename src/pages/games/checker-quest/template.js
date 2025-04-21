@@ -169,6 +169,9 @@ const Checkers = () => {
       } else {
         handleQuit();
       }
+      // Reset choices after handling
+      setMyChoice(null);
+      setOppChoice(null);
     }
   }, [myChoice, oppChoice]);
 
@@ -686,14 +689,12 @@ const Checkers = () => {
       const newStartingPlayer = winner === player2 ? player2 : player1;
       setCurrentMultiplayerTurn(newStartingPlayer);
       updateBoardState(room.room, newBoard, gameId, newStartingPlayer);
+      setTimeout(() => {
+        clearThumbsChoices(room.room);
+      }, 1000);
     }
 
     playDisappear();
-    setTimeout(() => {
-      if (gameMode === 'Multiplayer') {
-        clearThumbsChoices(room.room);
-      }
-    }, 2000);
   };
 
   const handleQuit = () => {
@@ -909,7 +910,15 @@ const Checkers = () => {
       )}
       <MultiplayerConfirmModal
         isOpen={showModal}
-        onClose={() => setShowModal(false)}
+        onClose={() => {
+          setShowModal(false);
+          // Reset choices when closing modal
+          setMyChoice(null);
+          setOppChoice(null);
+          if (gameMode === 'Multiplayer') {
+            clearThumbsChoices(room.room);
+          }
+        }}
         onThumbsUp={() => {
           setMyChoice('up');
           sendThumbsChoice(room.room, userId, 'up');
