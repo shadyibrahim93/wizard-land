@@ -832,18 +832,22 @@ body {
         gap: 48px;
 
         .#{$identifier}-modal-item {
+          background-color: $dark-overlay;
           position: relative;
           border-radius: 20px;
-          padding: 24px 16px 46px 16px;
+          padding: 24px 16px 36px 16px;
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
           row-gap: 24px;
-          animation: glowSnow 4s infinite alternate;
-
+          box-shadow: -3px 3px 0px 0px rgb(123 123 123 / 30%);
           &:has(.#{$identifier}-modal-price) {
-            padding: 24px 16px 32px 16px;
+            padding: 24px 16px 36px 16px;
+          }
+
+          &:has(.#{$identifier}-theme) {
+            row-gap: 30px;
           }
 
           .#{$identifier}-modal-title {
@@ -854,43 +858,46 @@ body {
 
           .#{$identifier}-modal-price {
             background-color: $dark-overlay;
-            animation: glowSnow 4s infinite alternate;
             display: flex;
             flex-direction: row;
             justify-content: center;
             column-gap: 8px;
             align-items: center;
             width: 100%;
-            padding: 4px 0px;
+            padding: 6px 0px;
             border-radius: 10px;
             margin: 0;
             color: $white;
+            box-shadow: 0px 0px 2px 0px rgb(123 123 123 / 30%);
+
             img {
               width: 30px;
             }
           }
 
           .#{$identifier}-piece {
-            background-color: $dark-overlay;
-            width: 75px;
+            width: 100px;
             height: 75px;
-            border-radius: 50%;
             display: flex;
+            border: none;
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            font-size: 36px;
-            animation: glowSnow 4s infinite alternate;
+            font-size: 48px;
             padding-left: 2px;
+            text-align: center;
+            letter-spacing: normal;
 
             @import './themes';
 
             &.#{$identifier}-theme {
               border-radius: 10px;
+              width: 80px;
+              height: 80px;
             }
 
             img {
-              width: 45px;
+              width: 75px;
             }
           }
 
@@ -901,8 +908,6 @@ body {
             width: 60%;
             padding: 4px 0px;
             margin: 0;
-            border: 2px solid $secondary-color;
-            animation: glowRed 4s infinite alternate;
 
             &:disabled {
               background-color: $gray;
@@ -1069,10 +1074,10 @@ body {
                 .#{$identifier}-piece {
                   width: 40px;
                   height: 40px;
-                  font-size: 21px;
+                  font-size: 32px;
 
                   img {
-                    width: 30px;
+                    width: 50px;
                   }
                 }
 
