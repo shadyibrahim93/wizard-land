@@ -235,15 +235,6 @@
       &--euro .#{$identifier}-user-icon img,
       &--star .#{$identifier}-user-icon img {
         width: 37px;
-      }
-
-      &--exp .#{$identifier}-user-icon img,
-      &--euro .#{$identifier}-user-icon img {
-        top: 0px;
-        left: 0px;
-      }
-
-      &--star .#{$identifier}-user-icon img {
         top: 0px;
         left: 0px;
       }

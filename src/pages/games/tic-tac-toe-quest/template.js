@@ -666,7 +666,7 @@ const Game = () => {
         isOpen={isConfirmationModalOpen}
         onConfirm={handleQuit}
         onCancel={() => setIsConfirmationModalOpen(false)}
-        title='Leave Game?'
+        title='Leave Game? Auto-quit in '
       />
     </>
   );
