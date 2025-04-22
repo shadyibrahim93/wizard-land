@@ -358,7 +358,7 @@ body {
           animation: glowingRed 4s infinite alternate;
 
           @media (max-width: 768px) {
-            font-size: 16px;
+            font-size: small;
           }
         }
         .#{$identifier}-cards-grid {
