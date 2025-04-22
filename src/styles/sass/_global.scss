@@ -661,6 +661,7 @@ body {
       cursor: pointer;
       transition: background-color 0.3s ease, box-shadow 0.3s ease;
       border-radius: 20px;
+      z-index: 1;
 
       @import './pieces';
 
@@ -828,7 +829,7 @@ body {
     width: 100%;
     height: 100%;
     border: 0px;
-    z-index: 1;
+    z-index: 10;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1030,6 +1031,12 @@ body {
               border-radius: 10px;
               width: 80px;
               height: 80px;
+
+              &::after {
+                bottom: -3px;
+                right: 2px;
+                font-size: 21px;
+              }
             }
 
             img {

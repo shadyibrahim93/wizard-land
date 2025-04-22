@@ -341,3 +341,305 @@
     }
   }
 }
+
+&.#{$identifier}-christmas {
+  position: relative;
+  background: radial-gradient(circle at center, #e63946 0%, #1d3557 100%);
+  color: #fff;
+  border-radius: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(255, 0, 0, 0.4), 0 0 60px rgba(255, 255, 255, 0.1);
+  animation: pulseGlow 4s ease-in-out infinite;
+
+  // Falling translucent snowflakes ❄️
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.9) 1px,
+        transparent 1px
+      ),
+      radial-gradient(circle, rgba(255, 255, 255, 0.6) 1.5px, transparent 1.5px),
+      radial-gradient(circle, rgba(255, 255, 255, 0.8) 1px, transparent 1px),
+      radial-gradient(circle, rgba(255, 255, 255, 0.7) 1.2px, transparent 1.2px);
+    background-size: 6vw 6vh, 8vw 8vh, 10vw 10vh, 12vw 12vh;
+    animation: snowDrift 30s infinite linear;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.9;
+  }
+
+  // Subtle sparkles and twinkle ✨
+  &::after {
+    content: '⛄️';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 2.2rem;
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.7));
+    animation: floatSnowman 6s ease-in-out infinite;
+    z-index: 11;
+    pointer-events: none;
+  }
+
+  @keyframes snowDrift {
+    0% {
+      transform: translateY(-10%) translateX(0);
+    }
+    25% {
+      transform: translateY(25%) translateX(1vw);
+    }
+    50% {
+      transform: translateY(50%) translateX(-1vw);
+    }
+    75% {
+      transform: translateY(75%) translateX(1vw);
+    }
+    100% {
+      transform: translateY(100%) translateX(-1vw);
+    }
+  }
+
+  @keyframes pulseGlow {
+    0%,
+    100% {
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1),
+        0 0 40px rgba(255, 0, 0, 0.2), 0 0 80px rgba(0, 255, 0, 0.2);
+    }
+    50% {
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.3),
+        0 0 60px rgba(0, 255, 0, 0.3), 0 0 100px rgba(255, 0, 0, 0.3);
+    }
+  }
+
+  @keyframes snowFall {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-66.66%);
+    }
+  }
+
+  @keyframes floatSnowman {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  @keyframes shimmerGlow {
+    0% {
+      transform: rotate(0deg) scale(1);
+      opacity: 0.3;
+    }
+    100% {
+      transform: rotate(360deg) scale(1.2);
+      opacity: 0.6;
+    }
+  }
+}
+
+&.#{$identifier}-fall {
+  position: relative;
+  background: linear-gradient(135deg, #f4a261, #e76f51);
+  color: #fff;
+  border-radius: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(255, 153, 0, 0.3), 0 0 60px rgba(255, 94, 0, 0.2);
+  animation: harvestGlow 4s ease-in-out infinite;
+
+  // Floating autumn leaves 🍁🍂
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(
+        circle,
+        rgba(255, 165, 0, 0.8) 1px,
+        transparent 1px
+      ),
+      /* pumpkin orange */
+        radial-gradient(circle, rgba(220, 20, 60, 0.6) 1.5px, transparent 1.5px),
+      /* crimson red */
+        radial-gradient(circle, rgba(218, 165, 32, 0.7) 1px, transparent 1px),
+      /* goldenrod */
+        radial-gradient(circle, rgba(139, 69, 19, 0.5) 1.2px, transparent 1.2px); /* saddle brown */
+    background-size: 6vw 6vh, 8vw 8vh, 10vw 10vh, 12vw 12vh;
+    animation: snowDrift 30s infinite linear;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.9;
+  }
+
+  // Floating pumpkin accent 🎃
+  &::after {
+    content: '🍂';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 2.4rem;
+    filter: drop-shadow(0 0 4px rgba(255, 153, 0, 0.6));
+    animation: floatPumpkin 6s ease-in-out infinite;
+    z-index: 11;
+    pointer-events: none;
+  }
+
+  @keyframes leafFall {
+    0% {
+      transform: translateY(-10%) translateX(0);
+    }
+    20% {
+      transform: translateY(20%) translateX(-2vw) rotate(-3deg);
+    }
+    40% {
+      transform: translateY(40%) translateX(1.5vw) rotate(3deg);
+    }
+    60% {
+      transform: translateY(60%) translateX(-1vw) rotate(-2deg);
+    }
+    80% {
+      transform: translateY(80%) translateX(1vw) rotate(2deg);
+    }
+    100% {
+      transform: translateY(100%) translateX(0vw) rotate(0deg);
+    }
+  }
+
+  @keyframes floatPumpkin {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+
+  @keyframes harvestGlow {
+    0%,
+    100% {
+      box-shadow: 0 0 20px rgba(255, 153, 0, 0.2),
+        0 0 40px rgba(255, 94, 0, 0.1);
+    }
+    50% {
+      box-shadow: 0 0 35px rgba(255, 153, 0, 0.3),
+        0 0 70px rgba(255, 94, 0, 0.2);
+    }
+  }
+}
+
+&.#{$identifier}-love {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    #ff77b5,
+    #ff1493
+  ); /* hot pink and deep pink */
+  color: #fff;
+  border-radius: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(255, 105, 180, 0.3),
+    0 0 60px rgba(255, 20, 147, 0.2); /* pink shades */
+  animation: loveGlow 4s ease-in-out infinite;
+
+  // Floating hearts for Valentine's Day 💖❤️
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(
+        circle,
+        rgba(255, 105, 180, 0.8) 1px,
+        transparent 1px
+      ),
+      /* hot pink */
+        radial-gradient(
+          circle,
+          rgba(255, 20, 147, 0.6) 1.5px,
+          transparent 1.5px
+        ),
+      /* deep pink */
+        radial-gradient(circle, rgba(255, 0, 0, 0.7) 1px, transparent 1px),
+      /* crimson red */
+        radial-gradient(circle, rgba(255, 99, 71, 0.5) 1.2px, transparent 1.2px); /* tomato red */
+    background-size: 6vw 6vh, 8vw 8vh, 10vw 10vh, 12vw 12vh;
+    animation: heartFall 30s infinite linear;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.9;
+  }
+
+  // Floating heart accent 💕
+  &::after {
+    content: '💖';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 2.4rem;
+    filter: drop-shadow(0 0 4px rgba(255, 105, 180, 0.6));
+    animation: floatHeart 6s ease-in-out infinite;
+    z-index: 11;
+    pointer-events: none;
+  }
+
+  @keyframes heartFall {
+    0% {
+      transform: translateY(-10%) translateX(0);
+    }
+    20% {
+      transform: translateY(20%) translateX(-2vw) rotate(-3deg);
+    }
+    40% {
+      transform: translateY(40%) translateX(1.5vw) rotate(3deg);
+    }
+    60% {
+      transform: translateY(60%) translateX(-1vw) rotate(-2deg);
+    }
+    80% {
+      transform: translateY(80%) translateX(1vw) rotate(2deg);
+    }
+    100% {
+      transform: translateY(100%) translateX(0vw) rotate(0deg);
+    }
+  }
+
+  @keyframes floatHeart {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+
+  @keyframes loveGlow {
+    0%,
+    100% {
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.2),
+        0 0 40px rgba(255, 20, 147, 0.1);
+    }
+    50% {
+      box-shadow: 0 0 35px rgba(255, 105, 180, 0.3),
+        0 0 70px rgba(255, 20, 147, 0.2);
+    }
+  }
+}
