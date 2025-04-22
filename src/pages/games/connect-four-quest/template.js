@@ -488,15 +488,6 @@ const Game = () => {
     navigate('/');
   };
 
-  const handleLeave = () => {
-    setIsConfirmationModalOpen(false);
-    alert('Ops, Opponent left the game! What a bummer!');
-    if (gameMode === 'Multiplayer') {
-      unsubscribeFromChannels(room.room);
-    }
-    navigate('/');
-  };
-
   const resetScore = () => {
     setComputerWins(0);
     setPlayerWins(0);
@@ -512,6 +503,8 @@ const Game = () => {
   }, [channels]);
 
   useEffect(() => {
+    if (gameMode !== 'Multiplayer') return;
+
     let timeoutId;
 
     // 1) resetTimer — shows modal after 30s of no activity
@@ -553,10 +546,10 @@ const Game = () => {
       );
       window.removeEventListener('popstate', handlePop);
     };
-  }, []);
+  }, [gameMode]);
 
   useBeforeUnload((event) => {
-    if (!gameOver) {
+    if (!gameOver && gameMode === 'Multiplayer') {
       // Show modal for both modes
       setIsConfirmationModalOpen(true);
       // Force show browser's default prompt as fallback
@@ -573,7 +566,8 @@ const Game = () => {
     const checkInterval = setInterval(() => {
       // If no updates for 10 seconds, assume opponent left
       if (Date.now() - lastUpdate > 60000) {
-        handleLeave();
+        alert('Ops, Opponent left the game! What a bummer!');
+        handleQuit();
       }
     }, 10000); // Check every 5 seconds
 
@@ -671,6 +665,10 @@ const Game = () => {
           )}
         </div>
       </div>
+      <Button
+        text='Reset Score'
+        onClick={resetScore}
+      />
       {showCoinAnimation && (
         <CollectionBurst
           onComplete={() => setShowCoinAnimation(false)} // Hide animation after completion
