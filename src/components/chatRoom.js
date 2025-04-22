@@ -50,6 +50,7 @@ const GameChat = ({ chatTitle, gameId }) => {
         <span>{chatTitle}</span>
       </header>
       <div className='mq-messages'>
+        {messages.length === 0 && <h3>Start Chating!</h3>}
         {messages.map((msg) => (
           <div
             className={`${msg.sender_name === userName ? 'mq-local-user' : ''}`}

@@ -68,6 +68,9 @@ const LeaderBoard = () => {
         🏆 Daily Leaderboard
       </h2>
       <div className='mq-leaderboard-container'>
+        {groupedProgress && Object.keys(groupedProgress).length === 0 && (
+          <h3>No data available... Start playing!</h3>
+        )}
         {Object.entries(groupedProgress).map(
           ([gameId, { gameName, players, emoji }]) => (
             <div

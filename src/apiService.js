@@ -240,6 +240,11 @@ export async function sendMessage(
   senderName,
   messageContent
 ) {
+  if (!senderId) {
+    alert('Please sign in to join the community.');
+    return;
+  }
+
   const { error } = await supabase.from('messages').insert([
     {
       game_chat_room_id: gameChatRoomId,

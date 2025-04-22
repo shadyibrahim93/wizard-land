@@ -269,6 +269,11 @@ body {
             padding: 21px;
             row-gap: 21px;
 
+            h3 {
+              color: $white;
+              font-size: 14px;
+            }
+
             .#{$identifier}-leaderboard-game {
               border: 2px solid $light-overlay;
               padding: 12px;

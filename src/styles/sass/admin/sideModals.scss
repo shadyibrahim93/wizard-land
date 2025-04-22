@@ -10,6 +10,12 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   margin-top: 30px;
   color: $secondary-color;
+
+  h3 {
+    color: $white;
+    font-size: 14px;
+  }
+
   @media (max-width: 768px) {
     width: auto;
   }
@@ -41,8 +47,8 @@
   }
 
   .#{$identifier}-messages {
-    padding: 0px 21px 21px;
-    height: 300px;
+    padding: 21px;
+    max-height: 300px;
     overflow-y: auto;
 
     @media (max-width: 768px) {
@@ -129,7 +135,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 21px;
+    padding: 0px 21px 21px;
   }
 
   input {
@@ -140,6 +146,7 @@
     margin-right: 12px;
     padding: 0px 8px;
     background-color: $light-overlay;
+    color: $white;
     &::placeholder {
       color: $white;
       opacity: 1; // Ensures the white is fully visible
