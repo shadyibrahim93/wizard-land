@@ -13,12 +13,14 @@ import AuthModals from './Header/AuthModals';
 import HeaderContent from './Header/GameHeader';
 import Shop from './shop/shop';
 import Inventory from './inventory/inventory';
+import About from './about';
 
 export default function Header({ title, backTarget, level, homePage, gameId }) {
   const [showSignUpModal, setShowSignUpModal] = useState(false);
   const [showSignInModal, setShowSignInModal] = useState(false);
   const [showShop, setShowShop] = useState(false);
   const [showInventory, setShowInventory] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
   const [exp, setExp] = useState(0);
   const [euro, setEuro] = useState(0);
   const [stars, setStars] = useState(0);
@@ -104,6 +106,7 @@ export default function Header({ title, backTarget, level, homePage, gameId }) {
         onSignIn={() => setShowSignInModal(true)}
         onSignUp={() => setShowSignUpModal(true)}
         onLogout={handleLogout}
+        showAbout={() => setShowAbout(true)}
         showShop={() => setShowShop(true)}
         showInventory={() => setShowInventory(true)}
       />
@@ -117,6 +120,7 @@ export default function Header({ title, backTarget, level, homePage, gameId }) {
 
       {showShop && <Shop onClose={() => setShowShop(false)} />}
       {showInventory && <Inventory onClose={() => setShowInventory(false)} />}
+      {showAbout && <About onClose={() => setShowAbout(false)} />}
     </>
   );
 }

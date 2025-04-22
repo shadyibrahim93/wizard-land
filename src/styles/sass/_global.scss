@@ -152,9 +152,9 @@ body {
           display: none;
         }
         .#{$identifier}-menu-item {
-          font-size: 14px;
+          font-size: 12px;
           img {
-            width: 35px;
+            width: 30px;
           }
 
           &:hover {
@@ -214,7 +214,7 @@ body {
     .#{$identifier}-dashboard-cards-wrapper {
       margin: 0px;
       overflow-y: scroll;
-      padding: 21px 0px;
+      margin: 21px 0px;
       display: flex;
       flex-direction: row;
       gap: 21px;
@@ -863,6 +863,17 @@ body {
       border-radius: 20px;
       animation: glowIce 4s infinite alternate;
       transform: translateZ(0);
+
+      p {
+        font-family: system-ui, -apple-system, 'Segoe UI', Roboto,
+          'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif,
+          'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+          'Noto Color Emoji';
+        color: $white;
+        line-height: 2;
+        text-align: justify;
+        font-size: 16px;
+      }
 
       .#{$identifier}-modal-category {
         padding: 24px 24px 46px 24px;

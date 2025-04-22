@@ -241,7 +241,7 @@ export async function sendMessage(
   messageContent
 ) {
   if (!senderId) {
-    alert('Please sign in to join the community.');
+    alert('Please sign in to join the community. The Magic starts here!');
     return;
   }
 

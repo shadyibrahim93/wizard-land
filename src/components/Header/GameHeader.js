@@ -2,23 +2,33 @@ import MenuItem from '../menu/menuItem';
 import {
   playChest,
   playEquip,
-  playHorn,
   playLogInOut,
-  playPageFlip
+  playPageFlip,
+  playDoor
 } from '../../hooks/useSound';
+import { useNavigate } from 'react-router-dom';
 
 const HeaderContent = ({
-  title,
   userId,
   onSignIn,
   onLogout,
   showShop,
-  showInventory
+  showInventory,
+  showAbout
 }) => {
+  const navigate = useNavigate();
+
   return (
     <header>
       <div className='mq-header-container'>
         <>
+          <MenuItem
+            imgSrc='home.png'
+            onHoverImgSrc='home_active.png'
+            onClick={() => navigate('/')}
+            playHoverSound={playDoor}
+            title='GAMES'
+          />
           <MenuItem
             imgSrc='shop.png'
             onHoverImgSrc='shop_active.png'
@@ -31,34 +41,33 @@ const HeaderContent = ({
             onHoverImgSrc='inventory_active.png'
             onClick={showInventory}
             playHoverSound={playEquip}
-            title='INVENTORY'
+            title='STASH'
           />
+          <MenuItem
+            imgSrc='about.png'
+            onHoverImgSrc='about_active.png'
+            onClick={showAbout}
+            playHoverSound={playPageFlip}
+            title='ABOUT'
+          />
+          {userId ? (
+            <MenuItem
+              imgSrc='logout.png'
+              onHoverImgSrc='logout_active.png'
+              onClick={onLogout}
+              playHoverSound={playLogInOut}
+              title='LOGOUT'
+            />
+          ) : (
+            <MenuItem
+              imgSrc='login.png'
+              onHoverImgSrc='login_active.png'
+              onClick={onSignIn}
+              playHoverSound={playLogInOut}
+              title='LOGIN'
+            />
+          )}
         </>
-        <h1>{title}</h1>
-        <MenuItem
-          imgSrc='about.png'
-          onHoverImgSrc='about_active.png'
-          onClick={undefined}
-          playHoverSound={playPageFlip}
-          title='ABOUT'
-        />
-        {userId ? (
-          <MenuItem
-            imgSrc='logout.png'
-            onHoverImgSrc='logout_active.png'
-            onClick={onLogout}
-            playHoverSound={playLogInOut}
-            title='LOGOUT'
-          />
-        ) : (
-          <MenuItem
-            imgSrc='login.png'
-            onHoverImgSrc='login_active.png'
-            onClick={onSignIn}
-            playHoverSound={playLogInOut}
-            title='LOGIN'
-          />
-        )}
       </div>
     </header>
   );
