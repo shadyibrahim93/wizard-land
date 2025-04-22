@@ -671,10 +671,6 @@ const Game = () => {
           )}
         </div>
       </div>
-      <Button
-        text='Reset Score'
-        onClick={resetScore}
-      />
       {showCoinAnimation && (
         <CollectionBurst
           onComplete={() => setShowCoinAnimation(false)} // Hide animation after completion

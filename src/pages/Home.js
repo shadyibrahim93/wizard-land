@@ -2,6 +2,8 @@ import Header from '../components/Header';
 import GameCards from '../components/GameCards';
 import { useState, useEffect } from 'react';
 import { introStarConfetti } from '../hooks/useConfetti';
+import LeaderBoard from '../components/leaderBoard';
+import GameChat from '../components/chatRoom';
 
 export default function Home() {
   const gamesData = [
@@ -120,40 +122,49 @@ export default function Home() {
         showSignInLink
       />
       <main className='mq-dashboard-cards-wrapper'>
-        <section>
-          <h2 className='mq-section-title mq-section-title--multiplayer'>
-            ⚔️ Multiplayer Games
-          </h2>
-          <hr></hr>
-          <div className='mq-cards-grid'>
-            {multiplayerGames.map((game, index) => (
-              <GameCards
-                key={index}
-                target={game.url}
-                imgSrc={game.imgSrc}
-                alt={game.alt}
-                title={game.title}
-              />
-            ))}
-          </div>
-        </section>
-        <section>
-          <h2 className='mq-section-title mq-section-title--solo'>
-            🗡️ Solo Games
-          </h2>
-          <hr></hr>
-          <div className='mq-cards-grid'>
-            {singleplayerGames.map((game, index) => (
-              <GameCards
-                key={index}
-                target={game.url}
-                imgSrc={game.imgSrc}
-                alt={game.alt}
-                title={game.title}
-              />
-            ))}
-          </div>
-        </section>
+        <div className='mq-dashboard-container'>
+          <section>
+            <h2 className='mq-section-title mq-section-title--multiplayer'>
+              ⚔️ Multiplayer Games
+            </h2>
+            <hr></hr>
+            <div className='mq-cards-grid'>
+              {multiplayerGames.map((game, index) => (
+                <GameCards
+                  key={index}
+                  target={game.url}
+                  imgSrc={game.imgSrc}
+                  alt={game.alt}
+                  title={game.title}
+                />
+              ))}
+            </div>
+          </section>
+          <section>
+            <h2 className='mq-section-title mq-section-title--solo'>
+              🗡️ Solo Games
+            </h2>
+            <hr></hr>
+            <div className='mq-cards-grid'>
+              {singleplayerGames.map((game, index) => (
+                <GameCards
+                  key={index}
+                  target={game.url}
+                  imgSrc={game.imgSrc}
+                  alt={game.alt}
+                  title={game.title}
+                />
+              ))}
+            </div>
+          </section>
+        </div>
+        <div className='mq-side-container'>
+          <LeaderBoard />
+          <GameChat
+            gameId='12'
+            chatTitle='World Chat'
+          />
+        </div>
       </main>
     </div>
   );

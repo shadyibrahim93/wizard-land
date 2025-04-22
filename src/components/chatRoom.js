@@ -4,7 +4,7 @@ import {
   fetchMessages,
   subscribeToGameChatRoom
 } from '../apiService';
-import Button from '../components/Button';
+import Button from './Button';
 import { playUncover, playDisappear } from '../hooks/useSound';
 import { useUser } from '../context/UserContext';
 

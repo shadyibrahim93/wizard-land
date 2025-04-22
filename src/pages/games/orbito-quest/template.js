@@ -771,12 +771,6 @@ const Orbito = () => {
           />
         </div>
       </div>
-
-      <Button
-        text='Reset Score'
-        onClick={resetScore}
-      />
-
       {showCoinAnimation && (
         <CollectionBurst onComplete={() => setShowCoinAnimation(false)} />
       )}
