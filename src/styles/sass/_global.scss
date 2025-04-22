@@ -67,6 +67,7 @@ body {
     padding: 12px 36px;
     position: relative;
     .#{$identifier}-header-container {
+      padding: 8px 0px;
       .#{$identifier}-menu-item {
         display: flex;
         flex-direction: column;
@@ -857,12 +858,19 @@ body {
       position: relative;
       overflow-y: auto;
       padding: 48px;
-      background-color: rgb(24 24 23 / 82%);
+      background-color: rgb(24 24 23 / 100%);
       width: 60%;
       max-height: 70%;
       border-radius: 20px;
       animation: glowIce 4s infinite alternate;
       transform: translateZ(0);
+
+      h3,
+      h1,
+      h2,
+      p {
+        color: $white;
+      }
 
       p {
         font-family: system-ui, -apple-system, 'Segoe UI', Roboto,

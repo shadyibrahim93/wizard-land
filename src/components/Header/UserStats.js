@@ -47,10 +47,10 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
             <img src={euroIcon} />
           </span>
           <span className='mq-user-amount'>{euro}</span>
-          {/* <Button
+          <Button
             text='+'
             className='mq-user-add'
-          /> */}
+          />
         </span>
         <span className='mq-user-progress--star'>
           <span className='mq-user-icon'>
