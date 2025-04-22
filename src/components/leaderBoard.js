@@ -35,7 +35,9 @@ const LeaderBoard = () => {
 
       const grouped = rawData.reduce((acc, item) => {
         const gameId = item.game_id;
-        const gameName = item.games?.game_name || 'Unknown Game';
+        const gameName = (
+          item.games?.game_name.replace(/Quest/gi, '') || 'Unknown Game'
+        ).trim();
         const emoji = gameEmojis[gameId] || '';
 
         if (!acc[gameId]) {

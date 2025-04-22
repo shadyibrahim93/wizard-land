@@ -100,14 +100,20 @@ const Checkers = () => {
       if (gameEnded || winner) {
         setGameOver(true);
 
+        if (gameMode === 'Multiplayer') {
+          if (winner === userId) {
+            setShowCoinAnimation(true);
+            await updateUserWinsByGame(winner, gameId);
+          } else if (winner !== userId) {
+            await updateUserLosesByGame(userId, gameId);
+          }
+        }
+
         if (winner === userId) {
           playNextLevel();
           triggerConfetti();
-          setShowCoinAnimation(true);
-          await updateUserWinsByGame(winner, gameId);
         } else if (winner !== userId) {
           playDefeat();
-          await updateUserLosesByGame(userId, gameId);
         }
 
         if (gameMode === 'Multiplayer') {
