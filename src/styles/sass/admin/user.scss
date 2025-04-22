@@ -158,6 +158,11 @@
         border-radius: 10px;
         text-align: center;
         width: 100%;
+        letter-spacing: 1px;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
       }
       &-add {
         margin: 0;
@@ -239,7 +244,12 @@
         background-color: transparent;
       }
 
-      &--exp .#{$identifier}-user-icon img,
+      &--exp {
+        &:first-child {
+          margin-left: 12px;
+        }
+      }
+
       &--euro .#{$identifier}-user-icon img,
       &--star .#{$identifier}-user-icon img {
         width: 37px;
@@ -247,12 +257,18 @@
         left: -5px;
       }
 
+      &--exp .#{$identifier}-user-icon img {
+        left: -17px;
+        width: 37px;
+        top: -2px;
+      }
+
       .#{$identifier}-user {
         &-amount {
           font-size: small;
           padding: 4px 10px 4px 36px;
-          width: 100%;
-          max-width: 60px;
+          width: auto;
+          max-width: 34px;
           overflow-x: auto;
         }
 
