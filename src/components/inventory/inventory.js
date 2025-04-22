@@ -7,6 +7,12 @@ const Inventory = ({ onClose }) => {
   const { userId, loading } = useUser();
   const [inventoryItems, setInventoryItems] = useState({});
 
+  const categoryOrder = ['theme', 'piece', 'background']; // whatever your types are
+
+  const sortedEntries = Object.entries(inventoryItems).sort(
+    ([a], [b]) => categoryOrder.indexOf(b) - categoryOrder.indexOf(a)
+  );
+
   useEffect(() => {
     if (!userId) return;
 
@@ -46,12 +52,14 @@ const Inventory = ({ onClose }) => {
         <hr />
         <div className='mq-modal-body'>
           {userId ? (
-            Object.entries(inventoryItems).map(([category, items]) => (
+            sortedEntries.map(([category, items]) => (
               <div
                 key={category}
                 className='mq-modal-category'
               >
-                <h2 className='mq-modal-category-title'>Board {category}s</h2>
+                <h2 className='mq-modal-category-title'>
+                  Board {category.charAt(0).toUpperCase() + category.slice(1)}s
+                </h2>
                 <hr />
                 <div className='mq-modal-items-container'>
                   {items.map((item) => (
