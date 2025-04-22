@@ -258,6 +258,9 @@
           padding: 6px 10px 6px 36px;
           width: 100%;
           overflow-x: auto;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
 
         &-add {
