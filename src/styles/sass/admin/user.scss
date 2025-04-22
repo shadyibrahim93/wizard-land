@@ -231,7 +231,7 @@
       width: 100%;
       flex-wrap: nowrap;
       row-gap: 10px;
-      column-gap: 21px;
+      column-gap: 16px;
       margin-top: 0;
       justify-content: space-between;
 
@@ -244,12 +244,7 @@
         background-color: transparent;
       }
 
-      &--exp {
-        &:first-child {
-          margin-left: 12px;
-        }
-      }
-
+      &--exp .#{$identifier}-user-icon img,
       &--euro .#{$identifier}-user-icon img,
       &--star .#{$identifier}-user-icon img {
         width: 37px;
@@ -257,18 +252,12 @@
         left: -5px;
       }
 
-      &--exp .#{$identifier}-user-icon img {
-        left: -17px;
-        width: 37px;
-        top: -2px;
-      }
-
       .#{$identifier}-user {
         &-amount {
           font-size: small;
           padding: 4px 10px 4px 36px;
-          width: auto;
-          max-width: 34px;
+          width: 100%;
+          max-width: 60px;
           overflow-x: auto;
         }
 
