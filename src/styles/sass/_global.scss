@@ -643,6 +643,14 @@ body {
       padding: 24px;
       position: relative;
 
+      @media (max-width: 768px) {
+        &::after {
+          bottom: 4px !important;
+          right: 4px !important;
+          font-size: 24px !important;
+        }
+      }
+
       @import './themes';
     }
 
