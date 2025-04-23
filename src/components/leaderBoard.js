@@ -21,8 +21,8 @@ const fetchAllUserProgressGroupedByGame = async () => {
 
 const gameEmojis = {
   4: '⚪',
-  3: '🙾',
-  12: '↺',
+  3: '🎡',
+  12: '🕹️',
   9: '🎲'
 };
 
@@ -95,11 +95,19 @@ const LeaderBoard = () => {
                     </p>
                   </div>
                   <span className='mq-leaderboard-player-stats'>
-                    <span className='mq-leaderboard-player-wins'>
+                    <span
+                      className={`${
+                        player.wins > 0 ? 'mq-leaderboard-player-wins' : ''
+                      }`}
+                    >
                       {player.wins}
                     </span>
                     /
-                    <span className='mq-leaderboard-player-losses'>
+                    <span
+                      className={`${
+                        player.losses > 0 ? 'mq-leaderboard-player-losses' : ''
+                      }`}
+                    >
                       {player.losses}
                     </span>
                   </span>
