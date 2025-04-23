@@ -14,6 +14,7 @@ import ConnectFourQuest from './pages/games/connect-four-quest';
 import BingoQuest from './pages/games/bingo-quest';
 import CheckerQuest from './pages/games/checker-quest';
 import OrbitoQuest from './pages/games/orbito-quest';
+import ChessQuest from './pages/games/chess-quest';
 import { UserProvider } from './context/UserContext';
 import './styles/sass/main.scss';
 import useMouseEffect from './hooks/useMouseEffect';
@@ -80,6 +81,10 @@ export default function App() {
           <Route
             path='/games/orbito-quest'
             element={<OrbitoQuest />}
+          />
+          <Route
+            path='/games/chess-quest'
+            element={<ChessQuest />}
           />
         </Routes>
       </HashRouter>

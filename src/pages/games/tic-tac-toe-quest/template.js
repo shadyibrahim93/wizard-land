@@ -459,14 +459,6 @@ const Game = () => {
     navigate('/');
   };
 
-  const handleLeave = () => {
-    setIsConfirmationModalOpen(false);
-    if (gameMode === 'Multiplayer') {
-      unsubscribeFromChannels(room.room);
-    }
-    navigate('/');
-  };
-
   const resetScore = () => {
     setComputerWins(0);
     setPlayerWins(0);

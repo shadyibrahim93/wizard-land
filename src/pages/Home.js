@@ -22,6 +22,13 @@ export default function Home() {
       type: 'Multiplayer'
     },
     {
+      url: '/games/chess-quest',
+      imgSrc: 'chess_quest.jpg',
+      alt: 'Chess Game',
+      title: 'Chess',
+      type: 'Multiplayer'
+    },
+    {
       url: '/games/connect-four-quest',
       imgSrc: 'connect_four_quest.jpg',
       alt: 'Connect Four Game',

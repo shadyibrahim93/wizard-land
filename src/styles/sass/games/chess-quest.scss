@@ -1,0 +1,139 @@
+.#{$identifier}-chess-game {
+  .#{$identifier}-global-container {
+    .#{$identifier}-board {
+      gap: 0;
+      position: relative;
+      display: grid;
+      grid-template-rows: repeat(8, 1fr); /* 8 rows */
+      grid-template-columns: repeat(1, 1fr);
+      border-radius: 10px;
+      overflow: hidden;
+      .#{$identifier}-row {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+      }
+    }
+
+    .#{$identifier}-square {
+      width: 90px;
+      height: 90px;
+      font-size: 36px;
+      border-radius: 0;
+      border: none;
+      cursor: pointer;
+
+      &.in-check {
+        background-color: rgba(255, 0, 0, 0.3) !important;
+        animation: pulse-check 1s infinite;
+      }
+
+      @keyframes pulse-check {
+        0% {
+          background-color: rgba(255, 0, 0, 0.3);
+        }
+        50% {
+          background-color: rgba(255, 0, 0, 0.5);
+        }
+        100% {
+          background-color: rgba(255, 0, 0, 0.3);
+        }
+      }
+
+      &.white-piece {
+        text-shadow: 0px 2px 7px black;
+        color: white;
+        font-size: 46px;
+      }
+      &.black-piece {
+        text-shadow: 0px 2px 7px #808080;
+        color: black;
+        font-size: 46px;
+      }
+
+      &.#{$identifier}-last-move {
+        position: relative;
+
+        &::before {
+          content: '';
+          position: absolute;
+          width: 90%;
+          height: 89%;
+          border: 0px solid rgb(98, 96, 0);
+          z-index: -1;
+          box-shadow: 0px 0px 50px 40px rgb(98, 96, 0, 0.4) inset;
+        }
+      }
+
+      &.valid {
+        position: relative;
+        background-color: #86f6868f !important;
+        cursor: pointer;
+
+        &::before {
+          content: '';
+          position: absolute;
+          width: 90%;
+          height: 89%;
+          border: 1px solid rgb(98, 96, 0);
+        }
+      }
+
+      &.selected {
+        box-shadow: 0 0 10px $secondary-color;
+      }
+
+      &.empty {
+        cursor: default;
+      }
+
+      &:hover {
+        background-color: $gray;
+      }
+
+      img {
+        width: 70%;
+        height: 70%;
+
+        .upgrade {
+          animation: upgradeAnimation 2s ease-in-out;
+        }
+      }
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0px;
+
+      /* Default background color for light squares */
+      background-color: $gray;
+    }
+
+    /* Checkerboard pattern: dark squares alternate with light squares */
+    .#{$identifier}-row:nth-child(even) .#{$identifier}-square:nth-child(odd),
+    .#{$identifier}-row:nth-child(odd) .#{$identifier}-square:nth-child(even) {
+      background-color: #333; /* Dark color */
+      padding: 0px;
+      &.valid {
+        position: relative;
+        background-color: #86f6868f !important;
+        cursor: pointer;
+        &::before {
+          content: '';
+          position: absolute;
+          width: 90%;
+          height: 89%;
+          border: 1px solid rgb(98, 96, 0);
+        }
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .#{$identifier}-square {
+        font-size: 16px;
+        width: 33px;
+        height: 33px;
+      }
+    }
+  }
+}
