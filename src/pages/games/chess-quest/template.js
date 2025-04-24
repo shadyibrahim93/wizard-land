@@ -584,7 +584,19 @@ const Chess = () => {
     // Check for stalemate
     const legalMoves = getAllLegalMoves(currentColor, boardState);
     if (legalMoves.length === 0) {
-      setWinner(null); // Draw
+      const winnerColor = currentColor === 'white' ? 'black' : 'white';
+      if (gameMode === 'Multiplayer') {
+        updateBoardState(
+          room.room,
+          board,
+          gameId,
+          null,
+          winnerColor === 'white' ? player1 : player2
+        );
+      } else {
+        // Set winner directly for single-player
+        setWinner(winnerColor);
+      }
       return true;
     }
 
