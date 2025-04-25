@@ -323,9 +323,13 @@ body {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             padding: 0px 0px 12px 0px;
             margin: 0px;
+
+            &:last-child {
+              padding-bottom: 0px;
+            }
 
             > div {
               text-align: left;
