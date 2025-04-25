@@ -17,10 +17,6 @@
   }
 
   @media (max-width: 768px) {
-    width: auto;
-  }
-
-  @media (max-width: 768px) {
     .#{$identifier}-btn {
       padding: 12px;
       font-size: 12px;
@@ -28,32 +24,10 @@
     }
   }
 
-  &.minimized {
-    width: fit-content;
-    height: fit-content;
-    padding: 8px;
-
-    button {
-      padding: 0 4px;
-    }
-
-    header {
-      width: fit-content;
-      margin-bottom: 0px;
-      @media (max-width: 768px) {
-        padding: 0px 4px;
-      }
-    }
-  }
-
   .#{$identifier}-messages {
     padding: 21px;
-    max-height: 300px;
+    height: 300px;
     overflow-y: auto;
-
-    @media (max-width: 768px) {
-      height: 200px;
-    }
 
     // Hide scrollbar (Webkit-based browsers)
     &::-webkit-scrollbar {
@@ -87,7 +61,7 @@
 
   .#{$identifier}-message {
     position: relative;
-    padding: 0.75rem 0rem;
+    padding: 0px 0px 0.75rem 0rem;
     border-radius: 0.75rem;
     margin-bottom: 0.5rem;
     display: flex;
@@ -105,13 +79,14 @@
       font-weight: bold;
       margin-bottom: 0.25rem;
       width: 100%;
+      font-size: x-small;
     }
 
     &--messsage {
       display: flex;
       justify-content: flex-start;
       color: $white;
-      font-size: 1rem;
+      font-size: x-small;
       line-height: 1.4;
       word-break: break-word;
       border-radius: 8px;
@@ -124,7 +99,7 @@
 
     &--date {
       padding-top: 8px;
-      font-size: 10px;
+      font-size: xx-small;
       color: $gray;
       width: 100%;
     }
@@ -135,7 +110,13 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 0px 21px 21px;
+    padding: 21px;
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    background-color: #3d382c;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
   }
 
   input {
@@ -147,6 +128,7 @@
     padding: 0px 8px;
     background-color: $light-overlay;
     color: $white;
+    outline: none;
     &::placeholder {
       color: $white;
       opacity: 1; // Ensures the white is fully visible
@@ -170,12 +152,11 @@
     flex: 1 0 auto;
   }
 
-  .minimize-btn {
+  .#{$identifier}-minimize-btn {
     border: none;
     cursor: pointer;
     background-color: transparent;
     color: $white;
-    font-size: 36px;
     display: flex;
     justify-content: end;
     align-items: center;
@@ -197,6 +178,18 @@
     font-size: 21px;
     color: $white;
     animation: glowingRed 4s infinite alternate;
+
+    &:has(.#{$identifier}-minimize-btn) {
+      justify-content: space-between;
+      padding: 21px;
+      .#{$identifier}-minimize-btn {
+        font-size: 30px;
+      }
+
+      span {
+        width: auto;
+      }
+    }
 
     @media (max-width: 768px) {
       font-size: 16px;
@@ -239,6 +232,39 @@
     .#{$identifier}-btn {
       margin-top: 0px;
       margin-bottom: 0px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    &.#{$identifier}-chat-room {
+      position: fixed;
+      right: 11px;
+      bottom: 21px;
+      width: calc(100% - 22px) !important;
+      background-color: #000000ed;
+      &.#{$identifier}-modal-minimized {
+        position: fixed;
+        bottom: 21px;
+        right: 11px;
+        width: fit-content !important;
+        border-radius: 10px;
+        header {
+          width: fit-content;
+          border-radius: 10px;
+
+          &:has(.#{$identifier}-minimize-btn) {
+            justify-content: space-between;
+            padding: 4px 10px;
+            .#{$identifier}-minimize-btn {
+              font-size: 21px;
+            }
+            span {
+              display: none;
+              width: auto;
+            }
+          }
+        }
+      }
     }
   }
 }

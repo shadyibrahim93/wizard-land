@@ -42,7 +42,7 @@ const CHESS_SYMBOLS = {
     rook: '♜',
     bishop: '♝',
     knight: '♞',
-    pawn: '♟'
+    pawn: '♙'
   },
   black: {
     king: '♚',
@@ -279,13 +279,18 @@ const Chess = () => {
       newBoard[sr][rookCol] = null;
     }
 
+    if (newBoard[er][ec] && newBoard[er][ec].color !== p.color) {
+      playSwallow();
+    } else {
+      playPlaceObject();
+    }
+
     newBoard[er][ec] = p;
     newBoard[sr][sc] = null;
 
     if (p.type === 'pawn' && (er === 0 || er === 7))
       newBoard[er][ec].type = 'queen';
 
-    playPlaceObject();
     setBoard(clearValidMoves(newBoard));
     setSelectedPiece(null);
 

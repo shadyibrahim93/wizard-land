@@ -12,6 +12,19 @@ const GameChat = ({ chatTitle, gameId }) => {
   const { userId, userName } = useUser();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [isMinimized, setIsMinimized] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const small = window.innerWidth < 768;
+      setIsSmallScreen(small);
+      if (!small) setIsMinimized(false); // Always expand on large screens
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchMessagesForRoom = async () => {
@@ -21,7 +34,6 @@ const GameChat = ({ chatTitle, gameId }) => {
 
     fetchMessagesForRoom();
 
-    // Subscribe to game chat room for real-time updates
     subscribeToGameChatRoom(gameId, (newMessage) => {
       playUncover();
       setMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -45,30 +57,47 @@ const GameChat = ({ chatTitle, gameId }) => {
   }, [messages]);
 
   return (
-    <div className='mq-game-side-modal mq-side-modal-wrapper'>
-      <header>
-        <span>{chatTitle}</span>
-      </header>
-      <div className='mq-messages'>
-        {messages.length === 0 && <h3>Start Chating!</h3>}
-        {messages.map((msg) => (
-          <div
-            className={`${msg.sender_name === userName ? 'mq-local-user' : ''}`}
-          >
-            <span className='mq-message--user'>
-              {msg.sender_name === userName ? 'You' : msg.sender_name}
-            </span>
-            <div
-              key={msg.id ?? Math.random()}
-              className='mq-message'
+    <div
+      className={`mq-game-side-modal mq-side-modal-wrapper mq-chat-room ${
+        isMinimized ? 'mq-modal-minimized' : ''
+      }`}
+    >
+      <div>
+        <header className='mq-chat-header'>
+          <span>{chatTitle}</span>
+          {isSmallScreen && (
+            <button
+              className='mq-minimize-btn'
+              onClick={() => setIsMinimized(!isMinimized)}
             >
-              <span className='mq-message--messsage'>{msg.message}</span>
-              <span className='mq-message--date'>
-                {new Date(msg.created_at).toLocaleString()}
-              </span>
-            </div>
+              {isMinimized ? '+' : '-'}
+            </button>
+          )}
+        </header>
+
+        {(!isMinimized || !isSmallScreen) && (
+          <div className='mq-messages'>
+            {messages.length === 0 && <h3>Start Chating!</h3>}
+            {messages.map((msg) => (
+              <div
+                key={msg.id ?? Math.random()}
+                className={`${
+                  msg.sender_name === userName ? 'mq-local-user' : ''
+                }`}
+              >
+                <span className='mq-message--user'>
+                  {msg.sender_name === userName ? 'You' : msg.sender_name}
+                </span>
+                <div className='mq-message'>
+                  <span className='mq-message--messsage'>{msg.message}</span>
+                  <span className='mq-message--date'>
+                    {new Date(msg.created_at).toLocaleString()}
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        )}
       </div>
 
       <form onSubmit={handleSendMessage}>
