@@ -244,6 +244,7 @@ body {
       }
 
       section {
+        border: 2px solid $light-overlay;
         background-color: $dark-overlay;
         display: flex;
         flex-direction: column;
@@ -383,7 +384,7 @@ body {
           color: $white;
           display: flex;
           justify-content: center;
-          border-radius: 10px;
+          border-radius: 7px;
           width: auto;
           display: flex;
           font-size: 21px;
@@ -546,7 +547,9 @@ body {
     .#{$identifier}-side-modal-wrapper {
       justify-content: space-between;
       flex: 1 1 25%;
-      border-radius: 10px;
+      border-radius: 12px;
+      border: 2px solid $light-overlay;
+
       @media (max-width: 768px) {
         width: auto;
       }
@@ -572,7 +575,8 @@ body {
     justify-content: flex-start;
     flex-wrap: nowrap;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 30px;
+    margin-top: 21px;
+    border: 2px solid $light-overlay;
 
     &[data-level='2'] .#{$identifier}-game-board {
       grid-template-columns: repeat(4, 1fr);
