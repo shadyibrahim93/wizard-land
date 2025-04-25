@@ -45,6 +45,7 @@ body {
   height: -webkit-fill-available;
   width: calc(100vw - 80px);
   margin: 0;
+  margin-bottom: 21px;
   padding: 40px;
   cursor: url('../../assets/images/cursor.cur'), default;
 
@@ -1182,10 +1183,6 @@ body {
     margin-bottom: 72px;
     height: -webkit-fill-available;
     width: calc(100vw - 24px);
-
-    div#root {
-      max-height: calc(100vh - 84px);
-    }
 
     .#{$identifier}-home {
       h1 {
