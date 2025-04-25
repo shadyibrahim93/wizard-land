@@ -6,11 +6,17 @@ const fetchAllUserProgressGroupedByGame = async (timeFrame = 'daily') => {
   const now = new Date();
 
   if (timeFrame === 'daily') {
-    dateFilter = new Date(now.setDate(now.getDate() - 1));
+    // Set to start of today (00:00:00 AM)
+    dateFilter = new Date(now);
+    dateFilter.setHours(0, 0, 0, 0);
   } else if (timeFrame === 'weekly') {
-    dateFilter = new Date(now.setDate(now.getDate() - 7));
+    // Set to start of the week (Sunday 00:00:00 AM)
+    dateFilter = new Date(now);
+    dateFilter.setDate(now.getDate() - now.getDay()); // Adjusts to Sunday
+    dateFilter.setHours(0, 0, 0, 0);
   } else if (timeFrame === 'monthly') {
-    dateFilter = new Date(now.setMonth(now.getMonth() - 1));
+    // Set to start of the month (1st, 00:00:00 AM)
+    dateFilter = new Date(now.getFullYear(), now.getMonth(), 1);
   }
 
   const { data, error } = await supabase
