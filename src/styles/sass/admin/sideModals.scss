@@ -179,6 +179,7 @@
     font-size: 21px;
     color: $white;
     animation: glowingRed 4s infinite alternate;
+    box-shadow: none;
 
     &:has(.#{$identifier}-minimize-btn) {
       justify-content: space-between;
