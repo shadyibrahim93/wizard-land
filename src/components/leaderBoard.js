@@ -41,7 +41,7 @@ const gameEmojis = {
   3: '🧠',
   12: '🕹️',
   9: '🎲',
-  14: '♙'
+  14: '♖'
 };
 
 const LeaderBoard = () => {
