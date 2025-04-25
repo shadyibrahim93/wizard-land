@@ -21,9 +21,10 @@ const fetchAllUserProgressGroupedByGame = async () => {
 
 const gameEmojis = {
   4: '⚪',
-  3: '🎡',
+  3: '🧠',
   12: '🕹️',
-  9: '🎲'
+  9: '🎲',
+  14: '♙'
 };
 
 const LeaderBoard = () => {
