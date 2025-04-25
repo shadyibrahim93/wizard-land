@@ -599,7 +599,6 @@ const Chess = () => {
           winnerColor === 'white' ? player1 : player2
         );
       } else {
-        // Set winner directly for single-player
         setWinner(winnerColor);
       }
       return true;
