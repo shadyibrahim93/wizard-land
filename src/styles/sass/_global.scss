@@ -513,6 +513,7 @@ body {
     .#{$identifier}-side-modal-wrapper {
       justify-content: space-between;
       flex: 0 1 20%;
+      border-radius: 10px;
       @media (max-width: 768px) {
         width: auto;
       }
