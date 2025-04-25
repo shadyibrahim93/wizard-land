@@ -260,6 +260,34 @@ body {
           overflow: auto;
           padding: 0px;
 
+          .#{$identifier}-loading {
+            color: $white;
+            padding: 21px;
+          }
+
+          .#{$identifier}-leaderboard-timeframes {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            column-gap: 21px;
+            flex-wrap: nowrap;
+            padding: 12px 21px;
+
+            button {
+              outline: none;
+              border: none;
+              padding: 8px 16px;
+              color: #fff;
+              cursor: pointer;
+              border-radius: 10px;
+              background-color: $dark-overlay;
+
+              &.active {
+                background-color: $secondary-color;
+              }
+            }
+          }
+
           hr {
             z-index: 0;
           }
@@ -267,7 +295,7 @@ body {
           .#{$identifier}-leaderboard-container {
             display: flex;
             flex-direction: column;
-            padding: 21px;
+            padding: 0px 21px 21px;
             row-gap: 21px;
 
             h3 {
@@ -444,8 +472,8 @@ body {
   .#{$identifier}-main {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    gap: 50px;
+    flex-wrap: nowrap;
+    gap: 21px;
 
     .#{$identifier}-score-wrapper {
       justify-content: space-between;
@@ -512,7 +540,7 @@ body {
 
     .#{$identifier}-side-modal-wrapper {
       justify-content: space-between;
-      flex: 0 1 20%;
+      flex: 1 1 25%;
       border-radius: 10px;
       @media (max-width: 768px) {
         width: auto;
@@ -520,8 +548,7 @@ body {
     }
 
     .#{$identifier}-game-wrapper {
-      width: 80%;
-      flex: 1;
+      flex: 1 1 75%;
 
       .#{$identifier}-game-side-modal {
         width: 100%;
@@ -567,6 +594,7 @@ body {
     @media (max-width: 768px) {
       flex-direction: column;
       row-gap: 20px;
+      flex-wrap: wrap;
 
       .#{$identifier}-score-wrapper,
       .#{$identifier}-chat-wrapper {
