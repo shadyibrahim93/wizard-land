@@ -297,7 +297,7 @@ body {
           .#{$identifier}-leaderboard-container {
             display: flex;
             flex-direction: column;
-            padding: 0px 21px 21px;
+            padding: 21px;
             row-gap: 21px;
 
             h3 {
@@ -611,7 +611,7 @@ body {
       }
 
       .#{$identifier}-game-wrapper {
-        width: calc(100% - 48px);
+        width: calc(100% - 52px);
       }
     }
   }
