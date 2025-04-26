@@ -328,6 +328,60 @@ body {
             padding: 0px 0px 12px 0px;
             margin: 0px;
 
+            &:nth-of-type(1) {
+              .#{$identifier}-leaderboard-player-info {
+                .#{$identifier}-leaderboard-player-rank {
+                  left: 18.5px;
+                }
+              }
+            }
+
+            &:nth-of-type(2) {
+              .#{$identifier}-leaderboard-player-info {
+                .#{$identifier}-leaderboard-player-rank {
+                  left: 17.5px;
+                }
+              }
+            }
+
+            &:nth-of-type(4) {
+              .#{$identifier}-leaderboard-player-info {
+                .#{$identifier}-leaderboard-player-rank {
+                  left: 17px;
+                }
+              }
+            }
+
+            &:nth-of-type(10) {
+              .#{$identifier}-leaderboard-player-info {
+                .#{$identifier}-leaderboard-player-rank {
+                  left: 16.5px;
+                }
+              }
+            }
+
+            .#{$identifier}-leaderboard-player-info {
+              position: relative;
+              display: flex;
+              align-items: center;
+              gap: 12px;
+              img {
+                width: 40px;
+              }
+
+              .#{$identifier}-leaderboard-player-rank {
+                position: absolute;
+                letter-spacing: normal;
+                line-height: normal;
+                left: 18px;
+                top: 12px;
+                font-size: x-small;
+                &:nth-of-type(2) {
+                  left: 17px;
+                }
+              }
+            }
+
             &:last-child {
               padding-bottom: 0px;
             }

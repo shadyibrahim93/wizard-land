@@ -84,7 +84,7 @@ const Game = () => {
           }
         }
 
-        if (winner === userId) {
+        if (winner === userId || winner === 'Fire') {
           playNextLevel();
           triggerConfetti();
         } else if (winner !== userId) {
@@ -98,7 +98,7 @@ const Game = () => {
             setOpponentWins(opponentWins + 1);
           }
         } else {
-          if (winner === 'Fire') {
+          if (winner === userId) {
             setPlayerWins(playerWins + 1);
           }
           if (winner === 'Ice') {

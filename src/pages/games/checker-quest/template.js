@@ -109,7 +109,7 @@ const Checkers = () => {
           }
         }
 
-        if (winner === userId) {
+        if (winner === userId || winner === 'Fire') {
           playNextLevel();
           triggerConfetti();
         } else if (winner !== userId) {

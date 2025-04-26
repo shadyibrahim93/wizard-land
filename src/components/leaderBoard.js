@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../apiService';
+import firstPlaceMedal from '../assets/images/elements/rank/firstplace.png';
+import secondPlaceMedal from '../assets/images/elements/rank/secondplace.png';
+import thirdPlaceMedal from '../assets/images/elements/rank/thirdplace.png';
+import defaultPlayerImage from '../assets/images/elements/rank/defaultplace.png';
 
 const fetchAllUserProgressGroupedByGame = async () => {
   const { data, error } = await supabase.from('user_progress').select(`
@@ -30,6 +34,12 @@ const gameEmojis = {
 const LeaderBoard = () => {
   const [groupedProgress, setGroupedProgress] = useState({});
 
+  const medalImages = [
+    firstPlaceMedal, // 1st place
+    secondPlaceMedal, // 2nd place
+    thirdPlaceMedal // 3rd place
+  ];
+
   useEffect(() => {
     const fetchData = async () => {
       const rawData = await fetchAllUserProgressGroupedByGame();
@@ -55,7 +65,11 @@ const LeaderBoard = () => {
       }, {});
 
       Object.values(grouped).forEach((group) => {
-        group.players.sort((a, b) => b.wins - a.wins);
+        group.players.sort((a, b) => {
+          const diffA = a.wins - a.losses;
+          const diffB = b.wins - b.losses;
+          return diffB - diffA; // Sort by highest difference
+        });
         group.players = group.players.slice(0, 10); // limit to top 10
       });
 
@@ -90,7 +104,15 @@ const LeaderBoard = () => {
                   key={player.user_id}
                   className='mq-leaderboard-player-container'
                 >
-                  <div>
+                  <div className='mq-leaderboard-player-info'>
+                    <span className='mq-leaderboard-player-rank'>
+                      {index + 1}
+                    </span>
+                    <img
+                      src={index < 3 ? medalImages[index] : defaultPlayerImage}
+                      alt={index < 3 ? `${index + 1}st place medal` : 'Player'}
+                      className='mq-leaderboard-medal'
+                    />
                     <p className='mq-leaderboard-player'>
                       {player.profiles?.full_name || 'Unknown'}
                     </p>

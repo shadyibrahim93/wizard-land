@@ -943,7 +943,23 @@ export const subscribeToRoomChanges = (gameId, onInsert, onDelete) => {
 export const getUserProgress = async (userId, gameId) => {
   const { data, error } = await supabase
     .from('user_progress')
-    .select('wins, losses, draws')
+    .select('wins, losses')
+    .eq('user_id', userId)
+    .eq('game_id', gameId)
+    .single();
+
+  if (error && error.code !== 'PGRST116') {
+    console.error('Error fetching progress:', error);
+    throw error;
+  }
+
+  return data || null;
+};
+
+export const getUserLifetimeProgress = async (userId, gameId) => {
+  const { data, error } = await supabase
+    .from('user_lifetime_progress')
+    .select('wins, losses')
     .eq('user_id', userId)
     .eq('game_id', gameId)
     .single();
@@ -959,6 +975,7 @@ export const getUserProgress = async (userId, gameId) => {
 export const updateUserWinsByGame = async (userId, gameId) => {
   const progress = await getUserProgress(userId, gameId);
 
+  // Update user_progress (daily)
   if (progress) {
     const { error } = await supabase
       .from('user_progress')
@@ -982,11 +999,39 @@ export const updateUserWinsByGame = async (userId, gameId) => {
 
     if (error) throw error;
   }
+
+  // Update user_lifetime_progress (permanent)
+  const lifetimeProgress = await getUserLifetimeProgress(userId, gameId);
+
+  if (lifetimeProgress) {
+    const { error } = await supabase
+      .from('user_lifetime_progress')
+      .update({
+        wins: lifetimeProgress.wins + 1,
+        updated_at: new Date().toISOString()
+      })
+      .match({ user_id: userId, game_id: gameId });
+
+    if (error) throw error;
+  } else {
+    const { error } = await supabase.from('user_lifetime_progress').insert({
+      user_id: userId,
+      game_id: gameId,
+      wins: 1,
+      losses: 0,
+      draws: 0,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    });
+
+    if (error) throw error;
+  }
 };
 
 export const updateUserLosesByGame = async (userId, gameId) => {
   const progress = await getUserProgress(userId, gameId);
 
+  // Update user_progress (daily)
   if (progress) {
     const { error } = await supabase
       .from('user_progress')
@@ -999,6 +1044,33 @@ export const updateUserLosesByGame = async (userId, gameId) => {
     if (error) throw error;
   } else {
     const { error } = await supabase.from('user_progress').insert({
+      user_id: userId,
+      game_id: gameId,
+      wins: 0,
+      losses: 1,
+      draws: 0,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    });
+
+    if (error) throw error;
+  }
+
+  // Update user_lifetime_progress (permanent)
+  const lifetimeProgress = await getUserLifetimeProgress(userId, gameId);
+
+  if (lifetimeProgress) {
+    const { error } = await supabase
+      .from('user_lifetime_progress')
+      .update({
+        losses: lifetimeProgress.losses + 1,
+        updated_at: new Date().toISOString()
+      })
+      .match({ user_id: userId, game_id: gameId });
+
+    if (error) throw error;
+  } else {
+    const { error } = await supabase.from('user_lifetime_progress').insert({
       user_id: userId,
       game_id: gameId,
       wins: 0,

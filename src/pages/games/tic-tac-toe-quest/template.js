@@ -82,7 +82,7 @@ const Game = () => {
           }
         }
 
-        if (winner === userId) {
+        if (winner === userId || winner === 'Fire') {
           playNextLevel();
           triggerConfetti();
         } else if (winner !== userId) {
@@ -232,6 +232,7 @@ const Game = () => {
       if (isBoardFull(newBoard)) {
         setWinner(null);
         setGameOver(true);
+        playUncover();
         setShowTitle(true);
         setTimeout(() => {
           handleRestart();
