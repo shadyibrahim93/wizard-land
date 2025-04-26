@@ -4,9 +4,13 @@ import CustomLink from '../CustomLink';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { playDoor } from '../../hooks/useSound';
+import emailIcon from '../../assets/images/elements/email.png';
+import supportIcon from '../../assets/images/elements/support.png';
+import SendEmailModal from '../authModals/sendEmail';
 
 const UserAuth = ({ loading, userId, userName, onSignUp }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [showEmailModal, setShowEmailModal] = useState(false);
   const navigate = useNavigate();
 
   const imageSrc = `/wizard-land/assets/elements/${
@@ -14,7 +18,7 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
   }`;
 
   const handleClick = () => {
-    navigate('/'); // Change '/' to your desired home path
+    navigate('/'); // home path
   };
 
   const handleMouseEnter = () => {
@@ -41,31 +45,69 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
   }
 
   return (
-    <div className='mq-user-container'>
-      <h3 className='mq-user-name'>
-        <div className='mq-user-sign'>
-          {!userId ? (
-            <CustomLink
-              text='SIGN UP'
-              onClick={onSignUp}
-              className='sign-up'
-            />
-          ) : (
-            <>
+    <>
+      <div className='mq-user-container'>
+        <span>
+          {/* Open feedback modal */}
+          <span className='mq-user-progress--contact'>
+            <a
+              type='button'
+              id='send-email'
+              className='icon-button'
+              onClick={() => setShowEmailModal(true)}
+            >
               <img
-                src={imageSrc}
-                alt='Home'
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                onClick={handleClick}
-                title='Home'
+                src={emailIcon}
+                alt='Send feedback'
               />
-              {userName}
-            </>
-          )}
-        </div>
-      </h3>
-    </div>
+            </a>
+          </span>
+
+          {/* Buy Me a Coffee link */}
+          <span className='mq-user-progress--contact'>
+            <a
+              href='https://www.buymeacoffee.com/wizardland'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <img
+                src={supportIcon}
+                alt='Support us'
+              />
+            </a>
+          </span>
+        </span>
+
+        <h3 className='mq-user-name'>
+          <div className='mq-user-sign'>
+            {!userId ? (
+              <CustomLink
+                text='SIGN UP'
+                onClick={onSignUp}
+                className='sign-up'
+              />
+            ) : (
+              <>
+                <img
+                  src={imageSrc}
+                  alt='Home'
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                  onClick={handleClick}
+                  title='Home'
+                />
+                {userName}
+              </>
+            )}
+          </div>
+        </h3>
+      </div>
+
+      <SendEmailModal
+        showEmailModal={showEmailModal}
+        onClose={() => setShowEmailModal(false)}
+      />
+    </>
   );
 };
 

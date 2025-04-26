@@ -58,6 +58,20 @@ body {
     -webkit-appearance: none;
   }
 
+  a {
+    text-decoration: none;
+    color: $secondary-color;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:active {
+      text-decoration: none;
+      color: $secondary-color;
+    }
+  }
+
   header {
     background-color: $light-overlay;
     border-radius: 10px;
@@ -1385,4 +1399,10 @@ body {
     box-shadow: 0 0 0vw 0vw yellow;
     animation: drift ease alternate infinite, flash ease infinite;
   }
+}
+
+// Buy me a coffee
+
+div#bmc-wbtn {
+  background-color: #c47f3c91 !important;
 }

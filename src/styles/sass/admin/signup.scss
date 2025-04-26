@@ -1,5 +1,6 @@
 .#{$identifier}-signup-page,
-.#{$identifier}-signin-page {
+.#{$identifier}-signin-page,
+.#{$identifier}-send-email-page {
   max-width: 400px;
 
   .#{$identifier}-form-group {
@@ -11,7 +12,10 @@
     gap: 21px;
     margin-bottom: 21px;
 
-    .#{$identifier}-label {
+    &:has(textarea) {
+      .#{$identifier}-input {
+        height: 80px;
+      }
     }
 
     .#{$identifier}-input {
@@ -26,6 +30,15 @@
       color: #fff;
       font-family: 'MagicalWorld', sans-serif;
       letter-spacing: 2px;
+
+      &:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 30px $primary-color inset !important;
+        -webkit-text-fill-color: $white !important;
+      }
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
   }
 
