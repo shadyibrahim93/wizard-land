@@ -123,7 +123,7 @@ const Game = () => {
     };
 
     handleScoreUpdate();
-  }, [winner]);
+  }, [board, winner]);
 
   useEffect(() => {
     // don’t subscribe until we know the room ID
@@ -157,8 +157,6 @@ const Game = () => {
   }, [myChoice, oppChoice]);
 
   const calculateWinner = (board) => {
-    if (!board || !Array.isArray(board) || board.length === 0) return null;
-
     const checkDirection = (row, col, deltaRow, deltaCol) => {
       let count = 0;
       const player = board[row][col];
@@ -193,6 +191,10 @@ const Game = () => {
             } else {
               return winnerSymbol === player1Symbol.key ? 'Fire' : 'Ice';
             }
+          }
+
+          if (isBoardFull(board)) {
+            return null;
           }
         }
       }
@@ -283,6 +285,7 @@ const Game = () => {
         updateBoardState(room.room, newBoard, gameId, null, null);
         setWinner(null);
         setGameOver(true);
+        setShowTitle(true);
         setTimeout(() => {
           handleRestart();
         }, 2000);
