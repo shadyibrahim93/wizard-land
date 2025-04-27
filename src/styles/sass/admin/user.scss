@@ -190,7 +190,8 @@
 
     &--exp,
     &--star,
-    &--euro {
+    &--euro,
+    &--contact {
       background-color: $light-overlay;
       padding: 8px 16px 8px 8px;
       border-radius: 10px;
@@ -203,7 +204,7 @@
 
     .#{$identifier}-user-progress--contact {
       background-color: $light-overlay;
-      padding: 0px 12px;
+      padding: 8px 16px 8px 34px;
       border-radius: 10px;
       display: flex;
       flex-direction: row;
@@ -217,19 +218,13 @@
         display: none;
       }
 
-      &:has(a) {
-        padding: 0px;
-        background-color: transparent;
-      }
-
       a {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        background-color: $light-overlay;
+        background-color: $dark-overlay;
         border-radius: 10px;
-        padding: 0px 12px;
         position: relative;
         overflow: hidden;
         text-decoration: none;
@@ -237,6 +232,8 @@
         transform: translateZ(0);
         height: 100%;
         width: 100%;
+        font-size: medium;
+        padding: 0px 12px;
 
         &:active {
           text-decoration: none;
@@ -248,27 +245,6 @@
           transform: scale(1.05);
           animation: ninjaSlash 0.3s ease-out;
           cursor: pointer;
-        }
-
-        &::after {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: -100%;
-          width: 150%;
-          height: 3px;
-          background: linear-gradient(
-            to right,
-            transparent,
-            white,
-            transparent
-          );
-          transform: rotate(10deg);
-          transition: left 0.4s ease-out;
-        }
-
-        &:hover::after {
-          left: 100%;
         }
       }
     }
@@ -307,6 +283,19 @@
           img {
             left: -30px;
             width: 62px;
+          }
+        }
+      }
+    }
+
+    &--contact {
+      margin-left: 15px;
+      padding-left: 45px;
+      .#{$identifier}-user {
+        &-icon {
+          img {
+            left: -30px;
+            width: 60px;
           }
         }
       }
