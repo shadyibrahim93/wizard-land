@@ -52,8 +52,6 @@ const Game = () => {
   const [opponentWins, setOpponentWins] = useState(0);
   const [channels, setChannels] = useState([]);
   const { userId, userName } = useUser();
-  const player1Symbol = useSelectedPiece(player1 || userId, '🔥', 'fire');
-  const player2Symbol = useSelectedPiece(player2, '❄️', 'ice');
   const [winnerName, setWinnerName] = useState('');
   const [showCoinAnimation, setShowCoinAnimation] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -61,6 +59,13 @@ const Game = () => {
   const [oppChoice, setOppChoice] = useState(null);
   const navigate = useNavigate();
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+
+  let player1Symbol = useSelectedPiece(player1 || userId, '🔥', 'fire');
+  let player2Symbol = useSelectedPiece(player2, '❄️', 'ice');
+
+  if (player1Symbol.display === '🔥' && player2Symbol.display === '🔥') {
+    player2Symbol = { ...player2Symbol, display: '❄️', key: '❄️' };
+  }
 
   const introText = `Welcome to Tic Tac Toe!. Take turns placing your marks, aiming to align three in a row, column, or diagonal. A helper will show you where your mark will go when you hover over a box. Good luck!`;
 
