@@ -144,10 +144,11 @@ const Game = () => {
     if (myChoice && oppChoice) {
       if (myChoice === 'up' && oppChoice === 'up') {
         handleRestart();
+        setShowModal(false);
       } else {
         handleQuit();
+        setShowModal(false);
       }
-      // Reset choices after handling
       setMyChoice(null);
       setOppChoice(null);
     }
@@ -349,9 +350,6 @@ const Game = () => {
     setGameOver(false);
     setWinner(null);
     setShowTitle(false);
-    setShowModal(false);
-    setMyChoice(null);
-    setOppChoice(null);
 
     // Set first turn dynamically based on previous winner
     if (gameMode === 'Single') {
