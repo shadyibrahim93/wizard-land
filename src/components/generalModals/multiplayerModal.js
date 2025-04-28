@@ -73,6 +73,10 @@ const MultiplayerModal = ({ gameId, onStartGame, setGameMode }) => {
   };
 
   const handlePractice = () => {
+    if (userId === null || userId === undefined) {
+      alert('Please join our community to play!');
+      return;
+    }
     setGameMode('Single');
     onStartGame({}, userId);
   };
