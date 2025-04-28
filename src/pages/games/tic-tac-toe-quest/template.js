@@ -600,13 +600,13 @@ const Game = () => {
                         square
                           ? gameMode === 'Single'
                             ? square === userId
-                              ? player1Symbol.theme
+                              ? 'fire'
                               : 'ice'
                             : square === player1
-                            ? player1Symbol.theme
+                            ? 'fire'
                             : square === player2
-                            ? player2Symbol.theme
-                            : 'ice'
+                            ? 'ice'
+                            : ''
                           : ''
                       }
                       ${!square && hoveredIndex === index ? 'mq-preview' : ''} 
