@@ -777,6 +777,12 @@ body {
       border-radius: 20px;
       z-index: 1;
 
+      &::after {
+        font-size: 18px !important;
+        bottom: 5px !important;
+        right: 5px !important;
+      }
+
       @import './themes';
 
       @import './pieces';
