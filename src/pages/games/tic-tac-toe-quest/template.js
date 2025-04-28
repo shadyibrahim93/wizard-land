@@ -596,17 +596,19 @@ const Game = () => {
             <div
               key={index}
               className={`mq-square 
-                      ${
+                      mq-${
                         square
-                          ? `mq-${
-                              square === userId
-                                ? player1Symbol.theme
-                                : square === player2
-                                ? player2Symbol.theme
-                                : 'ice'
-                            }`
+                          ? gameMode === 'Single'
+                            ? square === userId
+                              ? player1Symbol.theme
+                              : 'ice'
+                            : square === player1
+                            ? player1Symbol.theme
+                            : square === player2
+                            ? player2Symbol.theme
+                            : 'ice'
                           : ''
-                      } 
+                      }
                       ${!square && hoveredIndex === index ? 'mq-preview' : ''} 
                       ${
                         (square === userId && !player1Symbol.display) ||
