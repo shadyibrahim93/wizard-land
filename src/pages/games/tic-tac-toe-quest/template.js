@@ -52,6 +52,8 @@ const Game = () => {
   const [opponentWins, setOpponentWins] = useState(0);
   const [channels, setChannels] = useState([]);
   const { userId, userName } = useUser();
+  const player1Symbol = useSelectedPiece(player1 || userId, '🔥', 'fire');
+  const player2Symbol = useSelectedPiece(player2, '❄️', 'ice');
   const [winnerName, setWinnerName] = useState('');
   const [showCoinAnimation, setShowCoinAnimation] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -59,13 +61,6 @@ const Game = () => {
   const [oppChoice, setOppChoice] = useState(null);
   const navigate = useNavigate();
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
-
-  let player1Symbol = useSelectedPiece(player1 || userId, '🔥', 'fire');
-  let player2Symbol = useSelectedPiece(player2, '❄️', 'ice');
-
-  if (player1Symbol.display === '🔥' && player2Symbol.display === '🔥') {
-    player2Symbol = { ...player2Symbol, display: '❄️', key: '❄️' };
-  }
 
   const introText = `Welcome to Tic Tac Toe!. Take turns placing your marks, aiming to align three in a row, column, or diagonal. A helper will show you where your mark will go when you hover over a box. Good luck!`;
 
@@ -87,7 +82,7 @@ const Game = () => {
           }
         }
 
-        if (winner === userId || winner === 'Fire') {
+        if (winner === userId) {
           playNextLevel();
           triggerConfetti();
         } else if (winner !== userId) {
@@ -202,10 +197,10 @@ const Game = () => {
         squares[a] === squares[c]
       ) {
         if (gameMode === 'Multiplayer') {
-          return squares[a] === player1Symbol.key ? player1 : player2;
+          return squares[a] === player1 ? player1 : player2;
         }
 
-        return squares[a] === player1Symbol.key ? 'Fire' : 'Ice'; // Use Fire/Ice
+        return squares[a] === userId ? 'Fire' : 'Ice'; // Use Fire/Ice
       }
     }
     return null;
@@ -225,7 +220,7 @@ const Game = () => {
       if (currentTurn !== 'Fire') return;
 
       const newBoard = [...board];
-      newBoard[index] = player1Symbol.key; // Always Fire in Single mode for player
+      newBoard[index] = userId; // Always Fire in Single mode for player
       setBoard(newBoard);
 
       const userWinner = calculateWinner(newBoard);
@@ -237,7 +232,6 @@ const Game = () => {
       if (isBoardFull(newBoard)) {
         setWinner(null);
         setGameOver(true);
-        playUncover();
         setShowTitle(true);
         setTimeout(() => {
           handleRestart();
@@ -258,8 +252,7 @@ const Game = () => {
       }
 
       const newBoard = [...board];
-      newBoard[index] =
-        userId === player1 ? player1Symbol.key : player2Symbol.key;
+      newBoard[index] = userId === player1 ? player1 : player2;
       setBoard(newBoard);
 
       const multiplayerWinner = calculateWinner(newBoard);
@@ -315,7 +308,7 @@ const Game = () => {
         return;
       }
 
-      const blockingMove = findBestMove(newBoard, player1Symbol.key);
+      const blockingMove = findBestMove(newBoard, userId);
       if (blockingMove !== null) {
         newBoard[blockingMove] = '❄️';
         setBoard(newBoard);
@@ -606,19 +599,18 @@ const Game = () => {
                       ${
                         square
                           ? `mq-${
-                              square === player1Symbol.key
-                                ? player1Symbol.key
-                                : square === player2Symbol.key
-                                ? player2Symbol.key
+                              square === userId
+                                ? player1Symbol.theme
+                                : square === player2
+                                ? player2Symbol.theme
                                 : 'ice'
                             }`
                           : ''
                       } 
                       ${!square && hoveredIndex === index ? 'mq-preview' : ''} 
                       ${
-                        (square === player1Symbol.key &&
-                          !player1Symbol.display) ||
-                        (square === player2Symbol.key && !player2Symbol.display)
+                        (square === userId && !player1Symbol.display) ||
+                        (square === player2 && !player2Symbol.display)
                           ? 'mq-image'
                           : ''
                       }`}
@@ -626,7 +618,16 @@ const Game = () => {
               onMouseEnter={() => setHoveredIndex(index)} // Track hover
               onMouseLeave={() => setHoveredIndex(null)} // Remove hover effect
             >
-              {square}
+              {square &&
+                (gameMode === 'Single'
+                  ? square === userId
+                    ? player1Symbol.display || player1Symbol.image
+                    : player2Symbol.display || player2Symbol.image
+                  : square === player1
+                  ? player1Symbol.display || player1Symbol.image
+                  : square === player2
+                  ? player2Symbol.display || player2Symbol.image
+                  : square)}
               <span>
                 {gameMode === 'Single' ||
                 (gameMode === 'Multiplayer' &&

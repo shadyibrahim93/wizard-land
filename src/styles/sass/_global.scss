@@ -777,6 +777,8 @@ body {
       border-radius: 20px;
       z-index: 1;
 
+      @import './themes';
+
       @import './pieces';
 
       &:hover {
