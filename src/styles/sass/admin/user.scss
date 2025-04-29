@@ -28,7 +28,8 @@
 
     &:has(.mq-user-progress--contact) {
       justify-content: space-between;
-      > span {
+      > div {
+        max-height: 28px;
         display: flex;
         flex-direction: row;
         gap: 12px;
@@ -83,7 +84,6 @@
 
       @media (max-width: 768px) {
         display: flex;
-        max-height: 28px;
       }
 
       &:has(a) {

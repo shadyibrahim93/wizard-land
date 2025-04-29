@@ -47,9 +47,9 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
   return (
     <>
       <div className='mq-user-container'>
-        <span>
+        <div>
           {/* Open feedback modal */}
-          <span className='mq-user-progress--contact'>
+          <div className='mq-user-progress--contact'>
             <a
               type='button'
               id='send-email'
@@ -61,10 +61,10 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
                 alt='Send feedback'
               />
             </a>
-          </span>
+          </div>
 
           {/* Buy Me a Coffee link */}
-          <span className='mq-user-progress--contact'>
+          <div className='mq-user-progress--contact'>
             <a
               href='https://www.buymeacoffee.com/wizardland'
               target='_blank'
@@ -75,8 +75,8 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
                 alt='Support us'
               />
             </a>
-          </span>
-        </span>
+          </div>
+        </div>
 
         <h3 className='mq-user-name'>
           <div className='mq-user-sign'>
