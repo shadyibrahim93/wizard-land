@@ -76,6 +76,8 @@ const Checkers = () => {
   const [opponentWins, setOpponentWins] = useState(0);
   const [channels, setChannels] = useState([]);
   const { userId, userName } = useUser();
+  const player1Symbol = useSelectedPiece(player1 || userId, '🔥', 'fire');
+  const player2Symbol = useSelectedPiece(player2, '❄️', 'ice');
   const [winnerName, SetWinnerName] = useState('');
   const [showCoinAnimation, setShowCoinAnimation] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -83,13 +85,6 @@ const Checkers = () => {
   const [oppChoice, setOppChoice] = useState(null);
   const navigate = useNavigate();
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
-
-  let player1Symbol = useSelectedPiece(player1 || userId, '🔥', 'fire');
-  let player2Symbol = useSelectedPiece(player2, '❄️', 'ice');
-
-  if (player1Symbol.display === '🔥' && player2Symbol.display === '🔥') {
-    player2Symbol = { ...player2Symbol, display: '❄️', key: '❄️' };
-  }
 
   const introText = `Welcome to Wizards Land Checkers Game! Play as '🔥'. Take turns moving your pieces into the corresponding box. A helper will show you where the piece can be dropped. Be the first to capture all pieces or block the opponent from making any more and win the game. Good luck!`;
 
@@ -868,32 +863,37 @@ const Checkers = () => {
                   key={`${rowIndex}-${colIndex}`}
                   className={`mq-square ${
                     (rowIndex + colIndex) % 2 === 1 ? 'mq-dark' : 'mq-light'
+                  }       
+                  ${
+                    cell.piece
+                      ? `mq-${
+                          !cell.king
+                            ? cell.piece === 'Fire'
+                              ? player1Symbol.key + ' mq-fire'
+                              : player2Symbol.key + ' mq-ice'
+                            : cell.piece === 'Fire'
+                            ? `${player1Symbol.key}-king`
+                            : `${player2Symbol.key}-king`
+                        }`
+                      : ''
                   } 
-          ${
-            cell.piece
-              ? `mq-${
-                  !cell.king
-                    ? cell.piece === 'Fire'
-                      ? player1Symbol.key
-                      : player2Symbol.key
-                    : cell.piece === 'Fire'
-                    ? `${player1Symbol.key}-king`
-                    : `${player2Symbol.key}-king`
-                }`
-              : ''
-          } 
-          ${cell.validMove ? 'valid' : ''} 
-          ${
-            selectedPiece?.row === rowIndex && selectedPiece?.col === colIndex
-              ? 'mq-selected'
-              : ''
-          } 
-          ${
-            (cell.piece === 'Fire' && !player1Symbol.display && !cell.king) ||
-            (cell.piece === 'Ice' && !player2Symbol.display && !cell.king)
-              ? 'mq-image'
-              : ''
-          }`}
+                  ${cell.validMove ? 'valid' : ''} 
+                  ${
+                    selectedPiece?.row === rowIndex &&
+                    selectedPiece?.col === colIndex
+                      ? 'mq-selected'
+                      : ''
+                  } 
+                  ${
+                    (cell.piece === 'Fire' &&
+                      !player1Symbol.display &&
+                      !cell.king) ||
+                    (cell.piece === 'Ice' &&
+                      !player2Symbol.display &&
+                      !cell.king)
+                      ? 'mq-image'
+                      : ''
+                  }`}
                   onClick={() => handleCellClick(rowIndex, colIndex)}
                 >
                   {cell.piece === 'Fire' &&
