@@ -1,26 +1,60 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import emailjs from '@emailjs/browser';
 import Button from '../Button';
+import { useUser } from '../../context/UserContext';
 
 export default function SendEmailModal({ showEmailModal, onClose }) {
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [messageBody, setMessageBody] = useState('');
+  const [isSending, setIsSending] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const { userName } = useUser();
 
-  const handleSendEmail = (e) => {
+  const handleSendEmail = async (e) => {
     e.preventDefault();
-    // build the mailto: link using the form inputs
-    const mailtoLink = [
-      `mailto:shadyaziz72@gmail.com`,
-      `subject=Wizard Land Inquiry: ${encodeURIComponent(subject)}`,
-      `body=${encodeURIComponent(messageBody)}`
-    ]
-      .join('?')
-      .replace('?&', '?');
+    setIsSending(true);
+    setErrorMessage('');
+    setSuccessMessage('');
 
-    // open default mail client
-    window.location.href = mailtoLink;
-    onClose();
+    try {
+      await emailjs.send(
+        'service_hbyy29m', // From EmailJS dashboard
+        'template_o5dg0wa', // From EmailJS template
+        {
+          to_email: email,
+          subject: subject,
+          message: messageBody,
+          from_name: userName // Add any additional fields
+        }
+      );
+
+      setSuccessMessage('Email sent successfully!');
+      setTimeout(() => {
+        onClose();
+        // Reset form
+        setEmail('');
+        setSubject('');
+        setMessageBody('');
+      }, 2000);
+    } catch (error) {
+      setErrorMessage('Failed to send email. Please try again.');
+    } finally {
+      setIsSending(false);
+    }
   };
+
+  useEffect(() => {
+    if (showEmailModal) {
+      // Clear messages and reset form when modal opens
+      setErrorMessage('');
+      setSuccessMessage('');
+      setEmail('');
+      setSubject('');
+      setMessageBody('');
+    }
+  }, [showEmailModal]);
 
   if (!showEmailModal) return null;
 
@@ -73,10 +107,15 @@ export default function SendEmailModal({ showEmailModal, onClose }) {
                 required
               />
             </div>
+            {errorMessage && <div className={`mq-message`}>{errorMessage}</div>}
+            {successMessage && (
+              <div className='mq-message'>{successMessage}</div>
+            )}
             <Button
               type='submit'
-              text='Send Email'
+              text={isSending ? 'Sending...' : 'Send Email'}
               className='mq-button'
+              disabled={isSending}
             />
           </form>
         </div>

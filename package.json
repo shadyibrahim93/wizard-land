@@ -4,6 +4,7 @@
   "homepage": "https://shadyibrahim93.github.io/wizard-land",
   "private": true,
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@supabase/supabase-js": "^2.49.1",
     "axios": "^1.7.9",
     "canvas-confetti": "^1.9.3",

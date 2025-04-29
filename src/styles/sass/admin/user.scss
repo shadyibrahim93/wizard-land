@@ -22,7 +22,7 @@
     position: relative;
     @media (max-width: 768px) {
       justify-content: flex-end;
-      align-items: center;
+      align-items: stretch;
       width: 100%;
     }
 
@@ -45,7 +45,7 @@
 
       @media (max-width: 768px) {
         top: -2px;
-        width: 45px;
+        width: 39px;
         left: -18px;
       }
     }
@@ -76,7 +76,7 @@
     .#{$identifier}-user-progress--contact {
       background-color: $light-overlay;
       border-radius: 10px;
-      margin-top: 16px;
+      margin-top: 0px;
       margin-left: 0px;
       display: flex;
       flex-direction: row;
@@ -108,14 +108,14 @@
         text-decoration: none;
         color: $white;
         transform: translateZ(0);
-        padding: 2px 6px;
+        padding: 0px 6px;
         height: 100%;
 
         img {
           position: relative;
           left: 0;
           top: 0;
-          width: 30px; /* Make image fill 100% of the a tag */
+          width: 28px; /* Make image fill 100% of the a tag */
           object-fit: cover; /* Ensure the image covers the area without stretching */
           margin: 0;
         }
@@ -159,6 +159,7 @@
       background-color: $light-overlay;
       padding: 8px 16px 8px 36px;
       border-radius: 10px;
+      margin: 0px;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -171,7 +172,8 @@
 
       @media (max-width: 768px) {
         width: fit-content;
-        padding: 4px 10px 4px 38px;
+        padding: 4px 10px 4px 28px;
+        font-size: small;
       }
 
       span {
@@ -340,7 +342,7 @@
   .#{$identifier}-user-greeting {
     flex-direction: column-reverse;
     align-items: flex-start;
-    gap: 16px;
+    gap: 12px;
 
     &:has(.sign-up) {
       align-items: flex-end;
