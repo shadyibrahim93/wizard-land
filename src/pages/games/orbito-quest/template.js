@@ -97,10 +97,10 @@ const Orbito = () => {
     for (let [a, b1, c, d] of lines) {
       if (b[a] && b[a] === b[b1] && b[a] === b[c] && b[a] === b[d]) {
         if (gameMode === 'Multiplayer') {
-          return b[a] === player1Symbol.key ? player1 : player2;
+          return b[a] === player1 ? player1 : player2;
         }
 
-        return b[a] === player1Symbol.key ? 'Fire' : 'Ice'; // Use Fire/Ice
+        return b[a] === userId ? 'Fire' : 'Ice'; // Use Fire/Ice
       }
     }
 
@@ -226,11 +226,11 @@ const Orbito = () => {
     const symbol =
       gameMode === 'Multiplayer'
         ? currentMultiplayerTurn === player1
-          ? player1Symbol.key
-          : player2Symbol.key
+          ? player1
+          : player2
         : currentTurn === 'Fire'
-        ? player1Symbol.key
-        : player2Symbol.key;
+        ? userId
+        : 'Ice';
 
     if (gameMode === 'Single') {
       const newBoard = [...board];
@@ -253,8 +253,7 @@ const Orbito = () => {
       }
 
       const newBoard = [...board];
-      newBoard[idx] =
-        userId === player1 ? player1Symbol.key : player2Symbol.key;
+      newBoard[idx] = userId === player1 ? player1 : player2;
       setBoard(newBoard);
 
       setGamePhase('orbit');
@@ -753,14 +752,36 @@ const Orbito = () => {
                 ${cell ? `mq-${cell}` : ''}
                 ${innerRing.includes(idx) ? 'mq-inner' : 'mq-outer'}
                 ${
-                  (cell === player1Symbol.key && !player1Symbol.display) ||
-                  (cell === player2Symbol.key && !player2Symbol.display)
+                  (cell === userId && !player1Symbol.display) ||
+                  (cell === player2 && !player2Symbol.display)
                     ? 'mq-image'
+                    : ''
+                }
+                mq-${
+                  cell
+                    ? gameMode === 'Single'
+                      ? cell === userId
+                        ? 'fire'
+                        : 'ice'
+                      : cell === player1
+                      ? 'fire'
+                      : cell === player2
+                      ? 'ice'
+                      : ''
                     : ''
                 }`}
               onClick={() => handleCellClick(idx)}
             >
-              {cell}
+              {cell &&
+                (gameMode === 'Single'
+                  ? cell === userId
+                    ? player1Symbol.display || player1Symbol.image
+                    : player2Symbol.display || player2Symbol.image
+                  : cell === player1
+                  ? player1Symbol.display || player1Symbol.image
+                  : cell === player2
+                  ? player2Symbol.display || player2Symbol.image
+                  : cell)}
             </div>
           ))}
           <Button
