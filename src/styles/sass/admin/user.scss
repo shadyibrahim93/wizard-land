@@ -17,6 +17,7 @@
   }
 
   .#{$identifier}-user-container {
+    margin-top: 4px;
     display: flex;
     flex-direction: row;
     position: relative;
@@ -29,7 +30,7 @@
     &:has(.mq-user-progress--contact) {
       justify-content: space-between;
       > div {
-        max-height: 28px;
+        max-height: 34px;
         display: flex;
         flex-direction: row;
         gap: 12px;
