@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/wizard-land/static/css/main.af56e2c9.css",
+    "main.css": "/wizard-land/static/css/main.b72b743e.css",
     "main.js": "/wizard-land/static/js/main.dd69af90.js",
     "static/js/952.406e2d23.chunk.js": "/wizard-land/static/js/952.406e2d23.chunk.js",
     "static/media/angry.gif": "/wizard-land/static/media/angry.ae52afe8bfc633f3017a.gif",
@@ -47,12 +47,12 @@
     "static/media/defaultplace.png": "/wizard-land/static/media/defaultplace.2a622ca5655a58932099.png",
     "static/media/cursor.cur": "/wizard-land/static/media/cursor.2c46f5bc85e30429f077.cur",
     "index.html": "/wizard-land/index.html",
-    "main.af56e2c9.css.map": "/wizard-land/static/css/main.af56e2c9.css.map",
+    "main.b72b743e.css.map": "/wizard-land/static/css/main.b72b743e.css.map",
     "main.dd69af90.js.map": "/wizard-land/static/js/main.dd69af90.js.map",
     "952.406e2d23.chunk.js.map": "/wizard-land/static/js/952.406e2d23.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.af56e2c9.css",
+    "static/css/main.b72b743e.css",
     "static/js/main.dd69af90.js"
   ]
 }
