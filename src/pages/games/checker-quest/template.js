@@ -287,7 +287,15 @@ const Checkers = () => {
     newBoard[sr][sc].piece = null;
     newBoard[sr][sc].king = false;
 
-    playPlaceObject();
+    playPlaceObject(
+      gameMode === 'Multiplayer'
+        ? currentMultiplayerTurn === player1
+          ? player1Symbol.key
+          : player2Symbol.key
+        : currentTurn === 'Fire'
+        ? player1Symbol.key
+        : ''
+    );
 
     if (Math.abs(sr - er) === 2) {
       const cr = (sr + er) / 2,

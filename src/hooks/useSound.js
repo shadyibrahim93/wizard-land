@@ -225,8 +225,13 @@ export const playUpgrade = () => {
   audio.play();
 };
 
-export const playPlaceObject = () => {
-  const audio = new Audio(`${BASE_PATH}place-object.mp3`);
+export const playPlaceObject = (fileName = 'place-object') => {
+  if (['nosee', 'nohear', 'nospeak'].includes(fileName)) {
+    fileName = 'monkey';
+  }
+
+  const audio = new Audio(`${BASE_PATH}${fileName}.mp3`);
+  console.log(audio);
   audio.currentTime = 0.26;
   audio.play();
 };

@@ -216,7 +216,15 @@ const Game = () => {
   };
 
   const handleClick = (col) => {
-    playPlaceObject();
+    playPlaceObject(
+      gameMode === 'Multiplayer'
+        ? currentMultiplayerTurn === player1
+          ? player1Symbol.key
+          : player2Symbol.key
+        : currentTurn === 'Fire'
+        ? player1Symbol.key
+        : ''
+    );
     if (gameOver || board[0][col] !== null) return;
 
     const newBoard = board.map((row) => [...row]);

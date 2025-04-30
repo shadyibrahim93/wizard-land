@@ -9,6 +9,7 @@
 
   &:has(.sign-up) {
     justify-content: flex-end;
+    margin-bottom: 16px;
     .#{$identifier}-link {
       .#{$identifier}-user-name {
         padding: 8px 16px;
@@ -341,6 +342,7 @@
     gap: 12px;
 
     &:has(.sign-up) {
+      margin-bottom: 0px;
       align-items: flex-end;
       .#{$identifier}-user-name {
         width: auto;

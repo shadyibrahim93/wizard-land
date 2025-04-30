@@ -164,7 +164,7 @@ const Orbito = () => {
           }
         }
 
-        if (winner === userId) {
+        if (winner === userId || winner === 'Fire') {
           playNextLevel();
           triggerConfetti();
         } else if (winner !== userId) {
@@ -274,7 +274,15 @@ const Orbito = () => {
       }
     }
 
-    playPlaceObject();
+    playPlaceObject(
+      gameMode === 'Multiplayer'
+        ? currentMultiplayerTurn === player1
+          ? player1Symbol.key
+          : player2Symbol.key
+        : currentTurn === 'Fire'
+        ? player1Symbol.key
+        : ''
+    );
   };
 
   const handleOrbitShift = () => {

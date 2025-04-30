@@ -82,7 +82,7 @@ const Game = () => {
           }
         }
 
-        if (winner === userId) {
+        if (winner === userId || winner === 'Fire') {
           playNextLevel();
           triggerConfetti();
         } else if (winner !== userId) {
@@ -212,7 +212,15 @@ const Game = () => {
   };
 
   const handleClick = async (index) => {
-    playPlaceObject();
+    playPlaceObject(
+      gameMode === 'Multiplayer'
+        ? currentMultiplayerTurn === player1
+          ? player1Symbol.key
+          : player2Symbol.key
+        : currentTurn === 'Fire'
+        ? player1Symbol.key
+        : ''
+    );
 
     // Prevent clicking on filled cell, if game over, or not Fire's turn in Single mode
     if (board[index] || gameOver) return;
