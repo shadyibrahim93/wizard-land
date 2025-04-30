@@ -13,7 +13,7 @@ export const useSelectedPiece = (userId, fallback, themefallback) => {
     display: emoji,
     image: image ? (
       <img
-        src={`wizard-land/assets/elements/board_pieces/${image}`}
+        src={`/wizard-land/assets/images/elements/board_pieces/${image}.gif`}
         className='mq-piece--img'
       />
     ) : (

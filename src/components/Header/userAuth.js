@@ -13,7 +13,7 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
   const [showEmailModal, setShowEmailModal] = useState(false);
   const navigate = useNavigate();
 
-  const imageSrc = `/wizard-land/assets/elements/${
+  const imageSrc = `/wizard-land/assets/images/elements/${
     isHovered ? 'home_active.png' : 'home.png'
   }`;
 
