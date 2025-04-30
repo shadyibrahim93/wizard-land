@@ -212,16 +212,6 @@ const Game = () => {
   };
 
   const handleClick = async (index) => {
-    playPieceSound(
-      gameMode === 'Multiplayer'
-        ? currentMultiplayerTurn === player1
-          ? player1Symbol.key
-          : player2Symbol.key
-        : currentTurn === 'Fire'
-        ? player1Symbol.key
-        : ''
-    );
-
     // Prevent clicking on filled cell, if game over, or not Fire's turn in Single mode
     if (board[index] || gameOver) return;
 
@@ -236,6 +226,24 @@ const Game = () => {
       if (userWinner) {
         setWinner(userWinner);
         return;
+      }
+
+      let willPlaySound = true;
+
+      if (userWinner || isBoardFull(newBoard)) {
+        willPlaySound = false;
+      }
+
+      if (willPlaySound) {
+        playPieceSound(
+          gameMode === 'Multiplayer'
+            ? currentMultiplayerTurn === player1
+              ? player1Symbol.key
+              : player2Symbol.key
+            : currentTurn === 'Fire'
+            ? player1Symbol.key
+            : ''
+        );
       }
 
       if (isBoardFull(newBoard)) {

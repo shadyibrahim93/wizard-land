@@ -274,15 +274,23 @@ const Orbito = () => {
       }
     }
 
-    playPieceSound(
-      gameMode === 'Multiplayer'
-        ? currentMultiplayerTurn === player1
+    let willPlaySound = true;
+
+    if (winner) {
+      willPlaySound = false;
+    }
+
+    if (willPlaySound) {
+      playPieceSound(
+        gameMode === 'Multiplayer'
+          ? currentMultiplayerTurn === player1
+            ? player1Symbol.key
+            : player2Symbol.key
+          : currentTurn === 'Fire'
           ? player1Symbol.key
-          : player2Symbol.key
-        : currentTurn === 'Fire'
-        ? player1Symbol.key
-        : ''
-    );
+          : ''
+      );
+    }
   };
 
   const handleOrbitShift = () => {

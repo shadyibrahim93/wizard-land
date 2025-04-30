@@ -216,15 +216,6 @@ const Game = () => {
   };
 
   const handleClick = (col) => {
-    playPieceSound(
-      gameMode === 'Multiplayer'
-        ? currentMultiplayerTurn === player1
-          ? player1Symbol.key
-          : player2Symbol.key
-        : currentTurn === 'Fire'
-        ? player1Symbol.key
-        : ''
-    );
     if (gameOver || board[0][col] !== null) return;
 
     const newBoard = board.map((row) => [...row]);
@@ -302,6 +293,24 @@ const Game = () => {
       }
 
       updateBoardState(room.room, newBoard, gameId, nextTurn);
+    }
+
+    let willPlaySound = true;
+
+    if (winner || isBoardFull(newBoard)) {
+      willPlaySound = false;
+    }
+
+    if (willPlaySound) {
+      playPieceSound(
+        gameMode === 'Multiplayer'
+          ? currentMultiplayerTurn === player1
+            ? player1Symbol.key
+            : player2Symbol.key
+          : currentTurn === 'Fire'
+          ? player1Symbol.key
+          : ''
+      );
     }
   };
 

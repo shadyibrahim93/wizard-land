@@ -287,16 +287,6 @@ const Checkers = () => {
     newBoard[sr][sc].piece = null;
     newBoard[sr][sc].king = false;
 
-    playPieceSound(
-      gameMode === 'Multiplayer'
-        ? currentMultiplayerTurn === player1
-          ? player1Symbol.key
-          : player2Symbol.key
-        : currentTurn === 'Fire'
-        ? player1Symbol.key
-        : ''
-    );
-
     if (Math.abs(sr - er) === 2) {
       const cr = (sr + er) / 2,
         cc = (sc + ec) / 2;
@@ -334,6 +324,35 @@ const Checkers = () => {
     } else {
       setCurrentTurn(piece === 'Fire' ? 'Ice' : 'Fire');
       checkGameOver(newBoard);
+    }
+
+    let willPlaySound = true;
+
+    if (winner) {
+      willPlaySound = false;
+    }
+
+    if (willPlaySound) {
+      console.log(
+        playPieceSound(
+          gameMode === 'Multiplayer'
+            ? currentMultiplayerTurn === player1
+              ? player1Symbol.key
+              : player2Symbol.key
+            : currentTurn === 'Fire'
+            ? player1Symbol.key
+            : ''
+        )
+      );
+      playPieceSound(
+        gameMode === 'Multiplayer'
+          ? currentMultiplayerTurn === player1
+            ? player1Symbol.key
+            : player2Symbol.key
+          : currentTurn === 'Fire'
+          ? player1Symbol.key
+          : null
+      );
     }
   };
 
@@ -905,9 +924,13 @@ const Checkers = () => {
                   onClick={() => handleCellClick(rowIndex, colIndex)}
                 >
                   {cell.piece === 'Fire' &&
-                    (cell.king ? '♔' : player1Symbol.display || '🔥')}
+                    (cell.king
+                      ? '♔'
+                      : player1Symbol.display || player1Symbol.image || '🔥')}
                   {cell.piece === 'Ice' &&
-                    (cell.king ? '♚' : player2Symbol.display || '❄️')}
+                    (cell.king
+                      ? '♚'
+                      : player2Symbol.display || player2Symbol.image || '❄️')}
                 </div>
               ))}
             </div>
