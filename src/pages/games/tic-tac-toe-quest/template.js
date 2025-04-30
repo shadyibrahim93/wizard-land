@@ -228,24 +228,6 @@ const Game = () => {
         return;
       }
 
-      let willPlaySound = true;
-
-      if (userWinner || isBoardFull(newBoard)) {
-        willPlaySound = false;
-      }
-
-      if (willPlaySound) {
-        playPieceSound(
-          gameMode === 'Multiplayer'
-            ? currentMultiplayerTurn === player1
-              ? player1Symbol.key
-              : player2Symbol.key
-            : currentTurn === 'Fire'
-            ? player1Symbol.key
-            : ''
-        );
-      }
-
       if (isBoardFull(newBoard)) {
         setWinner(null);
         setGameOver(true);
@@ -303,6 +285,34 @@ const Game = () => {
 
       // Update server with new state and turn
       updateBoardState(room.room, newBoard, gameId, nextTurn);
+    }
+    let willPlaySound = true;
+
+    if (winner || isBoardFull(board)) {
+      willPlaySound = false;
+    }
+
+    if (willPlaySound) {
+      console.log(
+        playPieceSound(
+          gameMode === 'Multiplayer'
+            ? currentMultiplayerTurn === player1
+              ? player1Symbol.key
+              : player2Symbol.key
+            : currentTurn === 'Fire'
+            ? player1Symbol.key
+            : ''
+        )
+      );
+      playPieceSound(
+        gameMode === 'Multiplayer'
+          ? currentMultiplayerTurn === player1
+            ? player1Symbol.key
+            : player2Symbol.key
+          : currentTurn === 'Fire'
+          ? player1Symbol.key
+          : ''
+      );
     }
   };
 
