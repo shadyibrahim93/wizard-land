@@ -54,7 +54,7 @@ const ShopItem = ({ item }) => {
         {item.emoji && item.emoji}
         {item.image_url && (
           <img
-            src={getImagePath('board_pieces/' + item.image_url)}
+            src={getImagePath('board_pieces/' + item.image_url + '.gif')}
             alt={`Board Piece - ${item.className}`}
           />
         )}
