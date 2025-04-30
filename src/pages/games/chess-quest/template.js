@@ -427,7 +427,6 @@ const Chess = () => {
       newBoard[er][ec] = { ...piece, moved: true };
     }
 
-    newBoard[er][ec] = { ...piece, moved: true };
     newBoard[sr][sc] = null;
 
     return newBoard;

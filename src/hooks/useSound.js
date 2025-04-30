@@ -225,7 +225,9 @@ export const playUpgrade = () => {
   audio.play();
 };
 
-export const playPieceSound = (fileName = 'place-object') => {
+export const playPieceSound = (fileName) => {
+  fileName = fileName || 'place-object';
+
   if (['nosee', 'nohear', 'nospeak'].includes(fileName)) {
     fileName = 'monkey';
   }
