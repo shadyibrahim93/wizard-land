@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useBeforeUnload } from 'react-router-dom';
 import GameIntro from '../../gameFlow/gameintro';
 import {
@@ -325,36 +325,34 @@ const Checkers = () => {
       setCurrentTurn(piece === 'Fire' ? 'Ice' : 'Fire');
       checkGameOver(newBoard);
     }
-
-    let willPlaySound = true;
-
-    if (winner) {
-      willPlaySound = false;
-    }
-
-    if (willPlaySound) {
-      console.log(
-        playPieceSound(
-          gameMode === 'Multiplayer'
-            ? currentMultiplayerTurn === player1
-              ? player1Symbol.key
-              : player2Symbol.key
-            : currentTurn === 'Fire'
-            ? player1Symbol.key
-            : ''
-        )
-      );
-      playPieceSound(
-        gameMode === 'Multiplayer'
-          ? currentMultiplayerTurn === player1
-            ? player1Symbol.key
-            : player2Symbol.key
-          : currentTurn === 'Fire'
-          ? player1Symbol.key
-          : null
-      );
-    }
   };
+
+  const firstBoardUpdate = useRef(true);
+
+  useEffect(() => {
+    // 1) Skip the very first render:
+    if (firstBoardUpdate.current) {
+      firstBoardUpdate.current = false;
+      return;
+    }
+
+    // 2) If the game just ended or board is full, don’t play:
+    if (winner) return;
+
+    // 3) Determine which sound to play:
+    let soundKey = '';
+    if (gameMode === 'Multiplayer' && player1) {
+      soundKey =
+        currentMultiplayerTurn === player2
+          ? player1Symbol.key
+          : player2Symbol.key;
+    } else if (gameMode === 'Single' && currentTurn === 'Ice') {
+      soundKey = player1Symbol.key;
+    }
+
+    // 4) Fire it off:
+    playPieceSound(soundKey);
+  }, [currentMultiplayerTurn]);
 
   const highlightValidMoves = (r, c, b = board) => {
     const newBoard = b.map((r) => r.map((c) => ({ ...c, validMove: false })));
