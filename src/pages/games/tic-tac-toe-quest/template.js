@@ -293,17 +293,6 @@ const Game = () => {
     }
 
     if (willPlaySound) {
-      console.log(
-        playPieceSound(
-          gameMode === 'Multiplayer'
-            ? currentMultiplayerTurn === player1
-              ? player1Symbol.key
-              : player2Symbol.key
-            : currentTurn === 'Fire'
-            ? player1Symbol.key
-            : ''
-        )
-      );
       playPieceSound(
         gameMode === 'Multiplayer'
           ? currentMultiplayerTurn === player1

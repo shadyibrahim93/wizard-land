@@ -18,7 +18,7 @@
   }
 
   .#{$identifier}-user-container {
-    margin-top: 4px;
+    margin-top: 6px;
     display: flex;
     flex-direction: row;
     position: relative;
@@ -339,7 +339,7 @@
   .#{$identifier}-user-greeting {
     flex-direction: column-reverse;
     align-items: flex-start;
-    gap: 12px;
+    gap: 16px;
 
     &:has(.sign-up) {
       margin-bottom: 0px;
@@ -393,6 +393,7 @@
       row-gap: 10px;
       column-gap: 16px;
       margin-top: 0;
+      margin-bottom: 21px;
       justify-content: space-between;
 
       &--exp,
