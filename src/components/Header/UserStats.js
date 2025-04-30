@@ -51,6 +51,7 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
               {exp}
             </span>
           </span>
+          {/** 
           <span className='mq-user-progress--euro'>
             <span className='mq-user-icon'>
               <img src={euroIcon} />
@@ -61,6 +62,7 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
               className='mq-user-add'
             />
           </span>
+          */}
           <span className='mq-user-progress--star'>
             <span className='mq-user-icon'>
               <img src={starIcon} />

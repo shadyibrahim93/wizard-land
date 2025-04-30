@@ -50,30 +50,32 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
         <div>
           {/* Open feedback modal */}
           <div className='mq-user-progress--contact'>
+            <img
+              src={emailIcon}
+              alt='Send feedback'
+            />
             <a
               type='button'
               id='send-email'
               className='icon-button'
               onClick={() => setShowEmailModal(true)}
             >
-              <img
-                src={emailIcon}
-                alt='Send feedback'
-              />
+              Feedback
             </a>
           </div>
 
           {/* Buy Me a Coffee link */}
           <div className='mq-user-progress--contact'>
+            <img
+              src={supportIcon}
+              alt='Support us'
+            />
             <a
               href='https://www.buymeacoffee.com/wizardland'
               target='_blank'
               rel='noopener noreferrer'
             >
-              <img
-                src={supportIcon}
-                alt='Support us'
-              />
+              Contribute
             </a>
           </div>
         </div>
