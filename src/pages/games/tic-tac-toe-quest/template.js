@@ -295,7 +295,7 @@ const Game = () => {
     if (willPlaySound) {
       playPieceSound(
         gameMode === 'Multiplayer'
-          ? currentMultiplayerTurn === player1
+          ? player1 === userId
             ? player1Symbol.key
             : player2Symbol.key
           : currentTurn === 'Fire'
