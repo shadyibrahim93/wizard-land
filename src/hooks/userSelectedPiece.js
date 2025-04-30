@@ -8,12 +8,15 @@ export const useSelectedPiece = (userId, fallback, themefallback) => {
   const name = selected.piece?.className || null;
   const theme = selected.theme?.className || null;
 
+  const getImagePath = (fileName) =>
+    require(`../assets/images/elements/board_pieces/${fileName}.webp`);
+
   return {
     key: name || emoji || fallback, // used for comparison
     display: emoji,
     image: image ? (
       <img
-        src={`/wizard-land/assets/images/elements/board_pieces/${image}.gif`}
+        src={getImagePath(image)}
         className='mq-piece--img'
       />
     ) : (
