@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { activateItem } from '../../apiService';
 import Button from '../Button';
-import { playEquip } from '../../hooks/useSound';
+import { playEquip, playPieceSound } from '../../hooks/useSound';
 
 const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
   const getImagePath = (fileName) =>
@@ -14,8 +14,30 @@ const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
     refreshInventory?.(); // optional callback to refresh UI after activation
   };
 
+  const audioRef = useRef(null);
+
+  const shouldPlaySound = item.image_url;
+
+  const handleMouseEnter = () => {
+    if (shouldPlaySound) {
+      audioRef.current = playPieceSound(item.image_url);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      audioRef.current = null;
+    }
+  };
+
   return (
-    <div className='mq-modal-item'>
+    <div
+      className='mq-modal-item'
+      onMouseEnter={shouldPlaySound ? handleMouseEnter : undefined}
+      onMouseLeave={shouldPlaySound ? handleMouseLeave : undefined}
+    >
       {/* {!item.emoji && !item.image_url && item.className && (
         <p className='mq-modal-title'>{item.className.toUpperCase()}</p>
       )} */}

@@ -4,7 +4,7 @@ import GameIntro from '../../gameFlow/gameintro';
 import {
   playUncover,
   playDisappear,
-  playPlaceObject,
+  playPieceSound,
   playNextLevel,
   playSwallow,
   playDefeat
@@ -282,7 +282,7 @@ const Chess = () => {
     if (newBoard[er][ec] && newBoard[er][ec].color !== p.color) {
       playSwallow();
     } else {
-      playPlaceObject();
+      playPieceSound();
     }
 
     newBoard[er][ec] = p;

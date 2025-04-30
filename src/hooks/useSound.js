@@ -225,15 +225,15 @@ export const playUpgrade = () => {
   audio.play();
 };
 
-export const playPlaceObject = (fileName = 'place-object') => {
+export const playPieceSound = (fileName = 'place-object') => {
   if (['nosee', 'nohear', 'nospeak'].includes(fileName)) {
     fileName = 'monkey';
   }
 
   const audio = new Audio(`${BASE_PATH}${fileName}.mp3`);
-  console.log(audio);
   audio.currentTime = 0.26;
   audio.play();
+  return audio;
 };
 
 export const playCardFlip = () => {

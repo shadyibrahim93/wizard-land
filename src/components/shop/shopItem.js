@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { purchaseItem } from '../../apiService';
 import { useUser } from '../../context/UserContext';
-import { playPurchase } from '../../hooks/useSound';
+import { playPurchase, playPieceSound } from '../../hooks/useSound';
 import Button from '../Button';
 
 const ShopItem = ({ item }) => {
@@ -38,8 +38,30 @@ const ShopItem = ({ item }) => {
     }
   };
 
+  const audioRef = useRef(null);
+
+  const shouldPlaySound = item.image_url;
+
+  const handleMouseEnter = () => {
+    if (shouldPlaySound) {
+      audioRef.current = playPieceSound(item.image_url);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      audioRef.current = null;
+    }
+  };
+
   return (
-    <div className={`mq-modal-item `}>
+    <div
+      className='mq-modal-item'
+      onMouseEnter={shouldPlaySound ? handleMouseEnter : undefined}
+      onMouseLeave={shouldPlaySound ? handleMouseLeave : undefined}
+    >
       {/* {!item.emoji && !item.image_url && item.className && (
         <p className='mq-modal-title'>{item.className.toUpperCase()}</p>
       )} */}

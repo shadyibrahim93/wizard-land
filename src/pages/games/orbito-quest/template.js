@@ -4,7 +4,7 @@ import GameIntro from '../../gameFlow/gameintro';
 import {
   playUncover,
   playDisappear,
-  playPlaceObject,
+  playPieceSound,
   playNextLevel,
   playDefeat,
   playShift
@@ -274,7 +274,7 @@ const Orbito = () => {
       }
     }
 
-    playPlaceObject(
+    playPieceSound(
       gameMode === 'Multiplayer'
         ? currentMultiplayerTurn === player1
           ? player1Symbol.key
@@ -410,7 +410,7 @@ const Orbito = () => {
     // 3) Delay placement
     setTimeout(() => {
       setBoard(nextBoard);
-      playPlaceObject();
+      playPieceSound();
 
       // 4) Check for a win *after* placement
       const placementWinner = calculateWinner(nextBoard);

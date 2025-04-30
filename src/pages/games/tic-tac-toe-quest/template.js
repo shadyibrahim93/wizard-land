@@ -4,7 +4,7 @@ import GameIntro from '../../gameFlow/gameintro';
 import {
   playUncover,
   playDisappear,
-  playPlaceObject,
+  playPieceSound,
   playNextLevel,
   playDefeat
 } from '../../../hooks/useSound';
@@ -212,7 +212,7 @@ const Game = () => {
   };
 
   const handleClick = async (index) => {
-    playPlaceObject(
+    playPieceSound(
       gameMode === 'Multiplayer'
         ? currentMultiplayerTurn === player1
           ? player1Symbol.key
@@ -302,7 +302,7 @@ const Game = () => {
     const newBoard = [...currentBoard];
 
     setTimeout(() => {
-      playPlaceObject();
+      playPieceSound();
       const winningMove = findBestMove(newBoard, '❄️');
       if (winningMove !== null) {
         newBoard[winningMove] = '❄️'; // Computer's move

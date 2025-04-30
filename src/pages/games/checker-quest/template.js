@@ -4,7 +4,7 @@ import GameIntro from '../../gameFlow/gameintro';
 import {
   playUncover,
   playDisappear,
-  playPlaceObject,
+  playPieceSound,
   playNextLevel,
   playSwallow,
   playDefeat
@@ -287,7 +287,7 @@ const Checkers = () => {
     newBoard[sr][sc].piece = null;
     newBoard[sr][sc].king = false;
 
-    playPlaceObject(
+    playPieceSound(
       gameMode === 'Multiplayer'
         ? currentMultiplayerTurn === player1
           ? player1Symbol.key
