@@ -37,76 +37,79 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
   }
 
   return (
-    userId && (
-      <>
-        <h3 className='mq-user-progress'>
-          <span className='mq-user-progress--exp'>
-            <span className='mq-user-icon'>
-              <img src={expIcon} />
+    <>
+      <h3 className='mq-user-progress'>
+        {userId && (
+          <>
+            <span className='mq-user-progress--exp'>
+              <span className='mq-user-icon'>
+                <img src={expIcon} />
+              </span>
+              <span
+                className='mq-user-amount'
+                id='expCounterRef'
+              >
+                {exp}
+              </span>
             </span>
-            <span
-              className='mq-user-amount'
-              id='expCounterRef'
-            >
-              {exp}
+
+            {/** 
+            <span className='mq-user-progress--euro'>
+              <span className='mq-user-icon'>
+                <img src={euroIcon} />
+              </span>
+              <span className='mq-user-amount'>{euro}</span>
+              <Button
+                text='+'
+                className='mq-user-add'
+              />
             </span>
+            */}
+            <span className='mq-user-progress--star'>
+              <span className='mq-user-icon'>
+                <img src={starIcon} />
+              </span>
+              <span
+                className='mq-user-amount'
+                id='coinCounterRef'
+              >
+                {stars}
+              </span>
+            </span>
+          </>
+        )}
+        <span className='mq-user-progress--contact'>
+          <span className='mq-user-icon'>
+            <img src={emailIcon} />
           </span>
-          {/** 
-          <span className='mq-user-progress--euro'>
-            <span className='mq-user-icon'>
-              <img src={euroIcon} />
-            </span>
-            <span className='mq-user-amount'>{euro}</span>
-            <Button
-              text='+'
-              className='mq-user-add'
-            />
+          <a
+            type='button'
+            id='send-email'
+            className='icon-button'
+            onClick={() => setShowEmailModal(true)}
+            onMouseEnter={playButtonHover}
+          >
+            Feedback
+          </a>
+        </span>
+        <span className='mq-user-progress--contact'>
+          <span className='mq-user-icon'>
+            <img src={supportIcon} />
           </span>
-          */}
-          <span className='mq-user-progress--star'>
-            <span className='mq-user-icon'>
-              <img src={starIcon} />
-            </span>
-            <span
-              className='mq-user-amount'
-              id='coinCounterRef'
-            >
-              {stars}
-            </span>
-          </span>
-          <span className='mq-user-progress--contact'>
-            <span className='mq-user-icon'>
-              <img src={emailIcon} />
-            </span>
-            <a
-              type='button'
-              id='send-email'
-              className='icon-button'
-              onClick={() => setShowEmailModal(true)}
-              onMouseEnter={playButtonHover}
-            >
-              Feedback
-            </a>
-          </span>
-          <span className='mq-user-progress--contact'>
-            <span className='mq-user-icon'>
-              <img src={supportIcon} />
-            </span>
-            <a
-              href='https://www.buymeacoffee.com/wizardland'
-              target='_blank'
-              onMouseEnter={playButtonHover}
-            >
-              Support My Work
-            </a>
-          </span>
-        </h3>
-        <SendEmailModal
-          showEmailModal={showEmailModal}
-          onClose={() => setShowEmailModal(false)}
-        />
-      </>
-    )
+          <a
+            href='https://www.buymeacoffee.com/wizardland'
+            target='_blank'
+            onMouseEnter={playButtonHover}
+          >
+            Support My Work
+          </a>
+        </span>
+      </h3>
+      <SendEmailModal
+        showEmailModal={showEmailModal}
+        onClose={() => setShowEmailModal(false)}
+      />
+    </>
   );
 };
 

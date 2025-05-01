@@ -8,8 +8,6 @@
   font-size: 14px;
 
   &:has(.sign-up) {
-    justify-content: flex-end;
-    margin-bottom: 16px;
     .#{$identifier}-link {
       .#{$identifier}-user-name {
         padding: 8px 16px;
@@ -156,7 +154,6 @@
       background-color: $light-overlay;
       padding: 8px 16px 8px 36px;
       border-radius: 10px;
-      margin: 0px;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -193,7 +190,7 @@
     &--euro,
     &--contact {
       background-color: $light-overlay;
-      padding: 8px 16px 8px 8px;
+      padding: 6px 16px 6px 8px;
       border-radius: 10px;
       display: flex;
       flex-direction: row;
@@ -204,7 +201,7 @@
 
     .#{$identifier}-user-progress--contact {
       background-color: $light-overlay;
-      padding: 8px 16px 8px 28px;
+      padding: 6px 16px 6px 35px;
       border-radius: 10px;
       display: flex;
       flex-direction: row;
@@ -255,8 +252,8 @@
       .#{$identifier}-user {
         &-icon {
           img {
-            left: -28px;
-            width: 60px;
+            left: -24px;
+            width: 50px;
             top: 0;
           }
         }
@@ -283,8 +280,8 @@
       .#{$identifier}-user {
         &-icon {
           img {
-            left: -30px;
-            width: 62px;
+            left: -17px;
+            width: 50px;
             top: 0;
           }
         }
@@ -297,8 +294,8 @@
       .#{$identifier}-user {
         &-icon {
           img {
-            top: 5px;
-            left: -30px;
+            top: 0px;
+            left: -23px;
             width: 50px;
           }
         }
@@ -313,7 +310,7 @@
       }
       &-amount {
         background-color: $dark-overlay;
-        padding: 4px 12px;
+        padding: 2px 12px;
         border-radius: 10px;
         text-align: center;
         width: 100%;
@@ -346,7 +343,7 @@
       align-items: flex-end;
       .#{$identifier}-user-name {
         width: auto;
-        margin-bottom: 16px;
+        margin: 0px;
         padding: 6px 12px 6px 14px;
         text-align: center;
         letter-spacing: normal;
@@ -378,7 +375,7 @@
       font-size: 16px;
       flex-wrap: wrap;
       padding: 6px 12px;
-      margin-bottom: 0px;
+      margin: 0px;
 
       span {
         font-size: 14px;
