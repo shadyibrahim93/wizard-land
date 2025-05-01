@@ -233,7 +233,7 @@ export const playPieceSound = (fileName) => {
   }
 
   const audio = new Audio(`${BASE_PATH}${fileName}.mp3`);
-  audio.currentTime = 0.26;
+  audio.currentTime = 0;
   audio.play();
   return audio;
 };
