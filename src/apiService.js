@@ -956,6 +956,38 @@ export const getUserProgress = async (userId, gameId) => {
   return data || null;
 };
 
+export const getUserWeeklyProgress = async (userId, gameId) => {
+  const { data, error } = await supabase
+    .from('user_weekly_progress')
+    .select('wins, losses')
+    .eq('user_id', userId)
+    .eq('game_id', gameId)
+    .single();
+
+  if (error && error.code !== 'PGRST116') {
+    console.error('Error fetching progress:', error);
+    throw error;
+  }
+
+  return data || null;
+};
+
+export const getUserMonthlyProgress = async (userId, gameId) => {
+  const { data, error } = await supabase
+    .from('user_monthly_progress')
+    .select('wins, losses')
+    .eq('user_id', userId)
+    .eq('game_id', gameId)
+    .single();
+
+  if (error && error.code !== 'PGRST116') {
+    console.error('Error fetching progress:', error);
+    throw error;
+  }
+
+  return data || null;
+};
+
 export const getUserLifetimeProgress = async (userId, gameId) => {
   const { data, error } = await supabase
     .from('user_lifetime_progress')
@@ -973,58 +1005,43 @@ export const getUserLifetimeProgress = async (userId, gameId) => {
 };
 
 export const updateUserWinsByGame = async (userId, gameId) => {
-  const progress = await getUserProgress(userId, gameId);
+  // Helper function to handle update or insert for a given table
+  const handleProgress = async (tableName, getProgressFunction) => {
+    const progress = await getProgressFunction(userId, gameId);
 
-  // Update user_progress (daily)
-  if (progress) {
-    const { error } = await supabase
-      .from('user_progress')
-      .update({
-        wins: progress.wins + 1,
+    if (progress) {
+      const { error } = await supabase
+        .from(tableName)
+        .update({
+          wins: progress.wins + 1,
+          updated_at: new Date().toISOString()
+        })
+        .match({ user_id: userId, game_id: gameId });
+
+      if (error) throw error;
+    } else {
+      const { error } = await supabase.from(tableName).insert({
+        user_id: userId,
+        game_id: gameId,
+        wins: 1,
+        losses: 0,
+        draws: 0,
+        created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
-      })
-      .match({ user_id: userId, game_id: gameId });
+      });
 
-    if (error) throw error;
-  } else {
-    const { error } = await supabase.from('user_progress').insert({
-      user_id: userId,
-      game_id: gameId,
-      wins: 1,
-      losses: 0,
-      draws: 0,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    });
+      if (error) throw error;
+    }
+  };
 
-    if (error) throw error;
-  }
-
-  // Update user_lifetime_progress (permanent)
-  const lifetimeProgress = await getUserLifetimeProgress(userId, gameId);
-
-  if (lifetimeProgress) {
-    const { error } = await supabase
-      .from('user_lifetime_progress')
-      .update({
-        wins: lifetimeProgress.wins + 1,
-        updated_at: new Date().toISOString()
-      })
-      .match({ user_id: userId, game_id: gameId });
-
-    if (error) throw error;
-  } else {
-    const { error } = await supabase.from('user_lifetime_progress').insert({
-      user_id: userId,
-      game_id: gameId,
-      wins: 1,
-      losses: 0,
-      draws: 0,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    });
-
-    if (error) throw error;
+  // Update all progress tables
+  try {
+    await handleProgress('user_progress', getUserProgress);
+    await handleProgress('user_weekly_progress', getUserWeeklyProgress);
+    await handleProgress('user_monthly_progress', getUserMonthlyProgress);
+    await handleProgress('user_lifetime_progress', getUserLifetimeProgress);
+  } catch (error) {
+    throw error;
   }
 };
 
