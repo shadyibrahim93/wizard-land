@@ -289,18 +289,25 @@ const Orbito = () => {
 
     // 3) Determine which sound to play:
     let soundKey = '';
-    if (gameMode === 'Multiplayer' && player1) {
-      soundKey =
-        currentMultiplayerTurn === player2
-          ? player1Symbol.key
-          : player2Symbol.key;
-    } else if (gameMode === 'Single' && currentTurn === 'Ice') {
+    if (gameMode === 'Multiplayer' && gamePhase === 'orbit') {
+      if (currentMultiplayerTurn === player1) {
+        soundKey = player1Symbol.key;
+        console.log(soundKey);
+      } else if (currentMultiplayerTurn === player2) {
+        soundKey = player2Symbol.key;
+        console.log(soundKey);
+      }
+    } else if (
+      gameMode === 'Single' &&
+      currentTurn === 'Fire' &&
+      gamePhase === 'orbit'
+    ) {
       soundKey = player1Symbol.key;
     }
 
     // 4) Fire it off:
     playPieceSound(soundKey);
-  }, [currentMultiplayerTurn]);
+  }, [currentMultiplayerTurn, board]);
 
   const handleOrbitShift = () => {
     const newBoard = orbitShift(board);
