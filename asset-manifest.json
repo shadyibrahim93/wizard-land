@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/wizard-land/static/css/main.48075669.css",
-    "main.js": "/wizard-land/static/js/main.90b838b5.js",
+    "main.css": "/wizard-land/static/css/main.066bbacb.css",
+    "main.js": "/wizard-land/static/js/main.1e138d43.js",
     "static/js/952.406e2d23.chunk.js": "/wizard-land/static/js/952.406e2d23.chunk.js",
     "static/media/iceKing.gif": "/wizard-land/static/media/iceKing.050d445adf4e0755dcfc.gif",
     "static/media/ice.gif": "/wizard-land/static/media/ice.c9ff3188179e16bd39d4.gif",
@@ -37,6 +37,7 @@
     "static/media/fire.webp": "/wizard-land/static/media/fire.b73089e2442edd7f3e3a.webp",
     "static/media/puzzlelevel6.jpg": "/wizard-land/static/media/puzzlelevel6.bc76aeb13e1fc2bffd0a.jpg",
     "static/media/vecteezy_rank-frames-ui-game-borders-evolution-vector-set_13194481-removebg-preview.png": "/wizard-land/static/media/vecteezy_rank-frames-ui-game-borders-evolution-vector-set_13194481-removebg-preview.42527ca4d39c81cdb128.png",
+    "static/media/sword.webp": "/wizard-land/static/media/sword.f24b22d8b900ee4da20b.webp",
     "static/media/crown.gif": "/wizard-land/static/media/crown.7c5041a5702caf110e95.gif",
     "static/media/elements.png": "/wizard-land/static/media/elements.0f7f9f11575c0fd28b24.png",
     "static/media/MagicalFull.otf": "/wizard-land/static/media/MagicalFull.252ecf326a2d31201a87.otf",
@@ -46,12 +47,12 @@
     "static/media/defaultplace.png": "/wizard-land/static/media/defaultplace.2a622ca5655a58932099.png",
     "static/media/cursor.cur": "/wizard-land/static/media/cursor.2c46f5bc85e30429f077.cur",
     "index.html": "/wizard-land/index.html",
-    "main.48075669.css.map": "/wizard-land/static/css/main.48075669.css.map",
-    "main.90b838b5.js.map": "/wizard-land/static/js/main.90b838b5.js.map",
+    "main.066bbacb.css.map": "/wizard-land/static/css/main.066bbacb.css.map",
+    "main.1e138d43.js.map": "/wizard-land/static/js/main.1e138d43.js.map",
     "952.406e2d23.chunk.js.map": "/wizard-land/static/js/952.406e2d23.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.48075669.css",
-    "static/js/main.90b838b5.js"
+    "static/css/main.066bbacb.css",
+    "static/js/main.1e138d43.js"
   ]
 }
