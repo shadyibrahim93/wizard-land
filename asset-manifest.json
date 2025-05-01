@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/wizard-land/static/css/main.066bbacb.css",
-    "main.js": "/wizard-land/static/js/main.1e138d43.js",
+    "main.css": "/wizard-land/static/css/main.28952951.css",
+    "main.js": "/wizard-land/static/js/main.eba01f3a.js",
     "static/js/952.406e2d23.chunk.js": "/wizard-land/static/js/952.406e2d23.chunk.js",
     "static/media/iceKing.gif": "/wizard-land/static/media/iceKing.050d445adf4e0755dcfc.gif",
     "static/media/ice.gif": "/wizard-land/static/media/ice.c9ff3188179e16bd39d4.gif",
@@ -27,6 +27,7 @@
     "static/media/nohear.webp": "/wizard-land/static/media/nohear.0bf01dcde3e6b61921c2.webp",
     "static/media/nosee.webp": "/wizard-land/static/media/nosee.9f8590a7a351f1b8342c.webp",
     "static/media/robot.webp": "/wizard-land/static/media/robot.e67a50ebea6a7d2cab89.webp",
+    "static/media/snake.webp": "/wizard-land/static/media/snake.e7d1cf40fbc9af111718.webp",
     "static/media/nospeak.webp": "/wizard-land/static/media/nospeak.1df1e1e1fa536247f6b0.webp",
     "static/media/puzzlelevel3.jpg": "/wizard-land/static/media/puzzlelevel3.d895a763eeda05b355aa.jpg",
     "static/media/puzzlelevel4.jpg": "/wizard-land/static/media/puzzlelevel4.de44f76e538995ecc866.jpg",
@@ -47,12 +48,12 @@
     "static/media/defaultplace.png": "/wizard-land/static/media/defaultplace.2a622ca5655a58932099.png",
     "static/media/cursor.cur": "/wizard-land/static/media/cursor.2c46f5bc85e30429f077.cur",
     "index.html": "/wizard-land/index.html",
-    "main.066bbacb.css.map": "/wizard-land/static/css/main.066bbacb.css.map",
-    "main.1e138d43.js.map": "/wizard-land/static/js/main.1e138d43.js.map",
+    "main.28952951.css.map": "/wizard-land/static/css/main.28952951.css.map",
+    "main.eba01f3a.js.map": "/wizard-land/static/js/main.eba01f3a.js.map",
     "952.406e2d23.chunk.js.map": "/wizard-land/static/js/952.406e2d23.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.066bbacb.css",
-    "static/js/main.1e138d43.js"
+    "static/css/main.28952951.css",
+    "static/js/main.eba01f3a.js"
   ]
 }
