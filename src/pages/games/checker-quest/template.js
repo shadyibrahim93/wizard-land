@@ -352,7 +352,7 @@ const Checkers = () => {
 
     // 4) Fire it off:
     playPieceSound(soundKey);
-  }, [currentMultiplayerTurn]);
+  }, [currentMultiplayerTurn, currentTurn]);
 
   const highlightValidMoves = (r, c, b = board) => {
     const newBoard = b.map((r) => r.map((c) => ({ ...c, validMove: false })));

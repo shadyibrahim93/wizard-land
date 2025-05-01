@@ -285,29 +285,33 @@ const Orbito = () => {
     }
 
     // 2) If the game just ended or board is full, don’t play:
-    if (winner || isBoardFull(board)) return;
+    if (winner) return;
 
     // 3) Determine which sound to play:
     let soundKey = '';
-    if (gameMode === 'Multiplayer' && gamePhase === 'orbit') {
-      if (currentMultiplayerTurn === player1) {
-        soundKey = player1Symbol.key;
-        console.log(soundKey);
-      } else if (currentMultiplayerTurn === player2) {
-        soundKey = player2Symbol.key;
-        console.log(soundKey);
-      }
-    } else if (
-      gameMode === 'Single' &&
-      currentTurn === 'Fire' &&
-      gamePhase === 'orbit'
-    ) {
+    console.log(
+      'gameMode',
+      gameMode,
+      'currentMultiplayerTurn',
+      currentMultiplayerTurn,
+      'currentTurn',
+      currentTurn,
+      'player1',
+      player1,
+      'player2',
+      player2
+    );
+    if (gameMode === 'Multiplayer' && player1 && gamePhase === 'place') {
+      soundKey =
+        currentMultiplayerTurn === player2
+          ? player1Symbol.key
+          : player2Symbol.key;
+    } else if (gameMode === 'Single' && currentTurn === 'Ice') {
       soundKey = player1Symbol.key;
     }
 
-    // 4) Fire it off:
     playPieceSound(soundKey);
-  }, [currentMultiplayerTurn, board]);
+  }, [currentMultiplayerTurn, currentTurn]);
 
   const handleOrbitShift = () => {
     const newBoard = orbitShift(board);

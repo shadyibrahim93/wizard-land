@@ -321,7 +321,7 @@ const Game = () => {
 
     // 4) Fire it off:
     playPieceSound(soundKey);
-  }, [currentMultiplayerTurn]);
+  }, [currentMultiplayerTurn, currentTurn]);
 
   const handleComputerMove = (currentBoard) => {
     const newBoard = currentBoard.map((row) => [...row]);
