@@ -337,6 +337,7 @@
     flex-direction: column-reverse;
     align-items: flex-start;
     gap: 16px;
+    margin-bottom: 21px;
 
     &:has(.sign-up) {
       margin-bottom: 0px;
@@ -389,8 +390,7 @@
       flex-wrap: nowrap;
       row-gap: 10px;
       column-gap: 16px;
-      margin-top: 0;
-      margin-bottom: 21px;
+      margin: 0px;
       justify-content: space-between;
 
       &--exp,
