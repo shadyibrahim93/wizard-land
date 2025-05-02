@@ -1018,6 +1018,38 @@ body {
         display: flex;
         flex-direction: column;
         row-gap: 36px;
+
+        .#{$identifier}-about-content {
+          display: flex;
+          flex-direction: row;
+          gap: 21px;
+
+          @media (max-width: 768px) {
+            flex-direction: column;
+            align-items: center;
+          }
+
+          .#{$identifier}-profile-image {
+            width: 150px;
+            height: auto;
+            border-radius: 10px;
+            border: 2px solid $light-overlay;
+
+            @media (max-width: 768px) {
+              width: 100%;
+            }
+          }
+
+          .#{$identifier}-about-text {
+            margin-top: 0px;
+            font-size: large;
+
+            strong {
+              font-family: 'MagicalWorld', sans-serif;
+              color: $secondary-color;
+            }
+          }
+        }
       }
 
       hr {
