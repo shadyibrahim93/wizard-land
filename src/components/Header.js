@@ -114,6 +114,10 @@ export default function Header({ title, backTarget, level, homePage, gameId }) {
       <AuthModals
         showSignUpModal={showSignUpModal}
         setShowSignUpModal={setShowSignUpModal}
+        onSignUpSuccess={() => {
+          setShowSignUpModal(false); // Close sign-up modal
+          setShowAbout(true); // Show About modal
+        }}
         showSignInModal={showSignInModal}
         setShowSignInModal={setShowSignInModal}
       />

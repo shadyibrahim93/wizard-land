@@ -5,7 +5,8 @@ const AuthModals = ({
   showSignUpModal,
   setShowSignUpModal,
   showSignInModal,
-  setShowSignInModal
+  setShowSignInModal,
+  onSignUpSuccess
 }) => {
   return (
     <>
@@ -13,6 +14,7 @@ const AuthModals = ({
         <SignUpModal
           showSignUpModal={showSignUpModal}
           onClose={() => setShowSignUpModal(false)}
+          onSignUpSuccess={onSignUpSuccess}
         />
       )}
       {showSignInModal && (
