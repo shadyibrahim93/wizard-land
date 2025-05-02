@@ -41,6 +41,21 @@ const About = ({ onClose }) => (
             “aha!” moments you’ll collect.
             <br />
             <br />
+            We host enchanted <strong>daily</strong>, <strong>weekly</strong>,
+            and <strong>monthly</strong> leaderboards, where brave wizards can
+            climb the ranks and claim their place in legend. Those who shine
+            brightest in the monthly trials shall receive magical rewards as
+            tribute to their skill.
+            <br />
+            <br />
+            Expect delightful <strong>sound effects</strong>,{' '}
+            <strong>cheerful emojis</strong>, and a variety of{' '}
+            <strong>themes</strong> to personalize your journey. From icy realms
+            to glowing forests, these magical touches ensure that every mage’s
+            experience is as unique as their wand and might just make you leap
+            from your seat with joy!
+            <br />
+            <br />
             If Wizard Land’s spells have brightened your day, feel free to
             support our guild with a donation through{' '}
             <a
