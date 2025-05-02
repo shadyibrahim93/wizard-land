@@ -15,11 +15,11 @@ const About = ({ onClose }) => (
       <hr />
       <div className='mq-modal-body'>
         <p>
-          Greetings, dear traveler! I’m <strong>Shady Ibrahim</strong>, the head
-          wizard and humble architect of Wizard Land. I speak of “we” because
-          this enchanted realm could not have sprung to life without the
-          boundless love and support of my family, especially my son, whose
-          spark of imagination first ignited this magical quest.
+          Greetings, dear traveler! I’m <strong>Shady</strong>, the head wizard
+          and humble architect of Wizard Land. I speak of “we” because this
+          enchanted realm could not have sprung to life without the boundless
+          love and support of my family, especially my son, whose spark of
+          imagination first ignited this magical quest.
           <br />
           <br />
           From the very first rune I etched, my mission has been clear: build a
