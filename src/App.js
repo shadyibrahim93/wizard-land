@@ -15,6 +15,7 @@ import BingoQuest from './pages/games/bingo-quest';
 import CheckerQuest from './pages/games/checker-quest';
 import OrbitoQuest from './pages/games/orbito-quest';
 import ChessQuest from './pages/games/chess-quest';
+import ThreeMenMorrisQuest from './pages/games/three-men-morris-quest';
 import { UserProvider } from './context/UserContext';
 import './styles/sass/main.scss';
 import useMouseEffect from './hooks/useMouseEffect';
@@ -85,6 +86,10 @@ export default function App() {
           <Route
             path='/games/chess-quest'
             element={<ChessQuest />}
+          />
+          <Route
+            path='/games/three-men-morris-quest'
+            element={<ThreeMenMorrisQuest />}
           />
         </Routes>
       </HashRouter>
