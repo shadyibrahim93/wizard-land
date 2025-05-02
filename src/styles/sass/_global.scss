@@ -1040,6 +1040,12 @@ body {
             }
           }
 
+          .#{$identifier}-diamond-image {
+            width: 30px;
+            position: relative;
+            top: 5px;
+          }
+
           .#{$identifier}-about-text {
             margin-top: 0px;
             font-size: large;

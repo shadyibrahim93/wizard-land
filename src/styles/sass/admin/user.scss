@@ -190,7 +190,7 @@
     &--euro,
     &--contact {
       background-color: $light-overlay;
-      padding: 6px 16px 6px 8px;
+      padding: 4px 6px 4px 8px;
       border-radius: 10px;
       display: flex;
       flex-direction: row;
@@ -201,7 +201,7 @@
 
     .#{$identifier}-user-progress--contact {
       background-color: $light-overlay;
-      padding: 6px 16px 6px 35px;
+      padding: 6px 6px 6px 35px;
       border-radius: 10px;
       display: flex;
       flex-direction: row;
@@ -253,7 +253,7 @@
         &-icon {
           img {
             left: -24px;
-            width: 50px;
+            width: 47px;
             top: 0;
           }
         }
@@ -266,8 +266,8 @@
       .#{$identifier}-user {
         &-icon {
           img {
-            left: -30px;
-            width: 62px;
+            left: -21px;
+            width: 50px;
             top: 0;
           }
         }
@@ -281,7 +281,7 @@
         &-icon {
           img {
             left: -17px;
-            width: 50px;
+            width: 48px;
             top: 0;
           }
         }

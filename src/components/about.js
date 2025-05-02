@@ -1,6 +1,7 @@
 import React from 'react';
 
 const getImagePath = require(`../assets/images/profile.jpg`);
+const getDiamondImage = require(`../assets/images/elements/euro_single.png`);
 
 const About = ({ onClose }) => (
   <div className='mq-modal-overlay'>
@@ -48,9 +49,18 @@ const About = ({ onClose }) => (
             >
               Buy Me A Coffee
             </a>
-            . We’re always brewing new potions of fun and eager for your
-            feedback, send us your letters, ideas, or arcane suggestions, and
-            together we’ll keep this magic growing.
+            . For every <strong>$1</strong> you bestow, you will receive{' '}
+            <strong>
+              5000{' '}
+              <img
+                src={getDiamondImage}
+                alt='Wizard'
+                className='mq-diamond-image'
+              />
+            </strong>{' '}
+            as a token of our gratitude. We’re always brewing new potions of fun
+            and eager for your feedback, send us your letters, ideas, or arcane
+            suggestions, and together we’ll keep this magic growing.
             <br />
             <br />
             <strong>

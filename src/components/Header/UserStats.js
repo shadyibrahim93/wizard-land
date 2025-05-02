@@ -53,7 +53,6 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
               </span>
             </span>
 
-            {/** 
             <span className='mq-user-progress--euro'>
               <span className='mq-user-icon'>
                 <img src={euroIcon} />
@@ -62,9 +61,15 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
               <Button
                 text='+'
                 className='mq-user-add'
+                onClick={() => {
+                  const bmcButton = document.getElementById('bmc-wbtn');
+                  if (bmcButton) {
+                    bmcButton.click();
+                  }
+                }}
               />
             </span>
-            */}
+
             <span className='mq-user-progress--star'>
               <span className='mq-user-icon'>
                 <img src={starIcon} />
