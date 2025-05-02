@@ -1,3 +1,5 @@
 {
-  "imports": {}
+  "imports": {
+    "https://cdn.skypack.dev/@supabase/supabase-js": "https://cdn.skypack.dev/@supabase/supabase-js"
+  }
 }

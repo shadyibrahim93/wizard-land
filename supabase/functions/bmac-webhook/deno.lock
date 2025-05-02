@@ -1,6 +1,18 @@
 {
   "version": "5",
+  "redirects": {
+    "https://deno.land/x/dotenv/load.ts": "https://deno.land/x/dotenv@v3.2.2/load.ts"
+  },
   "remote": {
+    "https://cdn.skypack.dev/-/@supabase/auth-js@v2.69.1-eIaylVKETDr4cGEbl57P/dist=es2019,mode=imports/optimized/@supabase/auth-js.js": "4436884dede04cc4f188faee3a3ba31ec8e1242295a8074ecf15e5480f5a1344",
+    "https://cdn.skypack.dev/-/@supabase/functions-js@v2.4.4-wkIkwEeAXpzxslGS7ZTd/dist=es2019,mode=imports/optimized/@supabase/functions-js.js": "62543d4ebd435e2990ea1aecb9e5938066928f63eed72047e9d723b06d4c7e59",
+    "https://cdn.skypack.dev/-/@supabase/node-fetch@v2.6.15-c5DrO8K0MoiPZxDi1V2L/dist=es2019,mode=imports/optimized/@supabase/node-fetch.js": "13c594130f698a0a5c59a76ceeff4c9b8749204b1c2754339a71cc1b388d6c02",
+    "https://cdn.skypack.dev/-/@supabase/postgrest-js@v1.19.4-rACJjX836Gzak76FKgIR/dist=es2019,mode=imports/optimized/@supabase/postgrest-js.js": "41ac7b1f7ad130370e6e72c0ef51b03b5340411736340ce231ce595ab609f639",
+    "https://cdn.skypack.dev/-/@supabase/realtime-js@v2.11.2-hCIgdjUqcsjGhezZO7vB/dist=es2019,mode=imports/optimized/@supabase/realtime-js.js": "4de7f99de2282a55fa02cf7ae6070fe4936c07c83c9863ab8297c063d1a2ccc3",
+    "https://cdn.skypack.dev/-/@supabase/storage-js@v2.7.1-PqiU3azcKjwu0FbblYoI/dist=es2019,mode=imports/optimized/@supabase/storage-js.js": "ab767701e80e953fd90840b5ca1d1fcb29c1a1b588c8c125eaeafc4caff169bb",
+    "https://cdn.skypack.dev/-/@supabase/supabase-js@v2.49.4-tXB5vz9CDssi0tGQLoMM/dist=es2019,mode=imports/optimized/@supabase/supabase-js.js": "be1823961bf5f657260c989d9663013d4c6765c5b0c70e47c0f9ce2dc9fef839",
+    "https://cdn.skypack.dev/-/ws@v8.18.0-QNBS0aBUkqIltOX8bZGC/dist=es2019,mode=imports/optimized/ws.js": "1d28a62de8fe1860778bab1543a277d81874c9a53a84810f945a2855975b1b6d",
+    "https://cdn.skypack.dev/@supabase/supabase-js": "9e0c6ca033081e6b67af7ca632382c0157c6352b456617be75df7997437c5ce4",
     "https://deno.land/std@0.192.0/_util/asserts.ts": "178dfc49a464aee693a7e285567b3d0b555dc805ff490505a8aae34f9cfb1462",
     "https://deno.land/std@0.192.0/async/abortable.ts": "fd682fa46f3b7b16b4606a5ab52a7ce309434b76f820d3221bdfb862719a15d7",
     "https://deno.land/std@0.192.0/async/deadline.ts": "58f72a3cc0fcb731b2cc055ba046f4b5be3349ff6bf98f2e793c3b969354aab2",
@@ -12,6 +24,9 @@
     "https://deno.land/std@0.192.0/async/pool.ts": "f1b8d3df4d7fd3c73f8cbc91cc2e8b8e950910f1eab94230b443944d7584c657",
     "https://deno.land/std@0.192.0/async/retry.ts": "6521c061a5ab24e8b1ae624bdc581c4243d1d574f99dc7f5a2a195c2241fb1b8",
     "https://deno.land/std@0.192.0/async/tee.ts": "47e42d35f622650b02234d43803d0383a89eb4387e1b83b5a40106d18ae36757",
-    "https://deno.land/std@0.192.0/http/server.ts": "1b23463b5b36e4eebc495417f6af47a6f7d52e3294827a1226d2a1aab23d9d20"
+    "https://deno.land/std@0.192.0/http/server.ts": "1b23463b5b36e4eebc495417f6af47a6f7d52e3294827a1226d2a1aab23d9d20",
+    "https://deno.land/x/dotenv@v3.2.2/load.ts": "cbd76a0aee01aad8d09222afaa1dd04b84d9d3e44637503b01bf77a91df9e041",
+    "https://deno.land/x/dotenv@v3.2.2/mod.ts": "077b48773de9205266a0b44c3c3a3c3083449ed64bb0b6cc461b95720678d38e",
+    "https://deno.land/x/dotenv@v3.2.2/util.ts": "693730877b13f8ead2b79b2aa31e2a0652862f7dc0c5f6d2f313f4d39c7b7670"
   }
 }

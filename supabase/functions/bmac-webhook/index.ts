@@ -1,61 +1,79 @@
 import { serve } from 'https://deno.land/std@0.192.0/http/server.ts';
+import { createClient } from 'https://cdn.skypack.dev/@supabase/supabase-js';
+import 'https://deno.land/x/dotenv/load.ts';
 
 serve(async (req) => {
-  // Log the incoming request method and headers for debugging
   console.log(`Received ${req.method} request`);
   console.log('Request Headers:', req.headers);
 
-  // Check if the method is POST
+  // Only allow POST
   if (req.method !== 'POST') {
     console.log('Method not allowed: ', req.method);
     return new Response('Method Not Allowed', { status: 405 });
   }
 
-  // Parse the body of the request
+  // Get raw text body
+  const rawBody = await req.text();
+  console.log('Raw Body:', rawBody);
+
+  // Parse JSON
   let body;
   try {
-    body = await req.json();
-    console.log('Request Body:', body); // Log the parsed body
+    body = JSON.parse(rawBody);
+    console.log('Parsed Body:', body);
   } catch (err) {
     console.log('Error parsing JSON:', err);
     return new Response('Invalid JSON', { status: 400 });
   }
 
-  // Prepare the data to be sent to Supabase
+  // Check if the expected fields are present
+  if (
+    !body ||
+    !body.data ||
+    !body.data.supporter_name ||
+    !body.data.message ||
+    !body.data.supporter_email ||
+    !body.data.amount
+  ) {
+    console.log('Missing required fields in the incoming data:', body);
+    return new Response('Missing required fields', { status: 400 });
+  }
+
+  // Initialize Supabase client using environment variables
+  const supabaseUrl = Deno.env.get('REACT_APP_SUPABASE_URL');
+  const supabaseKey = Deno.env.get('REACT_SERVICE_ROLE_KEY');
+
+  console.log('Supabase URL:', supabaseUrl);
+  console.log('Supabase Key:', supabaseKey ? '****' : 'Not provided');
+
+  if (!supabaseUrl || !supabaseKey) {
+    console.log('Supabase URL or Key is missing in environment variables.');
+    return new Response('Internal Server Error', { status: 500 });
+  }
+
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  // Prepare the supporter data
   const supporter = {
-    name: body.supporter_name,
-    message: body.support_message,
-    email: body.supporter_email,
-    amount: body.amount
+    name: body.data.supporter_name,
+    message: body.data.message,
+    email: body.data.supporter_email,
+    amount: body.data.amount
   };
 
-  // Log the data that will be sent to Supabase
-  console.log('Storing supporter:', supporter);
+  console.log('Storing supporter in Supabase:', supporter);
 
   // Make the request to Supabase to store the supporter data
-  const response = await fetch(
-    `${Deno.env.get('SUPABASE_URL')}/rest/v1/supporters`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': Deno.env.get('REACT_APP_SUPABASE_ANON_KEY')!,
-        'Authorization': `Bearer ${Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!}`
-      },
-      body: JSON.stringify(supporter)
-    }
-  );
+  const { data, error } = await supabase.from('supporters').insert([supporter]);
 
-  // Check for errors in the Supabase response
-  if (!response.ok) {
-    const errorText = await response.text();
-    console.log('Error storing supporter in Supabase:', errorText);
-    return new Response(`Error storing supporter: ${errorText}`, {
+  // Handle error in inserting data
+  if (error) {
+    console.log('Error storing supporter in Supabase:', error.message);
+    return new Response(`Error storing supporter: ${error.message}`, {
       status: 500
     });
   }
 
-  // If everything is successful, log success and return the response
-  console.log('Supporter successfully stored in Supabase');
+  console.log('Supporter successfully stored in Supabase:', data);
   return new Response('Supporter stored!', { status: 200 });
 });
