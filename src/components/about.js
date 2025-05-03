@@ -59,8 +59,14 @@ const About = ({ onClose }) => (
             If Wizard Land’s spells have brightened your day, feel free to
             support our work with a contribution through{' '}
             <a
-              href='https://www.buymeacoffee.com/wizardland'
-              target='_blank'
+              href='#'
+              onClick={(e) => {
+                e.preventDefault(); // ❶ stop the browser from following the link
+                const bmcButton = document.getElementById('bmc-wbtn');
+                if (bmcButton) {
+                  bmcButton.click(); // ❷ trigger your Buy-Me-a-Coffee button
+                }
+              }}
             >
               Buy Me A Coffee
             </a>{' '}
