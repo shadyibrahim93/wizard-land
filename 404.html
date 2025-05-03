@@ -3,14 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <script>
-      // grab the failed path and redirect back into your app
+      // Instead of encodeURIComponent, just pass it raw:
       const path =
         window.location.pathname +
         window.location.search +
         window.location.hash;
-      window.location.replace(
-        window.location.origin + '/?' + encodeURIComponent(path)
-      );
+      window.location.replace(window.location.origin + '/?' + path);
     </script>
   </head>
   <body></body>
