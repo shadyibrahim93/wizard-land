@@ -1050,6 +1050,12 @@ body {
             margin-top: 0px;
             font-size: large;
 
+            a {
+              border: 2px solid $secondary-color;
+              padding: 3px 8px;
+              border-radius: 10px;
+            }
+
             strong {
               font-family: 'MagicalWorld', sans-serif;
               color: $secondary-color;

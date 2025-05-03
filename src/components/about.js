@@ -57,14 +57,14 @@ const About = ({ onClose }) => (
             <br />
             <br />
             If Wizard Land’s spells have brightened your day, feel free to
-            support our guild with a donation through{' '}
+            support our work with a contribution through{' '}
             <a
               href='https://www.buymeacoffee.com/wizardland'
               target='_blank'
             >
               Buy Me A Coffee
-            </a>
-            . For every <strong>$1</strong> you bestow, you will receive{' '}
+            </a>{' '}
+            For every <strong>$1</strong> you bestow, you will receive{' '}
             <strong>
               5000{' '}
               <img
