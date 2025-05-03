@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { introStarConfetti } from '../hooks/useConfetti';
 import LeaderBoard from '../components/leaderBoard';
 import GameChat from '../components/chatRoom';
+import { Title, Meta } from 'react-head';
 
 export default function Home() {
   const gamesData = [
@@ -29,7 +30,7 @@ export default function Home() {
       type: 'Multiplayer'
     },
     {
-      url: '/games/connect-four-quest',
+      url: '/games/connect-4-quest',
       imgSrc: 'connect_four_quest.jpg',
       alt: 'Connect Four Game',
       title: 'Connect 4',
@@ -122,6 +123,39 @@ export default function Home() {
 
   return (
     <div className='mq-home'>
+      <Title>Wizards Land: Play Classic Board Games with Friends Online</Title>
+      <Meta
+        name='description'
+        content='Wizards Land offers classic online board games like Chess, Checkers, Orbito, Connect 4, Tic Tac Toe, and more! Play with friends and family in a magical online multiplayer environment.'
+      />
+      <Meta
+        property='og:url'
+        content={window.location.origin}
+      />
+      <Meta
+        property='og:type'
+        content='website'
+      />
+      <Meta
+        property='og:title'
+        content='Wizards Land | Play Classic Board Games Online'
+      />
+      <Meta
+        property='og:description'
+        content='Wizards Land offers classic online board games like Chess, Checkers, Orbito, Connect 4, Tic Tac Toe, and more! Play with friends and family in a magical online multiplayer environment.'
+      />
+      <Meta
+        name='twitter:card'
+        content='summary_large_image'
+      />
+      <Meta
+        name='twitter:title'
+        content='Wizards Land | Play Classic Board Games Online'
+      />
+      <Meta
+        name='twitter:description'
+        content='Wizards Land offers classic online board games like Chess, Checkers, Orbito, Connect 4, Tic Tac Toe, and more! Play with friends and family in a magical online multiplayer environment.'
+      />
       <Header
         title='Wizard Land'
         homePage

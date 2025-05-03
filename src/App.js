@@ -68,7 +68,7 @@ export default function App() {
             element={<TicTacToeQuest />}
           />
           <Route
-            path='/games/connect-four-quest'
+            path='/games/connect-4-quest'
             element={<ConnectFourQuest />}
           />
           <Route

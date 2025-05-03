@@ -3,7 +3,7 @@ import useLevelProgression from '../../hooks/useLevelProgression';
 import { useEffect, useState } from 'react';
 import { playBGMusic } from '../../hooks/useSound';
 import GameChat from '../../components/chatRoom';
-import { Helmet } from 'react-helmet-async';
+import { Title, Meta } from 'react-head';
 
 const GameStart = ({ title, GameComponent, gameClass, gameId, chatTitle }) => {
   const [maxLevel, setMaxLevel] = useState(); // Default max level
@@ -22,45 +22,43 @@ const GameStart = ({ title, GameComponent, gameClass, gameId, chatTitle }) => {
 
   return (
     <div className={gameClass}>
-      <Helmet prioritizeSeoTags>
-        <title>{title} | Wizard Land</title>
-        <meta
-          name='description'
-          content={`Play ${title} on Wizard Land`}
-        />
+      <Title>{`Play ${title} Online | Wizard Land`}</Title>
+      <Meta
+        name='description'
+        content={`Play ${title} on Wizard Land`}
+      />
 
-        {/* Open Graph/Facebook */}
-        <meta
-          property='og:url'
-          content={window.location.href}
-        />
-        <meta
-          property='og:type'
-          content='game'
-        />
-        <meta
-          property='og:title'
-          content={`${title} | Wizard Land`}
-        />
-        <meta
-          property='og:description'
-          content={`Play ${title} on Wizard Land`}
-        />
+      {/* Open Graph / Facebook */}
+      <Meta
+        property='og:url'
+        content={window.location.href}
+      />
+      <Meta
+        property='og:type'
+        content='game'
+      />
+      <Meta
+        property='og:title'
+        content={`${title} | Wizard Land`}
+      />
+      <Meta
+        property='og:description'
+        content={`Play ${title} on Wizard Land`}
+      />
 
-        {/* Twitter */}
-        <meta
-          name='twitter:card'
-          content='summary_large_image'
-        />
-        <meta
-          name='twitter:title'
-          content={`${title} | Wizard Land`}
-        />
-        <meta
-          name='twitter:description'
-          content={`Play ${title} on Wizard Land`}
-        />
-      </Helmet>
+      {/* Twitter */}
+      <Meta
+        name='twitter:card'
+        content='summary_large_image'
+      />
+      <Meta
+        name='twitter:title'
+        content={`${title} | Wizard Land`}
+      />
+      <Meta
+        name='twitter:description'
+        content={`Play ${title} on Wizard Land`}
+      />
       <Header
         title={title}
         backTarget='/'
