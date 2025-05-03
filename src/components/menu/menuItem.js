@@ -9,7 +9,7 @@ const MenuItem = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  const imageSrc = `/wizard-land/assets/images/elements/${
+  const imageSrc = `${process.env.PUBLIC_URL}/assets/images/elements/${
     isHovered ? onHoverImgSrc : imgSrc
   }`;
 

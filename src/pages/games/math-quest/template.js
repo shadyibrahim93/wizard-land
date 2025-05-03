@@ -204,7 +204,7 @@ const Template = () => {
         <h1>Game Over</h1>
         <img
           className='mq-fade-in-out'
-          src='/wizard-land/assets/gif/smoke-disappear3.webp'
+          src={`${process.env.PUBLIC_URL}/assets/gif/smoke-disappear3.webp`}
         />
 
         <h2>{gameOverMessage}</h2>
