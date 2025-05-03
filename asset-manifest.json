@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.c1122543.css",
-    "main.js": "/static/js/main.391c2e4e.js",
+    "main.css": "/static/css/main.e5188695.css",
+    "main.js": "/static/js/main.31dda1a9.js",
     "static/js/952.406e2d23.chunk.js": "/static/js/952.406e2d23.chunk.js",
     "static/media/angry.gif": "/static/media/angry.e6e7d182c3bcb73cc4dc.gif",
     "static/media/ice.gif": "/static/media/ice.c9ff3188179e16bd39d4.gif",
@@ -38,6 +38,7 @@
     "static/media/robot.webp": "/static/media/robot.e67a50ebea6a7d2cab89.webp",
     "static/media/sword.gif": "/static/media/sword.b2551f967b2519dd6a9d.gif",
     "static/media/snake.webp": "/static/media/snake.e7d1cf40fbc9af111718.webp",
+    "static/media/tictactoe_quest.jpg": "/static/media/tictactoe_quest.c18ac1d61acbe3914e05.jpg",
     "static/media/nospeak.webp": "/static/media/nospeak.1df1e1e1fa536247f6b0.webp",
     "static/media/profile.jpg": "/static/media/profile.90bbedcbe810faa925db.jpg",
     "static/media/puzzlelevel3.jpg": "/static/media/puzzlelevel3.d895a763eeda05b355aa.jpg",
@@ -45,7 +46,6 @@
     "static/media/puzzlelevel1.jpg": "/static/media/puzzlelevel1.95367e2d0152c35f1b9d.jpg",
     "static/media/puzzlelevel2.jpg": "/static/media/puzzlelevel2.dbb4a2e36a23190d7d73.jpg",
     "static/media/puzzlelevel5.jpg": "/static/media/puzzlelevel5.26bced16c138f5f26989.jpg",
-    "static/media/tictactoe_quest.jpg": "/static/media/tictactoe_quest.3d95b1d203402642adee.jpg",
     "static/media/fire.webp": "/static/media/fire.b73089e2442edd7f3e3a.webp",
     "static/media/puzzlelevel6.jpg": "/static/media/puzzlelevel6.bc76aeb13e1fc2bffd0a.jpg",
     "static/media/vecteezy_rank-frames-ui-game-borders-evolution-vector-set_13194481-removebg-preview.png": "/static/media/vecteezy_rank-frames-ui-game-borders-evolution-vector-set_13194481-removebg-preview.42527ca4d39c81cdb128.png",
@@ -58,12 +58,12 @@
     "static/media/defaultplace.png": "/static/media/defaultplace.2a622ca5655a58932099.png",
     "static/media/cursor.cur": "/static/media/cursor.2c46f5bc85e30429f077.cur",
     "index.html": "/index.html",
-    "main.c1122543.css.map": "/static/css/main.c1122543.css.map",
-    "main.391c2e4e.js.map": "/static/js/main.391c2e4e.js.map",
+    "main.e5188695.css.map": "/static/css/main.e5188695.css.map",
+    "main.31dda1a9.js.map": "/static/js/main.31dda1a9.js.map",
     "952.406e2d23.chunk.js.map": "/static/js/952.406e2d23.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c1122543.css",
-    "static/js/main.391c2e4e.js"
+    "static/css/main.e5188695.css",
+    "static/js/main.31dda1a9.js"
   ]
 }
