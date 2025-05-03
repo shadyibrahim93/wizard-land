@@ -4,7 +4,8 @@ import {
   fetchUserGameProgress,
   fetchUserWallet,
   subscribeToUserData,
-  unsubscribeFromChannels
+  unsubscribeFromChannels,
+  clearGameDataByUserId
 } from '../apiService';
 import { useUser } from '../context/UserContext';
 import UserStats from './Header/UserStats';
@@ -14,6 +15,7 @@ import HeaderContent from './Header/GameHeader';
 import Shop from './shop/shop';
 import Inventory from './inventory/inventory';
 import About from './about';
+import { useNavigate } from 'react-router-dom';
 
 export default function Header({ title, backTarget, level, homePage, gameId }) {
   const [showSignUpModal, setShowSignUpModal] = useState(false);
@@ -27,6 +29,7 @@ export default function Header({ title, backTarget, level, homePage, gameId }) {
   const { userId, userName, loading } = useUser();
   const [inventory, setInventory] = useState(null);
   const [channels, setChannels] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!userId) return;
@@ -73,7 +76,11 @@ export default function Header({ title, backTarget, level, homePage, gameId }) {
     setEuro(walletData?.euro || 0);
   };
 
-  const handleLogout = () => signOut();
+  const handleLogout = async () => {
+    await clearGameDataByUserId(userId);
+    await signOut();
+    navigate('/'); // Add navigation
+  };
 
   return (
     <>

@@ -593,6 +593,39 @@ export const clearGameData = async (roomId, gameId) => {
   return { success: true };
 };
 
+export const clearGameDataByUserId = async (userId) => {
+  try {
+    // First find all rooms where user is either player
+    const { data: roomsWithUser } = await supabase
+      .from('game_rooms')
+      .select('room, game_id')
+      .or(`player1.eq.${userId},player2.eq.${userId}`);
+
+    if (!roomsWithUser?.length) return { success: true };
+
+    // Extract IDs for deletion
+    const roomIds = roomsWithUser.map((r) => r.room);
+    const gameIds = [...new Set(roomsWithUser.map((r) => r.game_id))];
+
+    // Delete game states
+    await supabase
+      .from('game_state')
+      .delete()
+      .in('room', roomIds)
+      .in('game_id', gameIds);
+
+    // Delete game rooms
+    await supabase
+      .from('game_rooms')
+      .delete()
+      .or(`player1.eq.${userId},player2.eq.${userId}`);
+
+    return { success: true };
+  } catch {
+    return { success: false };
+  }
+};
+
 export const clearGameState = async (roomId, gameId) => {
   // Step 1: Delete from game_state first
   const { error: gameStateError } = await supabase

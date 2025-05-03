@@ -37,9 +37,9 @@
     }
     img {
       top: -6px;
-      left: -30px;
+      left: -18px;
       position: absolute;
-      width: 62px;
+      width: 50px;
       height: auto;
       cursor: pointer;
       z-index: 2;
@@ -152,7 +152,7 @@
 
     .#{$identifier}-user-name {
       background-color: $light-overlay;
-      padding: 8px 16px 8px 36px;
+      padding: 4px 16px 4px 36px;
       border-radius: 10px;
       display: flex;
       flex-direction: row;
