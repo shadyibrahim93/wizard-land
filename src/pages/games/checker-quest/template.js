@@ -86,7 +86,7 @@ const Checkers = () => {
   const navigate = useNavigate();
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
-  const introText = `Welcome to Wizards Land Checkers Game! Play as '🔥'. Take turns moving your pieces into the corresponding box. A helper will show you where the piece can be dropped. Be the first to capture all pieces or block the opponent from making any more and win the game. Good luck!`;
+  const introText = `Welcome to Wizard Land Checkers Game! Play as '🔥'. Take turns moving your pieces into the corresponding box. A helper will show you where the piece can be dropped. Be the first to capture all pieces or block the opponent from making any more and win the game. Good luck!`;
 
   const isWithinBounds = (row, col) =>
     row >= 0 && row < 8 && col >= 0 && col < 8;

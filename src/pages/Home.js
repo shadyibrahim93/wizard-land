@@ -123,10 +123,10 @@ export default function Home() {
 
   return (
     <div className='mq-home'>
-      <Title>Wizards Land: Play Classic Board Games with Friends Online</Title>
+      <Title>Wizard Land: Play Classic Board Games with Friends Online</Title>
       <Meta
         name='description'
-        content='Wizards Land offers classic online board games like Chess, Checkers, Orbito, Connect 4, Tic Tac Toe, and more! Play with friends and family in a magical online multiplayer environment.'
+        content='Wizard Land offers classic online board games like Chess, Checkers, Orbito, Connect 4, Tic Tac Toe, and more! Play with friends and family in a magical online multiplayer environment.'
       />
       <Meta
         property='og:url'
@@ -138,11 +138,11 @@ export default function Home() {
       />
       <Meta
         property='og:title'
-        content='Wizards Land | Play Classic Board Games Online'
+        content='Wizard Land | Play Classic Board Games Online'
       />
       <Meta
         property='og:description'
-        content='Wizards Land offers classic online board games like Chess, Checkers, Orbito, Connect 4, Tic Tac Toe, and more! Play with friends and family in a magical online multiplayer environment.'
+        content='Wizard Land offers classic online board games like Chess, Checkers, Orbito, Connect 4, Tic Tac Toe, and more! Play with friends and family in a magical online multiplayer environment.'
       />
       <Meta
         name='twitter:card'
@@ -150,11 +150,11 @@ export default function Home() {
       />
       <Meta
         name='twitter:title'
-        content='Wizards Land | Play Classic Board Games Online'
+        content='Wizard Land | Play Classic Board Games Online'
       />
       <Meta
         name='twitter:description'
-        content='Wizards Land offers classic online board games like Chess, Checkers, Orbito, Connect 4, Tic Tac Toe, and more! Play with friends and family in a magical online multiplayer environment.'
+        content='Wizard Land offers classic online board games like Chess, Checkers, Orbito, Connect 4, Tic Tac Toe, and more! Play with friends and family in a magical online multiplayer environment.'
       />
       <Header
         title='Wizard Land'

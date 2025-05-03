@@ -37,7 +37,7 @@ const Game = ({ setCurrentLevel }) => {
   const computer1Ref = useRef(null);
   const computer2Ref = useRef(null);
 
-  const introText = `Welcome to Wizards Land Bingo! Click on the Draw a number button, then click on the matching number on your board to mark it. Be the first to complete a row, column, or diagonal to shout ‘Bingo!’ and win. Let’s see who’s the luckiest wizard today!`;
+  const introText = `Welcome to Wizard Land Bingo! Click on the Draw a number button, then click on the matching number on your board to mark it. Be the first to complete a row, column, or diagonal to shout ‘Bingo!’ and win. Let’s see who’s the luckiest wizard today!`;
 
   useEffect(() => {
     setCurrentLevel('∞');
