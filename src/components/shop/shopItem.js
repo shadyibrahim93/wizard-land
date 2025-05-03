@@ -104,9 +104,15 @@ const ShopItem = ({ item }) => {
           playPurchase();
         }}
         className='mq-btn'
-        isDisabled={item.purchased}
-        text={item.purchased ? 'Bound' : 'Buy'}
-      ></Button>
+        isDisabled={item.purchased || item.image_url === 'crown'}
+        text={
+          item.purchased
+            ? 'Bound'
+            : item.image_url === 'crown'
+            ? 'Grandmaster'
+            : 'Buy'
+        }
+      />
     </div>
   );
 };

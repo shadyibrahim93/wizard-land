@@ -8,6 +8,11 @@
       background-size: 25px;
     }
 
+    &-crown {
+      background-image: url('/assets/images/elements/board_pieces/crown.webp');
+      font-size: 0 !important;
+    }
+
     &-angry {
       background-image: url('/assets/images/elements/board_pieces/angry.webp');
       font-size: 0 !important;
