@@ -57,6 +57,10 @@ const MultiplayerModal = ({ gameId, onStartGame, setGameMode }) => {
   };
 
   const handleCreateAndJoinRoom = async () => {
+    if (userId === null || userId === undefined) {
+      alert('Please join our community to play!');
+      return;
+    }
     const newRoom = await createRoom(gameId, userId);
     if (newRoom) {
       setGameMode('Multiplayer');
