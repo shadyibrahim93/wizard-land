@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.a52217a9.css",
-    "main.js": "/static/js/main.4a4c29a5.js",
+    "main.css": "/static/css/main.c49fba33.css",
+    "main.js": "/static/js/main.709019ad.js",
     "static/js/952.406e2d23.chunk.js": "/static/js/952.406e2d23.chunk.js",
     "static/media/angry.gif": "/static/media/angry.e6e7d182c3bcb73cc4dc.gif",
     "static/media/ice.gif": "/static/media/ice.c9ff3188179e16bd39d4.gif",
@@ -12,6 +12,8 @@
     "static/media/nohear.gif": "/static/media/nohear.41982a11ede61c45dd09.gif",
     "static/media/nospeak.gif": "/static/media/nospeak.76855122924eb56d2e49.gif",
     "static/media/snake.gif": "/static/media/snake.4f616c041a30064534d0.gif",
+    "static/media/crown.gif": "/static/media/crown.7c5041a5702caf110e95.gif",
+    "static/media/crown.webp": "/static/media/crown.4d59374aedf1323a6eda.webp",
     "static/media/fireKing.gif": "/static/media/fireKing.163a453176b8af04a095.gif",
     "static/media/fire.gif": "/static/media/fire.d573202f0ef7c6a5d57c.gif",
     "static/media/angry.webp": "/static/media/angry.bda1386ff7393188ccc0.webp",
@@ -48,7 +50,6 @@
     "static/media/puzzlelevel6.jpg": "/static/media/puzzlelevel6.bc76aeb13e1fc2bffd0a.jpg",
     "static/media/vecteezy_rank-frames-ui-game-borders-evolution-vector-set_13194481-removebg-preview.png": "/static/media/vecteezy_rank-frames-ui-game-borders-evolution-vector-set_13194481-removebg-preview.42527ca4d39c81cdb128.png",
     "static/media/sword.webp": "/static/media/sword.f24b22d8b900ee4da20b.webp",
-    "static/media/crown.gif": "/static/media/crown.7c5041a5702caf110e95.gif",
     "static/media/elements.png": "/static/media/elements.0f7f9f11575c0fd28b24.png",
     "static/media/MagicalFull.otf": "/static/media/MagicalFull.252ecf326a2d31201a87.otf",
     "static/media/firstplace.png": "/static/media/firstplace.e5f1f55863aa2097b71c.png",
@@ -57,12 +58,12 @@
     "static/media/defaultplace.png": "/static/media/defaultplace.2a622ca5655a58932099.png",
     "static/media/cursor.cur": "/static/media/cursor.2c46f5bc85e30429f077.cur",
     "index.html": "/index.html",
-    "main.a52217a9.css.map": "/static/css/main.a52217a9.css.map",
-    "main.4a4c29a5.js.map": "/static/js/main.4a4c29a5.js.map",
+    "main.c49fba33.css.map": "/static/css/main.c49fba33.css.map",
+    "main.709019ad.js.map": "/static/js/main.709019ad.js.map",
     "952.406e2d23.chunk.js.map": "/static/js/952.406e2d23.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a52217a9.css",
-    "static/js/main.4a4c29a5.js"
+    "static/css/main.c49fba33.css",
+    "static/js/main.709019ad.js"
   ]
 }
