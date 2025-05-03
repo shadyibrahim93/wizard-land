@@ -109,7 +109,7 @@ const ShopItem = ({ item }) => {
           item.purchased
             ? 'Bound'
             : item.image_url === 'crown'
-            ? 'Grandmaster'
+            ? 'Legend'
             : 'Buy'
         }
       />
