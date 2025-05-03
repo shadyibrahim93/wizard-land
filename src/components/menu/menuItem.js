@@ -9,7 +9,7 @@ const MenuItem = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  const imageSrc = `${process.env.PUBLIC_URL}/assets/images/elements/${
+  const imageSrc = `/assets/images/elements/${
     isHovered ? onHoverImgSrc : imgSrc
   }`;
 

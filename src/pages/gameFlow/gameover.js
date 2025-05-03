@@ -11,7 +11,7 @@ const GameOver = ({ resetGame }) => {
 
   return (
     <div className='mq-gameover-container'>
-      <img src={`${process.env.PUBLIC_URL}/assets/gif/game_over.webp`} />
+      <img src={`/assets/gif/game_over.webp`} />
       <div className='mq-btns-container'>
         <Button
           text='Games List'

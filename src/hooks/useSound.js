@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 
 // Base path for GitHub Pages deployment
-const BASE_PATH = `${process.env.PUBLIC_URL}/assets/sounds/`;
+const BASE_PATH = `/assets/sounds/`;
 
 // Sound functions
 export const playCelebrationSound = () => {
