@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import DropZoneQuest from './pages/games/dropzone-quest';
 import MatchQuest from './pages/games/match-quest';
@@ -25,7 +25,7 @@ export default function App() {
 
   return (
     <UserProvider>
-      <HashRouter>
+      <BrowserRouter>
         <Routes>
           <Route
             path='/'
@@ -92,7 +92,7 @@ export default function App() {
             element={<ThreeMenMorrisQuest />}
           />
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </UserProvider>
   );
 }
