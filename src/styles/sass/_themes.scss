@@ -1033,3 +1033,271 @@
     }
   }
 }
+
+&.#{$identifier}-summer {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    #ffde59,
+    #ff9f1c
+  ); // sunny yellow → warm orange
+  color: #fff;
+  border-radius: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(255, 223, 89, 0.3), 0 0 60px rgba(255, 159, 28, 0.2);
+  animation: summerGlow 4s ease-in-out infinite;
+
+  // Drifting palm fronds 🌴
+  &::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    background-image: url('data:image/svg+xml;utf8,<svg ... palm-leaf-1 ... />'),
+      url('data:image/svg+xml;utf8,<svg ... palm-leaf-2 ... />');
+    background-repeat: no-repeat;
+    background-position: 20% 10%, 80% 70%;
+    background-size: 8vw, 10vw;
+    animation: frondDrift 20s infinite linear;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  // Sunny accent ☀️
+  &::after {
+    content: '☀️';
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    font-size: 2rem;
+    filter: drop-shadow(0 0 6px rgba(255, 223, 89, 0.6));
+    animation: floatSun 6s ease-in-out infinite;
+    z-index: 11;
+    pointer-events: none;
+  }
+
+  @keyframes frondDrift {
+    0% {
+      transform: translateY(0) translateX(0) rotate(0deg);
+    }
+    25% {
+      transform: translateY(25%) translateX(3vw) rotate(5deg);
+    }
+    50% {
+      transform: translateY(50%) translateX(0) rotate(0deg);
+    }
+    75% {
+      transform: translateY(75%) translateX(-3vw) rotate(-5deg);
+    }
+    100% {
+      transform: translateY(100%) translateX(0) rotate(0deg);
+    }
+  }
+
+  @keyframes floatSun {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  @keyframes summerGlow {
+    0%,
+    100% {
+      box-shadow: 0 0 20px rgba(255, 223, 89, 0.2),
+        0 0 40px rgba(255, 159, 28, 0.1);
+    }
+    50% {
+      box-shadow: 0 0 35px rgba(255, 223, 89, 0.3),
+        0 0 70px rgba(255, 159, 28, 0.2);
+    }
+  }
+}
+
+&.#{$identifier}-winter {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    #a0e9fd,
+    #0288d1
+  ); // icy blue → deep winter blue
+  color: #fff;
+  border-radius: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(160, 233, 253, 0.3), 0 0 60px rgba(2, 136, 209, 0.2);
+  animation: winterGlow 4s ease-in-out infinite;
+
+  // Gentle snowfall ❄️
+  &::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    background-image: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.8) 1.5px,
+        transparent 1.5px
+      ),
+      radial-gradient(circle, rgba(255, 255, 255, 0.6) 2px, transparent 2px),
+      radial-gradient(circle, rgba(224, 255, 255, 0.7) 1px, transparent 1px);
+    background-size: 4vw 4vh, 6vw 6vh, 8vw 8vh;
+    animation: snowDrift 25s infinite linear;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.85;
+  }
+
+  // Snowflake accent ❄️
+  &::after {
+    content: '❄️';
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    font-size: 2rem;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
+    animation: floatFlake 6s ease-in-out infinite;
+    z-index: 11;
+    pointer-events: none;
+  }
+
+  @keyframes snowDrift {
+    0% {
+      transform: translateY(0) translateX(0) rotate(0deg);
+    }
+    25% {
+      transform: translateY(25%) translateX(2vw) rotate(2deg);
+    }
+    50% {
+      transform: translateY(50%) translateX(0) rotate(0deg);
+    }
+    75% {
+      transform: translateY(75%) translateX(-2vw) rotate(-2deg);
+    }
+    100% {
+      transform: translateY(100%) translateX(0) rotate(0deg);
+    }
+  }
+
+  @keyframes floatFlake {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  @keyframes winterGlow {
+    0%,
+    100% {
+      box-shadow: 0 0 20px rgba(160, 233, 253, 0.2),
+        0 0 40px rgba(2, 136, 209, 0.1);
+    }
+    50% {
+      box-shadow: 0 0 35px rgba(160, 233, 253, 0.3),
+        0 0 70px rgba(2, 136, 209, 0.2);
+    }
+  }
+}
+
+&.#{$identifier}-spring {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    #c8e6c9,
+    #a5d6a7
+  ); // soft mint → light green
+  color: #fff;
+  border-radius: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(200, 230, 201, 0.3),
+    0 0 60px rgba(165, 214, 167, 0.2);
+  animation: springGlow 4s ease-in-out infinite;
+
+  // Drifting cherry blossoms 🌸
+  &::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    background-image: radial-gradient(
+        circle,
+        rgba(255, 182, 193, 0.8) 1.5px,
+        transparent 1.5px
+      ),
+      radial-gradient(circle, rgba(255, 240, 245, 0.7) 2px, transparent 2px),
+      radial-gradient(circle, rgba(255, 192, 203, 0.6) 1px, transparent 1px);
+    background-size: 5vw 5vh, 7vw 7vh, 9vw 9vh;
+    animation: petalDrift 22s infinite linear;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.8;
+  }
+
+  // Flower accent 🌼
+  &::after {
+    content: '🌸';
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    font-size: 2rem;
+    filter: drop-shadow(0 0 6px rgba(255, 182, 193, 0.6));
+    animation: floatFlower 6s ease-in-out infinite;
+    z-index: 11;
+    pointer-events: none;
+  }
+
+  @keyframes petalDrift {
+    0% {
+      transform: translateY(0) translateX(0) rotate(0deg);
+    }
+    25% {
+      transform: translateY(25%) translateX(2vw) rotate(3deg);
+    }
+    50% {
+      transform: translateY(50%) translateX(0) rotate(0deg);
+    }
+    75% {
+      transform: translateY(75%) translateX(-2vw) rotate(-3deg);
+    }
+    100% {
+      transform: translateY(100%) translateX(0) rotate(0deg);
+    }
+  }
+
+  @keyframes floatFlower {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  @keyframes springGlow {
+    0%,
+    100% {
+      box-shadow: 0 0 20px rgba(200, 230, 201, 0.2),
+        0 0 40px rgba(165, 214, 167, 0.1);
+    }
+    50% {
+      box-shadow: 0 0 35px rgba(200, 230, 201, 0.3),
+        0 0 70px rgba(165, 214, 167, 0.2);
+    }
+  }
+}
