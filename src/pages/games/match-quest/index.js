@@ -4,7 +4,7 @@ import Game from './template';
 const DropZoneQuest = () => {
   return (
     <GameStart
-      title='Match Quest'
+      title='Matching Tales'
       GameComponent={Game}
       gameClass={'mq-match-game'}
       gameId='1'

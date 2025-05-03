@@ -5,16 +5,13 @@ const JigSawDragAndDrop = (pieces, setPieces) => {
 
   const handleDragStart = (e, item) => {
     setDraggedItem(item);
-    console.log('Drag Started', item); // Debugging
   };
 
   const handleDrop = (e, dropZoneId, validateDrop) => {
     e.preventDefault();
-    console.log('Drop Event Triggered', draggedItem); // Debugging
 
     if (draggedItem) {
       const isValid = validateDrop(draggedItem, dropZoneId);
-      console.log('Drop Validity:', isValid); // Debugging
 
       if (isValid) {
         // Get drop zone position and normalize the drop (e.g., to snap pieces to grid)
@@ -25,7 +22,6 @@ const JigSawDragAndDrop = (pieces, setPieces) => {
         const dropY =
           Math.round(offsetY / draggedItem.dimensions_height) *
           draggedItem.dimensions_height;
-        console.log('Calculated Drop Position', dropX, dropY); // Debugging
 
         // Update piece position in state
         setPieces((prevPieces) =>

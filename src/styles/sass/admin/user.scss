@@ -229,8 +229,9 @@
         transform: translateZ(0);
         height: 100%;
         width: 100%;
-        font-size: medium;
+        font-size: small;
         padding: 0px 12px;
+        line-height: 2;
 
         &:active {
           text-decoration: none;

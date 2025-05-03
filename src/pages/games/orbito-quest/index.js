@@ -4,7 +4,7 @@ import Game from './template';
 const Orbito = () => {
   return (
     <GameStart
-      title='Orbito Quest'
+      title='Orbito Adventure'
       GameComponent={Game}
       gameClass={'mq-orbito-game'}
       gameId='12'

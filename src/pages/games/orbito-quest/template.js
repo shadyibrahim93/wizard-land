@@ -289,18 +289,6 @@ const Orbito = () => {
 
     // 3) Determine which sound to play:
     let soundKey = '';
-    console.log(
-      'gameMode',
-      gameMode,
-      'currentMultiplayerTurn',
-      currentMultiplayerTurn,
-      'currentTurn',
-      currentTurn,
-      'player1',
-      player1,
-      'player2',
-      player2
-    );
     if (gameMode === 'Multiplayer' && player1 && gamePhase === 'place') {
       soundKey =
         currentMultiplayerTurn === player2

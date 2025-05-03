@@ -4,7 +4,7 @@ import Game from './template';
 const TicTacToe = () => {
   return (
     <GameStart
-      title='Tic Tac Toe Quest'
+      title='Tic Tac Toe Adventure'
       GameComponent={Game}
       gameClass={'mq-tic-tac-toe-game'}
       gameId='9'

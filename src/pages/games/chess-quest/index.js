@@ -4,7 +4,7 @@ import Game from './template';
 const ChessQuest = () => {
   return (
     <GameStart
-      title='Chess Quest'
+      title='Chess Adventure'
       GameComponent={Game}
       gameClass={'mq-chess-game'}
       gameId='14'
