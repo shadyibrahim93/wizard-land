@@ -1301,3 +1301,202 @@
     }
   }
 }
+
+&.#{$identifier}-night {
+  position: relative;
+  background: linear-gradient(135deg, #0d1b2a, #1b263b);
+  color: #fff;
+  border-radius: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(13, 27, 42, 0.3), 0 0 60px rgba(27, 38, 59, 0.2);
+  animation: nightGlow 4s ease-in-out infinite;
+
+  // Big, drifting star “halos” ✨
+  &::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    left: 0;
+    width: 200%;
+    height: 80%;
+    background-image: radial-gradient(
+        circle at 20% 30%,
+        rgba(255, 255, 255, 0.15) 25%,
+        transparent 26%
+      ),
+      radial-gradient(
+        circle at 50% 50%,
+        rgba(255, 255, 255, 0.1) 30%,
+        transparent 31%
+      ),
+      radial-gradient(
+        circle at 80% 40%,
+        rgba(200, 200, 255, 0.12) 20%,
+        transparent 21%
+      );
+    background-repeat: no-repeat;
+    background-size: 40% 100%, 50% 120%, 35% 90%;
+    /* one long, irregular path, then alternate back */
+    animation: haloRandom 30s ease-in-out infinite alternate;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  // Moon accent 🌙
+  &::after {
+    content: '🌙';
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    font-size: 2rem;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 224, 0.6));
+    animation: floatMoon 6s ease-in-out infinite;
+    z-index: 11;
+    pointer-events: none;
+  }
+
+  @keyframes haloRandom {
+    0% {
+      background-position: 20% 30%, 50% 50%, 80% 40%;
+    }
+    10% {
+      background-position: 15% 80%, 60% 20%, 30% 75%;
+    }
+    20% {
+      background-position: 5% 60%, 40% 90%, 90% 25%;
+    }
+    30% {
+      background-position: 25% 15%, 55% 70%, 70% 10%;
+    }
+    40% {
+      background-position: 10% 40%, 80% 30%, 45% 85%;
+    }
+    50% {
+      background-position: 35% 75%, 20% 25%, 85% 45%;
+    }
+    60% {
+      background-position: 0% 50%, 70% 10%, 60% 80%;
+    }
+    70% {
+      background-position: 30% 20%, 50% 85%, 95% 35%;
+    }
+    80% {
+      background-position: 5% 90%, 65% 40%, 80% 15%;
+    }
+    90% {
+      background-position: 40% 10%, 35% 60%, 55% 90%;
+    }
+    100% {
+      background-position: 20% 30%, 50% 50%, 80% 40%;
+    }
+  }
+
+  @keyframes floatMoon {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  @keyframes nightGlow {
+    0%,
+    100% {
+      box-shadow: 0 0 20px rgba(13, 27, 42, 0.2), 0 0 40px rgba(27, 38, 59, 0.1);
+    }
+    50% {
+      box-shadow: 0 0 35px rgba(13, 27, 42, 0.3), 0 0 70px rgba(27, 38, 59, 0.2);
+    }
+  }
+}
+
+&.#{$identifier}-day {
+  position: relative;
+  background: linear-gradient(135deg, #87ceeb, #fffae3);
+  color: #333;
+  border-radius: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(135, 206, 235, 0.3),
+    0 0 60px rgba(255, 250, 227, 0.2);
+  animation: dayGlow 4s ease-in-out infinite;
+
+  // Drifting clouds ☁️
+  &::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: 0;
+    width: 200%;
+    height: 50%;
+    background-image: radial-gradient(
+        circle at 25% 50%,
+        rgba(255, 255, 255, 0.8) 30%,
+        transparent 31%
+      ),
+      radial-gradient(
+        circle at 75% 60%,
+        rgba(255, 255, 255, 0.7) 25%,
+        transparent 26%
+      );
+    background-repeat: no-repeat;
+    background-size: 40% 100%, 50% 80%;
+    animation: cloudDrift 30s infinite linear;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.9;
+  }
+
+  // Bird accent 🐦
+  &::after {
+    content: '🐦';
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    font-size: 2rem;
+    filter: drop-shadow(0 0 6px rgba(100, 149, 237, 0.6));
+    animation: floatBird 6s ease-in-out infinite;
+    z-index: 11;
+    pointer-events: none;
+  }
+
+  @keyframes cloudDrift {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes floatBird {
+    0%,
+    100% {
+      transform: translateY(0) translateX(0);
+    }
+    25% {
+      transform: translateY(-4px) translateX(-2px) rotate(-5deg);
+    }
+    50% {
+      transform: translateY(-2px) translateX(0) rotate(0deg);
+    }
+    75% {
+      transform: translateY(-4px) translateX(2px) rotate(5deg);
+    }
+  }
+
+  @keyframes dayGlow {
+    0%,
+    100% {
+      box-shadow: 0 0 20px rgba(135, 206, 235, 0.2),
+        0 0 40px rgba(255, 250, 227, 0.1);
+    }
+    50% {
+      box-shadow: 0 0 35px rgba(135, 206, 235, 0.3),
+        0 0 70px rgba(255, 250, 227, 0.2);
+    }
+  }
+}
