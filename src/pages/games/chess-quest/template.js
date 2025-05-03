@@ -836,7 +836,7 @@ const Chess = () => {
       );
       window.removeEventListener('popstate', handlePop);
     };
-  }, [gameMode]);
+  }, [player2]);
 
   useBeforeUnload((event) => {
     if (!gameOver && gameMode === 'Multiplayer') {
@@ -884,7 +884,7 @@ const Chess = () => {
         <div className='mq-score-container'>
           <span className='mq-score-player'>White: {playerWins}</span>
           <span className='mq-room-number'>
-            {room && room.room} - {room && room.password}
+            {room && room.room} {room.password && `- ${room.password}`}
           </span>
           <span className='mq-score-computer'>
             Black: {gameMode === 'Multiplayer' ? opponentWins : computerWins}

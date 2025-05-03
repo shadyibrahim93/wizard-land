@@ -538,7 +538,7 @@ const Game = () => {
       );
       window.removeEventListener('popstate', handlePop);
     };
-  }, [gameMode]);
+  }, [player2]);
 
   useBeforeUnload((event) => {
     if (gameMode === 'Multiplayer' && !gameOver) {
@@ -556,12 +556,12 @@ const Game = () => {
     let lastUpdate = Date.now();
 
     const checkInterval = setInterval(() => {
-      // If no updates for 10 seconds, assume opponent left
+      // If no updates for 60 seconds, assume opponent left
       if (Date.now() - lastUpdate > 60000) {
         alert('Ops, Opponent left the game! What a bummer!');
         handleQuit();
       }
-    }, 10000); // Check every 5 seconds
+    }, 10000); // Check every 10 seconds
 
     return () => clearInterval(checkInterval);
   }, [board]);
@@ -590,7 +590,7 @@ const Game = () => {
         <div className='mq-score-container'>
           <span className='mq-score-player'>Fire: {playerWins}</span>
           <span className='mq-room-number'>
-            {room && room.room} - {room && room.password}
+            {room && room.room} {room.password && `- ${room.password}`}
           </span>
           <span className='mq-score-computer'>
             Ice: {gameMode === 'Multiplayer' ? opponentWins : computerWins}

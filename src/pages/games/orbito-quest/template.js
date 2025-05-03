@@ -681,7 +681,7 @@ const Orbito = () => {
       );
       window.removeEventListener('popstate', handlePop);
     };
-  }, [gameMode]);
+  }, [player2]);
 
   useBeforeUnload((event) => {
     if (!gameOver && gameMode === 'Multiplayer') {
