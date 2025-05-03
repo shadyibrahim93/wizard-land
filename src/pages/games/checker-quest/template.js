@@ -852,7 +852,9 @@ const Checkers = () => {
       <div className={`mq-global-container`}>
         <div className='mq-score-container'>
           <span className='mq-score-player'>Fire: {playerWins}</span>
-          <span className='mq-room-number'>{room && room.room}</span>
+          <span className='mq-room-number'>
+            {room && room.room} - {room && room.password}
+          </span>
           <span className='mq-score-computer'>
             Ice: {gameMode === 'Multiplayer' ? opponentWins : computerWins}
           </span>

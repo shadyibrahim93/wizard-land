@@ -13,6 +13,9 @@ const MultiplayerModal = ({ gameId, onStartGame, setGameMode }) => {
   const { userId, loading } = useUser();
   const [gameRooms, setGameRooms] = useState([]);
   const [noRooms, setNoRooms] = useState(false);
+  const [createPassword, setCreatePassword] = useState('');
+  const [joinPasswords, setJoinPasswords] = useState({});
+  const [showCreatePrompt, setShowCreatePrompt] = useState(false);
 
   useEffect(() => {
     if (userId && !loading) {
@@ -56,23 +59,41 @@ const MultiplayerModal = ({ gameId, onStartGame, setGameMode }) => {
     }
   };
 
-  const handleCreateAndJoinRoom = async () => {
-    if (userId === null || userId === undefined) {
+  const handleNumericInput = (value) => {
+    // Allow empty string or numeric characters, preserve leading zeros
+    return value === '' ? '' : value.replace(/\D/g, '');
+  };
+
+  const handleCreateClick = () => {
+    setShowCreatePrompt(true);
+  };
+
+  const handleCreateConfirm = async () => {
+    if (!userId) {
       alert('Please join our community to play!');
       return;
     }
-    const newRoom = await createRoom(gameId, userId);
+
+    const newRoom = await createRoom(gameId, userId, createPassword);
     if (newRoom) {
       setGameMode('Multiplayer');
       onStartGame(newRoom, userId);
+      setCreatePassword('');
+      setShowCreatePrompt(false);
     }
   };
 
   const handleJoinRoom = async (room) => {
-    const joinedRoom = await joinRoom(room.room, userId);
-    if (joinedRoom) {
-      setGameMode('Multiplayer');
-      onStartGame(joinedRoom, userId);
+    const password = joinPasswords[room.room] || '';
+    try {
+      const joinedRoom = await joinRoom(room.room, userId, password);
+      if (joinedRoom) {
+        setGameMode('Multiplayer');
+        onStartGame(joinedRoom, userId);
+        setJoinPasswords((prev) => ({ ...prev, [room.room]: '' }));
+      }
+    } catch (error) {
+      alert(error.message);
     }
   };
 
@@ -83,6 +104,11 @@ const MultiplayerModal = ({ gameId, onStartGame, setGameMode }) => {
     }
     setGameMode('Single');
     onStartGame({}, userId);
+  };
+
+  const handleCreateCancel = () => {
+    setShowCreatePrompt(false);
+    setCreatePassword('');
   };
 
   return (
@@ -98,7 +124,25 @@ const MultiplayerModal = ({ gameId, onStartGame, setGameMode }) => {
               key={room.room}
               className='mq-room'
             >
-              <span>{room.room}</span>
+              <div className='mq-room-info'>
+                <span>{room.room}</span>
+                {room.password !== null && room.password !== '' && (
+                  <input
+                    type='text'
+                    inputMode='numeric'
+                    pattern='[0-9]*'
+                    placeholder='Pin'
+                    value={joinPasswords[room.room] || ''}
+                    onChange={(e) =>
+                      setJoinPasswords((prev) => ({
+                        ...prev,
+                        [room.room]: handleNumericInput(e.target.value)
+                      }))
+                    }
+                    className='mq-code-input'
+                  />
+                )}
+              </div>
               <Button
                 text='Join'
                 onClick={() => handleJoinRoom(room)}
@@ -113,14 +157,43 @@ const MultiplayerModal = ({ gameId, onStartGame, setGameMode }) => {
       )}
 
       <div className='mq-btns-container'>
-        <Button
-          onClick={handlePractice}
-          text='Practice'
-        />
-        <Button
-          onClick={handleCreateAndJoinRoom}
-          text='Create Room'
-        />
+        {showCreatePrompt ? (
+          <div className='mq-create-room-prompt'>
+            <input
+              type='text'
+              inputMode='numeric'
+              pattern='[0-9]*'
+              placeholder='Leave empty for a public room (numbers only)'
+              value={createPassword}
+              onChange={(e) =>
+                setCreatePassword(handleNumericInput(e.target.value))
+              }
+              className='mq-code-input'
+            />
+            <div className='mq-prompt-buttons'>
+              <Button
+                onClick={handleCreateConfirm}
+                text='Create Room'
+              />
+              <Button
+                onClick={handleCreateCancel}
+                text='Cancel'
+                variant='secondary'
+              />
+            </div>
+          </div>
+        ) : (
+          <>
+            <Button
+              onClick={handlePractice}
+              text='Practice'
+            />
+            <Button
+              onClick={handleCreateClick}
+              text='Create Room'
+            />
+          </>
+        )}
       </div>
     </div>
   );

@@ -435,7 +435,7 @@ export async function fetchAvailableRooms(gameId) {
   return data;
 }
 
-export async function createRoom(gameId, userId) {
+export async function createRoom(gameId, userId, password = null) {
   // Check if the user already has a room open as player1 and it's still active
   const { data: existingRooms, error: checkError } = await supabase
     .from('game_rooms')
@@ -463,7 +463,8 @@ export async function createRoom(gameId, userId) {
         player1: userId,
         game_id: gameId,
         room: roomCode,
-        created_at: new Date().toISOString()
+        created_at: new Date().toISOString(),
+        password: password || null
       }
     ])
     .select()
@@ -477,20 +478,38 @@ export async function createRoom(gameId, userId) {
   return data;
 }
 
-// ✅ Join an available room by setting player2
-export async function joinRoom(roomId, userId) {
+// Join an available room by setting player2
+export async function joinRoom(roomId, userId, password = '') {
+  const { data: roomData, error: fetchError } = await supabase
+    .from('game_rooms')
+    .select('*')
+    .eq('room', roomId)
+    .single();
+
+  if (fetchError) throw new Error('Room not found');
+
+  // Convert both values to string for comparison
+  const storedPassword = String(roomData.password || '');
+  const enteredPassword = String(password || '');
+
+  if (roomData.password && storedPassword !== enteredPassword) {
+    console.log('Mismatch:', {
+      stored: storedPassword,
+      entered: enteredPassword,
+      typeStored: typeof storedPassword,
+      typeEntered: typeof enteredPassword
+    });
+    throw new Error('Incorrect password');
+  }
+
   const { data, error } = await supabase
     .from('game_rooms')
     .update({ player2: userId })
     .eq('room', roomId)
     .select()
-    .single(); // Return the updated room
+    .single();
 
-  if (error) {
-    console.error('Error joining room:', error);
-    return null;
-  }
-
+  if (error) throw new Error(error.message);
   return data;
 }
 
