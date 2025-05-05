@@ -21,6 +21,42 @@
   }
 }
 
+.interested-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: stretch;
+  padding-bottom: 12px;
+
+  .plus-icon {
+    font-size: 1rem;
+    color: #fff;
+    margin-left: 0.5rem;
+    height: 16px;
+  }
+
+  .interested-count {
+    padding: 0rem 12px;
+    border: 2px solid $primary-color;
+    border-radius: 10px;
+    color: $white;
+    margin-left: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mq-btn {
+    margin: 0px;
+
+    @media (max-width: 768px) {
+      font-size: small;
+      width: fit-content;
+      padding: 0.5rem 1rem;
+    }
+  }
+}
+
 .wizard-header {
   text-align: center;
   padding: 4rem 0;
@@ -311,6 +347,7 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .landing-page-intro {
+    margin: 2rem auto;
     transform: rotate(0deg);
   }
   .landing-page-title {
