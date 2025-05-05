@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import DropZoneQuest from './pages/games/dropzone-quest';
 import MatchQuest from './pages/games/match-quest';
@@ -25,7 +25,7 @@ function AppRoutes() {
   const { userType } = useUser();
   useMouseEffect();
 
-  // Only LandingPage in prod
+  // Prod mode: only LandingPage, with fallback
   if (userType !== 'test') {
     return (
       <BrowserRouter>
@@ -34,12 +34,22 @@ function AppRoutes() {
             path='/'
             element={<LandingPage />}
           />
+          {/* Redirect anything else back to landing */}
+          <Route
+            path='*'
+            element={
+              <Navigate
+                to='/'
+                replace
+              />
+            }
+          />
         </Routes>
       </BrowserRouter>
     );
   }
 
-  // In test (or any other userType), show all routes
+  // Test mode: full app, with fallback to Home
   return (
     <BrowserRouter>
       <Routes>
@@ -106,6 +116,16 @@ function AppRoutes() {
         <Route
           path='/games/three-men-morris-quest'
           element={<ThreeMenMorrisQuest />}
+        />
+        {/* Redirect anything else back to Home */}
+        <Route
+          path='*'
+          element={
+            <Navigate
+              to='/'
+              replace
+            />
+          }
         />
       </Routes>
     </BrowserRouter>
