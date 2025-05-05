@@ -65,6 +65,9 @@ const Orbito = () => {
   const [oppChoice, setOppChoice] = useState(null);
   const navigate = useNavigate();
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [thumbsResetKey, setThumbsResetKey] = useState(0);
+  const [player1Name, setPlayer1Name] = useState('');
+  const [player2Name, setPlayer2Name] = useState('');
 
   // rings defined clockwise
   const outerRing = [0, 1, 2, 3, 7, 11, 15, 14, 13, 12, 8, 4];
@@ -81,26 +84,36 @@ const Orbito = () => {
   const isBoardFull = (b) => b.every((cell) => cell !== null);
 
   const calculateWinner = (b) => {
-    const lines = [
-      [0, 1, 2, 3],
-      [4, 5, 6, 7],
-      [8, 9, 10, 11],
-      [12, 13, 14, 15],
-      [0, 4, 8, 12],
-      [1, 5, 9, 13],
-      [2, 6, 10, 14],
-      [3, 7, 11, 15],
-      [0, 5, 10, 15],
-      [3, 6, 9, 12]
-    ];
+    // Convert 1D array to 2D grid for easier line checking
+    const grid = [];
+    for (let i = 0; i < 4; i++) {
+      grid.push(b.slice(i * 4, (i + 1) * 4));
+    }
 
-    for (let [a, b1, c, d] of lines) {
-      if (b[a] && b[a] === b[b1] && b[a] === b[c] && b[a] === b[d]) {
+    // Check all possible lines in current grid configuration
+    const lines = [];
+
+    // Rows
+    for (let row = 0; row < 4; row++) {
+      lines.push(grid[row]);
+    }
+
+    // Columns
+    for (let col = 0; col < 4; col++) {
+      lines.push([grid[0][col], grid[1][col], grid[2][col], grid[3][col]]);
+    }
+
+    // Diagonals
+    lines.push([grid[0][0], grid[1][1], grid[2][2], grid[3][3]]);
+    lines.push([grid[0][3], grid[1][2], grid[2][1], grid[3][0]]);
+
+    // Check all possible lines
+    for (const line of lines) {
+      if (line.every((cell) => cell && cell === line[0])) {
         if (gameMode === 'Multiplayer') {
-          return b[a] === player1 ? player1 : player2;
+          return line[0] === player1 ? player1 : player2;
         }
-
-        return b[a] === userId ? 'Fire' : 'Ice'; // Use Fire/Ice
+        return line[0] === userId ? 'Fire' : 'Ice';
       }
     }
 
@@ -125,8 +138,6 @@ const Orbito = () => {
   // --- scoring & endgame ---
   useEffect(() => {
     const handleScoreUpdate = async () => {
-      if (gameOver) return;
-
       if (board.every((cell) => cell === null)) {
         setWinner(null);
       }
@@ -150,11 +161,6 @@ const Orbito = () => {
       if (winner) {
         setGameOver(true);
 
-        if (gameMode === 'Multiplayer' && winner) {
-          // Update the board state with the winner once
-          updateBoardState(room.room, board, gameId, winner);
-        }
-
         if (gameMode === 'Multiplayer') {
           if (winner === userId) {
             setShowCoinAnimation(true);
@@ -171,21 +177,24 @@ const Orbito = () => {
           playDefeat();
         }
 
-        // Update score counters
         if (gameMode === 'Multiplayer') {
           if (player1 === winner) {
-            setPlayerWins((prev) => prev + 1);
+            setPlayerWins(playerWins + 1);
           } else if (player2 === winner) {
-            setOpponentWins((prev) => prev + 1);
+            setOpponentWins(opponentWins + 1);
           }
         } else {
-          if (winner === 'Fire') setPlayerWins((prev) => prev + 1);
-          if (winner === 'Ice') setComputerWins((prev) => prev + 1);
+          if (winner === 'Fire') {
+            setPlayerWins(playerWins + 1);
+          }
+          if (winner === 'Ice') {
+            setComputerWins(computerWins + 1);
+          }
         }
 
-        // Show win title and schedule reset
         playUncover();
         setShowTitle(true);
+
         setTimeout(() => {
           if (gameMode === 'Multiplayer') {
             setShowModal(true);
@@ -515,10 +524,6 @@ const Orbito = () => {
       const nextStarter = winner === player2 ? player2 : player1;
       setCurrentMultiplayerTurn(nextStarter);
       updateBoardState(room.room, Array(16).fill(null), gameId, nextStarter);
-      // Immediately clear previous choices
-      setTimeout(() => {
-        clearThumbsChoices(room.room);
-      }, 1000);
     } else {
       setCurrentTurn('Fire');
     }
@@ -533,6 +538,8 @@ const Orbito = () => {
       setRoom(roomData);
       setPlayer1(roomData.player1);
       setPlayer2(roomData.player2);
+      setPlayer1Name(roomData.player1name || '');
+      setPlayer2Name(roomData.player2name || '');
       setGameMode('Multiplayer');
       setStartGame(true);
       setCurrentMultiplayerTurn(roomData.player1);
@@ -543,6 +550,8 @@ const Orbito = () => {
         (updatedRoom) => {
           setPlayer1(updatedRoom.player1);
           setPlayer2(updatedRoom.player2);
+          setPlayer1Name(updatedRoom.player1name || '');
+          setPlayer2Name(updatedRoom.player2name || '');
           setOpponentJoined(!!updatedRoom.player1 && !!updatedRoom.player2);
 
           const currentBoard = board;
@@ -566,6 +575,14 @@ const Orbito = () => {
         (gameState) => {
           if (gameState.board_state) {
             setBoard(gameState.board_state);
+            setGameOver(false);
+            setWinner(null);
+            setShowTitle(false);
+            setShowModal(false);
+            setWinnerName('');
+            setMyChoice(null);
+            setOppChoice(null);
+            clearThumbsChoices(gameState.room);
           }
           if (gameState.extraShifts !== undefined) {
             setExtraShifts(gameState.extraShifts);
@@ -594,24 +611,41 @@ const Orbito = () => {
 
   useEffect(() => {
     if (!room?.room) return;
-    const sub = subscribeToThumbs(room.room, ({ user_id, choice }) => {
-      if (user_id === userId) setMyChoice(choice);
-      else setOppChoice(choice);
+
+    const subscription = subscribeToThumbs(room.room, ({ user_id, choice }) => {
+      // only accept the first vote per slot per round
+      if (user_id === userId) {
+        if (myChoice == null) setMyChoice(choice);
+      } else {
+        if (oppChoice == null) setOppChoice(choice);
+      }
     });
-    return () => supabase.realtime.removeChannel(sub);
-  }, [room, userId]);
+
+    return () => supabase.realtime.removeChannel(subscription);
+  }, [room, userId, thumbsResetKey]);
 
   useEffect(() => {
-    if (myChoice && oppChoice) {
-      if (myChoice === 'up' && oppChoice === 'up') {
-        handleRestart();
-      } else {
-        handleQuit();
-      }
-      // Reset choices after handling
-      setMyChoice(null);
-      setOppChoice(null);
-    }
+    if (myChoice == null || oppChoice == null) return;
+
+    const bothUp = myChoice === 'up' && oppChoice === 'up';
+    const roomId = room.room;
+
+    clearThumbsChoices(roomId)
+      .then(() => {
+        // 1) clear local
+        setMyChoice(null);
+        setOppChoice(null);
+        setShowModal(false);
+
+        // 2) bump the key to force a fresh subscription
+        setThumbsResetKey((k) => k + 1);
+
+        // 3) now restart or quit
+        if (bothUp) {
+          handleRestart();
+        } else handleQuit();
+      })
+      .catch(console.error);
   }, [myChoice, oppChoice]);
 
   const handleQuit = () => {
@@ -720,7 +754,7 @@ const Orbito = () => {
   };
 
   const title =
-    winner === null && isBoardFull(board) && extraShifts <= 0
+    winner === null && isBoardFull(board) && extraShifts === 0
       ? "It's a Draw!"
       : winner
       ? gameMode === 'Multiplayer'
@@ -741,10 +775,20 @@ const Orbito = () => {
     <>
       <div className='mq-global-container'>
         <div className='mq-score-container'>
-          <span className='mq-score-player'>Fire: {playerWins}</span>
-          <span className='mq-room-number'>{room?.room}</span>
+          <span className='mq-score-player'>
+            <span className='mq-score-player'>
+              {player1Name || userName}: {playerWins}
+            </span>
+          </span>
+          <span className='mq-room-number'>
+            {room && room.room} {room && room.password && `- ${room.password}`}
+          </span>
           <span className='mq-score-computer'>
-            Ice: {gameMode === 'Multiplayer' ? opponentWins : computerWins}
+            {gameMode === 'Multiplayer'
+              ? player2Name
+                ? `${player2Name}: ${opponentWins}`
+                : 'Waiting opponent...'
+              : `Ice: ${computerWins}`}
           </span>
         </div>
 
@@ -827,12 +871,6 @@ const Orbito = () => {
         isOpen={showModal}
         onClose={() => {
           setShowModal(false);
-          // Reset choices when closing modal
-          setMyChoice(null);
-          setOppChoice(null);
-          if (gameMode === 'Multiplayer') {
-            clearThumbsChoices(room.room);
-          }
         }}
         onThumbsUp={() => {
           setMyChoice('up');

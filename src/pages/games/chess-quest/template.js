@@ -112,6 +112,9 @@ const Chess = () => {
   const player1Symbol = useSelectedPiece(player1 || userId, '🔥', 'fire');
   const player2Symbol = useSelectedPiece(player2, '❄️', 'ice');
   const [lastMove, setLastMove] = useState(null);
+  const [thumbsResetKey, setThumbsResetKey] = useState(0);
+  const [player1Name, setPlayer1Name] = useState('');
+  const [player2Name, setPlayer2Name] = useState('');
 
   const introText = `Welcome to Chess! Play as White. Take turns moving your pieces according to chess rules. Valid moves will be highlighted. Checkmate your opponent to win! Good luck!`;
 
@@ -667,28 +670,39 @@ const Chess = () => {
     if (!room?.room) return;
 
     const subscription = subscribeToThumbs(room.room, ({ user_id, choice }) => {
+      // only accept the first vote per slot per round
       if (user_id === userId) {
-        setMyChoice(choice);
+        if (myChoice == null) setMyChoice(choice);
       } else {
-        setOppChoice(choice);
+        if (oppChoice == null) setOppChoice(choice);
       }
     });
 
-    return () => {
-      supabase.realtime.removeChannel(subscription);
-    };
-  }, [room, userId]);
+    return () => supabase.realtime.removeChannel(subscription);
+  }, [room, userId, thumbsResetKey]);
 
   useEffect(() => {
-    if (myChoice && oppChoice) {
-      if (myChoice === 'up' && oppChoice === 'up') {
-        handleRestart();
-      } else {
-        handleQuit();
-      }
-      setMyChoice(null);
-      setOppChoice(null);
-    }
+    if (myChoice == null || oppChoice == null) return;
+
+    const bothUp = myChoice === 'up' && oppChoice === 'up';
+    const roomId = room.room;
+
+    clearThumbsChoices(roomId)
+      .then(() => {
+        // 1) clear local
+        setMyChoice(null);
+        setOppChoice(null);
+        setShowModal(false);
+
+        // 2) bump the key to force a fresh subscription
+        setThumbsResetKey((k) => k + 1);
+
+        // 3) now restart or quit
+        if (bothUp) {
+          handleRestart();
+        } else handleQuit();
+      })
+      .catch(console.error);
   }, [myChoice, oppChoice]);
 
   const onStartGame = async (roomData) => {
@@ -696,6 +710,8 @@ const Chess = () => {
       setRoom(roomData);
       setPlayer1(roomData.player1);
       setPlayer2(roomData.player2);
+      setPlayer1Name(roomData.player1name || '');
+      setPlayer2Name(roomData.player2name || '');
       setGameMode('Multiplayer');
       setStartGame(true);
       setCurrentMultiplayerTurn(roomData.player1);
@@ -706,6 +722,8 @@ const Chess = () => {
         (updatedRoom) => {
           setPlayer1(updatedRoom.player1);
           setPlayer2(updatedRoom.player2);
+          setPlayer1Name(updatedRoom.player1name || '');
+          setPlayer2Name(updatedRoom.player2name || '');
           setOpponentJoined(!!updatedRoom.player1 && !!updatedRoom.player2);
 
           const currentBoard = board;
@@ -732,6 +750,14 @@ const Chess = () => {
               isValidBoard ? gameState.board_state.board : initialBoard()
             );
             setLastMove(gameState.board_state.lastMove);
+            setGameOver(false);
+            setWinner(null);
+            setShowTitle(false);
+            setShowModal(false);
+            setWinnerName('');
+            setMyChoice(null);
+            setOppChoice(null);
+            clearThumbsChoices(gameState.room);
           }
           if (
             gameState.current_turn !== undefined &&
@@ -772,9 +798,6 @@ const Chess = () => {
       const newStartingPlayer = winner === player2 ? player2 : player1;
       setCurrentMultiplayerTurn(newStartingPlayer);
       updateBoardState(room.room, newBoard, gameId, newStartingPlayer);
-      setTimeout(() => {
-        clearThumbsChoices(room.room);
-      }, 1000);
     }
 
     playDisappear();
@@ -882,12 +905,20 @@ const Chess = () => {
     <>
       <div className='mq-global-container'>
         <div className='mq-score-container'>
-          <span className='mq-score-player'>White: {playerWins}</span>
+          <span className='mq-score-player'>
+            <span className='mq-score-player'>
+              {player1Name || userName}: {playerWins}
+            </span>
+          </span>
           <span className='mq-room-number'>
             {room && room.room} {room && room.password && `- ${room.password}`}
           </span>
           <span className='mq-score-computer'>
-            Black: {gameMode === 'Multiplayer' ? opponentWins : computerWins}
+            {gameMode === 'Multiplayer'
+              ? player2Name
+                ? `${player2Name}: ${opponentWins}`
+                : 'Waiting opponent...'
+              : `Ice: ${computerWins}`}
           </span>
         </div>
         <div
@@ -963,9 +994,6 @@ const Chess = () => {
         isOpen={showModal}
         onClose={() => {
           setShowModal(false);
-          setMyChoice(null);
-          setOppChoice(null);
-          if (gameMode === 'Multiplayer') clearThumbsChoices(room.room);
         }}
         onThumbsUp={() => {
           setMyChoice('up');

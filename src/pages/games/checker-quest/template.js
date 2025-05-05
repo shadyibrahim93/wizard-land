@@ -78,13 +78,16 @@ const Checkers = () => {
   const { userId, userName } = useUser();
   const player1Symbol = useSelectedPiece(player1 || userId, '🔥', 'fire');
   const player2Symbol = useSelectedPiece(player2, '❄️', 'ice');
-  const [winnerName, SetWinnerName] = useState('');
+  const [winnerName, setWinnerName] = useState('');
   const [showCoinAnimation, setShowCoinAnimation] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [myChoice, setMyChoice] = useState(null);
   const [oppChoice, setOppChoice] = useState(null);
   const navigate = useNavigate();
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [thumbsResetKey, setThumbsResetKey] = useState(0);
+  const [player1Name, setPlayer1Name] = useState('');
+  const [player2Name, setPlayer2Name] = useState('');
 
   const introText = `Welcome to Wizard Land Checkers Game! Play as '🔥'. Take turns moving your pieces into the corresponding box. A helper will show you where the piece can be dropped. Be the first to capture all pieces or block the opponent from making any more and win the game. Good luck!`;
 
@@ -144,41 +147,51 @@ const Checkers = () => {
             handleRestart();
           }
           setShowTitle(false);
-          SetWinnerName('');
+          setWinnerName('');
         }, 3500);
       }
     };
 
     handleScoreUpdate();
-  }, [winner, board]);
+  }, [winner]);
 
   useEffect(() => {
     if (!room?.room) return;
 
     const subscription = subscribeToThumbs(room.room, ({ user_id, choice }) => {
+      // only accept the first vote per slot per round
       if (user_id === userId) {
-        setMyChoice(choice);
+        if (myChoice == null) setMyChoice(choice);
       } else {
-        setOppChoice(choice);
+        if (oppChoice == null) setOppChoice(choice);
       }
     });
 
-    return () => {
-      supabase.realtime.removeChannel(subscription);
-    };
-  }, [room, userId]);
+    return () => supabase.realtime.removeChannel(subscription);
+  }, [room, userId, thumbsResetKey]);
 
   useEffect(() => {
-    if (myChoice && oppChoice) {
-      if (myChoice === 'up' && oppChoice === 'up') {
-        handleRestart();
-      } else {
-        handleQuit();
-      }
-      // Reset choices after handling
-      setMyChoice(null);
-      setOppChoice(null);
-    }
+    if (myChoice == null || oppChoice == null) return;
+
+    const bothUp = myChoice === 'up' && oppChoice === 'up';
+    const roomId = room.room;
+
+    clearThumbsChoices(roomId)
+      .then(() => {
+        // 1) clear local
+        setMyChoice(null);
+        setOppChoice(null);
+        setShowModal(false);
+
+        // 2) bump the key to force a fresh subscription
+        setThumbsResetKey((k) => k + 1);
+
+        // 3) now restart or quit
+        if (bothUp) {
+          handleRestart();
+        } else handleQuit();
+      })
+      .catch(console.error);
   }, [myChoice, oppChoice]);
 
   const checkGameOver = (b) => {
@@ -643,6 +656,8 @@ const Checkers = () => {
       setRoom(roomData);
       setPlayer1(roomData.player1);
       setPlayer2(roomData.player2);
+      setPlayer1Name(roomData.player1name || '');
+      setPlayer2Name(roomData.player2name || '');
       setGameMode('Multiplayer');
       setStartGame(true);
       setCurrentMultiplayerTurn(roomData.player1);
@@ -653,6 +668,8 @@ const Checkers = () => {
         (updatedRoom) => {
           setPlayer1(updatedRoom.player1);
           setPlayer2(updatedRoom.player2);
+          setPlayer1Name(updatedRoom.player1name || '');
+          setPlayer2Name(updatedRoom.player2name || '');
           setOpponentJoined(!!updatedRoom.player1 && !!updatedRoom.player2);
 
           const currentBoard = board;
@@ -678,6 +695,14 @@ const Checkers = () => {
         (gameState) => {
           if (gameState.board_state) {
             setBoard(gameState.board_state);
+            setGameOver(false);
+            setWinner(null);
+            setShowTitle(false);
+            setShowModal(false);
+            setWinnerName('');
+            setMyChoice(null);
+            setOppChoice(null);
+            clearThumbsChoices(gameState.room);
           }
           if (
             gameState.current_turn !== undefined &&
@@ -686,7 +711,7 @@ const Checkers = () => {
             setCurrentMultiplayerTurn(gameState.current_turn);
           }
           if (gameState.winner) {
-            SetWinnerName(gameState.name);
+            setWinnerName(gameState.name);
             setWinner(gameState.winner);
             handleMultiplayerWin(gameState.winner, 'easy');
             clearGameState(gameState.room, gameState.game_id);
@@ -707,12 +732,9 @@ const Checkers = () => {
     setGameOver(false);
     setWinner(null);
     setShowTitle(false);
-    setShowModal(false);
     setSelectedPiece(null);
     setPlayerChainCapture(null);
     setComputerChainCapture(null);
-    setMyChoice(null);
-    setOppChoice(null);
 
     if (gameMode === 'Single') {
       setCurrentTurn('Fire');
@@ -720,9 +742,6 @@ const Checkers = () => {
       const newStartingPlayer = winner === player2 ? player2 : player1;
       setCurrentMultiplayerTurn(newStartingPlayer);
       updateBoardState(room.room, newBoard, gameId, newStartingPlayer);
-      setTimeout(() => {
-        clearThumbsChoices(room.room);
-      }, 1000);
     }
 
     playDisappear();
@@ -851,12 +870,20 @@ const Checkers = () => {
     <>
       <div className={`mq-global-container`}>
         <div className='mq-score-container'>
-          <span className='mq-score-player'>Fire: {playerWins}</span>
+          <span className='mq-score-player'>
+            <span className='mq-score-player'>
+              {player1Name || userName}: {playerWins}
+            </span>
+          </span>
           <span className='mq-room-number'>
             {room && room.room} {room && room.password && `- ${room.password}`}
           </span>
           <span className='mq-score-computer'>
-            Ice: {gameMode === 'Multiplayer' ? opponentWins : computerWins}
+            {gameMode === 'Multiplayer'
+              ? player2Name
+                ? `${player2Name}: ${opponentWins}`
+                : 'Waiting opponent...'
+              : `Ice: ${computerWins}`}
           </span>
         </div>
         <div
@@ -948,12 +975,6 @@ const Checkers = () => {
         isOpen={showModal}
         onClose={() => {
           setShowModal(false);
-          // Reset choices when closing modal
-          setMyChoice(null);
-          setOppChoice(null);
-          if (gameMode === 'Multiplayer') {
-            clearThumbsChoices(room.room);
-          }
         }}
         onThumbsUp={() => {
           setMyChoice('up');
