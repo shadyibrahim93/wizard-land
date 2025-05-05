@@ -24,9 +24,10 @@
 .interested-button-container {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: stretch;
   padding-bottom: 12px;
+  margin-top: 16px;
 
   .plus-icon {
     font-size: 1rem;
@@ -37,17 +38,29 @@
 
   .interested-count {
     padding: 0rem 12px;
-    border: 2px solid $primary-color;
     border-radius: 10px;
     color: $white;
     margin-left: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 2px solid $white;
+    position: relative;
   }
 
   .mq-btn {
+    position: relative;
     margin: 0px;
+    background-color: $dark-overlay;
+
+    &::before,
+    &::after {
+      display: none;
+    }
+
+    &:hover {
+      background-color: $secondary-color;
+    }
 
     @media (max-width: 768px) {
       font-size: small;
@@ -111,7 +124,7 @@
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  margin-top: 2rem;
+  margin-top: 16px;
 
   p {
     margin: 0px;
@@ -129,6 +142,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradient-pulse 2s infinite;
+  position: relative;
 }
 
 .crystal-divider {
@@ -165,6 +179,47 @@
 
   @media screen and (max-width: 768px) {
     font-size: medium;
+  }
+}
+
+.countdown-timer-container {
+  position: relative;
+
+  display: flex;
+  width: 30%;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 1rem 4rem;
+  margin: 0 auto;
+  color: $white;
+  border-radius: 10px;
+}
+
+.countdown-timer {
+  font-size: 2rem;
+  font-weight: 500;
+  border-radius: 8px;
+  display: inline-block;
+  min-width: 65px;
+  border: 2px solid $white;
+  padding: 1rem;
+}
+
+// Make .countdown-timer full width if it’s the only child
+.countdown-timer-container > .countdown-timer:only-child {
+  width: 100%;
+  text-align: center;
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 8px rgba(173, 216, 230, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(173, 216, 230, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 8px rgba(173, 216, 230, 0.2);
   }
 }
 

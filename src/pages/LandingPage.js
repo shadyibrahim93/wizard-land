@@ -4,7 +4,7 @@ import { supabase } from '../apiService.js';
  * LandingPage component
  */
 export default function LandingPage({
-  launchDate = '07/01/2025',
+  launchDate = '06/01/2025',
   screenshots = [
     {
       src: '/assets/images/launch/1.png',
@@ -36,6 +36,40 @@ export default function LandingPage({
   };
   const modalImage = currentIdx >= 0 ? screenshots[currentIdx] : null;
   const [interestedCount, setInterestedCount] = useState(0);
+
+  const [countdownDays, setCountdownDays] = useState('');
+  const [countdownHours, setCountdownHours] = useState('');
+  const [countdownMins, setCountdownMins] = useState('');
+  const [countdownSeconds, setCountdownSeconds] = useState('');
+
+  useEffect(() => {
+    const launch = new Date(launchDate);
+    const interval = setInterval(() => {
+      const now = new Date();
+      const diff = launch - now;
+
+      if (diff <= 0) {
+        setCountdownDays('Launching Tomorrow!');
+        setCountdownHours(null);
+        setCountdownMins(null);
+        setCountdownSeconds(null);
+        clearInterval(interval);
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      setCountdownDays(`${days}d`);
+      setCountdownHours(`${hours}h`);
+      setCountdownMins(`${minutes}m`);
+      setCountdownSeconds(`${seconds}s`);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [launchDate]);
 
   // Load initial count
   useEffect(() => {
@@ -77,22 +111,33 @@ export default function LandingPage({
   return (
     <>
       <div className='mq-landing-page'>
-        <div className='interested-button-container'>
-          <button
-            className='mq-btn'
-            onClick={markInterested}
-          >
-            Count Me In <span className='plus-icon'>+</span>
-          </button>
-          <span className='interested-count'>{interestedCount}</span>
-        </div>
-
         <header className='wizard-header'>
           <div className='magic-overlay'></div>
           <h1 className='landing-page-title'>
             <span className='title-glitch'>Wizard Land</span>
             <span className='subtitle'> A Magical Journey Begins</span>
           </h1>
+          <div className='interested-button-container'>
+            <button
+              className='mq-btn'
+              onClick={markInterested}
+            >
+              Count Me In <span className='plus-icon'>+</span>
+            </button>
+            <span className='interested-count'>{interestedCount} onboard</span>
+          </div>
+          <div className='countdown-timer-container'>
+            <strong className='countdown-timer'>{countdownDays}</strong>
+            {countdownHours && (
+              <strong className='countdown-timer'>{countdownHours}</strong>
+            )}
+            {countdownMins && (
+              <strong className='countdown-timer'>{countdownMins}</strong>
+            )}
+            {countdownSeconds && (
+              <strong className='countdown-timer'>{countdownSeconds}</strong>
+            )}
+          </div>
           <div className='launch-date-container'>
             <div className='crystal-divider'></div>
             <p className='landing-page-launch-date'>
