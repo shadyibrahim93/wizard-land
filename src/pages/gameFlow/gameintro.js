@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../../components/Button';
 import { playTeleport } from '../../hooks/useSound';
+import { playBGMusic } from '../../hooks/useSound.js';
 
 const GameIntro = ({
   introText,
@@ -29,6 +30,10 @@ const GameIntro = ({
     playTeleport();
     onSecondButtonClick();
   };
+
+  useEffect(() => {
+    playBGMusic('bgmusic');
+  }, []);
 
   return (
     <>

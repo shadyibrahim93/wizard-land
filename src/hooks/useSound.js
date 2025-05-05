@@ -316,29 +316,39 @@ export const playIntro = () => {
 };
 
 let bgMusicInstance = null;
+let currentFileName = null;
 
-export const playBGMusic = () => {
-  if (bgMusicInstance && !bgMusicInstance.paused) {
-    // Already playing, don't start again
+export const playBGMusic = (fileName) => {
+  // If the same file is already playing, do nothing
+  if (
+    bgMusicInstance &&
+    !bgMusicInstance.paused &&
+    currentFileName === fileName
+  ) {
     return;
   }
 
-  if (!bgMusicInstance) {
-    bgMusicInstance = new Audio(`${BASE_PATH}bgmusic.mp3`);
-    bgMusicInstance.loop = true;
-    bgMusicInstance.volume = 0.5;
-
-    // Optional: handle audio errors
-    bgMusicInstance.addEventListener('error', (e) => {
-      console.error('BG music failed to play:', e);
-      bgMusicInstance = null;
-    });
-
-    // Optional: clean up on end (though loop is true, this is just extra safety)
-    bgMusicInstance.addEventListener('ended', () => {
-      bgMusicInstance = null;
-    });
+  // If a different track is playing, stop it
+  if (bgMusicInstance) {
+    bgMusicInstance.pause();
+    bgMusicInstance.currentTime = 0;
+    bgMusicInstance = null;
   }
+
+  // Create and play the new track
+  currentFileName = fileName;
+  bgMusicInstance = new Audio(`${BASE_PATH}${fileName}.mp3`);
+  bgMusicInstance.loop = true;
+  bgMusicInstance.volume = 0.5;
+
+  bgMusicInstance.addEventListener('error', (e) => {
+    console.error('BG music failed to play:', e);
+    bgMusicInstance = null;
+  });
+
+  bgMusicInstance.addEventListener('ended', () => {
+    bgMusicInstance = null;
+  });
 
   bgMusicInstance.play().catch((err) => {
     console.warn('Auto-play failed or was interrupted:', err);

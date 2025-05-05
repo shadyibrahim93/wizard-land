@@ -1,7 +1,6 @@
 import Header from '../../components/Header';
 import useLevelProgression from '../../hooks/useLevelProgression';
-import { useEffect, useState } from 'react';
-import { playBGMusic } from '../../hooks/useSound';
+import { useState } from 'react';
 import GameChat from '../../components/chatRoom';
 import { Title, Meta } from 'react-head';
 
@@ -15,10 +14,6 @@ const GameStart = ({ title, GameComponent, gameClass, gameId, chatTitle }) => {
     setCurrentLevelPassed,
     setFinalLevelOver
   } = useLevelProgression();
-
-  useEffect(() => {
-    playBGMusic();
-  }, []);
 
   return (
     <div className={gameClass}>

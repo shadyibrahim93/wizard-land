@@ -7,7 +7,8 @@ import {
   playPieceSound,
   playNextLevel,
   playDefeat,
-  playShift
+  playShift,
+  playBGMusic
 } from '../../../hooks/useSound';
 import Button from '../../../components/Button';
 import { triggerConfetti } from '../../../hooks/useConfetti';
@@ -553,6 +554,7 @@ const Orbito = () => {
           setPlayer1Name(updatedRoom.player1name || '');
           setPlayer2Name(updatedRoom.player2name || '');
           setOpponentJoined(!!updatedRoom.player1 && !!updatedRoom.player2);
+          playBGMusic('battle');
 
           const currentBoard = board;
           if (
@@ -671,51 +673,63 @@ const Orbito = () => {
     };
   }, [channels]);
 
+  // 1️⃣ Inactivity timer (30s → show modal)
   useEffect(() => {
     if (gameMode !== 'Multiplayer') return;
-
     let timeoutId;
 
-    // 1) resetTimer — shows modal after 30s of no activity
     const resetTimer = () => {
       clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
+      timeoutId = window.setTimeout(() => {
         setIsConfirmationModalOpen(true);
       }, 30000);
     };
 
-    // 2) handlePop — traps back/forward nav and shows modal
+    const activityEvents = ['mousemove', 'keydown', 'mousedown', 'touchstart'];
+    activityEvents.forEach((ev) => window.addEventListener(ev, resetTimer));
+
+    // kick off
+    resetTimer();
+
+    return () => {
+      clearTimeout(timeoutId);
+      activityEvents.forEach((ev) =>
+        window.removeEventListener(ev, resetTimer)
+      );
+    };
+  }, [player2]);
+
+  // 2️⃣ Back/forward nav (popstate) → show modal
+  useEffect(() => {
+    if (gameMode !== 'Multiplayer') return;
+
+    // prime history
+    window.history.pushState(null, '', window.location.href);
+
     const handlePop = (e) => {
       e.preventDefault();
-      // re‑push so the user stays on the same page
       window.history.pushState(null, '', window.location.href);
       setIsConfirmationModalOpen(true);
     };
 
-    // Prime history so popstate will fire at least once
-    window.history.pushState(null, '', window.location.href);
-
-    // Listen for activity events
-    const activityEvents = ['mousemove', 'keydown', 'mousedown', 'touchstart'];
-    activityEvents.forEach((ev) => window.addEventListener(ev, resetTimer));
-
-    // Listen for back/forward
     window.addEventListener('popstate', handlePop);
+    return () => window.removeEventListener('popstate', handlePop);
+  }, [gameMode]);
 
-    // Kick off the first timer
-    resetTimer();
+  // 3️⃣ Tab/window close or refresh → show modal
+  useEffect(() => {
+    if (gameMode !== 'Multiplayer') return;
 
-    return () => {
-      // Clean up timeout
-      clearTimeout(timeoutId);
-
-      // Remove all listeners
-      activityEvents.forEach((ev) =>
-        window.removeEventListener(ev, resetTimer)
-      );
-      window.removeEventListener('popstate', handlePop);
+    const handleBeforeUnload = (e) => {
+      setIsConfirmationModalOpen(true);
+      //’show browser prompt’
+      e.preventDefault();
+      e.returnValue = '';
     };
-  }, [player2]);
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [gameMode]);
 
   useBeforeUnload((event) => {
     if (!gameOver && gameMode === 'Multiplayer') {

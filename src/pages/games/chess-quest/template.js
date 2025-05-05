@@ -7,7 +7,8 @@ import {
   playPieceSound,
   playNextLevel,
   playSwallow,
-  playDefeat
+  playDefeat,
+  playBGMusic
 } from '../../../hooks/useSound';
 import Button from '../../../components/Button';
 import { triggerConfetti } from '../../../hooks/useConfetti';
@@ -725,6 +726,7 @@ const Chess = () => {
           setPlayer1Name(updatedRoom.player1name || '');
           setPlayer2Name(updatedRoom.player2name || '');
           setOpponentJoined(!!updatedRoom.player1 && !!updatedRoom.player2);
+          playBGMusic('battle');
 
           const currentBoard = board;
           if (
@@ -825,31 +827,22 @@ const Chess = () => {
     };
   }, [channels]);
 
+  // 1️⃣ Inactivity timer (30s → show modal)
   useEffect(() => {
     if (gameMode !== 'Multiplayer') return;
-
     let timeoutId;
 
     const resetTimer = () => {
       clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
+      timeoutId = window.setTimeout(() => {
         setIsConfirmationModalOpen(true);
       }, 30000);
     };
 
-    const handlePop = (e) => {
-      e.preventDefault();
-      window.history.pushState(null, '', window.location.href);
-      setIsConfirmationModalOpen(true);
-    };
-
-    window.history.pushState(null, '', window.location.href);
-
     const activityEvents = ['mousemove', 'keydown', 'mousedown', 'touchstart'];
     activityEvents.forEach((ev) => window.addEventListener(ev, resetTimer));
 
-    window.addEventListener('popstate', handlePop);
-
+    // kick off
     resetTimer();
 
     return () => {
@@ -857,9 +850,40 @@ const Chess = () => {
       activityEvents.forEach((ev) =>
         window.removeEventListener(ev, resetTimer)
       );
-      window.removeEventListener('popstate', handlePop);
     };
   }, [player2]);
+
+  // 2️⃣ Back/forward nav (popstate) → show modal
+  useEffect(() => {
+    if (gameMode !== 'Multiplayer') return;
+
+    // prime history
+    window.history.pushState(null, '', window.location.href);
+
+    const handlePop = (e) => {
+      e.preventDefault();
+      window.history.pushState(null, '', window.location.href);
+      setIsConfirmationModalOpen(true);
+    };
+
+    window.addEventListener('popstate', handlePop);
+    return () => window.removeEventListener('popstate', handlePop);
+  }, [gameMode]);
+
+  // 3️⃣ Tab/window close or refresh → show modal
+  useEffect(() => {
+    if (gameMode !== 'Multiplayer') return;
+
+    const handleBeforeUnload = (e) => {
+      setIsConfirmationModalOpen(true);
+      //’show browser prompt’
+      e.preventDefault();
+      e.returnValue = '';
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [gameMode]);
 
   useBeforeUnload((event) => {
     if (!gameOver && gameMode === 'Multiplayer') {

@@ -5,6 +5,7 @@ import { introStarConfetti } from '../hooks/useConfetti';
 import LeaderBoard from '../components/leaderBoard';
 import GameChat from '../components/chatRoom';
 import { Title, Meta } from 'react-head';
+import { playBGMusic } from '../hooks/useSound.js';
 
 export default function Home() {
   const gamesData = [
@@ -119,6 +120,7 @@ export default function Home() {
       gamesData.filter((game) => game.type === 'Singleplayer')
     );
     introStarConfetti();
+    playBGMusic('bgmusic');
   }, []);
 
   return (
