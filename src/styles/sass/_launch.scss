@@ -16,7 +16,7 @@
 
     @media (max-width: 768px) {
       display: block;
-      font-size: large;
+      font-size: x-large;
     }
   }
 }
@@ -26,7 +26,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: stretch;
-  margin-top: 16px;
+  margin: 16px 0px;
 
   .plus-icon {
     font-size: 1rem;
@@ -198,8 +198,8 @@
   border-radius: 10px;
 
   @media (max-width: 768px) {
-    width: 80%;
-    padding: 1rem;
+    width: 85%;
+    padding: 0px 1rem;
     margin: 0 auto;
     gap: 1rem;
   }
@@ -420,9 +420,6 @@
   .landing-page-intro {
     margin: 2rem auto;
     transform: rotate(0deg);
-  }
-  .landing-page-title {
-    font-size: 2rem;
   }
 
   .launch-date-container strong {
