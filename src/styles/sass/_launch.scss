@@ -26,7 +26,6 @@
   flex-direction: row;
   justify-content: center;
   align-items: stretch;
-  padding-bottom: 12px;
   margin-top: 16px;
 
   .plus-icon {
@@ -46,6 +45,10 @@
     justify-content: center;
     border: 2px solid $white;
     position: relative;
+    @media (max-width: 768px) {
+      font-size: small;
+      padding: 4px 8px;
+    }
   }
 
   .mq-btn {
@@ -65,7 +68,7 @@
     @media (max-width: 768px) {
       font-size: small;
       width: fit-content;
-      padding: 0.5rem 1rem;
+      padding: 4px 8px;
     }
   }
 }
@@ -193,6 +196,13 @@
   margin: 0 auto;
   color: $white;
   border-radius: 10px;
+
+  @media (max-width: 768px) {
+    width: 80%;
+    padding: 1rem;
+    margin: 0 auto;
+    gap: 1rem;
+  }
 }
 
 .countdown-timer {
@@ -203,6 +213,12 @@
   min-width: 65px;
   border: 2px solid $white;
   padding: 1rem;
+
+  @media (max-width: 768px) {
+    font-size: medium;
+    padding: 0.5rem;
+    min-width: 30px;
+  }
 }
 
 // Make .countdown-timer full width if it’s the only child
