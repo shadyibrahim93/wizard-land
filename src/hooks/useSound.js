@@ -226,10 +226,16 @@ export const playUpgrade = () => {
 };
 
 export const playPieceSound = (fileName) => {
+  const isEmoji = (str) => /\p{Emoji}/u.test(str);
+
   fileName = fileName || 'place-object';
 
   if (['nosee', 'nohear', 'nospeak'].includes(fileName)) {
     fileName = 'monkey';
+  }
+
+  if (isEmoji(fileName)) {
+    fileName = 'place-object';
   }
 
   const audio = new Audio(`${BASE_PATH}${fileName}.mp3`);
