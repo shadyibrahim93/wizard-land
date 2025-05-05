@@ -6,6 +6,7 @@ const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userName, setUserName] = useState(null);
+  const [userType, setUserType] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,7 +16,9 @@ export const UserProvider = ({ children }) => {
       if (!isMounted) return;
       setUser(user);
       const name = user.user_metadata?.full_name || user.email || 'Unknown';
+      const type = user.user_metadata?.env || 'prod';
       setUserName(name);
+      setUserType(type);
     };
 
     const fetchUser = async () => {
@@ -38,7 +41,11 @@ export const UserProvider = ({ children }) => {
       data: { subscription }
     } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) updateUserState(session.user);
-      else setUser(null);
+      else {
+        setUser(null);
+        setUserName(null);
+        setUserType(null);
+      }
       setLoading(false);
     });
 
@@ -49,7 +56,9 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ userId: user?.id, userName, loading }}>
+    <UserContext.Provider
+      value={{ userId: user?.id, userName, userType, loading }}
+    >
       {children}
     </UserContext.Provider>
   );

@@ -179,20 +179,20 @@ export async function signUp({ email, password, fullName }) {
 }
 
 export async function signIn({ email, password }) {
+  // 1) Sign in
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password
   });
-
   if (error) {
     console.error('Sign-in error:', error.message);
     return null;
   }
 
-  // Fetch the full_name from the custom users table using the user ID
+  // 2) Fetch profile info
   const { data: userData, error: userError } = await supabase
     .from('profiles')
-    .select('full_name')
+    .select('full_name, env')
     .eq('id', data.user.id)
     .single();
 
@@ -201,13 +201,83 @@ export async function signIn({ email, password }) {
     return null;
   }
 
+  // 3) Persist into Supabase Auth metadata
+  const { error: updateError } = await supabase.auth.updateUser({
+    data: {
+      full_name: userData.full_name,
+      env: userData.env
+    }
+  });
+  if (updateError) {
+    console.error('Error updating auth metadata:', updateError.message);
+    // (you can still proceed—the return will have the right shape)
+  }
+
+  // 4) Return enriched object
   return {
     ...data.user,
-    full_name: userData.full_name,
     user_metadata: {
-      ...data.user.user_metadata
+      ...data.user.user_metadata,
+      full_name: userData.full_name,
+      env: userData.env
     }
   };
+}
+
+export async function getCurrentUser() {
+  try {
+    // Get current session first (faster than getUser)
+    const {
+      data: { session },
+      error: sessionError
+    } = await supabase.auth.getSession();
+
+    if (sessionError || !session?.user) {
+      return null;
+    }
+
+    // Return basic user data immediately
+    const basicUser = {
+      ...session.user,
+      user_metadata: {
+        ...session.user.user_metadata,
+        // Use email as fallback name for immediate response
+        full_name: session.user.user_metadata?.full_name || session.user.email,
+        env: session.user.user_metadata?.env || null
+      }
+    };
+
+    // Fetch profile data in background if needed
+    if (
+      !session.user.user_metadata?.full_name ||
+      !session.user.user_metadata?.env
+    ) {
+      supabase
+        .from('profiles')
+        .select('full_name, env')
+        .eq('id', session.user.id)
+        .single()
+        .then(({ data: profile }) => {
+          if (profile?.full_name) {
+            // Update the user metadata in state if component is still mounted
+            supabase.auth.updateUser({
+              data: { full_name: profile.full_name }
+            });
+          }
+          if (profile?.env) {
+            // Update the user metadata in state if component is still mounted
+            supabase.auth.updateUser({
+              data: { env: profile.env }
+            });
+          }
+        });
+    }
+
+    return basicUser;
+  } catch (err) {
+    console.error('Error getting current user:', err);
+    return null;
+  }
 }
 
 export async function signOut() {
@@ -371,52 +441,6 @@ export function subscribeToUserGameProgress(userId, onProgressUpdate) {
     .subscribe();
 
   return channel;
-}
-
-export async function getCurrentUser() {
-  try {
-    // Get current session first (faster than getUser)
-    const {
-      data: { session },
-      error: sessionError
-    } = await supabase.auth.getSession();
-
-    if (sessionError || !session?.user) {
-      return null;
-    }
-
-    // Return basic user data immediately
-    const basicUser = {
-      ...session.user,
-      user_metadata: {
-        ...session.user.user_metadata,
-        // Use email as fallback name for immediate response
-        full_name: session.user.user_metadata?.full_name || session.user.email
-      }
-    };
-
-    // Fetch profile data in background if needed
-    if (!session.user.user_metadata?.full_name) {
-      supabase
-        .from('profiles')
-        .select('full_name')
-        .eq('id', session.user.id)
-        .single()
-        .then(({ data: profile }) => {
-          if (profile?.full_name) {
-            // Update the user metadata in state if component is still mounted
-            supabase.auth.updateUser({
-              data: { full_name: profile.full_name }
-            });
-          }
-        });
-    }
-
-    return basicUser;
-  } catch (err) {
-    console.error('Error getting current user:', err);
-    return null;
-  }
 }
 
 // ✅ Fetch available rooms for a given game where player2 is not yet assigned
