@@ -390,6 +390,15 @@
   display: inline-flex;
   align-items: center;
   gap: 1rem;
+
+  @media (max-width: 768px) {
+    font-size: small;
+
+    .wand-icon {
+      text-decoration: none;
+      font-size: medium;
+    }
+  }
 }
 
 .landing-page-button:hover {
