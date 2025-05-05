@@ -117,15 +117,6 @@ export default function LandingPage({
             <span className='title-glitch'>Wizard Land</span>
             <span className='subtitle'> A Magical Journey Begins</span>
           </h1>
-          <div className='interested-button-container'>
-            <button
-              className='mq-btn'
-              onClick={markInterested}
-            >
-              Count Me In <span className='plus-icon'>+</span>
-            </button>
-            <span className='interested-count'>{interestedCount} onboard</span>
-          </div>
           <div className='countdown-timer-container'>
             <strong className='countdown-timer'>{countdownDays}</strong>
             {countdownHours && (
@@ -137,6 +128,15 @@ export default function LandingPage({
             {countdownSeconds && (
               <strong className='countdown-timer'>{countdownSeconds}</strong>
             )}
+          </div>
+          <div className='interested-button-container'>
+            <button
+              className='mq-btn'
+              onClick={markInterested}
+            >
+              Count Me In <span className='plus-icon'>+</span>
+            </button>
+            <span className='interested-count'>{interestedCount} onboard</span>
           </div>
           <div className='launch-date-container'>
             <div className='crystal-divider'></div>
