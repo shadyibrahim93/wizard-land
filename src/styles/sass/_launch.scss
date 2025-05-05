@@ -94,12 +94,12 @@
 }
 
 .landing-page-title {
-  font-family: 'MedievalSharp', cursive;
+  font-family: 'MagicalWorld', sans-serif;
   font-size: 3.5rem;
   color: #fff;
-  text-shadow: 0 0 20px #ffef78;
+  text-shadow: none;
   position: relative;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 
   @media screen and (max-width: 768px) {
     margin-top: 0px;
