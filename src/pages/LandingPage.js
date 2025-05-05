@@ -113,8 +113,10 @@ export default function LandingPage({
       <div className='mq-landing-page'>
         <header className='wizard-header'>
           <div className='magic-overlay'></div>
-          <h1 className='landing-page-title'>
+          <h1 className='landing-page-title brand'>
             <span className='title-glitch'>Wizard Land</span>
+          </h1>
+          <h1 className='landing-page-title'>
             <span className='subtitle'> A Magical Journey Begins</span>
           </h1>
           <div className='countdown-timer-container'>

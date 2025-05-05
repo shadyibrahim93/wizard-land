@@ -98,7 +98,12 @@
   color: #fff;
   text-shadow: none;
   position: relative;
+  margin-top: 0px;
   margin-bottom: 1.5rem;
+
+  &.brand {
+    margin-bottom: 0px;
+  }
 
   @media screen and (max-width: 768px) {
     margin-top: 0px;
