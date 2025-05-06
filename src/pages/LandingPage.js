@@ -173,6 +173,44 @@ export default function LandingPage({
           })
         }}
       />
+      <script
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebPage',
+            'name': `Wizard Land: The Magic Begins - June 1st, 2025`,
+            'url': typeof window !== 'undefined' ? window.location.href : '',
+            'hasPart': [
+              {
+                '@type': 'WebPage',
+                'name': 'Privacy Policy',
+                'url': 'https://wizardland.net'
+              },
+              {
+                '@type': 'WebPage',
+                'name': 'Terms of Service',
+                'url': 'https://wizardland.net'
+              },
+              {
+                '@type': 'WebPage',
+                'name': 'Contact Us',
+                'url': 'https://wizardland.net'
+              },
+              {
+                '@type': 'WebPage',
+                'name': 'About Us',
+                'url': 'https://wizardland.net'
+              },
+              {
+                '@type': 'WebPage',
+                'name': 'Login',
+                'url': 'https://wizardland.net'
+              }
+            ]
+          })
+        }}
+      />
       <div className='mq-landing-page'>
         <header className='wizard-header'>
           <div className='magic-overlay'></div>
