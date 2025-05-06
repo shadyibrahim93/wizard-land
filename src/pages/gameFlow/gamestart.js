@@ -81,6 +81,30 @@ const GameStart = ({ title, GameComponent, gameClass, gameId, chatTitle }) => {
           />
         </div>
       </div>
+      <script
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Game',
+            'name': title,
+            'url': typeof window !== 'undefined' ? window.location.href : '',
+            'applicationCategory': 'GameApplication',
+            'operatingSystem': 'All',
+            'playMode': ['SinglePlayer', 'Multiplayer'],
+            'numberOfPlayers': {
+              '@type': 'QuantitativeValue',
+              'minValue': 1,
+              'maxValue': 2
+            },
+            'publisher': {
+              '@type': 'Organization',
+              'name': 'Wizard Land'
+            },
+            'description': `Enter the world of magic and challenge—play ${title} now on Wizard Land, where fun meets fantasy!`
+          })
+        }}
+      />
       <Footer />
     </>
   );
