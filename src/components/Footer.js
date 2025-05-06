@@ -15,63 +15,8 @@ const Footer = () => {
   const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
   const [showSignInModal, setShowSignInModal] = useState(false);
 
-  const footerSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    'url': 'https://wizardland.net',
-    'mainEntityOfPage': 'https://wizardland.net',
-    'publisher': {
-      '@type': 'Organization',
-      'name': 'Wizard Land',
-      'url': 'https://wizardland.net',
-      'sameAs': [
-        'https://www.facebook.com/people/Wizard-Land-Online-Board-Games/61575617324879/',
-        'https://discord.com/channels/1369090826109452368/1369092092579680276',
-        'https://buymeacoffee.com/wizardland'
-      ]
-    },
-    'footer': {
-      '@type': 'WebPageElement',
-      'name': 'Footer',
-      'description': 'Footer links for Wizard Land website',
-      'hasPart': [
-        {
-          '@type': 'WebPageElement',
-          'name': 'Privacy Policy',
-          'url': 'https://wizardland.net/privacy-policy'
-        },
-        {
-          '@type': 'WebPageElement',
-          'name': 'Terms of Service',
-          'url': 'https://wizardland.net/terms-of-service'
-        },
-        {
-          '@type': 'WebPageElement',
-          'name': 'Contact Us',
-          'url': 'https://wizardland.net/contact-us'
-        },
-        {
-          '@type': 'WebPageElement',
-          'name': 'About Us',
-          'url': 'https://wizardland.net/about-us'
-        },
-        {
-          '@type': 'WebPageElement',
-          'name': 'Login',
-          'url': 'https://wizardland.net/login'
-        }
-      ]
-    }
-  };
-
   return (
     <>
-      <script
-        type='application/ld+json'
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(footerSchema)
-        }}
-      />
       <footer className='mq-footer'>
         <div className='mq-footer-content'>
           <h2>Wizard Land</h2>
