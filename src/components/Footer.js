@@ -54,6 +54,7 @@ const Footer = () => {
             href='https://www.facebook.com/people/Wizard-Land-Online-Board-Games/61575617324879/'
             target='_blank'
             rel='noopener noreferrer'
+            title='Facebook'
           >
             <FaFacebookSquare className='mq-social-icon' />
           </a>
@@ -68,6 +69,7 @@ const Footer = () => {
             href='https://discord.com/channels/1369090826109452368/1369092092579680276'
             target='_blank'
             rel='noopener noreferrer'
+            title='Discord'
           >
             <FaDiscord className='mq-social-icon' />
           </a>
@@ -75,6 +77,7 @@ const Footer = () => {
             href='https://buymeacoffee.com/wizardland'
             target='_blank'
             rel='noopener noreferrer'
+            title='Buy Me a Coffee'
           >
             <DiCoffeescript className='mq-social-icon' />
           </a>
