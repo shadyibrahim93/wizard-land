@@ -117,13 +117,18 @@ export default function LandingPage({
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'https://schema.org',
-            '@type': 'VideoGame',
+            '@type': 'Game',
             'name': 'Wizard Land',
             'url': 'https://wizardland.net',
             'image': screenshots.map((s) => `https://wizardland.net${s.src}`),
             'author': {
               '@type': 'Organization',
               'name': 'Wizard Land'
+            },
+            'numberOfPlayers': {
+              '@type': 'QuantitativeValue',
+              'minValue': 1,
+              'maxValue': 2
             },
             'datePublished': '2025-06-01',
             'description':
