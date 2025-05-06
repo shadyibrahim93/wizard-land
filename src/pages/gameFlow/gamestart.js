@@ -117,27 +117,27 @@ const GameStart = ({ title, GameComponent, gameClass, gameId, chatTitle }) => {
               {
                 '@type': 'WebPage',
                 'name': 'Privacy Policy',
-                'url': 'https://wizardland.net/privacy-policy'
+                'url': 'https://wizardland.net'
               },
               {
                 '@type': 'WebPage',
                 'name': 'Terms of Service',
-                'url': 'https://wizardland.net/terms-of-service'
+                'url': 'https://wizardland.net'
               },
               {
                 '@type': 'WebPage',
                 'name': 'Contact Us',
-                'url': 'https://wizardland.net/contact-us'
+                'url': 'https://wizardland.net'
               },
               {
                 '@type': 'WebPage',
                 'name': 'About Us',
-                'url': 'https://wizardland.net/about-us'
+                'url': 'https://wizardland.net'
               },
               {
                 '@type': 'WebPage',
                 'name': 'Login',
-                'url': 'https://wizardland.net/login'
+                'url': 'https://wizardland.net'
               }
             ]
           })
