@@ -273,6 +273,7 @@
   margin-bottom: 3rem;
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 21px;
   @media (max-width: 768px) {
     display: none;
@@ -282,9 +283,16 @@
     border-radius: 50%;
     height: 15px;
     width: 15px;
+    padding: 0px;
     background-color: $light-overlay;
     border: none;
     background: linear-gradient(45deg, #12d4b4, #ffef78);
+
+    &.active {
+      width: 10px;
+      height: 10px;
+      background: linear-gradient(45deg, $light-overlay, #ffef78);
+    }
   }
 }
 
