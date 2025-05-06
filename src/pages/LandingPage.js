@@ -117,7 +117,7 @@ export default function LandingPage({
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'https://schema.org',
-            '@type': 'Game',
+            '@type': 'WebSite',
             'name': 'Wizard Land',
             'url': 'https://wizardland.net',
             'image': screenshots.map((s) => `https://wizardland.net${s.src}`),
@@ -125,6 +125,16 @@ export default function LandingPage({
               '@type': 'Organization',
               'name': 'Wizard Land'
             },
+            'gameMode': [
+              {
+                '@type': 'GamePlayMode',
+                'name': 'SinglePlayer'
+              },
+              {
+                '@type': 'GamePlayMode',
+                'name': 'Multiplayer'
+              }
+            ],
             'numberOfPlayers': {
               '@type': 'QuantitativeValue',
               'minValue': 1,
