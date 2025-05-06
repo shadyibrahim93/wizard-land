@@ -118,7 +118,7 @@ export default function LandingPage({
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'https://schema.org',
-            '@type': 'WebSite',
+            '@type': 'Game',
             'name': 'Wizard Land',
             'url': 'https://wizardland.net',
             'image': screenshots.map((s) => `https://wizardland.net${s.src}`),
@@ -126,7 +126,7 @@ export default function LandingPage({
               '@type': 'Organization',
               'name': 'Wizard Land'
             },
-            'gameMode': [
+            'playMode': [
               {
                 '@type': 'GamePlayMode',
                 'name': 'SinglePlayer'
@@ -144,9 +144,38 @@ export default function LandingPage({
             'datePublished': '2025-06-01',
             'description':
               'Wizard Land is an ad-free, online multiplayer board game world where players can challenge friends in magical games like Connect 4, Chess, and Tic Tac Toe.',
+            'slogan':
+              'Wits and magic go hand in hand, play your game in Wizard Land!',
             'applicationCategory': 'GameApplication',
             'operatingSystem': 'All',
-            'genre': ['Board Game', 'Multiplayer', 'Fantasy'],
+            'gamePlatform': [
+              'Web',
+              'Mobile',
+              'Desktop',
+              'IOS',
+              'Android',
+              'Tablet'
+            ],
+            'genre': [
+              'Board Game',
+              'Multiplayer',
+              'SinglePlayer',
+              'Online',
+              'Competitive',
+              'Fantasy',
+              'Tic Tac Toe',
+              'Connect 4',
+              'Memory Game',
+              'Matching Game',
+              'Chess',
+              'Checkers',
+              'Orbito',
+              'Puzzle',
+              'Strategy',
+              'Adventure',
+              'Fantasy Adventure',
+              'Casual'
+            ],
             'publisher': {
               '@type': 'Organization',
               'name': 'Wizard Land'
