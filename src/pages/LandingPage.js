@@ -118,7 +118,7 @@ export default function LandingPage({
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'https://schema.org',
-            '@type': 'Game',
+            '@type': 'VideoGame',
             'name': 'Wizard Land',
             'url': 'https://wizardland.net',
             'image': screenshots.map((s) => `https://wizardland.net${s.src}`),
