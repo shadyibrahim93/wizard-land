@@ -37,6 +37,7 @@ const MenuItem = ({
       <img
         src={imageSrc}
         alt={title}
+        loading='lazy'
       />
       {title}
     </div>

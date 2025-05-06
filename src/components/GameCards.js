@@ -18,6 +18,7 @@ export default function GameCards({ target, imgSrc, alt, title }) {
       <img
         src={getImagePath(imgSrc)}
         alt={alt}
+        loading='lazy'
       />
     </Link>
   );

@@ -169,6 +169,7 @@ const LeaderBoard = () => {
                           index < 3 ? `${index + 1}st place medal` : 'Player'
                         }
                         className='mq-leaderboard-medal'
+                        loading='lazy'
                       />
                       <p className='mq-leaderboard-player'>
                         {player.profiles?.full_name || 'Unknown'}

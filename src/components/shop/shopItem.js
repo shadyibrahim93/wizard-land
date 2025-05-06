@@ -78,6 +78,7 @@ const ShopItem = ({ item }) => {
           <img
             src={getImagePath('board_pieces/' + item.image_url + '.webp')}
             alt={`Board Piece - ${item.className}`}
+            loading='lazy'
           />
         )}
       </span>

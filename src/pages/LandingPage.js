@@ -278,6 +278,7 @@ export default function LandingPage({
                   src={shot.src}
                   alt={shot.alt}
                   className='screenshot-thumb'
+                  loading='lazy'
                 />
               </div>
               <div className='rune-overlay'>
