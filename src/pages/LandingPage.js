@@ -8,19 +8,21 @@ export default function LandingPage({
   screenshots = [
     {
       src: '/assets/images/launch/1.png',
-      alt: 'Gameplay: Character selecting tools'
+      alt: 'Home screen with game selection'
     },
-    { src: '/assets/images/launch/2.png', alt: 'Gameplay: First level puzzle' },
+    {
+      src: '/assets/images/launch/2.png',
+      alt: 'Gameplay: Tic Tac Toe Multiplayer'
+    },
     {
       src: '/assets/images/launch/3.png',
-      alt: 'Gameplay: Boss fight animation'
+      alt: 'Gameplay: Winning animation'
     },
     {
       src: '/assets/images/launch/4.png',
-      alt: 'Gameplay: Boss fight animation'
+      alt: 'Gameplay: Restart game'
     }
   ],
-  buyMeACoffeeLink = '#',
   facebookLink = 'https://www.facebook.com/people/Wizard-Land-Online-Board-Games/61575617324879/'
 }) {
   const [currentIdx, setCurrentIdx] = useState(-1);
