@@ -124,6 +124,21 @@ export default function Home() {
     playBGMusic('bgmusic');
   }, []);
 
+  const gameSchema = gamesData.map((game) => ({
+    '@type': 'Game',
+    'name': game.title,
+    'url': `https://wizardland.net${game.url}`,
+    'image': `https://wizardland.net/images/games/${game.imgSrc}`, // Update image path if necessary
+    'gameMode': game.type === 'Multiplayer' ? 'Multiplayer' : 'SinglePlayer',
+    'description': `Play the game ${game.title} in Wizard Land`,
+    'genre': game.type === 'Multiplayer' ? 'Multiplayer' : 'SinglePlayer',
+    'applicationCategory': 'GameApplication',
+    'publisher': {
+      '@type': 'Organization',
+      'name': 'Wizard Land'
+    }
+  }));
+
   return (
     <div className='mq-home'>
       <Title>Wizard Land: Play Classic Board Games with Friends Online</Title>
@@ -210,6 +225,25 @@ export default function Home() {
           />
         </div>
       </main>
+      <script
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Website',
+            'name': 'Wizard Land',
+            'url': 'https://wizardland.net',
+            'description':
+              'Wizard Land offers classic online board games like Chess, Checkers, Orbito, Connect 4, Tic Tac Toe, and more! Play with friends and family in a magical online multiplayer environment.',
+            'mainEntityOfPage': 'https://wizardland.net',
+            'publisher': {
+              '@type': 'Organization',
+              'name': 'Wizard Land'
+            },
+            'game': gameSchema
+          })
+        }}
+      />
       <Footer />
     </div>
   );
