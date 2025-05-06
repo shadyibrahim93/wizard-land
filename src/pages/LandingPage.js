@@ -112,6 +112,33 @@ export default function LandingPage({
 
   return (
     <>
+      <script
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'VideoGame',
+            'name': 'Wizard Land',
+            'url': 'https://wizardland.net',
+            'image': screenshots.map((s) => `https://wizardland.net${s.src}`),
+            'author': {
+              '@type': 'Organization',
+              'name': 'Wizard Land'
+            },
+            'datePublished': '2025-06-01',
+            'description':
+              'Wizard Land is an ad-free, online multiplayer board game world where players can challenge friends in magical games like Connect 4, Chess, and Tic Tac Toe.',
+            'applicationCategory': 'GameApplication',
+            'operatingSystem': 'All',
+            'genre': ['Board Game', 'Multiplayer', 'Fantasy'],
+            'publisher': {
+              '@type': 'Organization',
+              'name': 'Wizard Land'
+            },
+            'sameAs': [facebookLink]
+          })
+        }}
+      />
       <div className='mq-landing-page'>
         <header className='wizard-header'>
           <div className='magic-overlay'></div>
