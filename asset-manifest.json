@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.84429714.css",
-    "main.js": "/static/js/main.51490686.js",
+    "main.css": "/static/css/main.939acdd2.css",
+    "main.js": "/static/js/main.c93746be.js",
     "static/js/952.406e2d23.chunk.js": "/static/js/952.406e2d23.chunk.js",
     "static/media/angry.gif": "/static/media/angry.e6e7d182c3bcb73cc4dc.gif",
     "static/media/ice.gif": "/static/media/ice.c9ff3188179e16bd39d4.gif",
@@ -9,6 +9,7 @@
     "static/media/7.png": "/static/media/7.fdbeb6b5dd9ade7a4106.png",
     "static/media/1.png": "/static/media/1.8bb81aa853d0b921ca4c.png",
     "static/media/3.png": "/static/media/3.226eaa0c85e38c4ba9a5.png",
+    "static/media/11.png": "/static/media/11.1a61dfd4bbd9a5c3fa61.png",
     "static/media/2.png": "/static/media/2.09e4ba341471a8525408.png",
     "static/media/robot.gif": "/static/media/robot.686295014081d63227d4.gif",
     "static/media/5.png": "/static/media/5.e1fb7e58c16387b042aa.png",
@@ -22,16 +23,19 @@
     "static/media/fireKing.gif": "/static/media/fireKing.163a453176b8af04a095.gif",
     "static/media/fire.gif": "/static/media/fire.d573202f0ef7c6a5d57c.gif",
     "static/media/4.png": "/static/media/4.7c38029941be75ed39b0.png",
+    "static/media/9.png": "/static/media/9.306d4faadd73dda11162.png",
     "static/media/6.png": "/static/media/6.982982d436c8d62c990c.png",
     "static/media/angry.webp": "/static/media/angry.bda1386ff7393188ccc0.webp",
     "static/media/ice.webp": "/static/media/ice.0d5f064498408539de9a.webp",
     "static/media/scramble_quest.jpg": "/static/media/scramble_quest.7d612e84dde87589b6b4.jpg",
+    "static/media/10.png": "/static/media/10.65461420153d70255b58.png",
     "static/media/math_quest.jpg": "/static/media/math_quest.7266202028f17e9b699b.jpg",
+    "static/media/8.png": "/static/media/8.9b5b6c7a8adbd9a605b3.png",
     "static/media/personal_puzzle_quest.jpg": "/static/media/personal_puzzle_quest.a1ea3b3b3549e008f271.jpg",
     "static/media/connect_four_quest.jpg": "/static/media/connect_four_quest.fb16b3aafc58e14383c8.jpg",
     "static/media/sudoku_quest.jpg": "/static/media/sudoku_quest.55508d7bc3fbfa41068a.jpg",
     "static/media/orbito_quest.jpg": "/static/media/orbito_quest.c8560dffcdd421680917.jpg",
-    "static/media/8.png": "/static/media/8.904fa36f2c34cc53452b.png",
+    "static/media/12.png": "/static/media/12.904fa36f2c34cc53452b.png",
     "static/media/puzzle_quest.jpg": "/static/media/puzzle_quest.0f05dc34cb4ae1ff1a20.jpg",
     "static/media/match_quest.jpg": "/static/media/match_quest.6dd14f93cb820246f7dc.jpg",
     "static/media/checker_quest.jpg": "/static/media/checker_quest.299297c4a009d6775916.jpg",
@@ -67,12 +71,12 @@
     "static/media/defaultplace.png": "/static/media/defaultplace.2a622ca5655a58932099.png",
     "static/media/cursor.cur": "/static/media/cursor.2c46f5bc85e30429f077.cur",
     "index.html": "/index.html",
-    "main.84429714.css.map": "/static/css/main.84429714.css.map",
-    "main.51490686.js.map": "/static/js/main.51490686.js.map",
+    "main.939acdd2.css.map": "/static/css/main.939acdd2.css.map",
+    "main.c93746be.js.map": "/static/js/main.c93746be.js.map",
     "952.406e2d23.chunk.js.map": "/static/js/952.406e2d23.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.84429714.css",
-    "static/js/main.51490686.js"
+    "static/css/main.939acdd2.css",
+    "static/js/main.c93746be.js"
   ]
 }
