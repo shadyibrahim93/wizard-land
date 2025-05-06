@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../apiService.js';
+import Footer from '../components/Footer.js';
 /**
  * LandingPage component
  */
@@ -279,6 +280,7 @@ export default function LandingPage({
             Follow Our Magical Journey
           </a>
         </footer>
+        <Footer />
       </div>
     </>
   );

@@ -6,6 +6,7 @@ import LeaderBoard from '../components/leaderBoard';
 import GameChat from '../components/chatRoom';
 import { Title, Meta } from 'react-head';
 import { playBGMusic } from '../hooks/useSound.js';
+import Footer from '../components/Footer';
 
 export default function Home() {
   const gamesData = [
@@ -209,6 +210,7 @@ export default function Home() {
           />
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
