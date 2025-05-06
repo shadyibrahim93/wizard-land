@@ -122,7 +122,6 @@ export default function LandingPage({
             '@type': 'Organization',
             'name': 'Wizard Land',
             'url': 'https://wizardland.net',
-            'logo': 'https://wizardland.net/logo192.png', // Replace with actual logo path if needed
             'slogan':
               'Wits and magic go hand in hand, play your game in Wizard Land!',
             'sameAs': [

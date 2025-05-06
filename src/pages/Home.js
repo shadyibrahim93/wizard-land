@@ -244,6 +244,24 @@ export default function Home() {
           })
         }}
       />
+      <script
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            'name': 'Wizard Land',
+            'url': 'https://wizardland.net',
+            'slogan':
+              'Wits and magic go hand in hand, play your game in Wizard Land!',
+            'sameAs': [
+              'https://www.facebook.com/people/Wizard-Land-Online-Board-Games/61575617324879/',
+              'https://discord.com/channels/1369090826109452368/1369092092579680276',
+              'https://buymeacoffee.com/wizardland'
+            ]
+          })
+        }}
+      />
       <Footer />
     </div>
   );
