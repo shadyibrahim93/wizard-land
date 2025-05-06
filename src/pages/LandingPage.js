@@ -229,6 +229,7 @@ export default function LandingPage({
           <a
             href={facebookLink}
             className='landing-page-button'
+            target='_blank'
           >
             <span className='wand-icon'>⚡</span>
             Follow Our Magical Journey
