@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaFacebookSquare, FaDiscord } from 'react-icons/fa';
 import { DiCoffeescript } from 'react-icons/di';
 import TermsOfUse from './termsofuse';
@@ -7,6 +7,8 @@ import About from './about';
 import ContactForm from './authModals/sendEmail';
 import PrivacyPolicy from './privacypolicy';
 import SignInModal from './authModals/signInModal.js';
+import { signOut } from '../apiService';
+import { useUser } from '../context/UserContext.js';
 
 const Footer = () => {
   const [showTermsOfUse, setShowTermsOfUse] = useState(false);
@@ -14,6 +16,13 @@ const Footer = () => {
   const [showContactForm, setShowContactForm] = useState(false);
   const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
   const [showSignInModal, setShowSignInModal] = useState(false);
+  const { userId } = useUser();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/'); // Add navigation
+  };
 
   return (
     <>
@@ -44,7 +53,13 @@ const Footer = () => {
               </li>
               <span>|</span>
               <li>
-                <Link onClick={() => setShowSignInModal(true)}>Login</Link>
+                <Link
+                  onClick={() => {
+                    userId ? handleLogout() : setShowSignInModal(true);
+                  }}
+                >
+                  {userId ? 'Logout' : 'Login'}
+                </Link>{' '}
               </li>
             </ul>
           </div>

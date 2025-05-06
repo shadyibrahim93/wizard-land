@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { signOut } from '../apiService';
 import {
   fetchUserGameProgress,
   fetchUserWallet,
   subscribeToUserData,
   unsubscribeFromChannels,
-  clearGameDataByUserId
+  clearGameDataByUserId,
+  signOut
 } from '../apiService';
 import { useUser } from '../context/UserContext';
 import UserStats from './Header/UserStats';
