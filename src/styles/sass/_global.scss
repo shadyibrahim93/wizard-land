@@ -625,6 +625,7 @@ body {
     flex-direction: row;
     flex-wrap: nowrap;
     gap: 21px;
+    margin-bottom: 21px;
 
     .#{$identifier}-score-wrapper {
       justify-content: space-between;
