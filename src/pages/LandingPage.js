@@ -120,7 +120,7 @@ export default function LandingPage({
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'VideoGame',
-            'name': 'Wizard Land',
+            'name': `Wizard Land: The Magic Begins - June 1st, 2025`,
             'url': 'https://wizardland.net',
             'image': screenshots.map((s) => `https://wizardland.net${s.src}`),
             'author': {
