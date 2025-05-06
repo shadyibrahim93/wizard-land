@@ -105,6 +105,44 @@ const GameStart = ({ title, GameComponent, gameClass, gameId, chatTitle }) => {
           })
         }}
       />
+      <script
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebPage',
+            'name': `Play ${title} Online | Wizard Land`,
+            'url': typeof window !== 'undefined' ? window.location.href : '',
+            'hasPart': [
+              {
+                '@type': 'WebPage',
+                'name': 'Privacy Policy',
+                'url': 'https://wizardland.net/privacy-policy'
+              },
+              {
+                '@type': 'WebPage',
+                'name': 'Terms of Service',
+                'url': 'https://wizardland.net/terms-of-service'
+              },
+              {
+                '@type': 'WebPage',
+                'name': 'Contact Us',
+                'url': 'https://wizardland.net/contact-us'
+              },
+              {
+                '@type': 'WebPage',
+                'name': 'About Us',
+                'url': 'https://wizardland.net/about-us'
+              },
+              {
+                '@type': 'WebPage',
+                'name': 'Login',
+                'url': 'https://wizardland.net/login'
+              }
+            ]
+          })
+        }}
+      />
       <Footer />
     </>
   );
