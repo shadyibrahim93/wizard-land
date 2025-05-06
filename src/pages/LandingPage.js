@@ -113,6 +113,28 @@ export default function LandingPage({
 
   return (
     <>
+      {/* Organization Schema */}
+      <script
+        type='application/ld+json'
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            'name': 'Wizard Land',
+            'url': 'https://wizardland.net',
+            'logo': 'https://wizardland.net/logo192.png', // Replace with actual logo path if needed
+            'slogan':
+              'Wits and magic go hand in hand, play your game in Wizard Land!',
+            'sameAs': [
+              'https://www.facebook.com/people/Wizard-Land-Online-Board-Games/61575617324879/',
+              'https://discord.com/channels/1369090826109452368/1369092092579680276',
+              'https://buymeacoffee.com/wizardland'
+            ]
+          })
+        }}
+      />
+
+      {/* VideoGame Schema */}
       <script
         type='application/ld+json'
         dangerouslySetInnerHTML={{
@@ -126,26 +148,13 @@ export default function LandingPage({
               '@type': 'Organization',
               'name': 'Wizard Land'
             },
-            'playMode': [
-              {
-                '@type': 'GamePlayMode',
-                'name': 'SinglePlayer'
-              },
-              {
-                '@type': 'GamePlayMode',
-                'name': 'Multiplayer'
-              }
-            ],
-            'numberOfPlayers': {
-              '@type': 'QuantitativeValue',
-              'minValue': 1,
-              'maxValue': 2
+            'publisher': {
+              '@type': 'Organization',
+              'name': 'Wizard Land'
             },
             'datePublished': '2025-06-01',
             'description':
               'Wizard Land is an ad-free, online multiplayer board game world where players can challenge friends in magical games like Connect 4, Chess, and Tic Tac Toe.',
-            'slogan':
-              'Wits and magic go hand in hand, play your game in Wizard Land!',
             'applicationCategory': 'GameApplication',
             'operatingSystem': 'All',
             'gamePlatform': [
@@ -156,6 +165,12 @@ export default function LandingPage({
               'Android',
               'Tablet'
             ],
+            'playMode': ['SinglePlayer', 'Multiplayer'],
+            'numberOfPlayers': {
+              '@type': 'QuantitativeValue',
+              'minValue': 1,
+              'maxValue': 2
+            },
             'genre': [
               'Board Game',
               'Multiplayer',
@@ -175,12 +190,7 @@ export default function LandingPage({
               'Adventure',
               'Fantasy Adventure',
               'Casual'
-            ],
-            'publisher': {
-              '@type': 'Organization',
-              'name': 'Wizard Land'
-            },
-            'sameAs': [facebookLink]
+            ]
           })
         }}
       />
