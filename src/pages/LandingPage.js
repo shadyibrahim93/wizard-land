@@ -22,11 +22,44 @@ export default function LandingPage({
     {
       src: '/assets/images/launch/4.png',
       alt: 'Gameplay: Restart game'
+    },
+    {
+      src: '/assets/images/launch/5.png',
+      alt: 'Gameplay: Restart game'
+    },
+    {
+      src: '/assets/images/launch/6.png',
+      alt: 'Gameplay: Restart game'
+    },
+    {
+      src: '/assets/images/launch/7.png',
+      alt: 'Gameplay: Restart game'
+    },
+    {
+      src: '/assets/images/launch/8.png',
+      alt: 'Gameplay: Restart game'
+    },
+    {
+      src: '/assets/images/launch/9.png',
+      alt: 'Gameplay: Restart game'
+    },
+    {
+      src: '/assets/images/launch/10.png',
+      alt: 'Gameplay: Restart game'
+    },
+    {
+      src: '/assets/images/launch/11.png',
+      alt: 'Gameplay: Restart game'
+    },
+    {
+      src: '/assets/images/launch/12.png',
+      alt: 'Gameplay: Restart game'
     }
   ],
   facebookLink = 'https://www.facebook.com/people/Wizard-Land-Online-Board-Games/61575617324879/'
 }) {
   const [currentIdx, setCurrentIdx] = useState(-1);
+  const [activeGroup, setActiveGroup] = useState(0);
   const openModal = (idx) => setCurrentIdx(idx);
   const closeModal = () => setCurrentIdx(-1);
   const showPrev = (e) => {
@@ -38,13 +71,18 @@ export default function LandingPage({
     setCurrentIdx((i) => (i < screenshots.length - 1 ? i + 1 : 0));
   };
   const modalImage = currentIdx >= 0 ? screenshots[currentIdx] : null;
-  const [interestedCount, setInterestedCount] = useState(0);
 
+  const [interestedCount, setInterestedCount] = useState(0);
   const [countdownDays, setCountdownDays] = useState('');
   const [countdownHours, setCountdownHours] = useState('');
   const [countdownMins, setCountdownMins] = useState('');
   const [countdownSeconds, setCountdownSeconds] = useState('');
 
+  // Calculate groups of 4 screenshots
+  const groups = [];
+  for (let i = 0; i < screenshots.length; i += 4) {
+    groups.push(screenshots.slice(i, i + 4));
+  }
   useEffect(() => {
     const launch = new Date(launchDate);
     const interval = setInterval(() => {
@@ -267,28 +305,48 @@ export default function LandingPage({
           </div>
         </section>
         <section className='screenshot-grid'>
-          {screenshots.map((shot, idx) => (
-            <div
-              key={idx}
-              className='screenshot-card'
-              onClick={() => openModal(idx)}
-            >
-              <div className='frame-glow'>
-                <img
-                  src={shot.src}
-                  alt={shot.alt}
-                  className='screenshot-thumb'
-                  loading='lazy'
-                />
-              </div>
-              <div className='rune-overlay'>
-                <span>ᛞ</span>
-                <span>ᚦ</span>
-                <span>ᛟ</span>
-              </div>
-            </div>
+          {groups.map((group, idx) => (
+            <React.Fragment key={idx}>
+              {idx === activeGroup && (
+                <>
+                  {group.map((shot, i) => {
+                    const globalIdx = idx * 4 + i;
+                    return (
+                      <div
+                        key={globalIdx}
+                        className='screenshot-card'
+                        onClick={() => openModal(globalIdx)}
+                      >
+                        <div className='frame-glow'>
+                          <img
+                            src={shot.src}
+                            alt={shot.alt}
+                            className='screenshot-thumb'
+                            loading='lazy'
+                          />
+                        </div>
+                        <div className='rune-overlay'>
+                          <span>ᛞ</span>
+                          <span>ᚦ</span>
+                          <span>ᛟ</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </>
+              )}
+            </React.Fragment>
           ))}
         </section>
+        <div className='carousel-dots'>
+          {groups.map((_, idx) => (
+            <button
+              key={idx}
+              className={`dot ${idx === activeGroup ? 'active' : ''}`}
+              onClick={() => setActiveGroup(idx)}
+            />
+          ))}
+        </div>
         {/* Modal remains structurally same with enhanced styling */}
         {modalImage && (
           <div

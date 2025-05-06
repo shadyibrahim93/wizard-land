@@ -25,8 +25,13 @@ function AppRoutes() {
   const { userType } = useUser();
   useMouseEffect();
 
-  // Prod mode: only LandingPage, with fallback
-  if (userType !== 'test') {
+  // Determine if we're before the cutoff
+  const now = new Date();
+  const cutoff = new Date('2025-06-01T00:00:00-04:00');
+  const isBeforeCutoff = now < cutoff;
+
+  // Before June 1st and in prod (‘test’ userType) → LandingPage only
+  if (isBeforeCutoff && userType !== 'test') {
     return (
       <BrowserRouter>
         <Routes>
@@ -34,7 +39,6 @@ function AppRoutes() {
             path='/'
             element={<LandingPage />}
           />
-          {/* Redirect anything else back to landing */}
           <Route
             path='*'
             element={
@@ -49,7 +53,7 @@ function AppRoutes() {
     );
   }
 
-  // Test mode: full app, with fallback to Home
+  // From June 1st onward (or any userType other than 'test' before then) → full app
   return (
     <BrowserRouter>
       <Routes>
@@ -117,7 +121,6 @@ function AppRoutes() {
           path='/games/three-men-morris-quest'
           element={<ThreeMenMorrisQuest />}
         />
-        {/* Redirect anything else back to Home */}
         <Route
           path='*'
           element={
