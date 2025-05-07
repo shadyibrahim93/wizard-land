@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.85a7c245.css",
-    "main.js": "/static/js/main.c93746be.js",
+    "main.css": "/static/css/main.6fa23c1d.css",
+    "main.js": "/static/js/main.9e775611.js",
     "static/js/952.406e2d23.chunk.js": "/static/js/952.406e2d23.chunk.js",
     "static/media/angry.gif": "/static/media/angry.e6e7d182c3bcb73cc4dc.gif",
     "static/media/ice.gif": "/static/media/ice.c9ff3188179e16bd39d4.gif",
@@ -28,6 +28,7 @@
     "static/media/angry.webp": "/static/media/angry.bda1386ff7393188ccc0.webp",
     "static/media/ice.webp": "/static/media/ice.0d5f064498408539de9a.webp",
     "static/media/scramble_quest.jpg": "/static/media/scramble_quest.7d612e84dde87589b6b4.jpg",
+    "static/media/broom.gif": "/static/media/broom.8b7b59aceb6fd9d1e7f0.gif",
     "static/media/10.png": "/static/media/10.65461420153d70255b58.png",
     "static/media/math_quest.jpg": "/static/media/math_quest.7266202028f17e9b699b.jpg",
     "static/media/8.png": "/static/media/8.9b5b6c7a8adbd9a605b3.png",
@@ -41,6 +42,7 @@
     "static/media/checker_quest.jpg": "/static/media/checker_quest.299297c4a009d6775916.jpg",
     "static/media/bingo_quest.jpg": "/static/media/bingo_quest.0d0a592b65419fb0390c.jpg",
     "static/media/dropzone_quest.jpg": "/static/media/dropzone_quest.9291fcd5dcc0ba1f8eaa.jpg",
+    "static/media/broom.webp": "/static/media/broom.658b2ec44cb2c41d5c1e.webp",
     "static/media/soccer.webp": "/static/media/soccer.03a8c22c5e8ef91ee5e5.webp",
     "static/media/memory_quest.jpg": "/static/media/memory_quest.57ac1e69d7dc41ba8afb.jpg",
     "static/media/background.jpg": "/static/media/background.35b1a56564ac271f0e55.jpg",
@@ -71,12 +73,12 @@
     "static/media/defaultplace.png": "/static/media/defaultplace.2a622ca5655a58932099.png",
     "static/media/cursor.cur": "/static/media/cursor.2c46f5bc85e30429f077.cur",
     "index.html": "/index.html",
-    "main.85a7c245.css.map": "/static/css/main.85a7c245.css.map",
-    "main.c93746be.js.map": "/static/js/main.c93746be.js.map",
+    "main.6fa23c1d.css.map": "/static/css/main.6fa23c1d.css.map",
+    "main.9e775611.js.map": "/static/js/main.9e775611.js.map",
     "952.406e2d23.chunk.js.map": "/static/js/952.406e2d23.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.85a7c245.css",
-    "static/js/main.c93746be.js"
+    "static/css/main.6fa23c1d.css",
+    "static/js/main.9e775611.js"
   ]
 }
