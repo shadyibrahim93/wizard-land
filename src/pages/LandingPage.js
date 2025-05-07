@@ -161,7 +161,7 @@ export default function LandingPage({
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'VideoGame',
-            'name': `Wizard Land: The Magic Begins - June 1st, 2025`,
+            'name': `Wizard Land | The Magic Begins - June 1st, 2025`,
             'url': 'https://wizardland.net',
             'image': screenshots.map((s) => `https://wizardland.net${s.src}`),
             'author': {
@@ -220,7 +220,7 @@ export default function LandingPage({
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'WebPage',
-            'name': `Wizard Land: The Magic Begins - June 1st, 2025`,
+            'name': `Wizard Land | The Magic Begins - June 1st, 2025`,
             'url': typeof window !== 'undefined' ? window.location.href : '',
             'hasPart': [
               {

@@ -141,7 +141,7 @@ export default function Home() {
 
   return (
     <div className='mq-home'>
-      <Title>Wizard Land: Play Classic Board Games with Friends Online</Title>
+      <Title>Wizard Land | Play Classic Board Games with Friends Online</Title>
       <Meta
         name='description'
         content='Wizard Land offers classic online board games like Chess, Checkers, Orbito, Connect 4, Tic Tac Toe, and more! Play with friends and family in a magical online multiplayer environment.'
