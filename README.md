@@ -1,5 +1,5 @@
 🧙‍♂️ Wizards Land
-A fun and engaging wizard-themed website filled with magical games designed to entertain and captivate kids! With sparkling effects and enchanting challenges, this site makes learning and playtime a magical adventure.
+A fun and engaging wizard-themed website filled with magical games designed to entertain and captivate people of all ages! With sparkling effects and enchanting challenges, this site makes learning and playtime a magical adventure.
 
 ✨ Features
 
