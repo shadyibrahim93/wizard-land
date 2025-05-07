@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../apiService.js';
 import Footer from '../components/Footer.js';
+import SignUpModal from '../components/authModals/signUpModal.js';
+import Button from '../components/Button.js';
 /**
  * LandingPage component
  */
@@ -25,35 +27,35 @@ export default function LandingPage({
     },
     {
       src: '/assets/images/launch/5.png',
-      alt: 'Gameplay: Restart game'
+      alt: 'Gameplay: Connect4 Multiplayer'
     },
     {
       src: '/assets/images/launch/6.png',
-      alt: 'Gameplay: Restart game'
+      alt: 'Gameplay: Confirm room exist'
     },
     {
       src: '/assets/images/launch/7.png',
-      alt: 'Gameplay: Restart game'
+      alt: 'Home Screen showing leaderboard'
     },
     {
       src: '/assets/images/launch/8.png',
-      alt: 'Gameplay: Restart game'
+      alt: 'Shop: Purchase Board Pieces'
     },
     {
       src: '/assets/images/launch/9.png',
-      alt: 'Gameplay: Restart game'
+      alt: 'Shop: Purchase Board Themes'
     },
     {
       src: '/assets/images/launch/10.png',
-      alt: 'Gameplay: Restart game'
+      alt: 'Inventory: Board Pieces'
     },
     {
       src: '/assets/images/launch/11.png',
-      alt: 'Gameplay: Restart game'
+      alt: 'Gameplay: Room Creation and Joining'
     },
     {
       src: '/assets/images/launch/12.png',
-      alt: 'Gameplay: Restart game'
+      alt: 'Home Page: Mobile View'
     }
   ],
   facebookLink = 'https://www.facebook.com/people/Wizard-Land-Online-Board-Games/61575617324879/'
@@ -77,6 +79,7 @@ export default function LandingPage({
   const [countdownHours, setCountdownHours] = useState('');
   const [countdownMins, setCountdownMins] = useState('');
   const [countdownSeconds, setCountdownSeconds] = useState('');
+  const [showSignUpModal, setShowSignUpModal] = useState(false);
 
   // Calculate groups of 4 screenshots
   const groups = [];
@@ -300,8 +303,14 @@ export default function LandingPage({
               🔮 Climb our enchanted leaderboards for glory and rare artifacts.
               Ready your spells, gather your allies, and circle{' '}
               <strong>{launchDate}</strong> - your destiny in the ultimate
-              online board-game adventure awaits! ✨
+              online board-game adventure awaits! ✨ Sign up before June 1st,
+              2025, to receive exclusive in-game rewards and be the first to
+              know about our launch! 🧙‍♂️
             </p>
+            <Button
+              text='Sign Up Early for a Special Reward!'
+              onClick={() => setShowSignUpModal(true)}
+            />
           </div>
         </section>
         <section className='screenshot-grid'>
@@ -397,6 +406,10 @@ export default function LandingPage({
         </footer>
         <Footer />
       </div>
+      <SignUpModal
+        showSignUpModal={showSignUpModal}
+        onClose={() => setShowSignUpModal(false)}
+      />
     </>
   );
 }

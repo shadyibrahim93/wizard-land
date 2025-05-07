@@ -33,6 +33,28 @@
       }
     }
   }
+
+  button {
+    cursor: pointer;
+    background-color: $light-overlay;
+    border: none;
+    width: fit-content;
+    min-height: fit-content;
+    color: rgb(53 52 50 / 82%) !important;
+    text-transform: uppercase;
+    background: linear-gradient(45deg, #12d4b4, #ffef78);
+
+    .plus-icon {
+      color: rgb(53 52 50 / 82%) !important;
+      text-transform: uppercase;
+    }
+
+    &.active {
+      width: 10px;
+      height: 10px;
+      background: linear-gradient(45deg, $light-overlay, #ffef78);
+    }
+  }
 }
 
 .interested-button-container {
@@ -81,6 +103,7 @@
     @media (max-width: 768px) {
       font-size: small;
       width: fit-content;
+      height: auto;
       padding: 4px 8px;
     }
   }
@@ -278,6 +301,7 @@
   @media (max-width: 768px) {
     display: none;
   }
+
   button {
     cursor: pointer;
     border-radius: 50%;

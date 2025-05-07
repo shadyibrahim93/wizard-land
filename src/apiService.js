@@ -130,25 +130,41 @@ export async function signUp({ email, password, fullName }) {
     };
   }
 
-  // Insert default items into user_inventory
+  // Prepare base inventory items
+  const inventoryItems = [
+    {
+      id: crypto.randomUUID(),
+      user_id: userId,
+      item_id: '9a4243a1-1e76-4c7b-9a49-f1caaad9b2a2',
+      acquired_at: new Date().toISOString(),
+      is_active: true
+    },
+    {
+      id: crypto.randomUUID(),
+      user_id: userId,
+      item_id: '9f61795f-0f84-43c4-a5b6-d561f53f6616',
+      acquired_at: new Date().toISOString(),
+      is_active: false
+    }
+  ];
+
+  // Add bonus item if before June 1st 00:00:00
+  const now = new Date();
+  const cutoff = new Date('2025-06-01T00:00:00Z');
+  if (now < cutoff) {
+    inventoryItems.push({
+      id: crypto.randomUUID(),
+      user_id: userId,
+      item_id: '03d4bbe6-8fa6-4de0-ae65-8c9db5f8f9b8',
+      acquired_at: now.toISOString(),
+      is_active: false
+    });
+  }
+
+  // Insert into user_inventory
   const { error: inventoryError } = await supabase
     .from('user_inventory')
-    .insert([
-      {
-        id: crypto.randomUUID(),
-        user_id: userId,
-        item_id: '9a4243a1-1e76-4c7b-9a49-f1caaad9b2a2',
-        acquired_at: new Date().toISOString(),
-        is_active: true
-      },
-      {
-        id: crypto.randomUUID(),
-        user_id: userId,
-        item_id: '9f61795f-0f84-43c4-a5b6-d561f53f6616',
-        acquired_at: new Date().toISOString(),
-        is_active: false
-      }
-    ]);
+    .insert(inventoryItems);
 
   if (inventoryError) {
     console.error('Inventory insert error:', inventoryError.message);
