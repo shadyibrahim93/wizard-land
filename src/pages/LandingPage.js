@@ -3,6 +3,8 @@ import { supabase } from '../apiService.js';
 import Footer from '../components/Footer.js';
 import SignUpModal from '../components/authModals/signUpModal.js';
 import Button from '../components/Button.js';
+import { Title, Meta } from 'react-head';
+
 /**
  * LandingPage component
  */
@@ -123,6 +125,39 @@ export default function LandingPage({
 
   return (
     <>
+      <Title>Wizard Land | The Magic Begins - June 1st, 2025</Title>
+      <Meta
+        name='description'
+        content='Online multiplayer gaming platform offering a captivating collection of board games, where players unleash their strategy and personalize their boards and pieces to reflect their unique style and preferences.'
+      />
+      <Meta
+        property='og:url'
+        content={window.location.origin}
+      />
+      <Meta
+        property='og:type'
+        content='website'
+      />
+      <Meta
+        property='og:title'
+        content='Wizard Land | The Magic Begins - June 1st, 2025'
+      />
+      <Meta
+        property='og:description'
+        content='Online multiplayer platform offering a captivating collection of board games, where players unleash their strategy and personalize their boards and pieces to reflect their unique style and preferences.'
+      />
+      <Meta
+        name='twitter:card'
+        content='summary_large_image'
+      />
+      <Meta
+        name='twitter:title'
+        content='Wizard Land | The Magic Begins - June 1st, 2025'
+      />
+      <Meta
+        name='twitter:description'
+        content='Online multiplayer platform offering a captivating collection of board games, where players unleash their strategy and personalize their boards and pieces to reflect their unique style and preferences.'
+      />
       {/* VideoGame Schema */}
       <script
         type='application/ld+json'
