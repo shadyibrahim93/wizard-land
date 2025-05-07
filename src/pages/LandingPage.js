@@ -8,58 +8,27 @@ import Button from '../components/Button.js';
  */
 export default function LandingPage({
   launchDate = '06/01/2025',
-  screenshots = [
-    {
-      src: '/assets/images/launch/1.png',
-      alt: 'Home screen with game selection'
-    },
-    {
-      src: '/assets/images/launch/2.png',
-      alt: 'Gameplay: Tic Tac Toe Multiplayer'
-    },
-    {
-      src: '/assets/images/launch/3.png',
-      alt: 'Gameplay: Winning animation'
-    },
-    {
-      src: '/assets/images/launch/4.png',
-      alt: 'Gameplay: Restart game'
-    },
-    {
-      src: '/assets/images/launch/5.png',
-      alt: 'Gameplay: Connect4 Multiplayer'
-    },
-    {
-      src: '/assets/images/launch/6.png',
-      alt: 'Gameplay: Confirm room exist'
-    },
-    {
-      src: '/assets/images/launch/7.png',
-      alt: 'Home Screen showing leaderboard'
-    },
-    {
-      src: '/assets/images/launch/8.png',
-      alt: 'Shop: Purchase Board Pieces'
-    },
-    {
-      src: '/assets/images/launch/9.png',
-      alt: 'Shop: Purchase Board Themes'
-    },
-    {
-      src: '/assets/images/launch/10.png',
-      alt: 'Inventory: Board Pieces'
-    },
-    {
-      src: '/assets/images/launch/11.png',
-      alt: 'Gameplay: Room Creation and Joining'
-    },
-    {
-      src: '/assets/images/launch/12.png',
-      alt: 'Home Page: Mobile View'
-    }
+  screenshotCount = 12,
+  screenshotAlts = [
+    'Home screen with game selection',
+    'Gameplay: Tic Tac Toe Multiplayer',
+    'Gameplay: Winning animation',
+    'Gameplay: Restart game',
+    'Gameplay: Connect4 Multiplayer',
+    'Gameplay: Confirm room exist',
+    'Home Screen showing leaderboard',
+    'Shop: Purchase Board Pieces',
+    'Shop: Purchase Board Themes',
+    'Inventory: Board Pieces',
+    'Gameplay: Room Creation and Joining',
+    'Home Page: Mobile View'
   ],
   facebookLink = 'https://www.facebook.com/people/Wizard-Land-Online-Board-Games/61575617324879/'
 }) {
+  const screenshots = Array.from({ length: screenshotCount }, (_, i) => ({
+    src: `/assets/images/launch/${i + 1}.webp`,
+    alt: screenshotAlts[i] ?? `Launch screenshot ${i + 1}`
+  }));
   const [currentIdx, setCurrentIdx] = useState(-1);
   const [activeGroup, setActiveGroup] = useState(0);
   const openModal = (idx) => setCurrentIdx(idx);
@@ -314,38 +283,30 @@ export default function LandingPage({
           </div>
         </section>
         <section className='screenshot-grid'>
-          {groups.map((group, idx) => (
-            <React.Fragment key={idx}>
-              {idx === activeGroup && (
-                <>
-                  {group.map((shot, i) => {
-                    const globalIdx = idx * 4 + i;
-                    return (
-                      <div
-                        key={globalIdx}
-                        className='screenshot-card'
-                        onClick={() => openModal(globalIdx)}
-                      >
-                        <div className='frame-glow'>
-                          <img
-                            src={shot.src}
-                            alt={shot.alt}
-                            className='screenshot-thumb'
-                            loading='lazy'
-                          />
-                        </div>
-                        <div className='rune-overlay'>
-                          <span>ᛞ</span>
-                          <span>ᚦ</span>
-                          <span>ᛟ</span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </>
-              )}
-            </React.Fragment>
-          ))}
+          {groups[activeGroup].map((shot, i) => {
+            const globalIdx = activeGroup * 4 + i;
+            return (
+              <div
+                key={globalIdx}
+                className='screenshot-card'
+                onClick={() => openModal(globalIdx)}
+              >
+                <div className='frame-glow'>
+                  <img
+                    src={shot.src}
+                    alt={shot.alt}
+                    className='screenshot-thumb'
+                    loading='lazy'
+                  />
+                </div>
+                <div className='rune-overlay'>
+                  <span>ᛞ</span>
+                  <span>ᚦ</span>
+                  <span>ᛟ</span>
+                </div>
+              </div>
+            );
+          })}
         </section>
         <div className='carousel-dots'>
           {groups.map((_, idx) => (
