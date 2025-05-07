@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { signUp } from '../../apiService';
 import Button from '../Button';
+import PrivacyPolicy from '../privacypolicy.js';
+import TermsOfUse from '../termsofuse.js';
+import { Link } from 'react-router-dom';
 
 export default function SignUpModal({
   showSignUpModal,
@@ -12,6 +15,8 @@ export default function SignUpModal({
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
+  const [showTermsOfUse, setShowTermsOfUse] = useState(false);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -102,6 +107,25 @@ export default function SignUpModal({
                     {message.text}
                   </div>
                 )}
+                <p class='signup-disclaimer'>
+                  By signing up, you agree to our{' '}
+                  <Link
+                    onClick={() => {
+                      setShowTermsOfUse(true);
+                    }}
+                  >
+                    Terms of Use{' '}
+                  </Link>
+                  and acknowledge our{' '}
+                  <Link
+                    onClick={() => {
+                      setShowPrivacyPolicy(true);
+                    }}
+                  >
+                    Privacy Policy
+                  </Link>
+                  .
+                </p>
                 <Button
                   type='submit'
                   text={loading ? 'Signing up...' : 'Sign Up'}
@@ -113,6 +137,18 @@ export default function SignUpModal({
           </div>
         </div>
       </div>
+      {showPrivacyPolicy && (
+        <PrivacyPolicy
+          showPrivacyPolicy={showPrivacyPolicy}
+          onClose={() => setShowPrivacyPolicy(false)}
+        />
+      )}
+      {showTermsOfUse && (
+        <TermsOfUse
+          showTermsOfUse={showTermsOfUse}
+          onClose={() => setShowTermsOfUse(false)}
+        />
+      )}
     </>
   );
 }

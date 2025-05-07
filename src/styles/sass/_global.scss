@@ -1097,6 +1097,18 @@ body {
         flex-direction: column;
         row-gap: 36px;
 
+        .signup-disclaimer {
+          text-align: left;
+        }
+
+        .#{$identifier}-terms-text {
+          margin: 0px;
+
+          strong {
+            color: $secondary-color;
+          }
+        }
+
         .#{$identifier}-about-content {
           display: flex;
           flex-direction: row;
