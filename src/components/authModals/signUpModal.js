@@ -57,7 +57,7 @@ export default function SignUpModal({
       if (result && result.success) {
         setMessage({
           type: 'success',
-          text: 'Signup successful! Please check your email to confirm your account.'
+          text: 'Signup successful! No email verification needed — enjoy your experience!'
         });
         setEmail('');
         setFullName('');
