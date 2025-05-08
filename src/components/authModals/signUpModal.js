@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { signUp } from '../../apiService';
 import Button from '../Button';
 import PrivacyPolicy from '../privacypolicy.js';
@@ -17,6 +17,33 @@ export default function SignUpModal({
   const [message, setMessage] = useState(null);
   const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
   const [showTermsOfUse, setShowTermsOfUse] = useState(false);
+  const [token, setToken] = useState('');
+
+  const widgetRef = useRef(null);
+
+  useEffect(() => {
+    if (!showSignUpModal) return;
+
+    const onTurnstileCallback = () => {
+      if (widgetRef.current && widgetRef.current.childNodes.length === 0) {
+        window.turnstile.render(widgetRef.current, {
+          sitekey: '0x4AAAAAABbXDRlf7XHHdt4W',
+          callback: (token) => setToken(token)
+        });
+      }
+    };
+
+    if (!window.turnstile) {
+      const script = document.createElement('script');
+      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+      script.async = true;
+      script.defer = true;
+      script.onload = onTurnstileCallback;
+      document.body.appendChild(script);
+    } else {
+      onTurnstileCallback();
+    }
+  }, [showSignUpModal]);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -35,8 +62,13 @@ export default function SignUpModal({
         setEmail('');
         setFullName('');
         setPassword('');
-        onClose(); // Only close the modal if signUp was successful
-        onSignUpSuccess(); // Show the About modal after successful signup
+        if (typeof onClose === 'function') {
+          setTimeout(() => {
+            onClose();
+            setMessage({ type: '', text: '' });
+          }, 4000);
+        }
+        if (typeof onSignUpSuccess === 'function') onSignUpSuccess();
       } else {
         throw new Error(result.error || 'Something went wrong during signup.');
       }
@@ -126,6 +158,10 @@ export default function SignUpModal({
                   </Link>
                   .
                 </p>
+                <div
+                  ref={widgetRef}
+                  className='captcha-widget'
+                />
                 <Button
                   type='submit'
                   text={loading ? 'Signing up...' : 'Sign Up'}
