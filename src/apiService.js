@@ -34,7 +34,6 @@ export async function getMemorySequence(level) {
     .from('sequence')
     .select('*')
     .eq('level', level);
-  console.log(data);
 
   if (error) {
     console.error('Error fetching sequence data:', error);
@@ -48,7 +47,6 @@ export async function getScrambleWords(level) {
     .from('scramble_words')
     .select('*')
     .eq('level', level);
-  console.log(data);
 
   if (error) {
     console.error('Error fetching scramble data:', error);
@@ -190,7 +188,6 @@ export async function signUp({ email, password, fullName }) {
     };
   }
 
-  console.log('User fully registered: profile, inventory, wallet created!');
   return { success: true };
 }
 
@@ -533,12 +530,6 @@ export async function joinRoom(roomId, userId, password = '') {
   const enteredPassword = String(password || '');
 
   if (roomData.password && storedPassword !== enteredPassword) {
-    console.log('Mismatch:', {
-      stored: storedPassword,
-      entered: enteredPassword,
-      typeStored: typeof storedPassword,
-      typeEntered: typeof enteredPassword
-    });
     throw new Error('Incorrect password');
   }
 
