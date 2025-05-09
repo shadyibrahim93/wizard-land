@@ -1,0 +1,443 @@
+@use '../variables' as *;
+
+.#{$identifier}-user-greeting {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  color: $white;
+  font-size: 14px;
+
+  &:has(.sign-up) {
+    .#{$identifier}-link {
+      .#{$identifier}-user-name {
+        padding: 8px 16px;
+      }
+    }
+  }
+
+  .#{$identifier}-user-container {
+    margin-top: 6px;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    @media (max-width: 768px) {
+      justify-content: flex-end;
+      align-items: stretch;
+      width: 100%;
+    }
+
+    &:has(.mq-user-progress--contact) {
+      justify-content: space-between;
+      > div {
+        max-height: 34px;
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+      }
+    }
+    img {
+      top: -6px;
+      left: -18px;
+      position: absolute;
+      width: 50px;
+      height: auto;
+      cursor: pointer;
+      z-index: 2;
+
+      @media (max-width: 768px) {
+        top: -2px;
+        width: 39px;
+        left: -18px;
+      }
+    }
+    .#{$identifier}-user-sign {
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
+      a {
+        cursor: pointer;
+        font-size: 16px;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+        color: $white;
+        svg {
+          font-size: 21px;
+          color: $secondary-color;
+        }
+
+        &:hover {
+          text-shadow: 0px 0px 10px $white;
+          animation: glowingRed 3s infinite alternate;
+        }
+      }
+    }
+
+    .#{$identifier}-user-progress--contact {
+      background-color: $light-overlay;
+      border-radius: 10px;
+      margin-top: 0px;
+      margin-left: 13px;
+      color: $white;
+      display: none;
+
+      @media (max-width: 768px) {
+        display: flex;
+      }
+
+      &:has(a) {
+        padding: 0px;
+        background-color: transparent;
+      }
+
+      a {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        background-color: $light-overlay;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        text-decoration: none;
+        color: $white;
+        transform: translateZ(0);
+        padding: 0px 10px 0px 24px;
+        height: 100%;
+
+        img {
+          position: relative;
+          left: 0;
+          top: 0;
+          width: 28px; /* Make image fill 100% of the a tag */
+          height: auto;
+          object-fit: cover; /* Ensure the image covers the area without stretching */
+          margin: 0;
+        }
+
+        &:active {
+          text-decoration: none;
+          color: $white;
+        }
+
+        &:hover {
+          background-color: $secondary-color;
+          transform: scale(1.05);
+          animation: ninjaSlash 0.3s ease-out;
+          cursor: pointer;
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: -100%;
+          width: 150%;
+          height: 3px;
+          background: linear-gradient(
+            to right,
+            transparent,
+            white,
+            transparent
+          );
+          transform: rotate(10deg);
+          transition: left 0.4s ease-out;
+        }
+
+        &:hover::after {
+          left: 100%;
+        }
+      }
+    }
+
+    .#{$identifier}-user-name {
+      background-color: $light-overlay;
+      padding: 4px 16px 4px 36px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+
+      &:not(:has(img)) {
+        padding: 4px 10px 4px 12px;
+      }
+
+      @media (max-width: 768px) {
+        width: fit-content;
+        padding: 4px 10px 4px 28px;
+        font-size: small;
+      }
+
+      span {
+        background-color: $dark-overlay;
+        padding: 4px 12px;
+        margin-right: 12px;
+        border-radius: 10px;
+        color: $white;
+        text-align: center;
+      }
+    }
+  }
+  .#{$identifier}-user-progress {
+    display: flex;
+    flex-direction: row;
+    column-gap: 30px;
+
+    &--exp,
+    &--star,
+    &--euro,
+    &--contact {
+      background-color: $light-overlay;
+      padding: 4px 6px 4px 8px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    .#{$identifier}-user-progress--contact {
+      background-color: $light-overlay;
+      padding: 6px 6px 6px 35px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      font-size: large;
+      color: $white;
+
+      @media (max-width: 768px) {
+        display: none;
+      }
+
+      a {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        background-color: $dark-overlay;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        text-decoration: none;
+        color: $white;
+        transform: translateZ(0);
+        height: 100%;
+        width: 100%;
+        font-size: small;
+        padding: 0px 12px;
+        line-height: 2;
+
+        &:active {
+          text-decoration: none;
+          color: $white;
+        }
+
+        &:hover {
+          background-color: $secondary-color;
+          transform: scale(1.05);
+          animation: ninjaSlash 0.3s ease-out;
+          cursor: pointer;
+        }
+      }
+    }
+
+    &--exp {
+      margin-left: 15px;
+      padding-left: 35px;
+      .#{$identifier}-user {
+        &-icon {
+          img {
+            left: -24px;
+            width: 47px;
+            top: 0;
+            height: auto;
+          }
+        }
+      }
+    }
+
+    &--euro {
+      margin-left: 15px;
+      padding-left: 45px;
+      .#{$identifier}-user {
+        &-icon {
+          img {
+            left: -21px;
+            width: 50px;
+            top: 0;
+            height: auto;
+          }
+        }
+      }
+    }
+
+    &--star {
+      margin-left: 15px;
+      padding-left: 45px;
+      .#{$identifier}-user {
+        &-icon {
+          img {
+            left: -17px;
+            width: 48px;
+            top: 0;
+            height: auto;
+          }
+        }
+      }
+    }
+
+    &--contact {
+      margin-left: 15px;
+      padding-left: 45px;
+      .#{$identifier}-user {
+        &-icon {
+          img {
+            top: 0px;
+            left: -23px;
+            width: 50px;
+            height: auto;
+          }
+        }
+      }
+    }
+
+    .#{$identifier}-user {
+      &-icon {
+        img {
+          position: absolute;
+        }
+      }
+      &-amount {
+        background-color: $dark-overlay;
+        padding: 2px 12px;
+        border-radius: 10px;
+        text-align: center;
+        width: 100%;
+        letter-spacing: 1px;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+      &-add {
+        margin: 0;
+        padding: 4px 0px;
+        margin-left: 12px;
+        background-color: $secondary-color;
+        text-align: center;
+        width: 60px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .#{$identifier}-user-greeting {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 21px;
+
+    &:has(.sign-up) {
+      margin-bottom: 0px;
+      align-items: flex-end;
+      .#{$identifier}-user-name {
+        width: auto;
+        margin: 0px;
+        padding: 6px 12px 6px 14px;
+        text-align: center;
+        letter-spacing: normal;
+
+        a {
+          font-size: small;
+          padding: 0;
+        }
+      }
+    }
+
+    .#{$identifier}-user-sign {
+      width: 100%;
+      justify-content: space-between;
+
+      a {
+        font-size: small;
+      }
+      font a {
+        font-size: 14px;
+        svg {
+          font-size: 18px;
+        }
+      }
+    }
+
+    .#{$identifier}-user-name {
+      width: calc(100% - 24px);
+      font-size: 16px;
+      flex-wrap: wrap;
+      padding: 6px 12px;
+      margin: 0px;
+
+      span {
+        font-size: 14px;
+        margin-right: 8px;
+        padding: 4px 10px;
+      }
+    }
+
+    .#{$identifier}-user-progress {
+      width: 100%;
+      flex-wrap: nowrap;
+      row-gap: 10px;
+      column-gap: 16px;
+      margin: 0px;
+      justify-content: space-between;
+
+      &--exp,
+      &--star,
+      &--euro {
+        flex: 1 1 fit-content;
+        padding: 0px;
+        margin-left: 0px;
+        background-color: transparent;
+      }
+
+      &--exp .#{$identifier}-user-icon img,
+      &--euro .#{$identifier}-user-icon img,
+      &--star .#{$identifier}-user-icon img {
+        width: 37px;
+        top: 0px;
+        left: -5px;
+        height: auto;
+      }
+
+      .#{$identifier}-user {
+        &-amount {
+          font-size: small;
+          padding: 6px 10px 6px 36px;
+          width: 100%;
+          overflow-x: auto;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: auto;
+        }
+
+        &-add {
+          padding: 4px 10px;
+          margin-left: 8px;
+          width: 30px;
+          height: auto;
+        }
+      }
+    }
+  }
+}

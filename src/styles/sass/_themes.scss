@@ -1,0 +1,1537 @@
+@use 'variables' as *;
+@mixin themes {
+  &.#{$identifier}-snow {
+    animation: glowSnow 1s infinite alternate;
+
+    @keyframes glowSnow {
+      0% {
+        box-shadow: 0px 0px 2px rgba(255, 250, 250, 0.3),
+          0px 0px 5px rgba(240, 248, 255, 0.4),
+          0px 0px 10px rgba(255, 250, 250, 0.3);
+      }
+      100% {
+        box-shadow: 0px 0px 4px rgba(255, 250, 250, 0.4),
+          0px 0px 10px rgba(240, 248, 255, 0.4),
+          0px 0px 15px rgba(255, 250, 250, 0.3);
+      }
+    }
+  }
+
+  &.#{$identifier}-fire {
+    animation: glowFire 1.5s infinite alternate;
+
+    @keyframes glowFire {
+      0% {
+        box-shadow: 0px 0px 8px rgba(255, 69, 0, 0.3),
+          0px 0px 15px rgba(255, 140, 0, 0.4),
+          0px 0px 25px rgba(255, 165, 0, 0.3);
+      }
+      100% {
+        box-shadow: 0px 0px 12px rgba(255, 69, 0, 0.4),
+          0px 0px 20px rgba(255, 140, 0, 0.4),
+          0px 0px 30px rgba(255, 165, 0, 0.3);
+      }
+    }
+  }
+
+  &.#{$identifier}-ice {
+    animation: glowIce 1.5s infinite alternate;
+
+    @keyframes glowIce {
+      0% {
+        box-shadow: 0px 0px 8px rgba(0, 191, 255, 0.3),
+          0px 0px 15px rgba(135, 206, 250, 0.4),
+          0px 0px 25px rgba(175, 238, 238, 0.3);
+      }
+      100% {
+        box-shadow: 0px 0px 12px rgba(0, 191, 255, 0.4),
+          0px 0px 20px rgba(135, 206, 250, 0.4),
+          0px 0px 30px rgba(175, 238, 238, 0.3);
+      }
+    }
+  }
+
+  &.#{$identifier}-forest {
+    animation: glowForest 1.5s infinite alternate;
+
+    @keyframes glowForest {
+      0% {
+        box-shadow: 0px 0px 8px rgba(0, 255, 34, 0.4),
+          0px 0px 15px rgba(145, 140, 0, 0.4),
+          0px 0px 25px rgba(145, 165, 0, 0.3);
+      }
+      100% {
+        box-shadow: 0px 0px 12px rgba(0, 255, 34, 0.4),
+          0px 0px 20px rgba(145, 140, 0, 0.4),
+          0px 0px 30px rgba(145, 165, 0, 0.3);
+      }
+    }
+  }
+
+  &.#{$identifier}-ruby {
+    animation: glowRuby 1.5s infinite alternate;
+
+    @keyframes glowRuby {
+      0% {
+        box-shadow: 0px 0px 8px rgba(255, 0, 0, 0.3),
+          0px 0px 15px rgba(194, 4, 4, 0.4), 0px 0px 25px rgba(168, 5, 5, 0.3);
+      }
+      100% {
+        box-shadow: 0px 0px 12px rgba(255, 0, 0, 0.3),
+          0px 0px 20px rgba(194, 4, 4, 0.4), 0px 0px 30px rgba(168, 5, 5, 0.3);
+      }
+    }
+  }
+
+  &.#{$identifier}-sky {
+    animation: glowSky 1.5s infinite alternate;
+
+    @keyframes glowSky {
+      0% {
+        box-shadow: 0px 0px 8px rgba(135, 206, 250, 0.3),
+          0px 0px 15px rgba(70, 130, 180, 0.4),
+          0px 0px 25px rgba(30, 144, 255, 0.3);
+      }
+      100% {
+        box-shadow: 0px 0px 12px rgba(135, 206, 250, 0.4),
+          0px 0px 20px rgba(70, 130, 180, 0.5),
+          0px 0px 30px rgba(30, 144, 255, 0.4);
+      }
+    }
+  }
+
+  &.#{$identifier}-daisy {
+    animation: glowDaisy 1.5s infinite alternate;
+
+    @keyframes glowDaisy {
+      0% {
+        box-shadow: 0px 0px 8px rgba(255, 255, 153, 0.3),
+          0px 0px 15px rgba(255, 239, 84, 0.4),
+          0px 0px 25px rgba(250, 218, 94, 0.3);
+      }
+      100% {
+        box-shadow: 0px 0px 12px rgba(255, 255, 153, 0.4),
+          0px 0px 20px rgba(255, 239, 84, 0.5),
+          0px 0px 30px rgba(250, 218, 94, 0.4);
+      }
+    }
+  }
+
+  &.#{$identifier}-barbie {
+    animation: glowBarbie 1.5s infinite alternate;
+
+    @keyframes glowBarbie {
+      0% {
+        box-shadow: 0px 0px 8px rgba(255, 105, 180, 0.4),
+          0px 0px 15px rgba(255, 182, 193, 0.5),
+          0px 0px 25px rgba(255, 192, 203, 0.3);
+      }
+      100% {
+        box-shadow: 0px 0px 12px rgba(255, 105, 180, 0.5),
+          0px 0px 20px rgba(255, 182, 193, 0.6),
+          0px 0px 30px rgba(255, 192, 203, 0.4);
+      }
+    }
+  }
+
+  &.#{$identifier}-grape {
+    animation: glowGrape 1.5s infinite alternate;
+
+    @keyframes glowGrape {
+      0% {
+        box-shadow: 0px 0px 8px rgba(138, 43, 226, 0.3),
+          0px 0px 15px rgba(148, 0, 211, 0.4),
+          0px 0px 25px rgba(186, 85, 211, 0.3);
+      }
+      100% {
+        box-shadow: 0px 0px 12px rgba(138, 43, 226, 0.4),
+          0px 0px 20px rgba(148, 0, 211, 0.5),
+          0px 0px 30px rgba(186, 85, 211, 0.4);
+      }
+    }
+  }
+
+  &.#{$identifier}-gum {
+    animation: glowBubblegum 1.5s infinite alternate;
+
+    @keyframes glowBubblegum {
+      0% {
+        box-shadow: 0px 0px 8px rgba(255, 182, 193, 0.3),
+          0px 0px 15px rgba(255, 105, 180, 0.4),
+          0px 0px 25px rgba(221, 160, 221, 0.3);
+      }
+      100% {
+        box-shadow: 0px 0px 12px rgba(255, 182, 193, 0.4),
+          0px 0px 20px rgba(255, 105, 180, 0.5),
+          0px 0px 30px rgba(221, 160, 221, 0.4);
+      }
+    }
+  }
+
+  &.#{$identifier}-emerald {
+    animation: glowEmerald 1.5s infinite alternate;
+
+    @keyframes glowEmerald {
+      0% {
+        box-shadow: 0px 0px 8px rgba(80, 200, 120, 0.3),
+          0px 0px 15px rgba(0, 128, 0, 0.4), 0px 0px 25px rgba(46, 139, 87, 0.3);
+      }
+      100% {
+        box-shadow: 0px 0px 12px rgba(80, 200, 120, 0.4),
+          0px 0px 20px rgba(0, 128, 0, 0.5), 0px 0px 30px rgba(46, 139, 87, 0.4);
+      }
+    }
+  }
+
+  &.#{$identifier}-rainbow {
+    animation: glowRainbowRadiance 6s infinite alternate;
+
+    @keyframes glowRainbowRadiance {
+      0% {
+        box-shadow: 0 0 20px rgba(255, 50, 50, 0.9),
+          0 0 40px rgba(255, 50, 50, 0.6), 0 0 60px rgba(255, 50, 50, 0.4); // Bright Red - Sacrifice
+      }
+      16% {
+        box-shadow: 0 0 20px rgba(80, 150, 255, 0.9),
+          0 0 40px rgba(80, 150, 255, 0.6), 0 0 60px rgba(80, 150, 255, 0.4); // Sky Blue - Divinity
+      }
+      32% {
+        box-shadow: 0 0 20px rgba(50, 255, 50, 0.9),
+          0 0 40px rgba(50, 255, 50, 0.6), 0 0 60px rgba(50, 255, 50, 0.4); // Bright Green - Life
+      }
+      48% {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 1),
+          0 0 40px rgba(255, 255, 255, 0.8), 0 0 60px rgba(255, 255, 255, 0.5); // Bright White - Purity
+      }
+      64% {
+        box-shadow: 0 0 20px rgba(190, 90, 255, 0.9),
+          0 0 40px rgba(190, 90, 255, 0.6), 0 0 60px rgba(190, 90, 255, 0.4); // Vivid Purple - Royalty
+      }
+      80% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.95),
+          0 0 40px rgba(255, 215, 0, 0.7), 0 0 60px rgba(255, 215, 0, 0.5); // Bright Gold - Glory
+      }
+      100% {
+        box-shadow: 0 0 20px rgba(255, 50, 50, 0.9),
+          0 0 40px rgba(255, 50, 50, 0.6), 0 0 60px rgba(255, 50, 50, 0.4); // Loop back to Red
+      }
+    }
+  }
+
+  &.#{$identifier}-ninja {
+    animation: glowNinjaRadiance 6s infinite linear;
+
+    @keyframes glowNinjaRadiance {
+      0% {
+        box-shadow: 0 -7px 7px rgba(255, 69, 0, 0.6); // Top
+      }
+      2.5% {
+        box-shadow: 1px -7px 7px rgba(255, 69, 0, 0.5); // Slightly top-right
+      }
+      5% {
+        box-shadow: 2px -7px 7px rgba(255, 69, 0, 0.5); // Top-right (angle)
+      }
+      7.5% {
+        box-shadow: 4px -6px 7px rgba(255, 69, 0, 0.5); // Top-right
+      }
+      10% {
+        box-shadow: 6px -5px 7px rgba(255, 69, 0, 0.5); // Moving closer to the right
+      }
+      12.5% {
+        box-shadow: 7px -4px 7px rgba(255, 69, 0, 0.4); // Nearing the right side
+      }
+      15% {
+        box-shadow: 7px 0 7px rgba(255, 69, 0, 0.4); // Right
+      }
+      17.5% {
+        box-shadow: 6px 3px 7px rgba(255, 69, 0, 0.5); // Bottom-right angle
+      }
+      20% {
+        box-shadow: 5px 5px 7px rgba(255, 69, 0, 0.5); // Bottom-right
+      }
+      22.5% {
+        box-shadow: 3px 6px 7px rgba(255, 69, 0, 0.5); // Moving closer to the bottom
+      }
+      25% {
+        box-shadow: 0 7px 7px rgba(255, 69, 0, 0.6); // Bottom
+      }
+      27.5% {
+        box-shadow: -3px 6px 7px rgba(255, 69, 0, 0.6); // Bottom-left angle
+      }
+      30% {
+        box-shadow: -5px 5px 7px rgba(255, 69, 0, 0.6); // Bottom-left
+      }
+      32.5% {
+        box-shadow: -6px 3px 7px rgba(255, 69, 0, 0.5); // Moving closer to the left
+      }
+      35% {
+        box-shadow: -7px 0 7px rgba(255, 69, 0, 0.5); // Left
+      }
+      37.5% {
+        box-shadow: -7px -3px 7px rgba(255, 69, 0, 0.5); // Top-left angle
+      }
+      40% {
+        box-shadow: -6px -5px 7px rgba(255, 69, 0, 0.5); // Top-left
+      }
+      42.5% {
+        box-shadow: -5px -6px 7px rgba(255, 69, 0, 0.5); // Moving closer to the top
+      }
+      45% {
+        box-shadow: 0 -7px 7px rgba(255, 69, 0, 0.6); // Back to top
+      }
+      47.5% {
+        box-shadow: 1px -7px 7px rgba(255, 69, 0, 0.5); // Slightly top-right
+      }
+      50% {
+        box-shadow: 3px -7px 7px rgba(255, 69, 0, 0.5); // Top-right angle
+      }
+      52.5% {
+        box-shadow: 5px -6px 7px rgba(255, 69, 0, 0.5); // Top-right
+      }
+      55% {
+        box-shadow: 6px -5px 7px rgba(255, 69, 0, 0.5); // Right angle
+      }
+      57.5% {
+        box-shadow: 7px -3px 7px rgba(255, 69, 0, 0.4); // Nearing the right side
+      }
+      60% {
+        box-shadow: 7px 0 7px rgba(255, 69, 0, 0.4); // Right
+      }
+      62.5% {
+        box-shadow: 6px 3px 7px rgba(255, 69, 0, 0.5); // Bottom-right angle
+      }
+      65% {
+        box-shadow: 5px 5px 7px rgba(255, 69, 0, 0.5); // Bottom-right
+      }
+      67.5% {
+        box-shadow: 3px 6px 7px rgba(255, 69, 0, 0.5); // Moving closer to the bottom
+      }
+      70% {
+        box-shadow: 0 7px 7px rgba(255, 69, 0, 0.6); // Bottom
+      }
+      72.5% {
+        box-shadow: -3px 6px 7px rgba(255, 69, 0, 0.6); // Bottom-left angle
+      }
+      75% {
+        box-shadow: -5px 5px 7px rgba(255, 69, 0, 0.6); // Bottom-left
+      }
+      77.5% {
+        box-shadow: -6px 3px 7px rgba(255, 69, 0, 0.5); // Moving closer to the left
+      }
+      80% {
+        box-shadow: -7px 0 7px rgba(255, 69, 0, 0.5); // Left
+      }
+      82.5% {
+        box-shadow: -7px -3px 7px rgba(255, 69, 0, 0.5); // Top-left angle
+      }
+      85% {
+        box-shadow: -6px -5px 7px rgba(255, 69, 0, 0.5); // Top-left
+      }
+      87.5% {
+        box-shadow: -5px -6px 7px rgba(255, 69, 0, 0.5); // Moving closer to the top
+      }
+      90% {
+        box-shadow: -3px -7px 7px rgba(255, 69, 0, 0.5); // Near top-left
+      }
+      92.5% {
+        box-shadow: -2px -7px 7px rgba(255, 69, 0, 0.6); // Back to top
+      }
+      95% {
+        box-shadow: -1px -7px 7px rgba(255, 69, 0, 0.5); // Top-right again
+      }
+      97.5% {
+        box-shadow: -0.5px -7px 7px rgba(255, 69, 0, 0.5); // Loop continues
+      }
+      100% {
+        box-shadow: 0px -7px 7px rgba(255, 69, 0, 0.6); // Full loop back to Top
+      }
+    }
+  }
+
+  &.#{$identifier}-christmas {
+    position: relative;
+    background: radial-gradient(circle at center, #e63946 0%, #1d3557 100%);
+    color: #fff;
+    border-radius: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.4), 0 0 60px rgba(255, 255, 255, 0.1);
+    animation: pulseGlow 4s ease-in-out infinite;
+
+    // Falling translucent snowflakes ❄️
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.9) 1px,
+          transparent 1px
+        ),
+        radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.6) 1.5px,
+          transparent 1.5px
+        ),
+        radial-gradient(circle, rgba(255, 255, 255, 0.8) 1px, transparent 1px),
+        radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.7) 1.2px,
+          transparent 1.2px
+        );
+      background-size: 6vw 6vh, 8vw 8vh, 10vw 10vh, 12vw 12vh;
+      animation: snowDrift 30s infinite linear;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.9;
+    }
+
+    // Subtle sparkles and twinkle ✨
+    &::after {
+      content: '⛄️';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      font-size: 2rem;
+      filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.7));
+      animation: floatSnowman 6s ease-in-out infinite;
+      z-index: 11;
+      pointer-events: none;
+    }
+
+    @keyframes snowDrift {
+      0% {
+        transform: translateY(-10%) translateX(0);
+      }
+      25% {
+        transform: translateY(25%) translateX(1vw);
+      }
+      50% {
+        transform: translateY(50%) translateX(-1vw);
+      }
+      75% {
+        transform: translateY(75%) translateX(1vw);
+      }
+      100% {
+        transform: translateY(100%) translateX(-1vw);
+      }
+    }
+
+    @keyframes pulseGlow {
+      0%,
+      100% {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.1),
+          0 0 40px rgba(255, 0, 0, 0.2), 0 0 80px rgba(0, 255, 0, 0.2);
+      }
+      50% {
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.3),
+          0 0 60px rgba(0, 255, 0, 0.3), 0 0 100px rgba(255, 0, 0, 0.3);
+      }
+    }
+
+    @keyframes snowFall {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-66.66%);
+      }
+    }
+
+    @keyframes floatSnowman {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+
+    @keyframes shimmerGlow {
+      0% {
+        transform: rotate(0deg) scale(1);
+        opacity: 0.3;
+      }
+      100% {
+        transform: rotate(360deg) scale(1.2);
+        opacity: 0.6;
+      }
+    }
+  }
+
+  &.#{$identifier}-space {
+    position: relative;
+    background: linear-gradient(135deg, #1e002a, #3a0ca3);
+    color: #ffffff;
+    border-radius: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(138, 43, 226, 0.3),
+      0 0 60px rgba(72, 61, 139, 0.4);
+    animation: galaxyPulse 5s ease-in-out infinite;
+
+    // Star field ✨
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(white 1px, transparent 1px),
+        radial-gradient(#aaaaff 1px, transparent 1px),
+        radial-gradient(#ffffff 1.2px, transparent 1.2px),
+        radial-gradient(#bbbbff 0.8px, transparent 0.8px);
+      background-size: 10vw 10vh, 12vw 12vh, 8vw 8vh, 14vw 14vh;
+      animation: starDrift 60s linear infinite;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    // UFO accent 🛸
+    &::after {
+      content: '🛸';
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      font-size: 2rem;
+      filter: drop-shadow(0 0 6px rgba(173, 216, 230, 0.6));
+      animation: ufoFloat 8s ease-in-out infinite;
+      z-index: 11;
+      pointer-events: none;
+    }
+
+    @keyframes galaxyPulse {
+      0%,
+      100% {
+        box-shadow: 0 0 20px rgba(138, 43, 226, 0.2),
+          0 0 40px rgba(72, 61, 139, 0.1);
+      }
+      50% {
+        box-shadow: 0 0 40px rgba(138, 43, 226, 0.4),
+          0 0 80px rgba(72, 61, 139, 0.3);
+      }
+    }
+
+    @keyframes starDrift {
+      0% {
+        background-position: 0 0, 0 0, 0 0, 0 0;
+      }
+      100% {
+        background-position: 100vw 100vh, 80vw 80vh, 120vw 120vh, 60vw 60vh;
+      }
+    }
+
+    @keyframes ufoFloat {
+      0% {
+        transform: translateY(0) rotate(0deg);
+      }
+      25% {
+        transform: translateY(-5px) rotate(5deg);
+      }
+      50% {
+        transform: translateY(-10px) rotate(0deg);
+      }
+      75% {
+        transform: translateY(-5px) rotate(-5deg);
+      }
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+    }
+  }
+
+  &.#{$identifier}-lunar {
+    position: relative;
+    background: linear-gradient(135deg, #0d1b2a, #1b263b);
+    color: #ffd166;
+    border-radius: 24px;
+    border: 2px solid rgba(255, 209, 102, 0.3);
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.3), 0 0 60px rgba(255, 100, 0, 0.2);
+    animation: lanternGlow 5s ease-in-out infinite;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(
+          circle,
+          rgba(255, 0, 0, 0.3) 2px,
+          transparent 2px
+        ),
+        radial-gradient(circle, rgba(255, 140, 0, 0.3) 1.5px, transparent 1.5px);
+      background-size: 12vw 12vh, 14vw 14vh;
+      animation: lanternFloat 30s linear infinite;
+      opacity: 0.7;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    &::after {
+      content: '🏮';
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      font-size: 2rem;
+      animation: floatLantern 5s ease-in-out infinite;
+      z-index: 2;
+      pointer-events: none;
+      filter: drop-shadow(0 0 6px rgba(255, 100, 0, 0.8));
+    }
+
+    @keyframes lanternFloat {
+      0% {
+        background-position: 0 0, 0 0;
+      }
+      100% {
+        background-position: 0 100%, 0 100%;
+      }
+    }
+
+    @keyframes floatLantern {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes lanternGlow {
+      0%,
+      100% {
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.2),
+          0 0 35px rgba(255, 100, 0, 0.1);
+      }
+      50% {
+        box-shadow: 0 0 30px rgba(255, 0, 0, 0.4),
+          0 0 60px rgba(255, 100, 0, 0.3);
+      }
+    }
+  }
+
+  &.#{$identifier}-fall {
+    position: relative;
+    background: linear-gradient(135deg, #f4a261, #e76f51);
+    color: #fff;
+    border-radius: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(255, 153, 0, 0.3), 0 0 60px rgba(255, 94, 0, 0.2);
+    animation: harvestGlow 4s ease-in-out infinite;
+
+    // Floating autumn leaves 🍁🍂
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(
+          circle,
+          rgba(255, 165, 0, 0.8) 1px,
+          transparent 1px
+        ),
+        /* pumpkin orange */
+          radial-gradient(
+            circle,
+            rgba(220, 20, 60, 0.6) 1.5px,
+            transparent 1.5px
+          ),
+        /* crimson red */
+          radial-gradient(circle, rgba(218, 165, 32, 0.7) 1px, transparent 1px),
+        /* goldenrod */
+          radial-gradient(
+            circle,
+            rgba(139, 69, 19, 0.5) 1.2px,
+            transparent 1.2px
+          ); /* saddle brown */
+      background-size: 6vw 6vh, 8vw 8vh, 10vw 10vh, 12vw 12vh;
+      animation: snowDrift 30s infinite linear;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.9;
+    }
+
+    // Floating pumpkin accent 🎃
+    &::after {
+      content: '🍂';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      font-size: 2rem;
+      filter: drop-shadow(0 0 4px rgba(255, 153, 0, 0.6));
+      animation: floatPumpkin 6s ease-in-out infinite;
+      z-index: 11;
+      pointer-events: none;
+    }
+
+    @keyframes leafFall {
+      0% {
+        transform: translateY(-10%) translateX(0);
+      }
+      20% {
+        transform: translateY(20%) translateX(-2vw) rotate(-3deg);
+      }
+      40% {
+        transform: translateY(40%) translateX(1.5vw) rotate(3deg);
+      }
+      60% {
+        transform: translateY(60%) translateX(-1vw) rotate(-2deg);
+      }
+      80% {
+        transform: translateY(80%) translateX(1vw) rotate(2deg);
+      }
+      100% {
+        transform: translateY(100%) translateX(0vw) rotate(0deg);
+      }
+    }
+
+    @keyframes floatPumpkin {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+
+    @keyframes harvestGlow {
+      0%,
+      100% {
+        box-shadow: 0 0 20px rgba(255, 153, 0, 0.2),
+          0 0 40px rgba(255, 94, 0, 0.1);
+      }
+      50% {
+        box-shadow: 0 0 35px rgba(255, 153, 0, 0.3),
+          0 0 70px rgba(255, 94, 0, 0.2);
+      }
+    }
+  }
+
+  &.#{$identifier}-love {
+    position: relative;
+    background: linear-gradient(
+      135deg,
+      #ff77b5,
+      #ff1493
+    ); /* hot pink and deep pink */
+    color: #fff;
+    border-radius: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(255, 105, 180, 0.3),
+      0 0 60px rgba(255, 20, 147, 0.2); /* pink shades */
+    animation: loveGlow 4s ease-in-out infinite;
+
+    // Floating hearts for Valentine's Day 💖❤️
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(
+          circle,
+          rgba(255, 105, 180, 0.8) 1px,
+          transparent 1px
+        ),
+        /* hot pink */
+          radial-gradient(
+            circle,
+            rgba(255, 20, 147, 0.6) 1.5px,
+            transparent 1.5px
+          ),
+        /* deep pink */
+          radial-gradient(circle, rgba(255, 0, 0, 0.7) 1px, transparent 1px),
+        /* crimson red */
+          radial-gradient(
+            circle,
+            rgba(255, 99, 71, 0.5) 1.2px,
+            transparent 1.2px
+          ); /* tomato red */
+      background-size: 6vw 6vh, 8vw 8vh, 10vw 10vh, 12vw 12vh;
+      animation: heartFall 30s infinite linear;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.9;
+    }
+
+    // Floating heart accent 💕
+    &::after {
+      content: '💖';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      font-size: 2rem;
+      filter: drop-shadow(0 0 4px rgba(255, 105, 180, 0.6));
+      animation: floatHeart 6s ease-in-out infinite;
+      z-index: 11;
+      pointer-events: none;
+    }
+
+    @keyframes heartFall {
+      0% {
+        transform: translateY(-10%) translateX(0);
+      }
+      20% {
+        transform: translateY(20%) translateX(-2vw) rotate(-3deg);
+      }
+      40% {
+        transform: translateY(40%) translateX(1.5vw) rotate(3deg);
+      }
+      60% {
+        transform: translateY(60%) translateX(-1vw) rotate(-2deg);
+      }
+      80% {
+        transform: translateY(80%) translateX(1vw) rotate(2deg);
+      }
+      100% {
+        transform: translateY(100%) translateX(0vw) rotate(0deg);
+      }
+    }
+
+    @keyframes floatHeart {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+
+    @keyframes loveGlow {
+      0%,
+      100% {
+        box-shadow: 0 0 20px rgba(255, 105, 180, 0.2),
+          0 0 40px rgba(255, 20, 147, 0.1);
+      }
+      50% {
+        box-shadow: 0 0 35px rgba(255, 105, 180, 0.3),
+          0 0 70px rgba(255, 20, 147, 0.2);
+      }
+    }
+  }
+
+  &.#{$identifier}-magic {
+    position: relative;
+    background: linear-gradient(135deg, #2c2c54, #706fd3);
+    color: #f8f8f2;
+    border-radius: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(140, 82, 255, 0.3),
+      0 0 50px rgba(111, 66, 193, 0.4);
+    animation: arcanePulse 6s infinite ease-in-out;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.1) 1px,
+          transparent 1px
+        ),
+        radial-gradient(circle, rgba(187, 134, 252, 0.15) 2px, transparent 2px);
+      background-size: 10vw 10vh, 14vw 14vh;
+      animation: spellTwinkle 25s linear infinite;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    &::after {
+      content: '🔮';
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      font-size: 2rem;
+      animation: orbFloat 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 6px rgba(140, 82, 255, 0.7));
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    @keyframes spellTwinkle {
+      0% {
+        background-position: 0 0, 0 0;
+      }
+      100% {
+        background-position: 100% 100%, 100% 100%;
+      }
+    }
+
+    @keyframes orbFloat {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+
+    @keyframes arcanePulse {
+      0%,
+      100% {
+        box-shadow: 0 0 20px rgba(140, 82, 255, 0.2),
+          0 0 45px rgba(111, 66, 193, 0.2);
+      }
+      50% {
+        box-shadow: 0 0 40px rgba(140, 82, 255, 0.4),
+          0 0 80px rgba(111, 66, 193, 0.3);
+      }
+    }
+  }
+
+  &.#{$identifier}-retro {
+    position: relative;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    color: #39ff14;
+    border-radius: 24px;
+    border: 2px solid rgba(57, 255, 20, 0.4);
+    overflow: hidden;
+    box-shadow: 0 0 10px #39ff14, 0 0 20px #00f0ff;
+    animation: neonPulse 4s ease-in-out infinite;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        0deg,
+        rgba(57, 255, 20, 0.05) 0,
+        rgba(57, 255, 20, 0.05) 2px,
+        transparent 2px,
+        transparent 4px
+      );
+      background-size: 100% 4px;
+      animation: scanline 3s linear infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    &::after {
+      content: '👾';
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      font-size: 2rem;
+      animation: retroBlink 1s infinite steps(2, start);
+      z-index: 2;
+      pointer-events: none;
+      filter: drop-shadow(0 0 3px #00f0ff);
+    }
+
+    @keyframes scanline {
+      0% {
+        background-position: 0 0;
+      }
+      100% {
+        background-position: 0 100%;
+      }
+    }
+
+    @keyframes retroBlink {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.3;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes neonPulse {
+      0%,
+      100% {
+        box-shadow: 0 0 10px #39ff14, 0 0 20px #00f0ff;
+      }
+      50% {
+        box-shadow: 0 0 15px #39ff14, 0 0 30px #00f0ff;
+      }
+    }
+  }
+
+  &.#{$identifier}-easter {
+    position: relative;
+    background: linear-gradient(
+          135deg,
+          #e1bee7,
+          #ffe082,
+          #aed581,
+          #ffab91,
+          #b39ddb
+        )
+        border-box,
+      // Border gradient
+      linear-gradient(135deg, #fffaf0, #f0fff0) padding-box; // Inner background
+    color: #5d4037;
+    border: 6px solid transparent;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(255, 183, 77, 0.3),
+      0 0 60px rgba(255, 223, 127, 0.2);
+    animation: easterGlow 5s ease-in-out infinite;
+
+    // Speckles
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(
+          circle at 20% 25%,
+          #e1bee7 12px,
+          transparent 13px
+        ),
+        radial-gradient(circle at 50% 15%, #ffe082 10px, transparent 11px),
+        radial-gradient(circle at 80% 30%, #aed581 8px, transparent 9px),
+        radial-gradient(circle at 30% 70%, #ffab91 9px, transparent 10px),
+        radial-gradient(circle at 65% 60%, #b39ddb 11px, transparent 12px);
+      background-size: 200% 200%;
+      animation: eggDrift 20s linear infinite;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.7;
+      border-radius: inherit;
+    }
+
+    // Bunny
+    &::after {
+      content: '🐰';
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      font-size: 2rem;
+      filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.2));
+      animation: bunnyHop 3s ease-in-out infinite;
+      z-index: 11;
+      pointer-events: none;
+    }
+
+    @keyframes easterGlow {
+      0%,
+      100% {
+        box-shadow: 0 0 20px rgba(255, 183, 77, 0.2),
+          0 0 40px rgba(255, 223, 127, 0.1);
+      }
+      50% {
+        box-shadow: 0 0 35px rgba(255, 183, 77, 0.4),
+          0 0 80px rgba(255, 223, 127, 0.3);
+      }
+    }
+
+    @keyframes eggDrift {
+      0% {
+        background-position: 0% 0%;
+      }
+      50% {
+        background-position: 100% 100%;
+      }
+      100% {
+        background-position: 0% 0%;
+      }
+    }
+
+    @keyframes bunnyHop {
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-8px) rotate(10deg);
+      }
+    }
+  }
+
+  &.#{$identifier}-summer {
+    position: relative;
+    background: linear-gradient(
+      135deg,
+      #ffde59,
+      #ff9f1c
+    ); // sunny yellow → warm orange
+    color: #fff;
+    border-radius: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(255, 223, 89, 0.3),
+      0 0 60px rgba(255, 159, 28, 0.2);
+    animation: summerGlow 4s ease-in-out infinite;
+
+    // Drifting palm fronds 🌴
+    &::before {
+      content: '';
+      position: absolute;
+      top: -10%;
+      left: -10%;
+      width: 120%;
+      height: 120%;
+      background-image: url('data:image/svg+xml;utf8,<svg ... palm-leaf-1 ... />'),
+        url('data:image/svg+xml;utf8,<svg ... palm-leaf-2 ... />');
+      background-repeat: no-repeat;
+      background-position: 20% 10%, 80% 70%;
+      background-size: 8vw, 10vw;
+      animation: frondDrift 20s infinite linear;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    // Sunny accent ☀️
+    &::after {
+      content: '☀️';
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      font-size: 2rem;
+      filter: drop-shadow(0 0 6px rgba(255, 223, 89, 0.6));
+      animation: floatSun 6s ease-in-out infinite;
+      z-index: 11;
+      pointer-events: none;
+    }
+
+    @keyframes frondDrift {
+      0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+      }
+      25% {
+        transform: translateY(25%) translateX(3vw) rotate(5deg);
+      }
+      50% {
+        transform: translateY(50%) translateX(0) rotate(0deg);
+      }
+      75% {
+        transform: translateY(75%) translateX(-3vw) rotate(-5deg);
+      }
+      100% {
+        transform: translateY(100%) translateX(0) rotate(0deg);
+      }
+    }
+
+    @keyframes floatSun {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    @keyframes summerGlow {
+      0%,
+      100% {
+        box-shadow: 0 0 20px rgba(255, 223, 89, 0.2),
+          0 0 40px rgba(255, 159, 28, 0.1);
+      }
+      50% {
+        box-shadow: 0 0 35px rgba(255, 223, 89, 0.3),
+          0 0 70px rgba(255, 159, 28, 0.2);
+      }
+    }
+  }
+
+  &.#{$identifier}-winter {
+    position: relative;
+    background: linear-gradient(
+      135deg,
+      #a0e9fd,
+      #0288d1
+    ); // icy blue → deep winter blue
+    color: #fff;
+    border-radius: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(160, 233, 253, 0.3),
+      0 0 60px rgba(2, 136, 209, 0.2);
+    animation: winterGlow 4s ease-in-out infinite;
+
+    // Gentle snowfall ❄️
+    &::before {
+      content: '';
+      position: absolute;
+      top: -10%;
+      left: -10%;
+      width: 120%;
+      height: 120%;
+      background-image: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.8) 1.5px,
+          transparent 1.5px
+        ),
+        radial-gradient(circle, rgba(255, 255, 255, 0.6) 2px, transparent 2px),
+        radial-gradient(circle, rgba(224, 255, 255, 0.7) 1px, transparent 1px);
+      background-size: 4vw 4vh, 6vw 6vh, 8vw 8vh;
+      animation: snowDrift 25s infinite linear;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+
+    // Snowflake accent ❄️
+    &::after {
+      content: '❄️';
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      font-size: 2rem;
+      filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
+      animation: floatFlake 6s ease-in-out infinite;
+      z-index: 11;
+      pointer-events: none;
+    }
+
+    @keyframes snowDrift {
+      0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+      }
+      25% {
+        transform: translateY(25%) translateX(2vw) rotate(2deg);
+      }
+      50% {
+        transform: translateY(50%) translateX(0) rotate(0deg);
+      }
+      75% {
+        transform: translateY(75%) translateX(-2vw) rotate(-2deg);
+      }
+      100% {
+        transform: translateY(100%) translateX(0) rotate(0deg);
+      }
+    }
+
+    @keyframes floatFlake {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+
+    @keyframes winterGlow {
+      0%,
+      100% {
+        box-shadow: 0 0 20px rgba(160, 233, 253, 0.2),
+          0 0 40px rgba(2, 136, 209, 0.1);
+      }
+      50% {
+        box-shadow: 0 0 35px rgba(160, 233, 253, 0.3),
+          0 0 70px rgba(2, 136, 209, 0.2);
+      }
+    }
+  }
+
+  &.#{$identifier}-spring {
+    position: relative;
+    background: linear-gradient(
+      135deg,
+      #c8e6c9,
+      #a5d6a7
+    ); // soft mint → light green
+    color: #fff;
+    border-radius: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(200, 230, 201, 0.3),
+      0 0 60px rgba(165, 214, 167, 0.2);
+    animation: springGlow 4s ease-in-out infinite;
+
+    // Drifting cherry blossoms 🌸
+    &::before {
+      content: '';
+      position: absolute;
+      top: -10%;
+      left: -10%;
+      width: 120%;
+      height: 120%;
+      background-image: radial-gradient(
+          circle,
+          rgba(255, 182, 193, 0.8) 1.5px,
+          transparent 1.5px
+        ),
+        radial-gradient(circle, rgba(255, 240, 245, 0.7) 2px, transparent 2px),
+        radial-gradient(circle, rgba(255, 192, 203, 0.6) 1px, transparent 1px);
+      background-size: 5vw 5vh, 7vw 7vh, 9vw 9vh;
+      animation: petalDrift 22s infinite linear;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.8;
+    }
+
+    // Flower accent 🌼
+    &::after {
+      content: '🌸';
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      font-size: 2rem;
+      filter: drop-shadow(0 0 6px rgba(255, 182, 193, 0.6));
+      animation: floatFlower 6s ease-in-out infinite;
+      z-index: 11;
+      pointer-events: none;
+    }
+
+    @keyframes petalDrift {
+      0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+      }
+      25% {
+        transform: translateY(25%) translateX(2vw) rotate(3deg);
+      }
+      50% {
+        transform: translateY(50%) translateX(0) rotate(0deg);
+      }
+      75% {
+        transform: translateY(75%) translateX(-2vw) rotate(-3deg);
+      }
+      100% {
+        transform: translateY(100%) translateX(0) rotate(0deg);
+      }
+    }
+
+    @keyframes floatFlower {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+
+    @keyframes springGlow {
+      0%,
+      100% {
+        box-shadow: 0 0 20px rgba(200, 230, 201, 0.2),
+          0 0 40px rgba(165, 214, 167, 0.1);
+      }
+      50% {
+        box-shadow: 0 0 35px rgba(200, 230, 201, 0.3),
+          0 0 70px rgba(165, 214, 167, 0.2);
+      }
+    }
+  }
+
+  &.#{$identifier}-night {
+    position: relative;
+    background: linear-gradient(135deg, #0d1b2a, #1b263b);
+    color: #fff;
+    border-radius: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(13, 27, 42, 0.3), 0 0 60px rgba(27, 38, 59, 0.2);
+    animation: nightGlow 4s ease-in-out infinite;
+
+    // Big, drifting star “halos” ✨
+    &::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      left: 0;
+      width: 200%;
+      height: 80%;
+      background-image: radial-gradient(
+          circle at 20% 30%,
+          rgba(255, 255, 255, 0.15) 25%,
+          transparent 26%
+        ),
+        radial-gradient(
+          circle at 50% 50%,
+          rgba(255, 255, 255, 0.1) 30%,
+          transparent 31%
+        ),
+        radial-gradient(
+          circle at 80% 40%,
+          rgba(200, 200, 255, 0.12) 20%,
+          transparent 21%
+        );
+      background-repeat: no-repeat;
+      background-size: 40% 100%, 50% 120%, 35% 90%;
+      /* one long, irregular path, then alternate back */
+      animation: haloRandom 30s ease-in-out infinite alternate;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    // Moon accent 🌙
+    &::after {
+      content: '🌙';
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      font-size: 2rem;
+      filter: drop-shadow(0 0 6px rgba(255, 255, 224, 0.6));
+      animation: floatMoon 6s ease-in-out infinite;
+      z-index: 11;
+      pointer-events: none;
+    }
+
+    @keyframes haloRandom {
+      0% {
+        background-position: 20% 30%, 50% 50%, 80% 40%;
+      }
+      10% {
+        background-position: 15% 80%, 60% 20%, 30% 75%;
+      }
+      20% {
+        background-position: 5% 60%, 40% 90%, 90% 25%;
+      }
+      30% {
+        background-position: 25% 15%, 55% 70%, 70% 10%;
+      }
+      40% {
+        background-position: 10% 40%, 80% 30%, 45% 85%;
+      }
+      50% {
+        background-position: 35% 75%, 20% 25%, 85% 45%;
+      }
+      60% {
+        background-position: 0% 50%, 70% 10%, 60% 80%;
+      }
+      70% {
+        background-position: 30% 20%, 50% 85%, 95% 35%;
+      }
+      80% {
+        background-position: 5% 90%, 65% 40%, 80% 15%;
+      }
+      90% {
+        background-position: 40% 10%, 35% 60%, 55% 90%;
+      }
+      100% {
+        background-position: 20% 30%, 50% 50%, 80% 40%;
+      }
+    }
+
+    @keyframes floatMoon {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+
+    @keyframes nightGlow {
+      0%,
+      100% {
+        box-shadow: 0 0 20px rgba(13, 27, 42, 0.2),
+          0 0 40px rgba(27, 38, 59, 0.1);
+      }
+      50% {
+        box-shadow: 0 0 35px rgba(13, 27, 42, 0.3),
+          0 0 70px rgba(27, 38, 59, 0.2);
+      }
+    }
+  }
+
+  &.#{$identifier}-day {
+    position: relative;
+    background: linear-gradient(135deg, #87ceeb, #fffae3);
+    color: #333;
+    border-radius: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(135, 206, 235, 0.3),
+      0 0 60px rgba(255, 250, 227, 0.2);
+    animation: dayGlow 4s ease-in-out infinite;
+
+    // Drifting clouds ☁️
+    &::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      left: 0;
+      width: 200%;
+      height: 50%;
+      background-image: radial-gradient(
+          circle at 25% 50%,
+          rgba(255, 255, 255, 0.8) 30%,
+          transparent 31%
+        ),
+        radial-gradient(
+          circle at 75% 60%,
+          rgba(255, 255, 255, 0.7) 25%,
+          transparent 26%
+        );
+      background-repeat: no-repeat;
+      background-size: 40% 100%, 50% 80%;
+      animation: cloudDrift 30s infinite linear;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.9;
+    }
+
+    // Bird accent 🐦
+    &::after {
+      content: '🐦';
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      font-size: 2rem;
+      filter: drop-shadow(0 0 6px rgba(100, 149, 237, 0.6));
+      animation: floatBird 6s ease-in-out infinite;
+      z-index: 11;
+      pointer-events: none;
+    }
+
+    @keyframes cloudDrift {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    @keyframes floatBird {
+      0%,
+      100% {
+        transform: translateY(0) translateX(0);
+      }
+      25% {
+        transform: translateY(-4px) translateX(-2px) rotate(-5deg);
+      }
+      50% {
+        transform: translateY(-2px) translateX(0) rotate(0deg);
+      }
+      75% {
+        transform: translateY(-4px) translateX(2px) rotate(5deg);
+      }
+    }
+
+    @keyframes dayGlow {
+      0%,
+      100% {
+        box-shadow: 0 0 20px rgba(135, 206, 235, 0.2),
+          0 0 40px rgba(255, 250, 227, 0.1);
+      }
+      50% {
+        box-shadow: 0 0 35px rgba(135, 206, 235, 0.3),
+          0 0 70px rgba(255, 250, 227, 0.2);
+      }
+    }
+  }
+}

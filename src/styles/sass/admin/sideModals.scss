@@ -1,0 +1,335 @@
+@use '../variables' as *;
+
+/* General chat styles */
+.#{$identifier}-game-side-modal {
+  transition: all 0.3s ease-in-out;
+  background-color: rgb(8 8 8 / 60%);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 21px;
+  color: $secondary-color;
+  border: 2px solid $light-overlay;
+
+  h3 {
+    color: $white;
+    font-size: 14px;
+  }
+
+  @media (max-width: 768px) {
+    .#{$identifier}-btn {
+      padding: 12px;
+      font-size: 12px;
+      width: fit-content;
+    }
+  }
+
+  .#{$identifier}-messages {
+    padding: 21px;
+    height: 300px;
+    overflow-y: auto;
+
+    // Hide scrollbar (Webkit-based browsers)
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    // Hide scrollbar (Firefox)
+    scrollbar-width: none;
+
+    // Hide scrollbar (Edge, IE - not modern, but for completeness)
+    -ms-overflow-style: none;
+  }
+
+  .#{$identifier}-local-user {
+    .#{$identifier}-message {
+      justify-content: flex-end;
+      align-items: flex-end;
+      &--user {
+        color: #ffb900;
+        justify-content: flex-end;
+      }
+
+      &--messsage {
+        justify-content: flex-end;
+      }
+
+      &--date {
+      }
+    }
+  }
+
+  .#{$identifier}-message {
+    position: relative;
+    padding: 0px 0px 0.75rem 0rem;
+    border-radius: 0.75rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+
+    hr {
+      width: 100%;
+    }
+
+    &--user {
+      display: flex;
+      justify-content: flex-start;
+      color: rgb(0 255 233 / 80%);
+      font-weight: bold;
+      margin-bottom: 0.25rem;
+      width: 100%;
+      font-size: x-small;
+    }
+
+    &--messsage {
+      display: flex;
+      justify-content: flex-start;
+      color: $white;
+      font-size: x-small;
+      line-height: 1.4;
+      word-break: break-word;
+      border-radius: 8px;
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      background-color: $light-overlay;
+      padding: 8px 12px;
+      width: fit-content;
+      text-align: left;
+    }
+
+    &--date {
+      padding-top: 8px;
+      font-size: xx-small;
+      color: $gray;
+      width: 100%;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 21px;
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    background-color: #3d382c;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+
+  input {
+    width: calc(100% - 50px);
+    height: 45px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    margin-right: 12px;
+    padding: 0px 8px;
+    background-color: $light-overlay;
+    color: $white;
+    outline: none;
+    &::placeholder {
+      color: $white;
+      opacity: 1; // Ensures the white is fully visible
+    }
+    &:active,
+    &:focus {
+      border-color: $secondary-color;
+      outline-color: $secondary-color;
+    }
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  .#{$identifier}-submit-btn {
+    height: 45px;
+    margin: 0px;
+    width: fit-content;
+    background-color: $secondary-color;
+    flex: 1 0 auto;
+  }
+
+  .#{$identifier}-minimize-btn {
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    color: $white;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 0;
+  }
+
+  header {
+    margin: 0px;
+    width: auto;
+    padding: 20px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: $light-overlay;
+    border-radius: 0;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    font-size: 21px;
+    color: $white;
+    animation: glowingRed 4s infinite alternate;
+    box-shadow: none;
+
+    &:has(.#{$identifier}-minimize-btn) {
+      justify-content: space-between;
+      padding: 21px;
+      .#{$identifier}-minimize-btn {
+        font-size: 30px;
+      }
+
+      span {
+        width: auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      font-size: 16px;
+    }
+    span {
+      width: 100%;
+    }
+  }
+  .#{$identifier}-rooms-list {
+    margin: 21px;
+    list-style: none;
+    list-style-type: none;
+    border: 2px solid $light-overlay;
+    border-radius: 10px;
+    padding: 24px;
+
+    .#{$identifier}-room {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 21px;
+
+      &-info {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 21px;
+        width: 100%;
+      }
+
+      input {
+        margin: 0px;
+        height: 36px;
+        max-width: 100px;
+
+        @media (max-width: 768px) {
+          width: 50px;
+        }
+      }
+
+      .#{$identifier}-btn {
+        margin: 10px 0px;
+      }
+
+      span {
+        color: $white;
+        font-size: medium;
+        animation: glowingBlue 4s infinite alternate;
+      }
+    }
+  }
+
+  .#{$identifier}-btns-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 21px;
+
+    @media (max-width: 768px) {
+      padding: 0 21px;
+      width: auto;
+    }
+
+    .#{$identifier}-create-room-prompt {
+      display: flex;
+      flex-direction: row;
+      gap: 21px;
+
+      input {
+        margin: 0px;
+        min-width: 275px;
+        @media (max-width: 768px) {
+          flex-direction: column;
+          width: auto;
+        }
+      }
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .#{$identifier}-prompt-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 21px;
+
+        @media (max-width: 768px) {
+          justify-content: space-between;
+        }
+        .#{$identifier}-btn {
+          margin: 0px;
+          font-size: small;
+        }
+      }
+    }
+
+    .#{$identifier}-btn {
+      margin: 0px;
+      font-size: small;
+      width: max-content;
+    }
+  }
+
+  @media (max-width: 768px) {
+    &.#{$identifier}-chat-room {
+      position: fixed;
+      right: 11px;
+      bottom: 21px;
+      width: calc(100% - 22px) !important;
+      background-color: #000000ed;
+      &.#{$identifier}-modal-minimized {
+        position: fixed;
+        bottom: 21px;
+        right: 11px;
+        width: fit-content !important;
+        border-radius: 10px;
+        header {
+          width: fit-content;
+          border-radius: 10px;
+
+          &:has(.#{$identifier}-minimize-btn) {
+            justify-content: space-between;
+            padding: 4px 10px;
+            .#{$identifier}-minimize-btn {
+              font-size: 21px;
+            }
+            span {
+              display: none;
+              width: auto;
+            }
+          }
+        }
+      }
+    }
+  }
+}

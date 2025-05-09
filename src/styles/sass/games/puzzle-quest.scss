@@ -1,0 +1,168 @@
+@use '../variables' as *;
+
+.#{$identifier}-puzzle-game {
+  .#{$identifier}-jigsaw {
+    text-align: center;
+    border-radius: 20px;
+    padding: 48px;
+    background-size: cover;
+    border: 2px solid $secondary-color;
+    @media (max-width: 768px) {
+      display: flex;
+      justify-content: center;
+      padding: 24px;
+    }
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .#{$identifier}-board {
+    width: 600px;
+    height: 600px;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    transition: box-shadow 1s ease-in-out;
+    background-color: $black;
+    animation: fadeIn 1s ease-in-out; /* Use animation instead of transition */
+
+    @media (max-width: 768px) {
+      width: 300px;
+      height: 300px;
+      background-size: 300px 300px;
+
+      .#{$identifier}-ending-title {
+        font-size: 24px;
+      }
+    }
+  }
+
+  .#{$identifier}-piece {
+    opacity: 0.5;
+    position: absolute;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    user-select: none;
+    border-bottom: 2px solid $secondary-color;
+    border-right: 2px solid $secondary-color;
+
+    @media (max-width: 768px) {
+      background-size: 300px 300px;
+    }
+
+    &.correct {
+      border: none;
+      opacity: 1;
+    }
+  }
+
+  .#{$identifier}-settings-container {
+    border: 2px solid $secondary-color;
+    border-radius: 15px;
+    margin-bottom: 40px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .#{$identifier}-file-input {
+    max-width: 325px;
+    background-color: transparent;
+    padding: 0;
+    box-shadow: none;
+    font-family: 'MagicalWorld', sans-serif;
+    font-weight: bold;
+    &:hover {
+      &::file-selector-button {
+        background-color: $light-overlay;
+      }
+    }
+  }
+
+  .#{$identifier}-file-input::file-selector-button {
+    font-family: 'MagicalWorld', sans-serif;
+    border: 2px solid $secondary-color;
+    border-radius: 10px;
+    padding: 5px 10px;
+    color: $secondary-color;
+    margin-right: 20px;
+    background-color: transparent;
+
+    &:hover {
+      background-color: $light-overlay;
+      transform: scale(1.05);
+      animation: ninjaSlash 0.3s ease-out;
+      cursor: pointer;
+    }
+  }
+
+  /* Hover state for the button */
+  .#{$identifier}-file-input::file-selector-button:hover {
+    background-color: $light-overlay; /* Darker green on hover */
+  }
+
+  .#{$identifier}-settings-label {
+    color: $white;
+    font-size: 18px;
+    margin-right: 12px;
+    font-weight: bold;
+  }
+
+  .#{$identifier}-settings-input {
+    background: rgba(255, 255, 255, 0.2);
+    color: $white;
+    border: 2px solid $secondary-color;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 10px;
+    text-align: center;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+    width: 40px;
+
+    &:focus {
+      background: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 10px $secondary-color;
+    }
+  }
+
+  .#{$identifier}-settings-button {
+    background: linear-gradient(
+      45deg,
+      $secondary-color,
+      darken($secondary-color, 10%)
+    );
+    color: $white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 15px $secondary-color;
+
+    &:hover {
+      background: linear-gradient(
+        45deg,
+        lighten($secondary-color, 10%),
+        $secondary-color
+      );
+      box-shadow: 0 0 25px 10px $secondary-color;
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}

@@ -1,0 +1,336 @@
+@use 'variables' as *;
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes fadeOut {
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes levitate {
+  0%,
+  100% {
+    transform: rotate(0deg) skew(0deg) translate(0px, 0px);
+  }
+  50% {
+    transform: rotate(0deg) skew(0deg) translate(0px, -15px);
+  }
+}
+
+@keyframes partyColors {
+  0% {
+    color: $primary-color;
+  }
+  20% {
+    color: $secondary-color;
+  }
+  40% {
+    color: $pink;
+  }
+  60% {
+    color: $red;
+  }
+  80% {
+    color: $green;
+  }
+  100% {
+    color: $purple;
+  } /* Loops back to red */
+}
+
+@keyframes fall-1 {
+  0% {
+    transform: translate(0px, 0px) rotateX(45deg) rotateY(30deg) rotateZ(0deg)
+      scale(0.25);
+    opacity: 0;
+  }
+
+  5% {
+    transform: translate(10px, -10px) rotateX(45deg) rotateY(30deg)
+      rotateZ(0deg) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(25px, 200px) rotateX(180deg) rotateY(270deg)
+      rotateZ(90deg) scale(1);
+    opacity: 0;
+  }
+}
+@keyframes fall-2 {
+  0% {
+    transform: translate(0px, 0px) rotateX(-20deg) rotateY(10deg) scale(0.25);
+    opacity: 0;
+  }
+
+  10% {
+    transform: translate(-10px, -5px) rotateX(-20deg) rotateY(10deg) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-10px, 160px) rotateX(-90deg) rotateY(45deg)
+      scale(0.25);
+    opacity: 0;
+  }
+}
+@keyframes fall-3 {
+  0% {
+    transform: translate(0px, 0px) rotateX(0deg) rotateY(45deg) scale(0.5);
+    opacity: 0;
+  }
+
+  15% {
+    transform: translate(7px, 5px) rotateX(0deg) rotateY(45deg) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(20px, 120px) rotateX(-180deg) rotateY(-90deg)
+      scale(0.5);
+    opacity: 0;
+  }
+}
+
+@keyframes highlight {
+  0% {
+    opacity: 1;
+    color: $secondary-color;
+  }
+  50% {
+    opacity: 1;
+    color: $white;
+  }
+  100% {
+    opacity: 0.3;
+    color: $white;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+@keyframes magic-flicker {
+  0% {
+    opacity: 1;
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.3) translate(-5px, -5px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5) translate(-10px, -10px);
+  }
+}
+
+@keyframes glowingRed {
+  0% {
+    text-shadow: 0 0 5px $secondary-color, 0 0 10px $secondary-color,
+      0 0 20px $secondary-color, 0 0 30px $secondary-color;
+  }
+  100% {
+    text-shadow: 0 0 10px $secondary-color, 0 0 20px $secondary-color,
+      0 0 40px $secondary-color, 0 0 60px $secondary-color;
+  }
+}
+
+@keyframes glowingBlue {
+  0% {
+    text-shadow: 0 0 5px rgba(0, 191, 255, 0.3), 0 0 10px rgba(0, 191, 255, 0.3),
+      0 0 20px rgba(0, 191, 255, 0.3), 0 0 30px rgba(0, 191, 255, 0.3);
+  }
+  100% {
+    text-shadow: 0 0 10px rgba(0, 191, 255, 0.7),
+      0 0 20px rgba(0, 191, 255, 0.7), 0 0 40px rgba(0, 191, 255, 0.7),
+      0 0 60px rgba(0, 191, 255, 0.7);
+  }
+}
+
+@keyframes glowingWin {
+  0% {
+    text-shadow: 0 0 5px rgba(50, 255, 100, 1), 0 0 10px rgba(50, 255, 100, 0.8),
+      0 0 20px rgba(50, 255, 100, 0.7), 0 0 30px rgba(50, 255, 100, 0.9);
+  }
+  100% {
+    text-shadow: 0 0 10px rgba(50, 255, 100, 1),
+      0 0 20px rgba(50, 255, 100, 0.7), 0 0 40px rgba(50, 255, 100, 1),
+      0 0 60px rgba(50, 255, 100, 0.9);
+  }
+}
+
+@keyframes glowingLoss {
+  0% {
+    text-shadow: 0 0 5px rgba(255, 60, 60, 0.3), 0 0 10px rgba(255, 60, 60, 0.3),
+      0 0 20px rgba(255, 60, 60, 0.3), 0 0 30px rgba(255, 60, 60, 0.3);
+  }
+  100% {
+    text-shadow: 0 0 10px rgba(255, 60, 60, 0.7),
+      0 0 20px rgba(255, 60, 60, 0.7), 0 0 40px rgba(255, 60, 60, 0.7),
+      0 0 60px rgba(255, 60, 60, 0.7);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+}
+
+// Animation
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 10px rgba($secondary-color, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba($secondary-color, 1);
+  }
+}
+
+// Animation
+@keyframes glowRed {
+  0% {
+    box-shadow: 0px 0px 5px rgba(255, 69, 0, 0.3),
+      0px 0px 10px rgba(255, 140, 0, 0.4), 0px 0px 20px rgba(255, 165, 0, 0.3);
+  }
+  100% {
+    box-shadow: 0px 0px 5px rgba(255, 69, 0, 0.4),
+      0px 0px 10px rgba(255, 140, 0, 0.4), 0px 0px 20px rgba(255, 165, 0, 0.3);
+  }
+}
+
+// Animation
+@keyframes glowBlue {
+  0% {
+    box-shadow: 0px 0px 5px rgba(0, 191, 255, 0.3),
+      0px 0px 10px rgba(135, 206, 250, 0.4),
+      0px 0px 20px rgba(175, 238, 238, 0.3);
+  }
+  100% {
+    box-shadow: 0px 0px 5px rgba(0, 191, 255, 0.4),
+      0px 0px 10px rgba(135, 206, 250, 0.4),
+      0px 0px 20px rgba(175, 238, 238, 0.3);
+  }
+}
+
+@keyframes teleport {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  30% {
+    opacity: 0.5;
+    transform: scale(3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes upgradeAnimation {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+$quantity: 15; // Make sure $quantity is defined
+
+// Randomize Fireflies Motion
+@for $i from 1 through $quantity {
+  $steps: random(12) + 16;
+  $rotationSpeed: random(10) + 8s;
+  $flashDuration: random(6000) + 5000ms;
+  $flashDelay: random(8000) + 500ms;
+
+  .firefly:nth-child(#{$i}) {
+    animation-name: move#{$i};
+
+    &::before {
+      animation-duration: #{$rotationSpeed};
+    }
+
+    &::after {
+      animation-duration: #{$rotationSpeed}, #{$flashDuration};
+      animation-delay: 0ms, #{$flashDelay};
+    }
+  }
+
+  @keyframes move#{$i} {
+    @for $step from 0 through $steps {
+      #{($step * (100 / $steps))}% {
+        transform: translateX(#{random(100) - 50}vw)
+          translateY(#{random(100) - 50}vh)
+          scale(#{(random(75) / 100) + 0.25});
+      }
+    }
+  }
+}
+
+@keyframes sparkle {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+@keyframes drift {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes flash {
+  0%,
+  30%,
+  100% {
+    opacity: 0;
+    box-shadow: 0 0 0vw 0vw yellow;
+  }
+  5% {
+    opacity: 1;
+    box-shadow: 0 0 2vw 0.4vw yellow;
+  }
+}

@@ -1,0 +1,20 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /404
+Disallow: /admin
+Disallow: /account*
+
+# Googlebot-Image
+User-agent: Googlebot-Image
+Allow: /*.jpg
+Allow: /*.png
+Allow: /*.webp
+
+# Host
+Host: https://wizardland.net
+
+# Sitemaps
+Sitemap: https://wizardland.net/sitemap.xml
+Sitemap: undefined/sitemap.xml
+Sitemap: undefined/server-sitemap.xml

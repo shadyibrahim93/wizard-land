@@ -1,0 +1,93 @@
+@use 'variables' as *;
+
+.#{$identifier}-btns-container {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.#{$identifier}-btn {
+  border: none;
+  padding: 12px 24px;
+  font-size: small;
+  border-radius: 10px;
+  margin: 20px;
+  background-color: $light-overlay;
+  color: #fff;
+  font-weight: bold;
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.1s ease-in-out, background-color 0.2s;
+
+  &--secondary {
+    @extend .#{$identifier}-btn;
+    background-color: $secondary-color;
+  }
+
+  &.active {
+    background-color: $secondary-color;
+    transform: scale(1.05);
+  }
+
+  // Slight bounce effect on hover
+  &:hover {
+    background-color: $secondary-color;
+    transform: scale(1.05);
+    animation: ninjaSlash 0.3s ease-out;
+    cursor: pointer;
+  }
+
+  // Disable state
+  &:disabled {
+    background-color: lightgray;
+    color: #a8a8a8;
+    cursor: not-allowed;
+  }
+
+  // Ninja sword slash effect
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -100%;
+    width: 150%;
+    height: 3px;
+    background: linear-gradient(to right, transparent, white, transparent);
+    transform: rotate(10deg);
+    transition: left 0.4s ease-out;
+  }
+
+  &:hover::after {
+    left: 100%;
+  }
+
+  // Responsive Styles
+  @media (max-width: 768px) {
+    font-size: 16px;
+    padding: 20px;
+    margin: 15px 0px;
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+    font-size: 14px;
+    padding: 24px;
+    margin: 12px 0px;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+// Ninja slash animation
+@keyframes ninjaSlash {
+  0% {
+    transform: scale(1.1) rotate(-2deg);
+  }
+  50% {
+    transform: scale(0.9) rotate(2deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}

@@ -1,0 +1,43 @@
+@use 'variables' as *;
+
+// ======================
+// Font Faces
+// ======================
+@font-face {
+  font-family: 'MagicalWorld';
+  src: url('../fonts/MagicalFull.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+// ======================
+// Text Utility Classes
+// ======================
+.#{$identifier}-text {
+  &--white {
+    color: $white;
+  }
+
+  &--yellow {
+    color: $secondary-color;
+  }
+
+  &--orange {
+    color: $primary-color;
+  }
+
+  // Add font family to all text utilities
+  font-family: 'MagicalWorld', sans-serif;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+a,
+div {
+  font-family: 'MagicalWorld', sans-serif;
+  letter-spacing: 2px;
+}
