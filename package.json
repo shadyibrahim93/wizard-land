@@ -9,7 +9,7 @@
     "start": "npx serve@latest build",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs && copy public\\.nojekyll build\\",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build -t true",
+    "deploy": "gh-pages -d build",
     "lint": "next lint",
     "test": "jest"
   },
