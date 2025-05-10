@@ -28,19 +28,6 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-TWQ14MBMGM');
           `}
         </Script>
-
-        {/* Mailchimp */}
-        <Script
-          id='mcjs'
-          strategy='afterInteractive'
-        >
-          {`
-            !(function(c,h,i,m,p){
-              m=c.createElement(h),p=c.getElementsByTagName(h)[0];
-              m.async=1;m.src=i;p.parentNode.insertBefore(m,p)
-            })(document,'script','https://chimpstatic.com/mcjs-connected/js/users/456f3d5257343a91cf2f8adfc/5b74851df33f7945d5e3d563d.js');
-          `}
-        </Script>
       </head>
       <body>
         <div id='root'>

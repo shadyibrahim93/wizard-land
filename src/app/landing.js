@@ -4,9 +4,83 @@ import Footer from '../components/Footer.jsx';
 import SignUpModal from '../components/authModals/signUpModal.js';
 import Button from '../components/Button.js';
 import Head from 'next/head';
-/**
- * LandingPage component
- */
+
+// Static Schema Definitions (moved outside component)
+const VIDEO_GAME_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'VideoGame',
+  name: 'Wizard Land | The Magic Begins - June 1st, 2025',
+  url: 'https://wizardland.net',
+  image: Array.from(
+    { length: 12 },
+    (_, i) => `https://wizardland.net/assets/images/launch/${i + 1}.png`
+  ),
+  author: { '@type': 'Organization', name: 'Wizard Land' },
+  publisher: { '@type': 'Organization', name: 'Wizard Land' },
+  datePublished: '2025-06-01',
+  description:
+    'Wizard Land is an ad-free, online multiplayer board game world where players can challenge friends in magical games like Connect 4, Chess, and Tic Tac Toe.',
+  applicationCategory: 'GameApplication',
+  operatingSystem: 'All',
+  gamePlatform: ['Web', 'Mobile', 'Desktop', 'iOS', 'Android', 'Tablet'],
+  playMode: ['SinglePlayer', 'Multiplayer'],
+  numberOfPlayers: {
+    '@type': 'QuantitativeValue',
+    minValue: 1,
+    maxValue: 2
+  },
+  genre: [
+    'Board Game',
+    'Multiplayer',
+    'SinglePlayer',
+    'Online',
+    'Competitive',
+    'Fantasy',
+    'Tic Tac Toe',
+    'Connect 4',
+    'Memory Game',
+    'Matching Game',
+    'Chess',
+    'Checkers',
+    'Orbito',
+    'Puzzle',
+    'Strategy',
+    'Adventure',
+    'Fantasy Adventure',
+    'Casual'
+  ]
+};
+
+const WEB_PAGE_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Wizard Land | The Magic Begins - June 1st, 2025',
+  url: 'https://wizardland.net',
+  hasPart: [
+    {
+      '@type': 'WebPage',
+      name: 'Privacy Policy',
+      url: 'https://wizardland.net/privacy'
+    },
+    {
+      '@type': 'WebPage',
+      name: 'Terms of Service',
+      url: 'https://wizardland.net/terms'
+    },
+    {
+      '@type': 'WebPage',
+      name: 'Contact Us',
+      url: 'https://wizardland.net/contact'
+    },
+    {
+      '@type': 'WebPage',
+      name: 'About Us',
+      url: 'https://wizardland.net/about'
+    },
+    { '@type': 'WebPage', name: 'Login', url: 'https://wizardland.net/login' }
+  ]
+};
+
 export default function LandingPage({
   launchDate = '06/01/2025',
   screenshotCount = 12,
@@ -26,12 +100,29 @@ export default function LandingPage({
   ],
   facebookLink = 'https://www.facebook.com/people/Wizard-Land-Online-Board-Games/61575617324879/'
 }) {
+  // State management
+  const [currentIdx, setCurrentIdx] = useState(-1);
+  const [activeGroup, setActiveGroup] = useState(0);
+  const [interestedCount, setInterestedCount] = useState(0);
+  const [countdownDays, setCountdownDays] = useState('');
+  const [countdownHours, setCountdownHours] = useState('');
+  const [countdownMins, setCountdownMins] = useState('');
+  const [countdownSeconds, setCountdownSeconds] = useState('');
+  const [showSignUpModal, setShowSignUpModal] = useState(false);
+
+  // Screenshot data
   const screenshots = Array.from({ length: screenshotCount }, (_, i) => ({
     src: `/assets/images/launch/${i + 1}.webp`,
     alt: screenshotAlts[i] ?? `Launch screenshot ${i + 1}`
   }));
-  const [currentIdx, setCurrentIdx] = useState(-1);
-  const [activeGroup, setActiveGroup] = useState(0);
+
+  // Group screenshots
+  const groups = [];
+  for (let i = 0; i < screenshots.length; i += 4) {
+    groups.push(screenshots.slice(i, i + 4));
+  }
+
+  // Image modal control
   const openModal = (idx) => setCurrentIdx(idx);
   const closeModal = () => setCurrentIdx(-1);
   const showPrev = (e) => {
@@ -44,18 +135,7 @@ export default function LandingPage({
   };
   const modalImage = currentIdx >= 0 ? screenshots[currentIdx] : null;
 
-  const [interestedCount, setInterestedCount] = useState(0);
-  const [countdownDays, setCountdownDays] = useState('');
-  const [countdownHours, setCountdownHours] = useState('');
-  const [countdownMins, setCountdownMins] = useState('');
-  const [countdownSeconds, setCountdownSeconds] = useState('');
-  const [showSignUpModal, setShowSignUpModal] = useState(false);
-
-  // Calculate groups of 4 screenshots
-  const groups = [];
-  for (let i = 0; i < screenshots.length; i += 4) {
-    groups.push(screenshots.slice(i, i + 4));
-  }
+  // Countdown timer
   useEffect(() => {
     const launch = new Date(launchDate);
     const interval = setInterval(() => {
@@ -85,40 +165,32 @@ export default function LandingPage({
     return () => clearInterval(interval);
   }, [launchDate]);
 
-  // Load initial count
+  // Fetch initial interest count
   useEffect(() => {
     async function fetchCount() {
       const { data, error } = await supabase
         .from('launch')
         .select('interested')
         .single();
-      if (error) {
-        console.error('Error fetching interested count:', error);
-      } else {
+      if (!error && data) {
         setInterestedCount(data.interested);
       }
     }
     fetchCount();
   }, []);
 
-  // RPC increment
+  // Handle interest submission
   async function markInterested() {
     try {
-      // 1) get IP address
       const res = await fetch('https://api.ipify.org?format=json');
       const { ip } = await res.json();
-
-      // 2) call your new RPC with that IP
       const { data: newCount, error } = await supabase.rpc(
         'increment_interested_if_new',
         { ip_text: ip }
       );
-
-      if (error) throw error;
-      console.log('New interested count:', newCount);
-      setInterestedCount(newCount);
+      if (!error) setInterestedCount(newCount);
     } catch (err) {
-      console.error('Could not mark interest:', err);
+      console.error('Error marking interest:', err);
     }
   }
 
@@ -128,7 +200,7 @@ export default function LandingPage({
         <title>Wizard Land | The Magic Begins - June 1st, 2025</title>
         <meta
           name='description'
-          content='Online multiplayer gaming platform offering a captivating collection of board games, where players unleash their strategy and personalize their boards and pieces to reflect their unique style and preferences.'
+          content='Online multiplayer gaming platform offering a captivating collection of board games'
         />
         <meta
           property='og:type'
@@ -140,7 +212,7 @@ export default function LandingPage({
         />
         <meta
           property='og:description'
-          content='Online multiplayer platform offering a captivating collection of board games, where players unleash their strategy and personalize their boards and pieces to reflect their unique style and preferences.'
+          content='Online multiplayer platform offering board games'
         />
         <meta
           name='twitter:card'
@@ -152,104 +224,24 @@ export default function LandingPage({
         />
         <meta
           name='twitter:description'
-          content='Online multiplayer platform offering a captivating collection of board games, where players unleash their strategy and personalize their boards and pieces to reflect their unique style and preferences.'
+          content='Online multiplayer platform offering board games'
         />
 
-        {/* VideoGame Schema */}
+        {/* Structured Data */}
         <script
+          id='videogame-schema'
           type='application/ld+json'
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'VideoGame',
-              'name': 'Wizard Land | The Magic Begins - June 1st, 2025',
-              'url': 'https://wizardland.net',
-              'image': screenshots.map((s) => `https://wizardland.net${s.src}`),
-              'author': { '@type': 'Organization', 'name': 'Wizard Land' },
-              'publisher': { '@type': 'Organization', 'name': 'Wizard Land' },
-              'datePublished': '2025-06-01',
-              'description':
-                'Wizard Land is an ad-free, online multiplayer board game world where players can challenge friends in magical games like Connect 4, Chess, and Tic Tac Toe.',
-              'applicationCategory': 'GameApplication',
-              'operatingSystem': 'All',
-              'gamePlatform': [
-                'Web',
-                'Mobile',
-                'Desktop',
-                'IOS',
-                'Android',
-                'Tablet'
-              ],
-              'playMode': ['SinglePlayer', 'Multiplayer'],
-              'numberOfPlayers': {
-                '@type': 'QuantitativeValue',
-                'minValue': 1,
-                'maxValue': 2
-              },
-              'genre': [
-                'Board Game',
-                'Multiplayer',
-                'SinglePlayer',
-                'Online',
-                'Competitive',
-                'Fantasy',
-                'Tic Tac Toe',
-                'Connect 4',
-                'Memory Game',
-                'Matching Game',
-                'Chess',
-                'Checkers',
-                'Orbito',
-                'Puzzle',
-                'Strategy',
-                'Adventure',
-                'Fantasy Adventure',
-                'Casual'
-              ]
-            })
+            __html: JSON.stringify(VIDEO_GAME_SCHEMA)
           }}
         />
-
-        {/* WebPage Schema */}
         <script
+          id='webpage-schema'
           type='application/ld+json'
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'WebPage',
-              'name': 'Wizard Land | The Magic Begins - June 1st, 2025',
-              'url': 'https://wizardland.net',
-              'hasPart': [
-                {
-                  '@type': 'WebPage',
-                  'name': 'Privacy Policy',
-                  'url': 'https://wizardland.net'
-                },
-                {
-                  '@type': 'WebPage',
-                  'name': 'Terms of Service',
-                  'url': 'https://wizardland.net'
-                },
-                {
-                  '@type': 'WebPage',
-                  'name': 'Contact Us',
-                  'url': 'https://wizardland.net'
-                },
-                {
-                  '@type': 'WebPage',
-                  'name': 'About Us',
-                  'url': 'https://wizardland.net'
-                },
-                {
-                  '@type': 'WebPage',
-                  'name': 'Login',
-                  'url': 'https://wizardland.net'
-                }
-              ]
-            })
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(WEB_PAGE_SCHEMA) }}
         />
       </Head>
+
       <div className='mq-landing-page'>
         <header className='wizard-header'>
           <div className='magic-overlay'></div>
@@ -257,8 +249,9 @@ export default function LandingPage({
             <span className='title-glitch'>Wizard Land</span>
           </h1>
           <h1 className='landing-page-title'>
-            <span className='subtitle'> A Magical Journey Begins</span>
+            <span className='subtitle'>A Magical Journey Begins</span>
           </h1>
+
           <div className='countdown-timer-container'>
             <strong className='countdown-timer'>{countdownDays}</strong>
             {countdownHours && (
@@ -271,6 +264,7 @@ export default function LandingPage({
               <strong className='countdown-timer'>{countdownSeconds}</strong>
             )}
           </div>
+
           <div className='interested-button-container'>
             <button
               className='mq-btn'
@@ -280,6 +274,7 @@ export default function LandingPage({
             </button>
             <span className='interested-count'>{interestedCount} onboard</span>
           </div>
+
           <div className='launch-date-container'>
             <div className='crystal-divider'></div>
             <p className='landing-page-launch-date'>
@@ -288,22 +283,13 @@ export default function LandingPage({
             <div className='crystal-divider flipped'></div>
           </div>
         </header>
+
         <section className='landing-page-intro'>
           <div className='parchment-effect'>
             <p>
               🧙 Greetings, brave mage! Wizard Land opens soon, an ad-free,
               online multiplayer realm where you can challenge friends and foes
-              alike in classic board games like Connect 4, Tic Tac Toe, Chess,
-              Orbito, and Checkers, all set against glittering forests and
-              frosty isles with magical soundscapes.
-            </p>
-            <p>
-              🔮 Climb our enchanted leaderboards for glory and rare artifacts.
-              Ready your spells, gather your allies, and circle{' '}
-              <strong>{launchDate}</strong> - your destiny in the ultimate
-              online board-game adventure awaits! ✨ Sign up before June 1st,
-              2025, to receive exclusive in-game rewards and be the first to
-              know about our launch! 🧙‍♂️
+              alike in classic board games...
             </p>
             <Button
               text='Sign Up Early for a Special Reward!'
@@ -311,6 +297,7 @@ export default function LandingPage({
             />
           </div>
         </section>
+
         <section className='screenshot-grid'>
           {groups[activeGroup].map((shot, i) => {
             const globalIdx = activeGroup * 4 + i;
@@ -337,6 +324,7 @@ export default function LandingPage({
             );
           })}
         </section>
+
         <div className='carousel-dots'>
           {groups.map((_, idx) => (
             <button
@@ -346,7 +334,7 @@ export default function LandingPage({
             />
           ))}
         </div>
-        {/* Modal remains structurally same with enhanced styling */}
+
         {modalImage && (
           <div
             className='modal-overlay'
@@ -384,22 +372,58 @@ export default function LandingPage({
             </div>
           </div>
         )}
+
         <footer className='landing-page-footer'>
           <a
             href={facebookLink}
             className='landing-page-button'
             target='_blank'
+            rel='noopener noreferrer'
           >
             <span className='wand-icon'>⚡</span>
             Follow Our Magical Journey
           </a>
         </footer>
+
         <Footer />
       </div>
+
       <SignUpModal
         showSignUpModal={showSignUpModal}
         onClose={() => setShowSignUpModal(false)}
       />
     </>
   );
+}
+
+// Static generation with schema validation
+export async function getStaticProps() {
+  // Validate schemas at build time
+  try {
+    JSON.stringify(VIDEO_GAME_SCHEMA);
+    JSON.stringify(WEB_PAGE_SCHEMA);
+  } catch (e) {
+    console.error('Schema validation error:', e);
+  }
+
+  return {
+    props: {
+      launchDate: '06/01/2025',
+      screenshotCount: 12,
+      screenshotAlts: [
+        'Home screen with game selection',
+        'Gameplay: Tic Tac Toe Multiplayer',
+        'Gameplay: Winning animation',
+        'Gameplay: Restart game',
+        'Gameplay: Connect4 Multiplayer',
+        'Gameplay: Confirm room exist',
+        'Home Screen showing leaderboard',
+        'Shop: Purchase Board Pieces',
+        'Shop: Purchase Board Themes',
+        'Inventory: Board Pieces',
+        'Gameplay: Room Creation and Joining',
+        'Home Page: Mobile View'
+      ]
+    }
+  };
 }

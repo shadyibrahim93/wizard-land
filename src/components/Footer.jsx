@@ -96,8 +96,8 @@ const Footer = () => {
             </a>
           </div>
           <p className='mq-copyright'>
-            &copy; 2025 Wizard Land. All rights reserved | Designed and
-            developed by Shady Ibrahim.
+            © 2025 Wizard Land. All rights reserved. Crafted with care by the
+            Wizard Land team.
           </p>
         </div>
         {showTermsOfUse && (
