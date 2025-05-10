@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://wizardland.net/games/checker-quest/</loc><lastmod>2025-05-10T02:07:26.295Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-<url><loc>https://wizardland.net/games/match-quest/</loc><lastmod>2025-05-10T02:07:26.297Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-<url><loc>https://wizardland.net/games/orbito-quest/</loc><lastmod>2025-05-10T02:07:26.297Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-<url><loc>https://wizardland.net/games/bingo-quest/</loc><lastmod>2025-05-10T02:07:26.297Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-<url><loc>https://wizardland.net/games/personal-puzzle-quest/</loc><lastmod>2025-05-10T02:07:26.298Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-<url><loc>https://wizardland.net/games/scramble-quest/</loc><lastmod>2025-05-10T02:07:26.298Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-<url><loc>https://wizardland.net/games/memory-quest/</loc><lastmod>2025-05-10T02:07:26.299Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-<url><loc>https://wizardland.net/games/connect-four-quest/</loc><lastmod>2025-05-10T02:07:26.299Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-<url><loc>https://wizardland.net/games/sudoku-quest/</loc><lastmod>2025-05-10T02:07:26.300Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-<url><loc>https://wizardland.net/games/chess-quest/</loc><lastmod>2025-05-10T02:07:26.300Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-<url><loc>https://wizardland.net/games/tic-tac-toe-quest/</loc><lastmod>2025-05-10T02:07:26.300Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-<url><loc>https://wizardland.net/games/puzzle-quest/</loc><lastmod>2025-05-10T02:07:26.301Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-<url><loc>https://wizardland.net/</loc><lastmod>2025-05-10T02:07:26.301Z</lastmod><changefreq>daily</changefreq><priority>1</priority></url>
-<url><loc>https://wizardland.net/games/dropzone-quest/</loc><lastmod>2025-05-10T02:07:26.302Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://wizardland.net/</loc><lastmod>2025-05-10T02:28:04.692Z</lastmod><changefreq>daily</changefreq><priority>1</priority></url>
+<url><loc>https://wizardland.net/games/bingo-quest/</loc><lastmod>2025-05-10T02:28:04.694Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://wizardland.net/games/checker-quest/</loc><lastmod>2025-05-10T02:28:04.694Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://wizardland.net/games/personal-puzzle-quest/</loc><lastmod>2025-05-10T02:28:04.695Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://wizardland.net/games/memory-quest/</loc><lastmod>2025-05-10T02:28:04.695Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://wizardland.net/games/match-quest/</loc><lastmod>2025-05-10T02:28:04.695Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://wizardland.net/games/puzzle-quest/</loc><lastmod>2025-05-10T02:28:04.696Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://wizardland.net/games/scramble-quest/</loc><lastmod>2025-05-10T02:28:04.696Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://wizardland.net/games/sudoku-quest/</loc><lastmod>2025-05-10T02:28:04.696Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://wizardland.net/games/tic-tac-toe-quest/</loc><lastmod>2025-05-10T02:28:04.697Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://wizardland.net/games/orbito-quest/</loc><lastmod>2025-05-10T02:28:04.697Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://wizardland.net/games/connect-four-quest/</loc><lastmod>2025-05-10T02:28:04.698Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://wizardland.net/games/chess-quest/</loc><lastmod>2025-05-10T02:28:04.698Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://wizardland.net/games/dropzone-quest/</loc><lastmod>2025-05-10T02:28:04.698Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
 </urlset>
