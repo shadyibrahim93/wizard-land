@@ -51,9 +51,28 @@
   }
 
   .#{$identifier}-btn.#{$identifier}-button {
-    margin-top: 42px;
+    margin-top: 21px;
     margin-left: 0;
     margin-right: 0;
     width: 100%;
+  }
+
+  .#{$identifier}-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    .#{$identifier}-link-btn {
+      cursor: pointer;
+      font-family: 'MagicalWorld', sans-serif;
+      font-size: small;
+      letter-spacing: 2px;
+      font-weight: 600;
+      background-color: transparent;
+      color: $secondary-color;
+      border: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 }

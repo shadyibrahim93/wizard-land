@@ -1,5 +1,5 @@
 import Game from './layout.jsx';
 
-export default function BingoQuestPage() {
+export default function MainPage() {
   return <Game />;
 }

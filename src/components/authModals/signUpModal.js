@@ -140,25 +140,29 @@ export default function SignUpModal({
                     {message.text}
                   </div>
                 )}
-                <p class='signup-disclaimer'>
-                  By signing up, you agree to our{' '}
-                  <button
-                    onClick={() => {
-                      setShowTermsOfUse(true);
-                    }}
-                  >
-                    Terms of Use{' '}
-                  </button>
-                  and acknowledge our{' '}
-                  <button
-                    onClick={() => {
-                      setShowPrivacyPolicy(true);
-                    }}
-                  >
-                    Privacy Policy
-                  </button>
-                  .
-                </p>
+                <div className='mq-form-actions'>
+                  <p class='signup-disclaimer'>
+                    By signing up, you agree to our{' '}
+                    <button
+                      className='mq-link-btn'
+                      onClick={() => {
+                        setShowTermsOfUse(true);
+                      }}
+                    >
+                      Terms of Use{' '}
+                    </button>
+                    and acknowledge our{' '}
+                    <button
+                      className='mq-link-btn'
+                      onClick={() => {
+                        setShowPrivacyPolicy(true);
+                      }}
+                    >
+                      Privacy Policy
+                    </button>
+                    .
+                  </p>
+                </div>
                 <div
                   ref={widgetRef}
                   className='captcha-widget'
