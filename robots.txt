@@ -4,6 +4,8 @@ Allow: /
 Disallow: /404
 Disallow: /admin
 Disallow: /account*
+Disallow: /auth/
+Disallow: /api/
 
 # Googlebot-Image
 User-agent: Googlebot-Image
@@ -16,5 +18,3 @@ Host: https://wizardland.net
 
 # Sitemaps
 Sitemap: https://wizardland.net/sitemap.xml
-Sitemap: undefined/sitemap.xml
-Sitemap: undefined/server-sitemap.xml
