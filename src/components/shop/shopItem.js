@@ -87,7 +87,7 @@ const ShopItem = ({ item }) => {
         {item.stars !== 0 && (
           <>
             <Image
-              src={getImagePath('star_single.png')}
+              src='/assets/images/elements/star.png'
               alt='Star Icon'
               width={10} // Adjust width of the star image as needed
               height={20} // Adjust height of the star image as needed
@@ -98,7 +98,7 @@ const ShopItem = ({ item }) => {
         {item.euro !== 0 && (
           <>
             <Image
-              src={getImagePath('euro_single.png')}
+              src='/assets/images/elements/euro_single.png'
               alt='Euro Icon'
               className='mq-sparkle'
               width={10} // Adjust width of the euro image as needed

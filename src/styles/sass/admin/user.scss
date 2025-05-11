@@ -256,9 +256,9 @@
       .#{$identifier}-user {
         &-icon {
           img {
-            left: -24px;
-            width: 47px;
-            top: 0;
+            left: -19px;
+            width: 52px;
+            top: -2px;
             height: auto;
           }
         }
@@ -394,12 +394,15 @@
     }
 
     .#{$identifier}-user-progress {
-      width: 100%;
+      width: -webkit-fill-available;
       flex-wrap: nowrap;
       row-gap: 10px;
       column-gap: 16px;
       margin: 0px;
       justify-content: space-between;
+      padding: 8px 14px;
+      border: 2px solid $light-overlay;
+      border-radius: 10px;
 
       &--exp,
       &--star,
@@ -410,12 +413,18 @@
         background-color: transparent;
       }
 
-      &--exp .#{$identifier}-user-icon img,
       &--euro .#{$identifier}-user-icon img,
       &--star .#{$identifier}-user-icon img {
-        width: 37px;
+        width: 40px;
         top: 0px;
-        left: -5px;
+        left: -11px;
+        height: auto;
+      }
+
+      &--exp .#{$identifier}-user-icon img {
+        width: 43px;
+        top: -1px;
+        left: -15px;
         height: auto;
       }
 

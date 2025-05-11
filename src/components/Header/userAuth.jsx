@@ -7,8 +7,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { playDoor } from '../../hooks/useSound.js';
 import Image from 'next/image'; // Import next/image for optimized images
-import emailIcon from '../../assets/images/elements/email.png';
-import supportIcon from '../../assets/images/elements/support.png';
 import SendEmailModal from '../authModals/sendEmail.js';
 
 const UserAuth = ({ loading, userId, userName, onSignUp }) => {
@@ -54,7 +52,7 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
           {/* Open feedback modal */}
           <div className='mq-user-progress--contact'>
             <Image
-              src={emailIcon}
+              src='/assets/images/elements/email.png'
               alt='Send feedback'
               width={24} // Adjust the width
               height={24} // Adjust the height
@@ -72,7 +70,7 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
           {/* Buy Me a Coffee link */}
           <div className='mq-user-progress--contact'>
             <Image
-              src={supportIcon}
+              src='/assets/images/elements/support.png'
               alt='Support us'
               width={24} // Adjust the width
               height={24} // Adjust the height
@@ -97,7 +95,7 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
               />
             ) : (
               <>
-                <Image
+                {/* <Image
                   src={imageSrc}
                   alt='Home'
                   width={24} // Adjust width as needed
@@ -106,7 +104,7 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
                   onMouseLeave={handleMouseLeave}
                   onClick={handleClick}
                   title='Home'
-                />
+                /> */}
                 {userName}
               </>
             )}

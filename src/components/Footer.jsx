@@ -76,7 +76,10 @@ const Footer = () => {
               rel='noopener noreferrer'
               title='Facebook'
             >
-              <FaFacebookSquare className='mq-social-icon' />
+              <img
+                src='/assets/images/elements/facebook.png'
+                alt='Facebook Logo'
+              />
             </a>
             <a
               href='https://discord.com/channels/1369090826109452368/1369092092579680276'
@@ -84,7 +87,10 @@ const Footer = () => {
               rel='noopener noreferrer'
               title='Discord'
             >
-              <FaDiscord className='mq-social-icon' />
+              <img
+                src='/assets/images/elements/discord.png'
+                alt='Discord Logo'
+              />
             </a>
             <a
               href='https://buymeacoffee.com/wizardland'
@@ -92,7 +98,10 @@ const Footer = () => {
               rel='noopener noreferrer'
               title='Buy Me a Coffee'
             >
-              <DiCoffeescript className='mq-social-icon' />
+              <img
+                src='/assets/images/elements/coffee.png'
+                alt='Buy Me A Coffee Logo'
+              />
             </a>
           </div>
           <p className='mq-copyright'>

@@ -22,32 +22,28 @@ const HeaderContent = ({
     <header>
       <div className='mq-header-container'>
         <MenuItem
-          imgSrc='home.png'
-          onHoverImgSrc='home_active.png'
+          imgSrc='games.png'
+          onHoverImgSrc='games_active.png'
           onClick={() => router.push('/')}
           playHoverSound={playDoor}
-          title='GAMES'
         />
         <MenuItem
           imgSrc='shop.png'
           onHoverImgSrc='shop_active.png'
           onClick={showShop}
           playHoverSound={playChest}
-          title='SHOP'
         />
         <MenuItem
           imgSrc='inventory.png'
           onHoverImgSrc='inventory_active.png'
           onClick={showInventory}
           playHoverSound={playEquip}
-          title='STASH'
         />
         <MenuItem
           imgSrc='about.png'
           onHoverImgSrc='about_active.png'
           onClick={showAbout}
           playHoverSound={playPageFlip}
-          title='ABOUT'
         />
         {userId ? (
           <MenuItem
@@ -55,7 +51,6 @@ const HeaderContent = ({
             onHoverImgSrc='logout_active.png'
             onClick={onLogout}
             playHoverSound={playLogInOut}
-            title='LOGOUT'
           />
         ) : (
           <MenuItem

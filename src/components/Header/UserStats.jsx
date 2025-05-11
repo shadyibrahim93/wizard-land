@@ -2,11 +2,6 @@
 
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import expIcon from '../../assets/images/elements/exp.png';
-import euroIcon from '../../assets/images/elements/euro.png';
-import starIcon from '../../assets/images/elements/star.png';
-import emailIcon from '../../assets/images/elements/email.png';
-import supportIcon from '../../assets/images/elements/support.png';
 
 import Button from '../Button.js';
 import SendEmailModal from '../authModals/sendEmail.js';
@@ -47,7 +42,7 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
             <span className='mq-user-progress--exp'>
               <span className='mq-user-icon'>
                 <Image
-                  src={expIcon}
+                  src='/assets/images/elements/exp.png'
                   alt='Experience'
                   width={24} // Adjust the width
                   height={24} // Adjust the height
@@ -64,7 +59,7 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
             <span className='mq-user-progress--euro'>
               <span className='mq-user-icon'>
                 <Image
-                  src={euroIcon}
+                  src='/assets/images/elements/euro_single.png'
                   alt='Euro'
                   width={24} // Adjust the width
                   height={24} // Adjust the height
@@ -86,7 +81,7 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
             <span className='mq-user-progress--star'>
               <span className='mq-user-icon'>
                 <Image
-                  src={starIcon}
+                  src='/assets/images/elements/star.png'
                   alt='Stars'
                   width={24} // Adjust the width
                   height={24} // Adjust the height
@@ -104,7 +99,7 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
         <span className='mq-user-progress--contact'>
           <span className='mq-user-icon'>
             <Image
-              src={emailIcon}
+              src='/assets/images/elements/email.png'
               alt='Send feedback'
               width={24} // Adjust the width
               height={24} // Adjust the height
@@ -123,7 +118,7 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
         <span className='mq-user-progress--contact'>
           <span className='mq-user-icon'>
             <Image
-              src={supportIcon}
+              src='/assets/images/elements/support.png'
               alt='Support us'
               width={24} // Adjust the width
               height={24} // Adjust the height

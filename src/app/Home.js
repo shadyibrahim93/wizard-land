@@ -12,56 +12,56 @@ export default function Home() {
   const gamesData = [
     {
       url: '/games/bingo-quest',
-      imgSrc: 'bingo_quest.jpg',
+      imgSrc: 'bingo.png',
       alt: 'Bingo Game',
       title: 'Bingo',
       type: 'Singleplayer'
     },
     {
       url: '/games/orbito-quest',
-      imgSrc: 'orbito_quest.jpg',
+      imgSrc: 'orbito.png',
       alt: 'Orbito Game',
       title: 'Orbito',
       type: 'Multiplayer'
     },
     {
       url: '/games/chess-quest',
-      imgSrc: 'chess_quest.jpg',
+      imgSrc: 'chess.png',
       alt: 'Chess Game',
       title: 'Chess',
       type: 'Multiplayer'
     },
     {
       url: '/games/connect-four-quest',
-      imgSrc: 'connect_four_quest.jpg',
+      imgSrc: 'connect_four.png',
       alt: 'Connect Four Game',
       title: 'Connect 4',
       type: 'Multiplayer'
     },
     {
       url: '/games/tic-tac-toe-quest',
-      imgSrc: 'tictactoe_quest.jpg',
+      imgSrc: 'tictactoe.png',
       alt: 'Tic Tac Toe Game',
       title: 'Tic Tac Toe',
       type: 'Multiplayer'
     },
     {
       url: '/games/checker-quest',
-      imgSrc: 'checker_quest.jpg',
+      imgSrc: 'checker.png',
       alt: 'Checker Game',
       title: 'Checker',
       type: 'Multiplayer'
     },
     {
       url: '/games/scramble-quest',
-      imgSrc: 'scramble_quest.jpg',
+      imgSrc: 'scramble.png',
       alt: 'Scramble Game',
       title: 'Scrambled',
       type: 'Singleplayer'
     },
     {
       url: '/games/sudoku-quest',
-      imgSrc: 'sudoku_quest.jpg',
+      imgSrc: 'sudoku.png',
       alt: 'Sudoku Game',
       title: 'Sudoku',
       type: 'Singleplayer'
@@ -69,7 +69,7 @@ export default function Home() {
     /*
     {
       url: '/games/math-quest',
-      imgSrc: 'math_quest.jpg',
+      imgSrc: 'math.png',
       alt: 'Math Game',
       title: 'Math Marathon',
       type: 'Singleplayer'
@@ -77,35 +77,35 @@ export default function Home() {
     */
     {
       url: '/games/puzzle-quest',
-      imgSrc: 'puzzle_quest.jpg',
+      imgSrc: 'jigsaw.png',
       alt: 'Puzzle Game',
       title: 'Jigsaw',
       type: 'Singleplayer'
     },
     {
       url: '/games/personal-puzzle-quest',
-      imgSrc: 'personal_puzzle_quest.jpg',
+      imgSrc: 'personal_jigsaw.png',
       alt: 'Personal Puzzle Game',
       title: 'Personal Jigsaw',
       type: 'Singleplayer'
     },
     {
       url: '/games/match-quest',
-      imgSrc: 'match_quest.jpg',
+      imgSrc: 'matching.png',
       alt: 'Matching Game',
       title: 'Pair Pursuit',
       type: 'Singleplayer'
     },
     {
       url: '/games/memory-quest',
-      imgSrc: 'memory_quest.jpg',
+      imgSrc: 'memory.png',
       alt: 'Memory Game',
       title: 'Brain Vault',
       type: 'Singleplayer'
     },
     {
       url: '/games/dropzone-quest',
-      imgSrc: 'dropzone_quest.jpg',
+      imgSrc: 'dropzone.png',
       alt: 'Drop Game',
       title: 'Perfect Fit',
       type: 'Singleplayer'
@@ -228,7 +228,8 @@ export default function Home() {
         <div className='mq-dashboard-container'>
           <section>
             <h2 className='mq-section-title mq-section-title--multiplayer'>
-              ⚔️ Multiplayer Games
+              <img src='assets/images/elements/multiplayer.png' /> Multiplayer
+              Games
             </h2>
             <hr></hr>
             <div className='mq-cards-grid'>
@@ -245,7 +246,7 @@ export default function Home() {
           </section>
           <section>
             <h2 className='mq-section-title mq-section-title--solo'>
-              🗡️ Solo Games
+              <img src='assets/images/elements/solo.png' /> Single player Games
             </h2>
             <hr></hr>
             <div className='mq-cards-grid'>

@@ -2,10 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '../apiService';
-import firstPlaceMedal from '@/assets/images/elements/rank/firstplace.png';
-import secondPlaceMedal from '@/assets/images/elements/rank/secondplace.png';
-import thirdPlaceMedal from '@/assets/images/elements/rank/thirdplace.png';
-import defaultPlayerImage from '@/assets/images/elements/rank/defaultplace.png';
 import Image from 'next/image';
 
 const fetchAllUserProgressGroupedByGame = async (timeFrame = 'daily') => {
@@ -48,10 +44,11 @@ const LeaderBoard = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const medalImages = [
-    firstPlaceMedal, // 1st place
-    secondPlaceMedal, // 2nd place
-    thirdPlaceMedal // 3rd place
+    '/assets/images/elements/firstplace.png',
+    '/assets/images/elements/secondplace.png',
+    '/assets/images/elements/thirdplace.png'
   ];
+  const defaultPlayerImage = '/assets/images/elements/defaultplace.png';
 
   useEffect(() => {
     const fetchData = async () => {
@@ -106,7 +103,8 @@ const LeaderBoard = () => {
   return (
     <section className='mq-leaderboard-section'>
       <h2 className='mq-section-title mq-section-title--multiplayer'>
-        🏆 {getTimeFrameTitle()} Leaderboard
+        <img src='assets/images/elements/trophy.png' /> {getTimeFrameTitle()}{' '}
+        Leaderboard
       </h2>
 
       {/* Time Frame Buttons */}
@@ -165,8 +163,9 @@ const LeaderBoard = () => {
                         {index + 1}
                       </span>
                       <Image
-                        widtd={100}
+                        width={100}
                         height={100}
+                        unoptimized
                         src={
                           index < 3 ? medalImages[index] : defaultPlayerImage
                         }

@@ -83,7 +83,7 @@ body {
     padding-right: 30px;
     box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3);
     text-align: center;
-    padding: 12px 36px;
+    padding: 6px 21px;
     position: relative;
     .#{$identifier}-header-container {
       padding: 8px 0px;
@@ -97,7 +97,7 @@ body {
         color: $white;
 
         img {
-          width: 50px;
+          width: 70px;
           height: auto;
         }
 
@@ -175,7 +175,7 @@ body {
         .#{$identifier}-menu-item {
           font-size: 12px;
           img {
-            width: 30px;
+            width: 45px;
             height: auto;
           }
 
@@ -232,6 +232,10 @@ body {
     h3,
     h4 {
       color: $white;
+    }
+
+    img {
+      width: 35px;
     }
 
     .#{$identifier}-follow-us {
@@ -440,55 +444,24 @@ body {
             padding: 0px 0px 12px 0px;
             margin: 0px;
 
-            &:nth-of-type(1) {
-              .#{$identifier}-leaderboard-player-info {
-                .#{$identifier}-leaderboard-player-rank {
-                  left: 18.5px;
-                }
-              }
-            }
-
-            &:nth-of-type(2) {
-              .#{$identifier}-leaderboard-player-info {
-                .#{$identifier}-leaderboard-player-rank {
-                  left: 17.5px;
-                }
-              }
-            }
-
-            &:nth-of-type(4) {
-              .#{$identifier}-leaderboard-player-info {
-                .#{$identifier}-leaderboard-player-rank {
-                  left: 17px;
-                }
-              }
-            }
-
-            &:nth-of-type(10) {
-              .#{$identifier}-leaderboard-player-info {
-                .#{$identifier}-leaderboard-player-rank {
-                  left: 16.5px;
-                }
-              }
-            }
-
             .#{$identifier}-leaderboard-player-info {
               position: relative;
               display: flex;
               align-items: center;
               gap: 12px;
               img {
-                width: 40px;
+                width: 30px;
                 height: auto;
               }
 
               .#{$identifier}-leaderboard-player-rank {
+                display: none;
                 position: absolute;
                 letter-spacing: normal;
                 line-height: normal;
-                left: 18px;
+                left: 18.5px;
                 top: 12px;
-                font-size: x-small;
+                font-size: xx-small;
                 &:nth-of-type(2) {
                   left: 17px;
                 }
@@ -554,10 +527,16 @@ body {
           border-radius: 7px;
           width: auto;
           display: flex;
+          align-items: center;
           font-size: 21px;
           padding: 0px 0px 12px;
           margin: 0px;
           animation: glowingRed 4s infinite alternate;
+
+          img {
+            width: 35px;
+            margin-right: 8px;
+          }
 
           @media (max-width: 768px) {
             font-size: small;
