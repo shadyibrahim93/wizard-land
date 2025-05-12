@@ -39,7 +39,7 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
       <h3 className='mq-user-progress'>
         {userId && (
           <>
-            <span className='mq-user-progress--exp'>
+            {/* <span className='mq-user-progress--exp'>
               <span className='mq-user-icon'>
                 <Image
                   src='/assets/images/elements/exp.png'
@@ -54,7 +54,7 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
               >
                 {exp}
               </span>
-            </span>
+            </span> */}
 
             <span className='mq-user-progress--euro'>
               <span className='mq-user-icon'>
