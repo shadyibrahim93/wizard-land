@@ -2,9 +2,9 @@ import MenuItem from '../menu/menuItem.jsx';
 import {
   playChest,
   playEquip,
-  playLogInOut,
+  playDoor,
   playPageFlip,
-  playDoor
+  playArrow
 } from '../../hooks/useSound.js';
 import { useRouter } from 'next/navigation';
 
@@ -22,42 +22,42 @@ const HeaderContent = ({
     <header>
       <div className='mq-header-container'>
         <MenuItem
-          imgSrc='games.png'
-          onHoverImgSrc='games_active.png'
+          imgSrc='games.webp'
+          onHoverImgSrc='games_active.webp'
           onClick={() => router.push('/')}
-          playHoverSound={playDoor}
+          playHoverSound={playArrow}
         />
         <MenuItem
-          imgSrc='shop.png'
-          onHoverImgSrc='shop_active.png'
+          imgSrc='shop.webp'
+          onHoverImgSrc='shop_active.webp'
           onClick={showShop}
           playHoverSound={playChest}
         />
         <MenuItem
-          imgSrc='inventory.png'
-          onHoverImgSrc='inventory_active.png'
+          imgSrc='inventory.webp'
+          onHoverImgSrc='inventory_active.webp'
           onClick={showInventory}
           playHoverSound={playEquip}
         />
         <MenuItem
-          imgSrc='about.png'
-          onHoverImgSrc='about_active.png'
+          imgSrc='about.webp'
+          onHoverImgSrc='about_active.webp'
           onClick={showAbout}
           playHoverSound={playPageFlip}
         />
         {userId ? (
           <MenuItem
-            imgSrc='logout.png'
-            onHoverImgSrc='logout_active.png'
+            imgSrc='logout.webp'
+            onHoverImgSrc='logout_active.webp'
             onClick={onLogout}
-            playHoverSound={playLogInOut}
+            playHoverSound={playDoor}
           />
         ) : (
           <MenuItem
-            imgSrc='login.png'
-            onHoverImgSrc='login_active.png'
+            imgSrc='login.webp'
+            onHoverImgSrc='login_active.webp'
             onClick={onSignIn}
-            playHoverSound={playLogInOut}
+            playHoverSound={playDoor}
             title='LOGIN'
           />
         )}

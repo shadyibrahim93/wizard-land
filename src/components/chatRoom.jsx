@@ -50,7 +50,15 @@ const GameChat = ({ chatTitle, gameId }) => {
     <div className='mq-game-side-modal mq-side-modal-wrapper'>
       <div>
         <header>
-          <span>{chatTitle}</span>
+          <h2 className='mq-section-title'>
+            {' '}
+            <img
+              className='mq-chat-icon'
+              src='/assets/images/elements/chat.png'
+              alt={chatTitle}
+            />
+            {chatTitle}
+          </h2>
         </header>
         <div className='mq-messages'>
           {messages.length === 0 && <h3>Start Chating!</h3>}

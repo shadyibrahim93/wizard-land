@@ -15,9 +15,6 @@ export default function GameCards({ target, imgSrc, alt, title }) {
       onMouseEnter={() => setShowTitle(true)}
       onMouseLeave={() => setShowTitle(false)}
     >
-      {showTitle && (
-        <h1 className='mq-ending-title glowingFire-text'>{title}</h1>
-      )}
       <Image
         src={`/assets/images/${imgSrc}`} // Image source path
         alt={alt}
@@ -25,6 +22,7 @@ export default function GameCards({ target, imgSrc, alt, title }) {
         height={300} // adjust as needed
         loading='lazy' // Helps with performance optimization
       />
+      <h1 className='mq-ending-title'>{title}</h1>
     </Link>
   );
 }

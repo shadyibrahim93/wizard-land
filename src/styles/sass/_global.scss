@@ -43,7 +43,7 @@ body {
   overflow: hidden;
   font-family: 'MagicalWorld', sans-serif;
   text-align: center;
-  background-image: url('../../assets/images/background.jpg');
+  background-image: url('/assets/images/background.png');
   background-size: cover;
   background-repeat: no-repeat;
   height: -webkit-fill-available;
@@ -51,7 +51,7 @@ body {
   margin: 0;
   margin-bottom: 21px;
   padding: 40px;
-  cursor: url('../../assets/images/cursor.png'), default;
+  cursor: url('/assets/images/cursor.png'), default;
 
   input[type='number'] {
     -moz-appearance: textfield;
@@ -64,7 +64,7 @@ body {
 
   a {
     text-decoration: none;
-    color: $secondary-color;
+    color: $primary-color;
 
     &:hover {
       text-decoration: underline;
@@ -283,7 +283,7 @@ body {
             font-family: 'MagicalWorld';
             background-color: transparent;
             border: none;
-            color: $secondary-color;
+            color: $primary-color;
             font-size: large;
           }
         }
@@ -389,7 +389,7 @@ body {
             justify-content: space-between;
             column-gap: 21px;
             flex-wrap: nowrap;
-            padding: 12px 21px;
+            padding: 21px;
 
             button {
               outline: none;
@@ -432,7 +432,6 @@ body {
               display: flex;
               justify-content: space-between;
               color: $white;
-              animation: glowingRed 4s infinite alternate;
             }
           }
 
@@ -531,7 +530,6 @@ body {
           font-size: 21px;
           padding: 0px 0px 12px;
           margin: 0px;
-          animation: glowingRed 4s infinite alternate;
 
           img {
             width: 35px;
@@ -567,20 +565,29 @@ body {
         justify-content: center;
         align-items: center;
         position: relative;
-        background-color: $light-overlay;
         border-radius: 10px;
         overflow: hidden;
         text-decoration: none;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         max-width: 100%;
-        padding: 12px;
         transform: rotate(0deg) skew(0deg) translate(0, 0);
         transition: 0.5s;
         animation: levitate 4s ease-in-out infinite;
 
         .#{$identifier}-ending-title {
-          animation: fadeIn 0.5s ease-in-out, glowingRed 1.5s infinite alternate;
-          font-size: 30px;
+          bottom: 0;
+          position: absolute;
+          height: 45px;
+          background-color: $secondary-color;
+          border: 3px solid #b79778;
+          width: -webkit-fill-available;
+          font-size: x-large;
+          animation: none;
+
+          @media (max-width: 768px) {
+            font-size: large;
+            height: 37px;
+          }
         }
 
         @for $i from 1 through 10 {
@@ -1143,14 +1150,14 @@ body {
             font-size: large;
 
             a {
-              border: 2px solid $secondary-color;
+              border: 2px solid $primary-color;
               padding: 3px 8px;
               border-radius: 10px;
             }
 
             strong {
               font-family: 'MagicalWorld', sans-serif;
-              color: $secondary-color;
+              color: $primary-color;
             }
           }
         }

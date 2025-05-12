@@ -12,56 +12,56 @@ export default function Home() {
   const gamesData = [
     {
       url: '/games/bingo-quest',
-      imgSrc: 'bingo.png',
+      imgSrc: 'bingo',
       alt: 'Bingo Game',
       title: 'Bingo',
       type: 'Singleplayer'
     },
     {
       url: '/games/orbito-quest',
-      imgSrc: 'orbito.png',
+      imgSrc: 'orbito',
       alt: 'Orbito Game',
       title: 'Orbito',
       type: 'Multiplayer'
     },
     {
       url: '/games/chess-quest',
-      imgSrc: 'chess.png',
+      imgSrc: 'chess',
       alt: 'Chess Game',
       title: 'Chess',
       type: 'Multiplayer'
     },
     {
       url: '/games/connect-four-quest',
-      imgSrc: 'connect_four.png',
+      imgSrc: 'connect_four',
       alt: 'Connect Four Game',
       title: 'Connect 4',
       type: 'Multiplayer'
     },
     {
       url: '/games/tic-tac-toe-quest',
-      imgSrc: 'tictactoe.png',
+      imgSrc: 'tictactoe',
       alt: 'Tic Tac Toe Game',
       title: 'Tic Tac Toe',
       type: 'Multiplayer'
     },
     {
       url: '/games/checker-quest',
-      imgSrc: 'checker.png',
+      imgSrc: 'checkers',
       alt: 'Checker Game',
       title: 'Checker',
       type: 'Multiplayer'
     },
     {
       url: '/games/scramble-quest',
-      imgSrc: 'scramble.png',
+      imgSrc: 'scramble',
       alt: 'Scramble Game',
       title: 'Scrambled',
       type: 'Singleplayer'
     },
     {
       url: '/games/sudoku-quest',
-      imgSrc: 'sudoku.png',
+      imgSrc: 'sudoku',
       alt: 'Sudoku Game',
       title: 'Sudoku',
       type: 'Singleplayer'
@@ -69,7 +69,7 @@ export default function Home() {
     /*
     {
       url: '/games/math-quest',
-      imgSrc: 'math.png',
+      imgSrc: 'math',
       alt: 'Math Game',
       title: 'Math Marathon',
       type: 'Singleplayer'
@@ -77,35 +77,35 @@ export default function Home() {
     */
     {
       url: '/games/puzzle-quest',
-      imgSrc: 'jigsaw.png',
+      imgSrc: 'jigsaw',
       alt: 'Puzzle Game',
       title: 'Jigsaw',
       type: 'Singleplayer'
     },
     {
       url: '/games/personal-puzzle-quest',
-      imgSrc: 'personal_jigsaw.png',
+      imgSrc: 'personal_jigsaw',
       alt: 'Personal Puzzle Game',
       title: 'Personal Jigsaw',
       type: 'Singleplayer'
     },
     {
       url: '/games/match-quest',
-      imgSrc: 'matching.png',
+      imgSrc: 'matching',
       alt: 'Matching Game',
       title: 'Pair Pursuit',
       type: 'Singleplayer'
     },
     {
       url: '/games/memory-quest',
-      imgSrc: 'memory.png',
+      imgSrc: 'memory',
       alt: 'Memory Game',
       title: 'Brain Vault',
       type: 'Singleplayer'
     },
     {
       url: '/games/dropzone-quest',
-      imgSrc: 'dropzone.png',
+      imgSrc: 'dropzone',
       alt: 'Drop Game',
       title: 'Perfect Fit',
       type: 'Singleplayer'
@@ -237,7 +237,7 @@ export default function Home() {
                 <GameCards
                   key={index}
                   target={game.url}
-                  imgSrc={game.imgSrc}
+                  imgSrc={`${game.imgSrc}.png`}
                   alt={game.alt}
                   title={game.title}
                 />
@@ -254,7 +254,7 @@ export default function Home() {
                 <GameCards
                   key={index}
                   target={game.url}
-                  imgSrc={game.imgSrc}
+                  imgSrc={`${game.imgSrc}.png`}
                   alt={game.alt}
                   title={game.title}
                 />

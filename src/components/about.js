@@ -2,7 +2,6 @@
 
 import React from 'react';
 import profileImage from '@/assets/images/profile.jpg';
-import diamondImage from '@/assets/images/elements/euro_single.png';
 import Image from 'next/image';
 
 const About = ({ onClose }) => (
@@ -76,9 +75,10 @@ const About = ({ onClose }) => (
             <strong>
               5000{' '}
               <Image
-                src={diamondImage}
+                src='/assets/images/elements/euro_single.png'
                 alt='Wizard'
                 width={30}
+                height={25}
                 className='mq-diamond-image'
               />
             </strong>{' '}

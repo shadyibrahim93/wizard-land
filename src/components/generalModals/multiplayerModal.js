@@ -116,7 +116,8 @@ const MultiplayerModal = ({ gameId, onStartGame, setGameMode }) => {
   return (
     <div className='mq-game-side-modal'>
       <header>
-        <span>Multiplayer: Available Rooms</span>
+        <img src='/assets/images/elements/room.png' />
+        Multiplayer: Available Rooms
       </header>
 
       {gameRooms.length > 0 ? (
