@@ -532,14 +532,10 @@ body {
           font-size: 21px;
           padding: 0px 0px 12px;
           margin: 0px;
-
+          text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
           img {
             width: 35px;
             margin-right: 8px;
-          }
-
-          @media (max-width: 768px) {
-            font-size: small;
           }
         }
         .#{$identifier}-cards-grid {
