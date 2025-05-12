@@ -237,7 +237,7 @@ export default function Home() {
                 <GameCards
                   key={index}
                   target={game.url}
-                  imgSrc={`${game.imgSrc}.png`}
+                  imgSrc={`${game.imgSrc}.webp`}
                   alt={game.alt}
                   title={game.title}
                 />
@@ -254,7 +254,7 @@ export default function Home() {
                 <GameCards
                   key={index}
                   target={game.url}
-                  imgSrc={`${game.imgSrc}.png`}
+                  imgSrc={`${game.imgSrc}.webp`}
                   alt={game.alt}
                   title={game.title}
                 />

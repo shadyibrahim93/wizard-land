@@ -175,7 +175,7 @@ body {
         .#{$identifier}-menu-item {
           font-size: 12px;
           img {
-            width: 45px;
+            width: 55px;
             height: auto;
           }
 
@@ -318,15 +318,17 @@ body {
   }
 
   .#{$identifier}-home {
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.4);
-      z-index: 0;
+    @media (min-width: 768px) {
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+        z-index: 0;
+      }
     }
 
     .#{$identifier}-dashboard-cards-wrapper {
@@ -549,7 +551,6 @@ body {
 
           @media (max-width: 768px) {
             grid-template-columns: repeat(2, 1fr);
-            padding: 24px 0px 0px;
             margin-top: 0px;
           }
         }
