@@ -41,7 +41,7 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
       <h3 className='mq-user-progress'>
         {userId && (
           <>
-            <span className='mq-user-progress--exp'>
+            {/* <span className='mq-user-progress--exp'>
               <span className='mq-user-icon'>
                 <Image
                   src={`/assets/images/${player.realm}/elements/exp.png`}
@@ -56,18 +56,20 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
               >
                 {exp}
               </span>
-            </span>
+            </span> */}
 
             <span className='mq-user-progress--euro'>
-              <span className='mq-user-icon'>
-                <Image
-                  src={`/assets/images/${player.realm}/elements/euro.png`}
-                  alt='Euro'
-                  width={24} // Adjust the width
-                  height={24} // Adjust the height
-                />
+              <span className='mq-user-amount'>
+                <span className='mq-user-icon'>
+                  <Image
+                    src={`/assets/images/${player.realm}/elements/euro.png`}
+                    alt='Euro'
+                    width={24} // Adjust the width
+                    height={24} // Adjust the height
+                  />
+                </span>
+                {euro}
               </span>
-              <span className='mq-user-amount'>{euro}</span>
               <Button
                 text='+'
                 className='mq-user-add'
@@ -81,56 +83,57 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
             </span>
 
             <span className='mq-user-progress--star'>
-              <span className='mq-user-icon'>
-                <Image
-                  src={`/assets/images/${player.realm}/elements/star.png`}
-                  alt='Stars'
-                  width={24} // Adjust the width
-                  height={24} // Adjust the height
-                />
-              </span>
               <span
                 className='mq-user-amount'
                 id='coinCounterRef'
               >
+                <span className='mq-user-icon'>
+                  <Image
+                    src={`/assets/images/${player.realm}/elements/star.png`}
+                    alt='Stars'
+                    width={24} // Adjust the width
+                    height={24} // Adjust the height
+                  />
+                </span>
                 {stars}
               </span>
             </span>
           </>
         )}
         <span className='mq-user-progress--contact'>
-          <span className='mq-user-icon'>
-            <Image
-              src={`/assets/images/${player.realm}/elements/email.png`}
-              alt='Send feedback'
-              width={24} // Adjust the width
-              height={24} // Adjust the height
-            />
-          </span>
           <a
             type='button'
             id='send-email'
-            className='icon-button'
+            className='mq-user-amount'
             onClick={() => setShowEmailModal(true)}
             onMouseEnter={playButtonHover}
           >
+            <span className='mq-user-icon'>
+              <Image
+                src={`/assets/images/${player.realm}/elements/email.png`}
+                alt='Send feedback'
+                width={24} // Adjust the width
+                height={24} // Adjust the height
+              />
+            </span>
             Feedback
           </a>
         </span>
         <span className='mq-user-progress--contact'>
-          <span className='mq-user-icon'>
-            <Image
-              src={`/assets/images/${player.realm}/elements/support.png`}
-              alt='Support us'
-              width={24} // Adjust the width
-              height={24} // Adjust the height
-            />
-          </span>
           <a
+            className='mq-user-amount'
             href='https://www.buymeacoffee.com/wizardland'
             target='_blank'
             onMouseEnter={playButtonHover}
           >
+            <span className='mq-user-icon'>
+              <Image
+                src={`/assets/images/${player.realm}/elements/support.png`}
+                alt='Support us'
+                width={24} // Adjust the width
+                height={24} // Adjust the height
+              />
+            </span>
             Support My Work
           </a>
         </span>

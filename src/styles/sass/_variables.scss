@@ -35,7 +35,9 @@ $fantasy: (
   cards-grid-padding: 21px 0px,
   leaderboard-rank: flex,
   leaderboard-rank-badge-size: 40px,
-  text-color: #c47f3c
+  text-color: #c47f3c,
+  user-progress-border: 2px solid,
+  user-progress-padding: 8px 14px
 );
 
 $vintage: (
@@ -52,12 +54,14 @@ $vintage: (
   background-image: url('/assets/images/vintage/background.png'),
   title-display: flex,
   title-glow: none,
-  header-icon-width-mobile: 55px,
+  header-icon-width-mobile: 60px,
   header-icon-width: 60px,
   cards-grid-padding: 0px,
   leaderboard-rank: none,
   leaderboard-rank-badge-size: 30px,
-  text-color: #b79778
+  text-color: #b79778,
+  user-progress-border: 2px solid,
+  user-progress-padding: 8px 14px
 );
 
 /// A helper to emit custom‐properties for a given map and selector

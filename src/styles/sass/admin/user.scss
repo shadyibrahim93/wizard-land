@@ -193,18 +193,29 @@
     &--euro,
     &--contact {
       background-color: var(--light-overlay);
-      padding: 4px 6px 4px 8px;
+      padding: 6px;
       border-radius: 10px;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
       position: relative;
+
+      .#{$identifier}-user {
+        &-icon {
+          line-height: 1;
+          font-size: 0;
+
+          img {
+            width: 30px;
+          }
+        }
+      }
     }
 
     .#{$identifier}-user-progress--contact {
       background-color: var(--light-overlay);
-      padding: 6px 6px 6px 35px;
+      padding: 6px;
       border-radius: 10px;
       display: flex;
       flex-direction: row;
@@ -250,77 +261,22 @@
       }
     }
 
-    &--exp {
-      margin-left: 15px;
-      padding-left: 35px;
-      .#{$identifier}-user {
-        &-icon {
-          img {
-            left: -24px;
-            width: 47px;
-            top: 0;
-            height: auto;
-          }
-        }
-      }
-    }
-
-    &--euro {
-      margin-left: 15px;
-      padding-left: 45px;
-      .#{$identifier}-user {
-        &-icon {
-          img {
-            left: -21px;
-            width: 50px;
-            top: 0;
-            height: auto;
-          }
-        }
-      }
-    }
-
-    &--star {
-      margin-left: 15px;
-      padding-left: 45px;
-      .#{$identifier}-user {
-        &-icon {
-          img {
-            left: -17px;
-            width: 48px;
-            top: 0;
-            height: auto;
-          }
-        }
-      }
-    }
-
-    &--contact {
-      margin-left: 15px;
-      padding-left: 45px;
-      .#{$identifier}-user {
-        &-icon {
-          img {
-            top: 0px;
-            left: -23px;
-            width: 50px;
-            height: auto;
-          }
-        }
-      }
-    }
-
     .#{$identifier}-user {
       &-icon {
+        line-height: 1;
+
         img {
-          position: absolute;
+          width: 30px;
         }
       }
       &-amount {
         background-color: var(--dark-overlay);
-        padding: 2px 12px;
+        padding: 6px 12px;
         border-radius: 10px;
-        text-align: center;
+        display: flex;
+        justify-content: space-between;
+        gap: 21px;
+        align-items: center;
         width: 100%;
         letter-spacing: 1px;
 
@@ -330,7 +286,7 @@
       }
       &-add {
         margin: 0;
-        padding: 4px 0px;
+        padding: 10px 0px;
         margin-left: 12px;
         background-color: var(--secondary-color);
         text-align: center;
@@ -394,12 +350,16 @@
     }
 
     .#{$identifier}-user-progress {
-      width: 100%;
+      width: -webkit-fill-available;
       flex-wrap: nowrap;
       row-gap: 10px;
       column-gap: 16px;
       margin: 0px;
       justify-content: space-between;
+      padding: var(--user-progress-padding);
+      border: var(--user-progress-border);
+      border-color: var(--primary-color);
+      border-radius: 10px;
 
       &--exp,
       &--star,
@@ -410,29 +370,21 @@
         background-color: transparent;
       }
 
-      &--exp .#{$identifier}-user-icon img,
-      &--euro .#{$identifier}-user-icon img,
-      &--star .#{$identifier}-user-icon img {
-        width: 37px;
-        top: 0px;
-        left: -5px;
-        height: auto;
-      }
-
       .#{$identifier}-user {
         &-amount {
           font-size: small;
-          padding: 6px 10px 6px 36px;
+          padding: 6px 10px;
           width: 100%;
           overflow-x: auto;
           display: flex;
-          justify-content: center;
+          justify-content: space-between;
+          gap: 21px;
           align-items: center;
           height: auto;
         }
 
         &-add {
-          padding: 4px 10px;
+          padding: 10px 20px;
           margin-left: 8px;
           width: 30px;
           height: auto;
