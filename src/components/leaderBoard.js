@@ -81,7 +81,14 @@ const LeaderBoard = () => {
       }, {});
 
       Object.values(grouped).forEach((group) => {
-        group.players.sort((a, b) => b.wins - a.wins);
+        group.players.sort((a, b) => {
+          // First sort by wins descending
+          if (b.wins !== a.wins) {
+            return b.wins - a.wins;
+          }
+          // If wins are equal, sort by losses ascending
+          return a.losses - b.losses;
+        });
         group.players = group.players.slice(0, 10); // limit to top 10
       });
 

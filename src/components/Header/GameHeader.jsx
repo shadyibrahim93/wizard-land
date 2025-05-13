@@ -27,6 +27,7 @@ const HeaderContent = ({
           onClick={() => router.push('/')}
           playHoverSound={playDoor}
           title='GAMES'
+          id='home-button'
         />
         <MenuItem
           imgSrc='shop.png'

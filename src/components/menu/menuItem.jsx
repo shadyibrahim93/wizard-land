@@ -9,7 +9,8 @@ const MenuItem = ({
   onHoverImgSrc,
   title,
   onClick,
-  playHoverSound
+  playHoverSound,
+  id
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { userId } = useUser();
@@ -39,6 +40,7 @@ const MenuItem = ({
       onClick={onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      id={id}
     >
       <img
         src={imageSrc}
