@@ -3,12 +3,18 @@
 import React, { useRef, useState } from 'react';
 import { activateItem } from '../../apiService';
 import Button from '../Button';
-import { playEquip, playPieceSound } from '../../hooks/useSound';
+import {
+  playPieceSound,
+  pauseBGMusic,
+  resumeBGMusic
+} from '../../hooks/useSound';
 import Image from 'next/image';
 
 const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const audioRef = useRef(null);
+  const bgMusicTimeRef = useRef(0);
+  const wasPlayingRef = useRef(false);
 
   // Build URL array for realm images
   const realmImages =
@@ -33,16 +39,35 @@ const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
     }
   };
 
+  const shouldPlaySound = item.image_url;
+
   const handleMouseEnter = () => {
-    if (item.image_url) {
-      audioRef.current = playPieceSound(item.image_url);
+    if (shouldPlaySound) {
+      // Play appropriate sound
+      if (item.type === 'realm') {
+        // Store BG music state and pause
+        bgMusicTimeRef.current = pauseBGMusic();
+        wasPlayingRef.current = bgMusicTimeRef.current > 0;
+
+        // For realms, use a special sound logic if needed
+        audioRef.current = playPieceSound(item.image_url);
+      } else {
+        audioRef.current = playPieceSound(item.image_url);
+      }
     }
   };
+
   const handleMouseLeave = () => {
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
       audioRef.current = null;
+    }
+
+    // Resume BG music if we paused it
+    if (wasPlayingRef.current) {
+      resumeBGMusic(bgMusicTimeRef.current);
+      wasPlayingRef.current = false;
     }
   };
 

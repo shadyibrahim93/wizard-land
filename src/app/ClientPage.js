@@ -28,7 +28,7 @@ export default function ClientPage() {
     }
 
     emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY);
-    const shouldShowLanding = now < cutoff && userType !== 'test';
+    const shouldShowLanding = now < cutoff && userType === 'test';
     setShowLanding(shouldShowLanding);
   }, [searchParams, router, userType, loading]);
 

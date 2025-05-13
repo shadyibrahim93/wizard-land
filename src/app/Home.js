@@ -163,8 +163,13 @@ export default function Home() {
       gamesData.filter((game) => game.type === 'Singleplayer')
     );
     introStarConfetti();
-    playBGMusic('bgmusic');
   }, []);
+
+  useEffect(() => {
+    if (realm) {
+      playBGMusic(realm);
+    }
+  }, [realm]);
 
   const gameSchema = gamesData.map((game) => ({
     '@type': 'Game',

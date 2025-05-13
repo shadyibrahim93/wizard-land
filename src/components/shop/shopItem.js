@@ -1,14 +1,30 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { purchaseItem } from '../../apiService';
 import { useUser } from '../../context/UserContext';
-import { playPurchase, playPieceSound } from '../../hooks/useSound';
+import {
+  playPurchase,
+  playPieceSound,
+  pauseBGMusic,
+  resumeBGMusic
+} from '../../hooks/useSound';
 import Button from '../Button';
 import Image from 'next/image'; // Import next/image for optimized images
 
 const ShopItem = ({ item }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { userId, loading } = useUser(); // Directly use your useUser hook
+  const bgMusicTimeRef = useRef(0);
+  const wasPlayingRef = useRef(false);
+
+  // Build URL array for realm images
+  const realmImages =
+    item.type === 'realm'
+      ? [1, 2].map(
+          (n) => `/assets/images/board_pieces/${item.className}-${n}.webp`
+        )
+      : [];
 
   const handlePurchase = async (item) => {
     if (loading) {
@@ -45,7 +61,17 @@ const ShopItem = ({ item }) => {
 
   const handleMouseEnter = () => {
     if (shouldPlaySound) {
-      audioRef.current = playPieceSound(item.image_url);
+      // Play appropriate sound
+      if (item.type === 'realm') {
+        // Store BG music state and pause
+        bgMusicTimeRef.current = pauseBGMusic();
+        wasPlayingRef.current = bgMusicTimeRef.current > 0;
+
+        // For realms, use a special sound logic if needed
+        audioRef.current = playPieceSound(item.image_url);
+      } else {
+        audioRef.current = playPieceSound(item.image_url);
+      }
     }
   };
 
@@ -55,7 +81,24 @@ const ShopItem = ({ item }) => {
       audioRef.current.currentTime = 0;
       audioRef.current = null;
     }
+
+    // Resume BG music if we paused it
+    if (wasPlayingRef.current) {
+      resumeBGMusic(bgMusicTimeRef.current);
+      wasPlayingRef.current = false;
+    }
   };
+
+  const nextImage = () =>
+    setCurrentImageIndex((idx) =>
+      realmImages.length ? (idx + 1) % realmImages.length : 0
+    );
+  const prevImage = () =>
+    setCurrentImageIndex((idx) =>
+      realmImages.length
+        ? (idx - 1 + realmImages.length) % realmImages.length
+        : 0
+    );
 
   return (
     <div
@@ -72,7 +115,7 @@ const ShopItem = ({ item }) => {
         }`}
       >
         {item.emoji && item.emoji}
-        {item.image_url && (
+        {item.image_url && item.type !== 'realm' && (
           <Image
             src={`/assets/images/board_pieces/${item.image_url}.webp`}
             alt={`Board Piece - ${item.className}`}
@@ -80,6 +123,34 @@ const ShopItem = ({ item }) => {
             height={90} // Adjust the height as needed
             loading='lazy'
           />
+        )}
+        {item.type === 'realm' && realmImages.length > 0 && (
+          <div className='mq-screenshot-grid'>
+            <button
+              className='modal-nav prev'
+              onClick={prevImage}
+              aria-label='Previous image'
+            >
+              ‹
+            </button>
+
+            <Image
+              key={currentImageIndex}
+              src={realmImages[currentImageIndex]}
+              alt={`Realm View ${currentImageIndex + 1}`}
+              width={100}
+              height={90}
+              loading='lazy'
+            />
+
+            <button
+              className='modal-nav next'
+              onClick={nextImage}
+              aria-label='Next image'
+            >
+              ›
+            </button>
+          </div>
         )}
       </span>
       <p className='mq-modal-price'>

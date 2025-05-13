@@ -318,6 +318,7 @@ export const playIntro = () => {
 
 let bgMusicInstance = null;
 let currentFileName = null;
+let bgMusicPausedTime = 0;
 
 export const playBGMusic = (fileName) => {
   // If the same file is already playing, do nothing
@@ -354,6 +355,24 @@ export const playBGMusic = (fileName) => {
   bgMusicInstance.play().catch((err) => {
     console.warn('Auto-play failed or was interrupted:', err);
   });
+
+  return bgMusicInstance;
+};
+
+export const pauseBGMusic = () => {
+  if (bgMusicInstance && !bgMusicInstance.paused) {
+    bgMusicPausedTime = bgMusicInstance.currentTime;
+    bgMusicInstance.pause();
+    return bgMusicPausedTime;
+  }
+  return 0;
+};
+
+export const resumeBGMusic = (seekTime) => {
+  if (bgMusicInstance) {
+    bgMusicInstance.currentTime = seekTime || bgMusicPausedTime;
+    bgMusicInstance.play().catch((e) => console.error('Resume failed:', e));
+  }
 };
 
 // React Hook for managing sounds

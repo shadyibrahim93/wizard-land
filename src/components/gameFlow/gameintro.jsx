@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../Button.js';
 import { playBGMusic, playTeleport } from '../../hooks/useSound.js';
+import useSelectedRealm from '../../hooks/userSelectedRealm.js';
 
 export default function GameIntro({
   introText,
@@ -13,6 +14,7 @@ export default function GameIntro({
   secondButtonText
 }) {
   const [formattedText, setFormattedText] = useState('');
+  const realm = useSelectedRealm();
 
   useEffect(() => {
     const words = introText.split(' ');
@@ -33,8 +35,10 @@ export default function GameIntro({
   };
 
   useEffect(() => {
-    playBGMusic('bgmusic');
-  }, []);
+    if (realm) {
+      playBGMusic(realm);
+    }
+  }, [realm]);
 
   return (
     <>
