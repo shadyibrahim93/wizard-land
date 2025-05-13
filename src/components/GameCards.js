@@ -3,23 +3,24 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useSelectedPiece } from '@/hooks/userSelectedPiece.js';
+import { useUser } from '@/context/UserContext.js';
 
 export default function GameCards({ target, imgSrc, alt, title }) {
-  const [showTitle, setShowTitle] = useState(false);
+  const { userId } = useUser();
+  const player = useSelectedPiece(userId);
 
   return (
     <Link
       href={target} // The URL to navigate to when clicked
       className='mq-dashboard-card'
       passHref
-      onMouseEnter={() => setShowTitle(true)}
-      onMouseLeave={() => setShowTitle(false)}
     >
-      {showTitle && (
+      {player.realm && (
         <h1 className='mq-ending-title glowingFire-text'>{title}</h1>
       )}
       <Image
-        src={`/assets/images/${imgSrc}`} // Image source path
+        src={`/assets/images/${player.realm}/${imgSrc}.webp`} // Image source path
         alt={alt}
         width={300} // adjust as needed
         height={300} // adjust as needed

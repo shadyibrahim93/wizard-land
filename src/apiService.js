@@ -143,6 +143,13 @@ export async function signUp({ email, password, fullName }) {
       item_id: '9f61795f-0f84-43c4-a5b6-d561f53f6616',
       acquired_at: new Date().toISOString(),
       is_active: false
+    },
+    {
+      id: crypto.randomUUID(),
+      user_id: userId,
+      item_id: '870aded1-201b-4daa-9055-81be0cb9af16',
+      acquired_at: new Date().toISOString(),
+      is_active: true
     }
   ];
 

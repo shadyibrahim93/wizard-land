@@ -7,61 +7,66 @@ import GameChat from '../components/chatRoom';
 import { playBGMusic } from '../hooks/useSound.js';
 import Footer from '../components/Footer';
 import Head from 'next/head';
+import { useSelectedPiece } from '@/hooks/userSelectedPiece.js';
+import { useUser } from '@/context/UserContext.js';
 
 export default function Home() {
+  const { userId } = useUser();
+  const player = useSelectedPiece(userId);
+
   const gamesData = [
     {
       url: '/games/bingo-quest',
-      imgSrc: 'bingo_quest.jpg',
+      imgSrc: 'bingo',
       alt: 'Bingo Game',
       title: 'Bingo',
       type: 'Singleplayer'
     },
     {
       url: '/games/orbito-quest',
-      imgSrc: 'orbito_quest.jpg',
+      imgSrc: 'orbito',
       alt: 'Orbito Game',
       title: 'Orbito',
       type: 'Multiplayer'
     },
     {
       url: '/games/chess-quest',
-      imgSrc: 'chess_quest.jpg',
+      imgSrc: 'chess',
       alt: 'Chess Game',
       title: 'Chess',
       type: 'Multiplayer'
     },
     {
       url: '/games/connect-four-quest',
-      imgSrc: 'connect_four_quest.jpg',
+      imgSrc: 'connect_four',
       alt: 'Connect Four Game',
       title: 'Connect 4',
       type: 'Multiplayer'
     },
     {
       url: '/games/tic-tac-toe-quest',
-      imgSrc: 'tictactoe_quest.jpg',
+      imgSrc: 'tictactoe',
       alt: 'Tic Tac Toe Game',
       title: 'Tic Tac Toe',
       type: 'Multiplayer'
     },
     {
       url: '/games/checker-quest',
-      imgSrc: 'checker_quest.jpg',
+      imgSrc: 'checkers',
       alt: 'Checker Game',
       title: 'Checker',
       type: 'Multiplayer'
     },
     {
       url: '/games/scramble-quest',
-      imgSrc: 'scramble_quest.jpg',
+      imgSrc: 'scramble',
       alt: 'Scramble Game',
       title: 'Scrambled',
       type: 'Singleplayer'
     },
     {
       url: '/games/sudoku-quest',
-      imgSrc: 'sudoku_quest.jpg',
+      imgSrc: 'sudoku',
       alt: 'Sudoku Game',
       title: 'Sudoku',
       type: 'Singleplayer'
@@ -69,7 +74,7 @@ export default function Home() {
     /*
     {
       url: '/games/math-quest',
-      imgSrc: 'math_quest.jpg',
+      imgSrc: 'math',
       alt: 'Math Game',
       title: 'Math Marathon',
       type: 'Singleplayer'
@@ -77,35 +82,35 @@ export default function Home() {
     */
     {
       url: '/games/puzzle-quest',
-      imgSrc: 'puzzle_quest.jpg',
+      imgSrc: 'jigsaw',
       alt: 'Puzzle Game',
       title: 'Jigsaw',
       type: 'Singleplayer'
     },
     {
       url: '/games/personal-puzzle-quest',
-      imgSrc: 'personal_puzzle_quest.jpg',
+      imgSrc: 'personal_jigsaw',
       alt: 'Personal Puzzle Game',
       title: 'Personal Jigsaw',
       type: 'Singleplayer'
     },
     {
       url: '/games/match-quest',
-      imgSrc: 'match_quest.jpg',
+      imgSrc: 'matching',
       alt: 'Matching Game',
       title: 'Pair Pursuit',
       type: 'Singleplayer'
     },
     {
       url: '/games/memory-quest',
-      imgSrc: 'memory_quest.jpg',
+      imgSrc: 'memory',
       alt: 'Memory Game',
       title: 'Brain Vault',
       type: 'Singleplayer'
     },
     {
       url: '/games/dropzone-quest',
-      imgSrc: 'dropzone_quest.jpg',
+      imgSrc: 'dropzone',
       alt: 'Drop Game',
       title: 'Perfect Fit',
       type: 'Singleplayer'
@@ -228,7 +233,14 @@ export default function Home() {
         <div className='mq-dashboard-container'>
           <section>
             <h2 className='mq-section-title mq-section-title--multiplayer'>
-              ⚔️ Multiplayer Games
+              {player.realm !== 'fantasy' ? (
+                <img
+                  src={`assets/images/${player.realm}/elements/multiplayer.png`}
+                />
+              ) : (
+                '⚔️'
+              )}{' '}
+              Multiplayer Games
             </h2>
             <hr></hr>
             <div className='mq-cards-grid'>
@@ -236,7 +248,7 @@ export default function Home() {
                 <GameCards
                   key={index}
                   target={game.url}
-                  imgSrc={game.imgSrc}
+                  imgSrc={`${game.imgSrc}`}
                   alt={game.alt}
                   title={game.title}
                 />
@@ -245,7 +257,12 @@ export default function Home() {
           </section>
           <section>
             <h2 className='mq-section-title mq-section-title--solo'>
-              🗡️ Solo Games
+              {player.realm !== 'fantasy' ? (
+                <img src={`assets/images/${player.realm}/elements/solo.png`} />
+              ) : (
+                '🗡️'
+              )}{' '}
+              Single Player Games
             </h2>
             <hr></hr>
             <div className='mq-cards-grid'>
@@ -253,7 +270,7 @@ export default function Home() {
                 <GameCards
                   key={index}
                   target={game.url}
-                  imgSrc={game.imgSrc}
+                  imgSrc={`${game.imgSrc}`}
                   alt={game.alt}
                   title={game.title}
                 />

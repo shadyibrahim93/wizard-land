@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useSelectedPiece } from '../../hooks/userSelectedPiece.js';
+import { useUser } from '../../context/UserContext.js';
 
 const MenuItem = ({
   imgSrc,
@@ -10,8 +12,10 @@ const MenuItem = ({
   playHoverSound
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const { userId } = useUser();
+  const player = useSelectedPiece(userId);
 
-  const imageSrc = `/assets/images/elements/${
+  const imageSrc = `/assets/images/${player.realm}/elements/${
     isHovered ? onHoverImgSrc : imgSrc
   }`;
 
@@ -41,7 +45,7 @@ const MenuItem = ({
         alt={title}
         loading='lazy'
       />
-      {title}
+      {player.realm === 'vintage' ? '' : title}
     </div>
   );
 };

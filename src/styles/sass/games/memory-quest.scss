@@ -34,7 +34,7 @@
     transition: transform 0.3s, background-color 0.3s;
 
     &:hover {
-      background-color: $light-overlay; /* Bright hover color */
+      background-color: var(--light-overlay); /* Bright hover color */
       transform: scale(1.2) rotate(50deg); /* Fun scaling and rotating on hover */
       cursor: pointer;
     }
@@ -46,7 +46,7 @@
     }
 
     &.selected {
-      background-color: $secondary-color; /* Green for selected item */
+      background-color: var(--secondary-color); /* Green for selected item */
       color: white;
       animation: pulse 1s infinite; /* Pulsating effect for selected item */
     }

@@ -7,9 +7,6 @@ export const CollectionBurst = ({ count = 15, onComplete }) => {
   const coinContainerRef = useRef();
   const expContainerRef = useRef();
 
-  const getImagePath = (fileName) =>
-    require(`../assets/images/elements/${fileName}`);
-
   useEffect(() => {
     const animateBurst = (items, target) => {
       if (!target || items.length === 0) return;
@@ -64,23 +61,9 @@ export const CollectionBurst = ({ count = 15, onComplete }) => {
             className='coin'
           >
             <img
-              src={getImagePath('star_single.png')}
+              src={'/assets/images/fantasy/elements/star.png'}
               alt='coin'
               className='mq-coin'
-            />
-          </div>
-        ))}
-      </div>
-      <div ref={expContainerRef}>
-        {[...Array(count)].map((_, i) => (
-          <div
-            key={`exp-${i}`}
-            className='exp'
-          >
-            <img
-              src={getImagePath('exp.png')}
-              alt='exp'
-              className='mq-exp'
             />
           </div>
         ))}

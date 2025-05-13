@@ -9,11 +9,13 @@ import {
 import Button from './Button.js';
 import { playUncover, playDisappear } from '../hooks/useSound.js';
 import { useUser } from '../context/UserContext.js';
+import { useSelectedPiece } from '../hooks/userSelectedPiece.js';
 
 const GameChat = ({ chatTitle, gameId }) => {
   const { userId, userName } = useUser();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const player = useSelectedPiece(userId);
 
   useEffect(() => {
     const fetchMessagesForRoom = async () => {
@@ -50,7 +52,18 @@ const GameChat = ({ chatTitle, gameId }) => {
     <div className='mq-game-side-modal mq-side-modal-wrapper'>
       <div>
         <header>
-          <span>{chatTitle}</span>
+          <h2 className='mq-section-title'>
+            {player.realm !== 'fantasy' ? (
+              <img
+                className='mq-chat-icon'
+                src={`/assets/images/${player.realm}/elements/chat.png`}
+                alt={chatTitle}
+              />
+            ) : (
+              ''
+            )}
+            {chatTitle}
+          </h2>
         </header>
         <div className='mq-messages'>
           {messages.length === 0 && <h3>Start Chating!</h3>}

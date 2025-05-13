@@ -4,35 +4,13 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import CustomLink from '../CustomLink.js';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { playDoor } from '../../hooks/useSound.js';
 import Image from 'next/image'; // Import next/image for optimized images
-import emailIcon from '../../assets/images/elements/email.png';
-import supportIcon from '../../assets/images/elements/support.png';
 import SendEmailModal from '../authModals/sendEmail.js';
+import { useSelectedPiece } from '../../hooks/userSelectedPiece.js';
 
 const UserAuth = ({ loading, userId, userName, onSignUp }) => {
-  const [isHovered, setIsHovered] = useState(false);
   const [showEmailModal, setShowEmailModal] = useState(false);
-  const router = useRouter();
-
-  const imageSrc = `/assets/images/elements/${
-    isHovered ? 'home_active.png' : 'home.png'
-  }`;
-
-  const handleClick = () => {
-    router('/'); // home path
-  };
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-    playDoor(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    playDoor(false);
-  };
+  const player = useSelectedPiece(userId);
 
   if (loading) {
     return (
@@ -54,7 +32,7 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
           {/* Open feedback modal */}
           <div className='mq-user-progress--contact'>
             <Image
-              src={emailIcon}
+              src={`/assets/images/${player.realm}/elements/email.png`}
               alt='Send feedback'
               width={24} // Adjust the width
               height={24} // Adjust the height
@@ -72,7 +50,7 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
           {/* Buy Me a Coffee link */}
           <div className='mq-user-progress--contact'>
             <Image
-              src={supportIcon}
+              src={`/assets/images/${player.realm}/elements/support.png`}
               alt='Support us'
               width={24} // Adjust the width
               height={24} // Adjust the height
@@ -97,7 +75,7 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
               />
             ) : (
               <>
-                <Image
+                {/* <Image
                   src={imageSrc}
                   alt='Home'
                   width={24} // Adjust width as needed
@@ -106,7 +84,7 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
                   onMouseLeave={handleMouseLeave}
                   onClick={handleClick}
                   title='Home'
-                />
+                /> */}
                 {userName}
               </>
             )}

@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '../apiService';
-import firstPlaceMedal from '@/assets/images/elements/rank/firstplace.png';
-import secondPlaceMedal from '@/assets/images/elements/rank/secondplace.png';
-import thirdPlaceMedal from '@/assets/images/elements/rank/thirdplace.png';
-import defaultPlayerImage from '@/assets/images/elements/rank/defaultplace.png';
 import Image from 'next/image';
+
+import { useSelectedPiece } from '@/hooks/userSelectedPiece.js';
+import { useUser } from '@/context/UserContext.js';
 
 const fetchAllUserProgressGroupedByGame = async (timeFrame = 'daily') => {
   // Determine the correct table based on time frame
@@ -46,12 +45,15 @@ const LeaderBoard = () => {
   const [groupedProgress, setGroupedProgress] = useState({});
   const [timeFrame, setTimeFrame] = useState('weekly');
   const [isLoading, setIsLoading] = useState(false);
+  const { userId } = useUser();
+  const player = useSelectedPiece(userId);
 
   const medalImages = [
-    firstPlaceMedal, // 1st place
-    secondPlaceMedal, // 2nd place
-    thirdPlaceMedal // 3rd place
+    `/assets/images/${player.realm}/elements/rank/firstplace.png`,
+    `/assets/images/${player.realm}/elements/rank/secondplace.png`,
+    `/assets/images/${player.realm}/elements/rank/thirdplace.png`
   ];
+  const defaultPlayerImage = `/assets/images/${player.realm}/elements/rank/defaultplace.png`;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -106,7 +108,12 @@ const LeaderBoard = () => {
   return (
     <section className='mq-leaderboard-section'>
       <h2 className='mq-section-title mq-section-title--multiplayer'>
-        🏆 {getTimeFrameTitle()} Leaderboard
+        {player.realm !== 'fantasy' ? (
+          <img src={`assets/images/${player.realm}/elements/solo.png`} />
+        ) : (
+          '🏆'
+        )}{' '}
+        {getTimeFrameTitle()} Leaderboard
       </h2>
 
       {/* Time Frame Buttons */}
@@ -165,8 +172,9 @@ const LeaderBoard = () => {
                         {index + 1}
                       </span>
                       <Image
-                        widtd={100}
+                        width={100}
                         height={100}
+                        unoptimized
                         src={
                           index < 3 ? medalImages[index] : defaultPlayerImage
                         }

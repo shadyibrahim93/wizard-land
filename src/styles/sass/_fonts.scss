@@ -20,11 +20,11 @@
   }
 
   &--yellow {
-    color: $secondary-color;
+    color: var(--secondary-color);
   }
 
   &--orange {
-    color: $primary-color;
+    color: var(--primary-color);
   }
 
   // Add font family to all text utilities

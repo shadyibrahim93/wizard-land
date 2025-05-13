@@ -1,31 +1,43 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { activateItem } from '../../apiService';
 import Button from '../Button';
 import { playEquip, playPieceSound } from '../../hooks/useSound';
-import Image from 'next/image'; // Import next/image
+import Image from 'next/image';
 
 const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
-  const getImagePath = (fileName) => `/assets/images/elements/${fileName}`;
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const audioRef = useRef(null);
+
+  // Build URL array for realm images
+  const realmImages =
+    item.type === 'realm'
+      ? [1, 2].map(
+          (n) => `/assets/images/board_pieces/${item.className}-${n}.webp`
+        )
+      : [];
 
   const handleEquip = async () => {
     if (!userId || !item?.id) return;
-
-    await activateItem(userId, item.id);
-    refreshInventory?.(); // optional callback to refresh UI after activation
-  };
-
-  const audioRef = useRef(null);
-
-  const shouldPlaySound = item.image_url;
-
-  const handleMouseEnter = () => {
-    if (shouldPlaySound) {
-      audioRef.current = playPieceSound(item.image_url);
+    try {
+      await activateItem(userId, item.id);
+      if (item.type === 'realm') {
+        localStorage.setItem('realm', item.className);
+        document.documentElement.setAttribute('data-theme', item.className);
+        window.location.reload();
+      }
+      refreshInventory?.();
+    } catch (error) {
+      console.error('Error equipping item:', error);
     }
   };
 
+  const handleMouseEnter = () => {
+    if (item.image_url) {
+      audioRef.current = playPieceSound(item.image_url);
+    }
+  };
   const handleMouseLeave = () => {
     if (audioRef.current) {
       audioRef.current.pause();
@@ -34,42 +46,85 @@ const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
     }
   };
 
-  return (
-    <div
-      className='mq-modal-item'
-      onMouseEnter={shouldPlaySound ? handleMouseEnter : undefined}
-      onMouseLeave={shouldPlaySound ? handleMouseLeave : undefined}
-    >
-      <span
-        className={`mq-piece ${
-          !item.emoji &&
-          !item.image_url &&
-          item.className &&
-          'mq-theme mq-' + item.className
-        }`}
-      >
-        {item.emoji && item.emoji}
-        {item.image_url && (
-          <Image
-            src={getImagePath('board_pieces/' + item.image_url + '.webp')}
-            alt={`Board Piece - ${item.className}`}
-            width={100} // Specify width
-            height={90} // Specify height
-            loading='lazy'
-          />
-        )}
-      </span>
+  const nextImage = () =>
+    setCurrentImageIndex((idx) =>
+      realmImages.length ? (idx + 1) % realmImages.length : 0
+    );
+  const prevImage = () =>
+    setCurrentImageIndex((idx) =>
+      realmImages.length
+        ? (idx - 1 + realmImages.length) % realmImages.length
+        : 0
+    );
 
-      <Button
-        onClick={() => {
-          handleEquip();
-          playEquip();
-        }}
-        className='mq-btn'
-        isDisabled={isActive}
-        text={isActive ? 'Active' : 'Equip'} // Disable button if the item is active
-      ></Button>
-    </div>
+  return (
+    <>
+      <div
+        className='mq-modal-item'
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <span
+          className={`mq-piece ${
+            !item.emoji &&
+            !item.image_url &&
+            item.className &&
+            'mq-theme mq-' + item.className
+          }`}
+        >
+          {item.emoji && item.emoji}
+
+          {item.image_url && item.type !== 'realm' && (
+            <Image
+              src={`/assets/images/board_pieces/${item.image_url}.webp`}
+              alt={`Board Piece - ${item.className}`}
+              width={100}
+              height={90}
+              loading='lazy'
+            />
+          )}
+
+          {item.type === 'realm' && realmImages.length > 0 && (
+            <div className='mq-screenshot-grid'>
+              <button
+                className='modal-nav prev'
+                onClick={prevImage}
+                aria-label='Previous image'
+              >
+                ‹
+              </button>
+
+              <Image
+                key={currentImageIndex}
+                src={realmImages[currentImageIndex]}
+                alt={`Realm View ${currentImageIndex + 1}`}
+                width={100}
+                height={90}
+                loading='lazy'
+              />
+
+              <button
+                className='modal-nav next'
+                onClick={nextImage}
+                aria-label='Next image'
+              >
+                ›
+              </button>
+            </div>
+          )}
+        </span>
+
+        <Button
+          onClick={() => {
+            handleEquip();
+            playEquip();
+          }}
+          className='mq-btn'
+          isDisabled={isActive}
+          text={isActive ? 'Active' : 'Equip'}
+        />
+      </div>
+    </>
   );
 };
 

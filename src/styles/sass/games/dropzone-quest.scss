@@ -2,39 +2,39 @@
 
 .#{$identifier}-dropzone-game {
   .#{$identifier}-shape svg {
-    fill: $secondary-color;
-    stroke: $secondary-color;
+    fill: var(--secondary-color);
+    stroke: var(--secondary-color);
   }
 
   .#{$identifier}-shape--drop {
     svg {
       fill: transparent;
-      stroke: $secondary-color;
+      stroke: var(--secondary-color);
       circle,
       rect,
       ellipse {
         fill: transparent;
-        stroke: $secondary-color;
+        stroke: var(--secondary-color);
       }
       svg .drop-svg {
         fill: transparent;
-        stroke: $secondary-color;
+        stroke: var(--secondary-color);
       }
     }
 
     &.passed {
       svg {
-        fill: $secondary-color;
-        stroke: $secondary-color;
+        fill: var(--secondary-color);
+        stroke: var(--secondary-color);
         circle,
         rect,
         ellipse {
-          fill: $secondary-color;
-          stroke: $secondary-color;
+          fill: var(--secondary-color);
+          stroke: var(--secondary-color);
         }
         svg {
-          fill: $secondary-color;
-          stroke: $secondary-color;
+          fill: var(--secondary-color);
+          stroke: var(--secondary-color);
         }
       }
     }

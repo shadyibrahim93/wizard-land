@@ -11,6 +11,7 @@ import PrivacyPolicy from './privacypolicy.js';
 import SignInModal from './authModals/signInModal.js';
 import { signOut } from '../apiService.js';
 import { useUser } from '../context/UserContext.js';
+import { useSelectedPiece } from '../hooks/userSelectedPiece.js';
 
 const Footer = () => {
   const [showTermsOfUse, setShowTermsOfUse] = useState(false);
@@ -20,6 +21,7 @@ const Footer = () => {
   const [showSignInModal, setShowSignInModal] = useState(false);
   const { userId } = useUser();
   const router = useRouter();
+  const player = useSelectedPiece(userId);
 
   const handleLogout = async () => {
     await signOut();
@@ -76,7 +78,13 @@ const Footer = () => {
               rel='noopener noreferrer'
               title='Facebook'
             >
-              <FaFacebookSquare className='mq-social-icon' />
+              {player.realm !== 'fantasy' ? (
+                <img
+                  src={`assets/images/${player.realm}/elements/facebook.png`}
+                />
+              ) : (
+                <FaFacebookSquare className='mq-social-icon' />
+              )}{' '}
             </a>
             <a
               href='https://discord.com/channels/1369090826109452368/1369092092579680276'
@@ -84,7 +92,13 @@ const Footer = () => {
               rel='noopener noreferrer'
               title='Discord'
             >
-              <FaDiscord className='mq-social-icon' />
+              {player.realm !== 'fantasy' ? (
+                <img
+                  src={`assets/images/${player.realm}/elements/discord.png`}
+                />
+              ) : (
+                <FaDiscord className='mq-social-icon' />
+              )}{' '}
             </a>
             <a
               href='https://buymeacoffee.com/wizardland'
@@ -92,7 +106,13 @@ const Footer = () => {
               rel='noopener noreferrer'
               title='Buy Me a Coffee'
             >
-              <DiCoffeescript className='mq-social-icon' />
+              {player.realm !== 'fantasy' ? (
+                <img
+                  src={`assets/images/${player.realm}/elements/coffee.png`}
+                />
+              ) : (
+                <DiCoffeescript className='mq-social-icon' />
+              )}{' '}
             </a>
           </div>
           <p className='mq-copyright'>

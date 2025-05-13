@@ -34,7 +34,7 @@
       letter-spacing: 2px;
 
       &:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0 30px $primary-color inset !important;
+        -webkit-box-shadow: 0 0 0 30px var(--primary-color) inset !important;
         -webkit-text-fill-color: $white !important;
       }
 
@@ -67,7 +67,7 @@
       letter-spacing: 2px;
       font-weight: 600;
       background-color: transparent;
-      color: $secondary-color;
+      color: var(--secondary-color);
       border: none;
 
       &:hover {

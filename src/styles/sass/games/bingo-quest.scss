@@ -76,7 +76,7 @@
         height: 30px;
         margin-bottom: 10px;
         font-size: 14px;
-        background-color: $light-overlay;
+        background-color: var(--light-overlay);
         color: $white;
 
         &.winner-number {
@@ -88,12 +88,12 @@
             transform: translate(-50%, -50%);
             font-size: 46px; /* Adjust size as needed */
             font-weight: normal; /* Make it more visible */
-            color: $secondary-color; /* Adjust color if necessary */
+            color: var(--secondary-color); /* Adjust color if necessary */
           }
         }
 
         &--bingo {
-          background-color: $secondary-color;
+          background-color: var(--secondary-color);
           color: $white;
         }
 
@@ -127,9 +127,9 @@
       justify-content: center;
       align-items: center;
       font-weight: bold;
-      color: $secondary-color;
-      background-color: $light-overlay;
-      border: 1px solid $primary-color; // For internal grid lines
+      color: var(--secondary-color);
+      background-color: var(--light-overlay);
+      border: 1px solid var(--primary-color); // For internal grid lines
       cursor: pointer;
       transition: background-color 0.3s ease, box-shadow 0.3s ease;
       border-radius: 20px;
@@ -140,7 +140,7 @@
       }
       &:last-child {
         font-size: 24px;
-        border-color: $secondary-color;
+        border-color: var(--secondary-color);
         color: $white;
         animation: glow 2s infinite alternate, fade-in 1s ease-in-out;
         border-radius: 50%;

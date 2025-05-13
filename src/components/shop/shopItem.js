@@ -9,7 +9,6 @@ import Image from 'next/image'; // Import next/image for optimized images
 
 const ShopItem = ({ item }) => {
   const { userId, loading } = useUser(); // Directly use your useUser hook
-  const getImagePath = (fileName) => `/assets/images/elements/${fileName}`;
 
   const handlePurchase = async (item) => {
     if (loading) {
@@ -75,7 +74,7 @@ const ShopItem = ({ item }) => {
         {item.emoji && item.emoji}
         {item.image_url && (
           <Image
-            src={getImagePath('board_pieces/' + item.image_url + '.webp')}
+            src={`/assets/images/board_pieces/${item.image_url}.webp`}
             alt={`Board Piece - ${item.className}`}
             width={100} // Adjust the width as needed
             height={90} // Adjust the height as needed
@@ -87,7 +86,7 @@ const ShopItem = ({ item }) => {
         {item.stars !== 0 && (
           <>
             <Image
-              src={getImagePath('star_single.png')}
+              src={`/assets/images/fantasy/elements/star.png`}
               alt='Star Icon'
               width={10} // Adjust width of the star image as needed
               height={20} // Adjust height of the star image as needed
@@ -98,7 +97,7 @@ const ShopItem = ({ item }) => {
         {item.euro !== 0 && (
           <>
             <Image
-              src={getImagePath('euro_single.png')}
+              src={`/assets/images/fantasy/elements/euro.png`}
               alt='Euro Icon'
               className='mq-sparkle'
               width={10} // Adjust width of the euro image as needed

@@ -1,12 +1,11 @@
 $identifier: 'mq' !default;
-$primary-color: #b2a3794f !default;
-$primary-color-hover: #5c5e3d !default;
-$dark-overlay: rgba(8, 8, 8, 0.6) !default;
-$light-overlay: #b2a3794f !default;
-$light-overlay-hover: #5c5e3d !default;
-$secondary-color: #c47f3c !default;
-$primary-color-faded: #ff7f5075 !default;
-$background-color: #f4f4f4 !default;
+
+:root {
+  --glow-rgb: 250, 250, 250;
+  --glow-rgb-primary: 77, 126, 126;
+  --glow-rgb-secondary: 203, 140, 107;
+}
+
 $text-color: #333 !default;
 $yellow: #ffcc00 !default;
 $blue: #00ccff !default;
@@ -18,9 +17,84 @@ $gray: #808080 !default;
 $white: #ffffff !default;
 $black: #000000 !default;
 
-// CSS custom properties
-:root {
-  --glow-rgb: 250, 250, 250;
-  --glow-rgb-primary: 77, 126, 126;
-  --glow-rgb-secondary: 203, 140, 107;
+$fantasy: (
+  primary-color: #b2a3794f,
+  primary-color-hover: #5c5e3d,
+  dark-overlay: rgba(8, 8, 8, 0.6),
+  light-overlay: #b2a3794f,
+  light-overlay-hover: #5c5e3d,
+  secondary-color: #c47f3c,
+  secondary-color-dark: darken(#c47f3c, 10%),
+  secondary-color-light: lighten(#c47f3c, 10%),
+  primary-color-faded: #ff7f5075,
+  background-color: #f4f4f4,
+  background-image: url('/assets/images/fantasy/background.jpg'),
+  title-display: none,
+  title-glow: glowingRed 4s infinite alternate,
+  header-icon-width-mobile: 55px,
+  cards-grid-padding: 21px 0px,
+  leaderboard-rank: flex,
+  leaderboard-rank-badge-size: 40px,
+  text-color: #c47f3c
+);
+
+$vintage: (
+  primary-color: #b79778,
+  primary-color-hover: #5c5e3d,
+  dark-overlay: rgba(8, 8, 8, 0.6),
+  light-overlay: #bf9f7f71,
+  light-overlay-hover: #5c5e3d,
+  secondary-color: #683816,
+  secondary-color-dark: darken(#683816, 10%),
+  secondary-color-light: lighten(#683816, 10%),
+  primary-color-faded: #ff7f5075,
+  background-color: #f4f4f4,
+  background-image: url('/assets/images/vintage/background.png'),
+  title-display: flex,
+  title-glow: none,
+  header-icon-width-mobile: 55px,
+  header-icon-width: 60px,
+  cards-grid-padding: 0px,
+  leaderboard-rank: none,
+  leaderboard-rank-badge-size: 30px,
+  text-color: #b79778
+);
+
+/// A helper to emit custom‐properties for a given map and selector
+@mixin generate-theme($name, $map) {
+  [data-theme='#{$name}'] {
+    @each $key, $val in $map {
+      --#{$key}: #{$val};
+    }
+  }
 }
+
+$games-list: (
+  bingo,
+  orbito,
+  chess,
+  connect_four,
+  tictactoe,
+  checkers,
+  scramble,
+  sudoku,
+  jigsaw,
+  personal_jigsaw,
+  matching,
+  memory,
+  dropzone
+);
+
+/// 2. Loop over each theme and each game, emitting a --<game>-bg-image variable
+@each $theme-name, $theme-map in (fantasy: $fantasy, vintage: $vintage) {
+  [data-theme='#{$theme-name}'] {
+    @each $game in $games-list {
+      // e.g. --bingo-bg-image: url('/assets/images/fantasy/bingo.jpg');
+      --#{$game}-bg-image: url('/assets/images/#{$theme-name}/#{$game}.webp');
+    }
+  }
+}
+
+// generate both at build time
+@include generate-theme('fantasy', $fantasy);
+@include generate-theme('vintage', $vintage);

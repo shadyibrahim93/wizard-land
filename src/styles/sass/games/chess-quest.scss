@@ -81,7 +81,7 @@
       }
 
       &.selected {
-        box-shadow: 0 0 10px $secondary-color;
+        box-shadow: 0 0 10px var(--secondary-color);
       }
 
       &.empty {
