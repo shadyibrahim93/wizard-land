@@ -11,7 +11,7 @@ import PrivacyPolicy from './privacypolicy.js';
 import SignInModal from './authModals/signInModal.js';
 import { signOut } from '../apiService.js';
 import { useUser } from '../context/UserContext.js';
-import { useSelectedPiece } from '../hooks/userSelectedPiece.js';
+import useSelectedRealm from '../hooks/userSelectedRealm.js';
 
 const Footer = () => {
   const [showTermsOfUse, setShowTermsOfUse] = useState(false);
@@ -21,7 +21,7 @@ const Footer = () => {
   const [showSignInModal, setShowSignInModal] = useState(false);
   const { userId } = useUser();
   const router = useRouter();
-  const player = useSelectedPiece(userId);
+  const realm = useSelectedRealm();
 
   const handleLogout = async () => {
     await signOut();
@@ -78,10 +78,8 @@ const Footer = () => {
               rel='noopener noreferrer'
               title='Facebook'
             >
-              {player.realm !== 'fantasy' ? (
-                <img
-                  src={`/assets/images/${player.realm}/elements/facebook.png`}
-                />
+              {realm !== 'fantasy' ? (
+                <img src={`/assets/images/${realm}/elements/facebook.png`} />
               ) : (
                 <FaFacebookSquare className='mq-social-icon' />
               )}{' '}
@@ -92,10 +90,8 @@ const Footer = () => {
               rel='noopener noreferrer'
               title='Discord'
             >
-              {player.realm !== 'fantasy' ? (
-                <img
-                  src={`/assets/images/${player.realm}/elements/discord.png`}
-                />
+              {realm !== 'fantasy' ? (
+                <img src={`/assets/images/${realm}/elements/discord.png`} />
               ) : (
                 <FaDiscord className='mq-social-icon' />
               )}{' '}
@@ -106,10 +102,8 @@ const Footer = () => {
               rel='noopener noreferrer'
               title='Buy Me a Coffee'
             >
-              {player.realm !== 'fantasy' ? (
-                <img
-                  src={`/assets/images/${player.realm}/elements/coffee.png`}
-                />
+              {realm !== 'fantasy' ? (
+                <img src={`/assets/images/${realm}/elements/coffee.png`} />
               ) : (
                 <DiCoffeescript className='mq-social-icon' />
               )}{' '}

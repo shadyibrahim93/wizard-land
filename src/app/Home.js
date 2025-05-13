@@ -7,12 +7,10 @@ import GameChat from '../components/chatRoom';
 import { playBGMusic } from '../hooks/useSound.js';
 import Footer from '../components/Footer';
 import Head from 'next/head';
-import { useSelectedPiece } from '@/hooks/userSelectedPiece.js';
-import { useUser } from '@/context/UserContext.js';
+import useSelectedRealm from '@/hooks/userSelectedRealm.js';
 
 export default function Home() {
-  const { userId } = useUser();
-  const player = useSelectedPiece(userId);
+  const realm = useSelectedRealm();
 
   const gamesData = [
     {
@@ -233,10 +231,8 @@ export default function Home() {
         <div className='mq-dashboard-container'>
           <section>
             <h2 className='mq-section-title mq-section-title--multiplayer'>
-              {player.realm !== 'fantasy' ? (
-                <img
-                  src={`assets/images/${player.realm}/elements/multiplayer.png`}
-                />
+              {realm !== 'fantasy' ? (
+                <img src={`assets/images/${realm}/elements/multiplayer.png`} />
               ) : (
                 '⚔️'
               )}{' '}
@@ -257,8 +253,8 @@ export default function Home() {
           </section>
           <section>
             <h2 className='mq-section-title mq-section-title--solo'>
-              {player.realm !== 'fantasy' ? (
-                <img src={`assets/images/${player.realm}/elements/solo.png`} />
+              {realm !== 'fantasy' ? (
+                <img src={`assets/images/${realm}/elements/solo.png`} />
               ) : (
                 '🗡️'
               )}{' '}

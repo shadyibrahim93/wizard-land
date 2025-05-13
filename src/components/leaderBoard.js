@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../apiService';
 import Image from 'next/image';
 
-import { useSelectedPiece } from '@/hooks/userSelectedPiece.js';
+import useSelectedRealm from '@/hooks/userSelectedRealm.js';
 import { useUser } from '@/context/UserContext.js';
 
 const fetchAllUserProgressGroupedByGame = async (timeFrame = 'daily') => {
@@ -46,14 +46,14 @@ const LeaderBoard = () => {
   const [timeFrame, setTimeFrame] = useState('weekly');
   const [isLoading, setIsLoading] = useState(false);
   const { userId } = useUser();
-  const player = useSelectedPiece(userId);
+  const realm = useSelectedRealm();
 
   const medalImages = [
-    `/assets/images/${player.realm}/elements/rank/firstplace.png`,
-    `/assets/images/${player.realm}/elements/rank/secondplace.png`,
-    `/assets/images/${player.realm}/elements/rank/thirdplace.png`
+    `/assets/images/${realm}/elements/rank/firstplace.png`,
+    `/assets/images/${realm}/elements/rank/secondplace.png`,
+    `/assets/images/${realm}/elements/rank/thirdplace.png`
   ];
-  const defaultPlayerImage = `/assets/images/${player.realm}/elements/rank/defaultplace.png`;
+  const defaultPlayerImage = `/assets/images/${realm}/elements/rank/defaultplace.png`;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -108,8 +108,8 @@ const LeaderBoard = () => {
   return (
     <section className='mq-leaderboard-section'>
       <h2 className='mq-section-title mq-section-title--multiplayer'>
-        {player.realm !== 'fantasy' ? (
-          <img src={`/assets/images/${player.realm}/elements/solo.png`} />
+        {realm !== 'fantasy' ? (
+          <img src={`/assets/images/${realm}/elements/solo.png`} />
         ) : (
           '🏆'
         )}{' '}

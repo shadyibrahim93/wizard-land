@@ -3,12 +3,13 @@
 import React from 'react';
 import profileImage from '@/assets/images/profile.jpg';
 import Image from 'next/image';
-import { useSelectedPiece } from '../hooks/userSelectedPiece.js';
+import useSelectedRealm from '../hooks/userSelectedRealm.js';
 import { useUser } from '../context/UserContext.js';
 
 const About = ({ onClose }) => {
   const { userId } = useUser();
-  const player = useSelectedPiece(userId);
+  const realm = useSelectedRealm();
+
   return (
     <div className='mq-modal-overlay'>
       <div className='mq-container'>
@@ -81,7 +82,7 @@ const About = ({ onClose }) => {
               <strong>
                 5000{' '}
                 <Image
-                  src={`/assets/images/${player.realm}/elements/euro.png`}
+                  src={`/assets/images/${realm}/elements/euro.png`}
                   alt='Wizard'
                   width={30}
                   height={25}

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useSelectedPiece } from '../../hooks/userSelectedPiece.js';
+import useSelectedRealm from '../../hooks/userSelectedRealm.js';
 import { useUser } from '../../context/UserContext.js';
 
 const MenuItem = ({
@@ -13,9 +13,9 @@ const MenuItem = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { userId } = useUser();
-  const player = useSelectedPiece(userId);
+  const realm = useSelectedRealm();
 
-  const imageSrc = `/assets/images/${player.realm}/elements/${
+  const imageSrc = `/assets/images/${realm}/elements/${
     isHovered ? onHoverImgSrc : imgSrc
   }`;
 
@@ -45,7 +45,7 @@ const MenuItem = ({
         alt={title}
         loading='lazy'
       />
-      {player.realm === 'vintage' ? '' : title}
+      {realm === 'vintage' ? '' : title}
     </div>
   );
 };

@@ -1,5 +1,3 @@
-'use client';
-import { useEffect, useState } from 'react';
 import useSelectedItems from './useSelectedItems';
 
 export const useSelectedPiece = (userId, fallback, themefallback) => {
@@ -9,13 +7,6 @@ export const useSelectedPiece = (userId, fallback, themefallback) => {
   const image = selected.piece?.image_url || null;
   const name = selected.piece?.className || null;
   const theme = selected.theme?.className || null;
-  const realm = selected.realm?.className;
-
-  useEffect(() => {
-    if (realm) {
-      window.localStorage.setItem('realm', realm);
-    }
-  }, [realm]);
 
   return {
     key: name || emoji || fallback, // used for comparison
@@ -28,7 +19,6 @@ export const useSelectedPiece = (userId, fallback, themefallback) => {
     ) : (
       fallback
     ),
-    theme: theme || themefallback,
-    realm: realm
+    theme: theme || themefallback
   };
 };

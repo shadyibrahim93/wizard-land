@@ -6,11 +6,11 @@ import CustomLink from '../CustomLink.js';
 import { useState } from 'react';
 import Image from 'next/image'; // Import next/image for optimized images
 import SendEmailModal from '../authModals/sendEmail.js';
-import { useSelectedPiece } from '../../hooks/userSelectedPiece.js';
+import useSelectedRealm from '../../hooks/userSelectedRealm.js';
 
 const UserAuth = ({ loading, userId, userName, onSignUp }) => {
   const [showEmailModal, setShowEmailModal] = useState(false);
-  const player = useSelectedPiece(userId);
+  const realm = useSelectedRealm();
 
   if (loading) {
     return (
@@ -32,7 +32,7 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
           {/* Open feedback modal */}
           <div className='mq-user-progress--contact'>
             <Image
-              src={`/assets/images/${player.realm}/elements/email.png`}
+              src={`/assets/images/${realm}/elements/email.png`}
               alt='Send feedback'
               width={24} // Adjust the width
               height={24} // Adjust the height
@@ -50,7 +50,7 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
           {/* Buy Me a Coffee link */}
           <div className='mq-user-progress--contact'>
             <Image
-              src={`/assets/images/${player.realm}/elements/support.png`}
+              src={`/assets/images/${realm}/elements/support.png`}
               alt='Support us'
               width={24} // Adjust the width
               height={24} // Adjust the height

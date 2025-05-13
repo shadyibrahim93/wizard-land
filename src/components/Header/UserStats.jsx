@@ -8,11 +8,11 @@ import SendEmailModal from '../authModals/sendEmail.js';
 import { useState } from 'react';
 import { playButtonHover } from '../../hooks/useSound.js';
 import Image from 'next/image'; // Import next/image for optimized images
-import { useSelectedPiece } from '../../hooks/userSelectedPiece.js';
+import useSelectedRealm from '../../hooks/userSelectedRealm.js';
 
 const UserStats = ({ loading, exp, euro, stars, userId }) => {
   const [showEmailModal, setShowEmailModal] = useState(false);
-  const player = useSelectedPiece(userId);
+  const realm = useSelectedRealm();
 
   if (loading) {
     return (
@@ -44,7 +44,7 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
             {/* <span className='mq-user-progress--exp'>
               <span className='mq-user-icon'>
                 <Image
-                  src={`/assets/images/${player.realm}/elements/exp.png`}
+                  src={`/assets/images/${realm}/elements/exp.png`}
                   alt='Experience'
                   width={24} // Adjust the width
                   height={24} // Adjust the height
@@ -62,7 +62,7 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
               <span className='mq-user-amount'>
                 <span className='mq-user-icon'>
                   <Image
-                    src={`/assets/images/${player.realm}/elements/euro.png`}
+                    src={`/assets/images/${realm}/elements/euro.png`}
                     alt='Euro'
                     width={24} // Adjust the width
                     height={24} // Adjust the height
@@ -89,7 +89,7 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
               >
                 <span className='mq-user-icon'>
                   <Image
-                    src={`/assets/images/${player.realm}/elements/star.png`}
+                    src={`/assets/images/${realm}/elements/star.png`}
                     alt='Stars'
                     width={24} // Adjust the width
                     height={24} // Adjust the height
@@ -110,7 +110,7 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
           >
             <span className='mq-user-icon'>
               <Image
-                src={`/assets/images/${player.realm}/elements/email.png`}
+                src={`/assets/images/${realm}/elements/email.png`}
                 alt='Send feedback'
                 width={24} // Adjust the width
                 height={24} // Adjust the height
@@ -128,7 +128,7 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
           >
             <span className='mq-user-icon'>
               <Image
-                src={`/assets/images/${player.realm}/elements/support.png`}
+                src={`/assets/images/${realm}/elements/support.png`}
                 alt='Support us'
                 width={24} // Adjust the width
                 height={24} // Adjust the height
