@@ -7,10 +7,10 @@ export default function ThemeInitializer() {
   const realm = useSelectedRealm();
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !realm) return;
 
     try {
-      document.documentElement.setAttribute('data-theme', realm || 'fantasy');
+      document.documentElement.setAttribute('data-theme', realm);
       document.documentElement.classList.add('theme-initialized');
     } catch (e) {
       console.error('Failed to set theme:', e);

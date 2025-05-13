@@ -8,7 +8,7 @@ import { useUser } from '../context/UserContext.js';
 export default function useSelectedRealm() {
   const { userId = null, loading = true } = useUser() || {};
   const selected = useSelectedItems(userId);
-  const [realm, setRealm] = useState('fantasy');
+  const [realm, setRealm] = useState();
 
   useEffect(() => {
     if (typeof window === 'undefined' || loading) return;
