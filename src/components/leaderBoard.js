@@ -109,7 +109,7 @@ const LeaderBoard = () => {
     <section className='mq-leaderboard-section'>
       <h2 className='mq-section-title mq-section-title--multiplayer'>
         {player.realm !== 'fantasy' ? (
-          <img src={`assets/images/${player.realm}/elements/solo.png`} />
+          <img src={`/assets/images/${player.realm}/elements/solo.png`} />
         ) : (
           '🏆'
         )}{' '}

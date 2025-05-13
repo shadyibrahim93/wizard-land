@@ -80,7 +80,7 @@ const Footer = () => {
             >
               {player.realm !== 'fantasy' ? (
                 <img
-                  src={`assets/images/${player.realm}/elements/facebook.png`}
+                  src={`/assets/images/${player.realm}/elements/facebook.png`}
                 />
               ) : (
                 <FaFacebookSquare className='mq-social-icon' />
@@ -94,7 +94,7 @@ const Footer = () => {
             >
               {player.realm !== 'fantasy' ? (
                 <img
-                  src={`assets/images/${player.realm}/elements/discord.png`}
+                  src={`/assets/images/${player.realm}/elements/discord.png`}
                 />
               ) : (
                 <FaDiscord className='mq-social-icon' />
@@ -108,7 +108,7 @@ const Footer = () => {
             >
               {player.realm !== 'fantasy' ? (
                 <img
-                  src={`assets/images/${player.realm}/elements/coffee.png`}
+                  src={`/assets/images/${player.realm}/elements/coffee.png`}
                 />
               ) : (
                 <DiCoffeescript className='mq-social-icon' />
