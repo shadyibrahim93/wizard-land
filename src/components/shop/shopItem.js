@@ -183,7 +183,7 @@ const ShopItem = ({ item }) => {
           handlePurchase(item);
           playPurchase();
         }}
-        className='mq-btn'
+        className={`mq-btn ${item.type === 'realm' ? 'mq-realm' : ''} `}
         isDisabled={item.purchased || item.image_url === 'crown'}
         text={
           item.purchased

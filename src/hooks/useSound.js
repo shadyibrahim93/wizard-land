@@ -58,6 +58,36 @@ export const playDoor = (isPlaying) => {
   }
 };
 
+let arrowAudio = null;
+
+export const playArrow = (isPlaying) => {
+  if (isPlaying) {
+    if (!arrowAudio) {
+      arrowAudio = new Audio(`${BASE_PATH}arrow.mp3`);
+      arrowAudio.volume = 1;
+      arrowAudio.play();
+    }
+  } else {
+    if (arrowAudio) {
+      // Clear any previous fade out
+      clearInterval(fadeOutInterval);
+
+      // Start fade out
+      fadeOutInterval = setInterval(() => {
+        if (arrowAudio.volume > 0.05) {
+          arrowAudio.volume -= 0.05;
+        } else {
+          // Stop and clean up
+          arrowAudio.pause();
+          arrowAudio.currentTime = 0;
+          arrowAudio = null;
+          clearInterval(fadeOutInterval);
+        }
+      }, 20); // Adjust this for faster/slower fade
+    }
+  }
+};
+
 let equipAudio = null; // This will hold the audio reference
 
 export const playEquip = (isPlaying) => {

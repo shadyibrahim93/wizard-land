@@ -144,9 +144,17 @@ const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
             handleEquip();
             playEquip();
           }}
-          className='mq-btn'
+          className={`mq-btn ${item.type === 'realm' ? 'mq-realm' : ''} `}
           isDisabled={isActive}
-          text={isActive ? 'Active' : 'Equip'}
+          text={
+            isActive
+              ? `${
+                  item.type === 'realm' ? item.className + ' realm' : ''
+                } Active`
+              : `Equip ${
+                  item.type === 'realm' ? item.className + ' realm' : ''
+                }`
+          }
         />
       </div>
     </>

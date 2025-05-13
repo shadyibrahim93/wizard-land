@@ -2,9 +2,9 @@ import MenuItem from '../menu/menuItem.jsx';
 import {
   playChest,
   playEquip,
-  playLogInOut,
   playPageFlip,
-  playDoor
+  playDoor,
+  playArrow
 } from '../../hooks/useSound.js';
 import { useRouter } from 'next/navigation';
 
@@ -25,7 +25,7 @@ const HeaderContent = ({
           imgSrc='home.png'
           onHoverImgSrc='home_active.png'
           onClick={() => router.push('/')}
-          playHoverSound={playDoor}
+          playHoverSound={playArrow}
           title='GAMES'
           id='home-button'
         />
@@ -55,7 +55,7 @@ const HeaderContent = ({
             imgSrc='logout.png'
             onHoverImgSrc='logout_active.png'
             onClick={onLogout}
-            playHoverSound={playLogInOut}
+            playHoverSound={playDoor}
             title='LOGOUT'
           />
         ) : (
@@ -63,7 +63,7 @@ const HeaderContent = ({
             imgSrc='login.png'
             onHoverImgSrc='login_active.png'
             onClick={onSignIn}
-            playHoverSound={playLogInOut}
+            playHoverSound={playDoor}
             title='LOGIN'
           />
         )}

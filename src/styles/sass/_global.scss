@@ -1419,6 +1419,13 @@ body {
             padding: 4px 0px;
             margin: 0;
 
+            &.#{$identifier}-realm {
+              bottom: -18px;
+              width: 40%;
+              padding: 10px 0px;
+              text-transform: capitalize;
+            }
+
             &:disabled {
               background-color: $gray;
               border: 2px solid $gray;
@@ -1595,7 +1602,7 @@ body {
               }
 
               .#{$identifier}-modal-item {
-                padding: 16px 4px 24px 4px;
+                padding: 35px 4px 40px 4px;
                 row-gap: 16px;
 
                 &:has(.#{$identifier}-screenshot-grid) {
@@ -1621,12 +1628,12 @@ body {
                 }
 
                 .#{$identifier}-piece {
-                  width: 40px;
-                  height: 40px;
-                  font-size: 32px;
+                  width: 70px;
+                  height: 70px;
+                  font-size: 45px;
 
                   img {
-                    width: 50px;
+                    width: 70px;
                     height: auto;
                   }
                 }
@@ -1641,10 +1648,31 @@ body {
                   }
                 }
                 .#{$identifier}-btn {
-                  padding: 2px 0px;
+                  padding: 7px 0px;
                   font-size: 12px;
-                  bottom: -10px;
-                  width: 70%;
+                  bottom: -15px;
+                  width: 60%;
+
+                  &:disabled {
+                    padding: 4px 0px;
+                    font-size: 12px;
+                    bottom: -15px;
+                    width: 60%;
+                  }
+
+                  &.#{$identifier}-realm {
+                    padding: 13px 0px;
+                    font-size: 12px;
+                    bottom: -18px;
+                    width: 70%;
+
+                    &:disabled {
+                      padding: 8px 0px;
+                      font-size: 12px;
+                      bottom: -16px;
+                      width: 70%;
+                    }
+                  }
                 }
               }
             }
