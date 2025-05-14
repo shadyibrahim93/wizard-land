@@ -245,6 +245,10 @@
         row-gap: 24px;
         box-shadow: 0 0 20px var(--dark-overlay);
 
+        &:has(.#{$identifier}-screenshot-grid) {
+          background: none;
+        }
+
         &:after {
           content: '';
           top: 0;
