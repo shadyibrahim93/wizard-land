@@ -748,6 +748,24 @@ const Orbito = () => {
     return () => clearInterval(checkInterval);
   }, [board]);
 
+  useEffect(() => {
+    const homeBtn = document.getElementById('home-button');
+    if (!homeBtn) return;
+
+    const onClickCapture = (e) => {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      setIsConfirmationModalOpen(true);
+    };
+
+    if (room) {
+      homeBtn.addEventListener('click', onClickCapture, true);
+      return () => {
+        homeBtn.removeEventListener('click', onClickCapture, true);
+      };
+    }
+  }, [gameMode]);
+
   const shiftDisabled = () => {
     if (gameOver) return true;
     if (gameMode === 'Multiplayer' && currentMultiplayerTurn !== userId)
