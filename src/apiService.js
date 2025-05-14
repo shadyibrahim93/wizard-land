@@ -751,13 +751,21 @@ export async function getShopItemsGroupedByType(userId = null) {
     });
   });
 
-  // Sort by stars first, then push purchased to the end
   Object.keys(grouped).forEach((type) => {
     grouped[type].sort((a, b) => {
+      // 1. Push purchased items to the end
       if (a.purchased !== b.purchased) {
-        return a.purchased ? 1 : -1; // Purchased goes last
+        return a.purchased ? 1 : -1;
       }
-      return (a.stars || 0) - (b.stars || 0); // Sort by stars
+
+      // 2. Sort by euro (descending) first
+      const euroDiff = (b.euro || 0) - (a.euro || 0);
+      if (euroDiff !== 0) {
+        return euroDiff;
+      }
+
+      // 3. Then sort by stars (descending)
+      return (b.stars || 0) - (a.stars || 0);
     });
   });
 
