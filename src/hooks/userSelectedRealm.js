@@ -8,25 +8,32 @@ import { useUser } from '../context/UserContext.js';
 export default function useSelectedRealm() {
   const { userId = null, loading = true } = useUser() || {};
   const selected = useSelectedItems(userId);
-  const [realm, setRealm] = useState();
+  // Initialize with localStorage value immediately (SSR-safe)
+  const [realm, setRealm] = useState(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        return localStorage.getItem('realm');
+      }
+      return 'fantasy';
+    } catch (error) {
+      return 'fantasy';
+    }
+  });
 
   useEffect(() => {
-    if (typeof window === 'undefined' || loading) return;
-
-    try {
-      const storedRealm = localStorage.getItem('realm');
-      const userRealm = selected?.realm?.className;
-      const newRealm = storedRealm || userRealm || 'fantasy';
-
-      setRealm(newRealm);
-      if (userRealm && userRealm !== storedRealm) {
-        localStorage.setItem('realm', userRealm);
+    if (!loading) {
+      // Only run when user data is loaded
+      try {
+        const userRealm = selected?.realm?.className;
+        if (userRealm && userRealm !== realm) {
+          localStorage.setItem('realm', userRealm);
+          setRealm(userRealm);
+        }
+      } catch (error) {
+        console.error('Error updating realm:', error);
       }
-    } catch (error) {
-      console.error('Error initializing realm:', error);
-      setRealm('fantasy');
     }
-  }, [userId, selected?.realm?.className, loading]);
+  }, [userId, selected?.realm?.className, loading, realm]);
 
   return realm;
 }
