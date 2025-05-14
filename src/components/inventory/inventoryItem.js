@@ -19,7 +19,7 @@ const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
   // Build URL array for realm images
   const realmImages =
     item.type === 'realm'
-      ? [1, 2].map(
+      ? [1, 2, 3].map(
           (n) => `/assets/images/board_pieces/${item.className}-${n}.webp`
         )
       : [];

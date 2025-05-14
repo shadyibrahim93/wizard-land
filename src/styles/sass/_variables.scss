@@ -37,7 +37,11 @@ $fantasy: (
   leaderboard-rank-badge-size: 40px,
   text-color: #c47f3c,
   user-progress-border: 2px solid,
-  user-progress-padding: 8px 14px
+  user-progress-padding: 8px 14px,
+  container-glow: glowFantasy 4s infinite alternate,
+  modal-item-border: #b2a3794f,
+  modal-item-after-bg-color: rgb(0 0 0 / 53%),
+  modal-category-bg-color: #4bd0fb12
 );
 
 $vintage: (
@@ -61,7 +65,11 @@ $vintage: (
   leaderboard-rank-badge-size: 30px,
   text-color: #b79778,
   user-progress-border: 2px solid,
-  user-progress-padding: 8px 14px
+  user-progress-padding: 8px 14px,
+  container-glow: glowVintage 4s infinite alternate,
+  modal-item-border: #b2a3794f,
+  modal-item-after-bg-color: #0000005b,
+  modal-category-bg-color: rgb(120 79 35 / 27%)
 );
 
 /// A helper to emit custom‐properties for a given map and selector

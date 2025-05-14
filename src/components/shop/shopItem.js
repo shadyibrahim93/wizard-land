@@ -11,17 +11,19 @@ import {
 } from '../../hooks/useSound';
 import Button from '../Button';
 import Image from 'next/image'; // Import next/image for optimized images
+import useSelectedRealm from '../../hooks/userSelectedRealm.js';
 
 const ShopItem = ({ item }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { userId, loading } = useUser(); // Directly use your useUser hook
   const bgMusicTimeRef = useRef(0);
   const wasPlayingRef = useRef(false);
+  const realm = useSelectedRealm();
 
   // Build URL array for realm images
   const realmImages =
     item.type === 'realm'
-      ? [1, 2].map(
+      ? [1, 2, 3].map(
           (n) => `/assets/images/board_pieces/${item.className}-${n}.webp`
         )
       : [];
@@ -157,7 +159,7 @@ const ShopItem = ({ item }) => {
         {item.stars !== 0 && (
           <>
             <Image
-              src={`/assets/images/fantasy/elements/star.png`}
+              src={`/assets/images/${realm}/elements/star.png`}
               alt='Star Icon'
               width={10} // Adjust width of the star image as needed
               height={20} // Adjust height of the star image as needed
@@ -168,7 +170,7 @@ const ShopItem = ({ item }) => {
         {item.euro !== 0 && (
           <>
             <Image
-              src={`/assets/images/fantasy/elements/euro.png`}
+              src={`/assets/images/${realm}/elements/euro.png`}
               alt='Euro Icon'
               className='mq-sparkle'
               width={10} // Adjust width of the euro image as needed

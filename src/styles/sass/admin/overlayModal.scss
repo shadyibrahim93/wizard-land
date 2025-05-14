@@ -22,7 +22,7 @@
     width: 60%;
     max-height: 70%;
     border-radius: 20px;
-    animation: glowIce 4s infinite alternate;
+    animation: var(--container-glow);
     transform: translateZ(0);
 
     h3,
@@ -45,7 +45,7 @@
 
     .#{$identifier}-modal-category {
       padding: 24px 24px 46px 24px;
-      background-color: #4bd0fb12;
+      background-color: var(--modal-category-bg-color);
       border-radius: 10px;
     }
 
@@ -221,8 +221,11 @@
       }
 
       .#{$identifier}-modal-item {
-        background-color: var(--dark-overlay);
+        background: var(--background-image);
+        background-size: cover;
+        background-repeat: repeat;
         position: relative;
+        border: 3px solid var(--modal-item-border);
         border-radius: 20px;
         padding: 24px 16px 36px 16px;
         display: flex;
@@ -230,7 +233,26 @@
         justify-content: center;
         align-items: center;
         row-gap: 24px;
-        box-shadow: -3px 3px 0px 0px rgb(123 123 123 / 30%);
+        box-shadow: 0 0 20px var(--dark-overlay);
+
+        &:after {
+          content: '';
+          top: 0;
+          z-index: 0;
+          border-radius: 20px;
+          position: absolute;
+          background-color: var(--modal-item-after-bg-color);
+          width: 100%;
+          height: 100%;
+        }
+
+        &:hover {
+          box-shadow: 0 0 30px var(--light-overlay-hover);
+        }
+
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+
         &:has(.#{$identifier}-modal-price) {
           padding: 24px 16px 36px 16px;
         }
@@ -239,12 +261,18 @@
           width: auto;
           height: auto;
 
+          .#{$identifier}-modal-price {
+            justify-content: center;
+            gap: 12px;
+          }
+
           .#{$identifier}-piece {
             position: relative;
             width: -webkit-fill-available;
             height: auto;
             padding: 21px;
             display: block;
+            background-color: transparent;
 
             img {
               width: 90%;
@@ -263,6 +291,7 @@
 
         &:has(.#{$identifier}-piece img) {
           &::before {
+            z-index: 1;
             content: '';
             position: absolute;
             top: 10px;
@@ -290,10 +319,11 @@
         }
 
         .#{$identifier}-modal-price {
-          background-color: var(--dark-overlay);
+          z-index: 1;
+          background-color: var(--modal-item-after-bg-color);
           display: flex;
           flex-direction: row;
-          justify-content: center;
+          justify-content: space-around;
           column-gap: 2px;
           align-items: center;
           width: 100%;
@@ -310,24 +340,26 @@
         }
 
         .#{$identifier}-piece {
-          width: 100px;
+          z-index: 1;
+          width: 90px;
           height: 75px;
           display: flex;
           border: none;
           flex-direction: row;
           justify-content: center;
           align-items: center;
-          font-size: 48px;
-          padding-left: 2px;
+          font-size: 40px;
           text-align: center;
           letter-spacing: normal;
-
+          background-color: var(--modal-item-after-bg-color);
+          border-radius: 20px;
           @include themes;
 
           &.#{$identifier}-theme {
             border-radius: 10px;
             width: 80px;
             height: 80px;
+            background-color: var(--dark-overlay);
 
             &::after {
               bottom: -3px;
@@ -337,17 +369,18 @@
           }
 
           img {
-            width: 75px;
+            width: 55px;
             height: auto;
           }
         }
 
         .#{$identifier}-btn {
+          z-index: 1;
           position: absolute;
           background-color: var(--secondary-color);
-          bottom: -15px;
+          bottom: -13px;
           width: 60%;
-          padding: 4px 0px;
+          padding: 6px 0px;
           margin: 0;
 
           &.#{$identifier}-realm {
@@ -360,7 +393,7 @@
           &:disabled {
             background-color: $gray;
             border: 2px solid $gray;
-            animation: glowSnow 4s infinite alternate;
+            text-shadow: none;
           }
         }
       }
@@ -482,20 +515,19 @@
               }
 
               .#{$identifier}-piece {
-                width: 70px;
-                height: 70px;
+                width: 80px;
+                height: 80px;
                 font-size: 45px;
 
                 img {
-                  width: 70px;
+                  width: 60px;
                   height: auto;
                 }
               }
 
               .#{$identifier}-modal-price {
                 width: 80%;
-                padding: 4px;
-                font-size: 10px;
+                font-size: 12px;
                 img {
                   width: 16px;
                   height: auto;

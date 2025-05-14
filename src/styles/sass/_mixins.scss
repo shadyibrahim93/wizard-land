@@ -138,6 +138,30 @@
   }
 }
 
+@keyframes glowFantasy {
+  0% {
+    box-shadow: 0px 0px 8px rgba(0, 191, 255, 0.3),
+      0px 0px 15px rgba(135, 206, 250, 0.4),
+      0px 0px 25px rgba(175, 238, 238, 0.3);
+  }
+  100% {
+    box-shadow: 0px 0px 12px rgba(0, 191, 255, 0.4),
+      0px 0px 20px rgba(135, 206, 250, 0.4),
+      0px 0px 30px rgba(175, 238, 238, 0.3);
+  }
+}
+
+@keyframes glowVintage {
+  0% {
+    box-shadow: 0px 0px 8px rgba(139, 69, 19, 0.4),
+      0px 0px 15px rgba(160, 82, 45, 0.5), 0px 0px 25px rgba(210, 105, 30, 0.3);
+  }
+  100% {
+    box-shadow: 0px 0px 12px rgba(165, 42, 42, 0.5),
+      0px 0px 20px rgba(205, 133, 63, 0.6), 0px 0px 30px rgba(218, 165, 32, 0.4);
+  }
+}
+
 @keyframes glowingRed {
   0% {
     text-shadow: 0 0 5px var(--secondary-color), 0 0 10px var(--secondary-color),
