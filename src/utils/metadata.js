@@ -164,6 +164,26 @@ export function generateGameMetadata({ name, slug, mode = 'solo' }) {
         name='author-buymeacoffee'
         content='https://buymeacoffee.com/wizardland'
       />
+      <meta
+        name='distribution'
+        content='global'
+      />
+      <meta
+        name='rating'
+        content='general'
+      />
+      <meta
+        name='apple-mobile-web-app-capable'
+        content='yes'
+      />
+      <meta
+        name='apple-mobile-web-app-status-bar-style'
+        content='default'
+      />
+      <meta
+        name='mobile-web-app-capable'
+        content='yes'
+      />
     </>
   );
 }
@@ -316,6 +336,26 @@ export function generateHomeMetadata({ name }) {
       <meta
         name='author-buymeacoffee'
         content='https://buymeacoffee.com/wizardland'
+      />
+      <meta
+        name='distribution'
+        content='global'
+      />
+      <meta
+        name='rating'
+        content='general'
+      />
+      <meta
+        name='apple-mobile-web-app-capable'
+        content='yes'
+      />
+      <meta
+        name='apple-mobile-web-app-status-bar-style'
+        content='default'
+      />
+      <meta
+        name='mobile-web-app-capable'
+        content='yes'
       />
     </>
   );
