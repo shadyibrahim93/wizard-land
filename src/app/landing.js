@@ -148,11 +148,11 @@ export default function LandingPage({
         />
         <meta
           property='og:type'
-          content='website' // Or "ComingSoon" if a specific Open Graph type exists and is relevant (less common)
+          content='website'
         />
         <meta
           property='og:title'
-          content='Wizard Land | The Magic Begins - June 1st, 2025' // Keep for OG title
+          content='Wizard Land | The Magic Begins - June 1st, 2025'
         />
         <meta
           property='og:description'
@@ -164,7 +164,7 @@ export default function LandingPage({
         />
         <meta
           name='twitter:title'
-          content='Wizard Land | The Magic Begins - June 1st, 2025' // Keep for Twitter title
+          content='Wizard Land | The Magic Begins - June 1st, 2025'
         />
         <meta
           name='twitter:description'
@@ -230,7 +230,7 @@ export default function LandingPage({
               magical broom!) in this new world.
             </p>
             <Button
-              text='Sign Up Early for a Special Reward!'
+              text='Sign Up Early for Your Magical Broom!'
               onClick={() => setShowSignUpModal(true)}
             />
           </div>
