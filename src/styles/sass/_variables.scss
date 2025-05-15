@@ -41,7 +41,8 @@ $fantasy: (
   container-glow: glowFantasy 4s infinite alternate,
   modal-item-border: #b2a3794f,
   modal-item-after-bg-color: rgb(0 0 0 / 53%),
-  modal-category-bg-color: #4bd0fb12
+  modal-category-bg-color: #4bd0fb12,
+  modal-item-box-shadow-color: #c2d77661
 );
 
 $vintage: (
@@ -69,7 +70,8 @@ $vintage: (
   container-glow: glowVintage 4s infinite alternate,
   modal-item-border: #b2a3794f,
   modal-item-after-bg-color: #0000005b,
-  modal-category-bg-color: rgb(115 90 64 / 25%)
+  modal-category-bg-color: rgb(115 90 64 / 25%),
+  modal-item-box-shadow-color: #977a51
 );
 
 /// A helper to emit custom‐properties for a given map and selector
