@@ -63,7 +63,8 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
                 <span className='mq-user-icon'>
                   <Image
                     src={`/assets/images/${realm}/elements/euro.png`}
-                    alt='Euro'
+                    alt='Euro Currency | Wizard Land'
+                    title='Euro Currency | Wizard Land'
                     width={24} // Adjust the width
                     height={24} // Adjust the height
                   />
@@ -90,7 +91,8 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
                 <span className='mq-user-icon'>
                   <Image
                     src={`/assets/images/${realm}/elements/star.png`}
-                    alt='Stars'
+                    alt='Coin Currency | Wizard Land'
+                    title='Coin Currency | Wizard Land'
                     width={24} // Adjust the width
                     height={24} // Adjust the height
                   />
@@ -111,7 +113,8 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
             <span className='mq-user-icon'>
               <Image
                 src={`/assets/images/${realm}/elements/email.png`}
-                alt='Send feedback'
+                alt='Send feedback email | Wizard Land'
+                title='Send feedback email | Wizard Land'
                 width={24} // Adjust the width
                 height={24} // Adjust the height
               />
@@ -129,7 +132,8 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
             <span className='mq-user-icon'>
               <Image
                 src={`/assets/images/${realm}/elements/support.png`}
-                alt='Support us'
+                alt='Support our work | Wizard Land'
+                title='Support our work | Wizard Land'
                 width={24} // Adjust the width
                 height={24} // Adjust the height
               />

@@ -6,7 +6,7 @@ import Image from 'next/image';
 import useSelectedRealm from '@/hooks/userSelectedRealm.js';
 import { useUser } from '@/context/UserContext.js';
 
-export default function GameCards({ target, imgSrc, alt, title }) {
+export default function GameCards({ target, imgSrc, title }) {
   const { userId } = useUser();
   const realm = useSelectedRealm();
 
@@ -15,11 +15,13 @@ export default function GameCards({ target, imgSrc, alt, title }) {
       href={target} // The URL to navigate to when clicked
       className='mq-dashboard-card'
       passHref
+      title={`${title} Online Game | Wizard Land`}
     >
-      {realm && <h1 className='mq-ending-title glowingFire-text'>{title}</h1>}
+      {realm && <h2 className='mq-ending-title glowingFire-text'>{title}</h2>}
       <Image
         src={`/assets/images/${realm}/${imgSrc}.webp`} // Image source path
-        alt={alt}
+        alt={`${title} Online Game | Wizard Land`}
+        title={`${title} Online Game | Wizard Land`}
         width={300} // adjust as needed
         height={300} // adjust as needed
         loading='lazy' // Helps with performance optimization

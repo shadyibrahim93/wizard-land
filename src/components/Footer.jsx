@@ -69,17 +69,21 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          <h3 className='mq-follow-us'>Follow Us</h3>
+          <h4 className='mq-follow-us'>Follow Us</h4>
           <hr />
           <div className='mq-social-media'>
             <a
               href='https://www.facebook.com/people/Wizard-Land-Online-Board-Games/61575617324879/'
               target='_blank'
               rel='noopener noreferrer'
-              title='Facebook'
+              title='Follow Wizard Land On Facebook'
             >
               {realm !== 'fantasy' ? (
-                <img src={`/assets/images/${realm}/elements/facebook.png`} />
+                <img
+                  src={`/assets/images/${realm}/elements/facebook.png`}
+                  alt='Follow Wizard Land On Facebook'
+                  title='Follow Wizard Land On Facebook'
+                />
               ) : (
                 <FaFacebookSquare className='mq-social-icon' />
               )}{' '}
@@ -88,10 +92,14 @@ const Footer = () => {
               href='https://discord.com/channels/1369090826109452368/1369092092579680276'
               target='_blank'
               rel='noopener noreferrer'
-              title='Discord'
+              title='Follow Wizard Land On Discord'
             >
               {realm !== 'fantasy' ? (
-                <img src={`/assets/images/${realm}/elements/discord.png`} />
+                <img
+                  src={`/assets/images/${realm}/elements/discord.png`}
+                  alt='Follow Wizard Land On Discord'
+                  title='Follow Wizard Land On Discord'
+                />
               ) : (
                 <FaDiscord className='mq-social-icon' />
               )}{' '}
@@ -100,10 +108,14 @@ const Footer = () => {
               href='https://buymeacoffee.com/wizardland'
               target='_blank'
               rel='noopener noreferrer'
-              title='Buy Me a Coffee'
+              title='Support Wizard Land On Buy Me A Coffee'
             >
               {realm !== 'fantasy' ? (
-                <img src={`/assets/images/${realm}/elements/coffee.png`} />
+                <img
+                  src={`/assets/images/${realm}/elements/coffee.png`}
+                  alt='Support Wizard Land On Buy Me A Coffee'
+                  title='Support Wizard Land On Buy Me A Coffee'
+                />
               ) : (
                 <DiCoffeescript className='mq-social-icon' />
               )}{' '}

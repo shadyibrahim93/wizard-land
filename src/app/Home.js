@@ -321,17 +321,18 @@ export default function Home() {
       <main className='mq-dashboard-cards-wrapper'>
         <div className='mq-dashboard-container'>
           <section>
-            <h2 className='mq-section-title mq-section-title--multiplayer'>
+            <h1 className='mq-section-title mq-section-title--multiplayer'>
               {realm !== 'fantasy' ? (
                 <img
                   src={`assets/images/${realm}/elements/multiplayer.png`}
-                  alt='Multiplayer Games Icon'
+                  alt='Multiplayer Games | Wizard Land'
+                  title='Multiplayer Games | Wizard Land'
                 />
               ) : (
                 '⚔️'
               )}{' '}
               Multiplayer Games
-            </h2>
+            </h1>
             <hr></hr>
             <div className='mq-cards-grid'>
               {multiplayerGames.map((game, index) => (
@@ -346,17 +347,18 @@ export default function Home() {
             </div>
           </section>
           <section>
-            <h2 className='mq-section-title mq-section-title--solo'>
+            <h1 className='mq-section-title mq-section-title--solo'>
               {realm !== 'fantasy' ? (
                 <img
                   src={`assets/images/${realm}/elements/solo.png`}
-                  alt='Single Player Games Icon'
+                  alt='Single Player Games | Wizard Land'
+                  title='Single Player Games | Wizard Land'
                 />
               ) : (
                 '🗡️'
               )}{' '}
               Single Player Games
-            </h2>
+            </h1>
             <hr></hr>
             <div className='mq-cards-grid'>
               {singleplayerGames.map((game, index) => (

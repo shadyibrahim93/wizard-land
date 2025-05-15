@@ -41,8 +41,9 @@ export default function LandingPage({
 
   // Screenshot data
   const screenshots = Array.from({ length: screenshotCount }, (_, i) => ({
-    src: `/assets/images/launch/${i + 1}.webp`, // Ensure this path is correct and matches images in schema
-    alt: screenshotAlts[i] ?? `Launch screenshot ${i + 1}`
+    src: `/assets/images/launch/${i + 1}.webp`,
+    alt: screenshotAlts[i] ?? `Launch screenshot ${i + 1}`,
+    title: screenshotAlts[i] ?? `Launch screenshot ${i + 1}`
   }));
 
   // Group screenshots
@@ -178,9 +179,9 @@ export default function LandingPage({
           <h1 className='landing-page-title brand'>
             <span className='title-glitch'>Wizard Land</span>
           </h1>
-          <h1 className='landing-page-title'>
+          <h2 className='landing-page-title'>
             <span className='subtitle'>A Magical Journey Begins</span>
-          </h1>
+          </h2>
 
           <div className='countdown-timer-container'>
             <strong className='countdown-timer'>{countdownDays}</strong>
@@ -249,6 +250,7 @@ export default function LandingPage({
                   <img
                     src={shot.src}
                     alt={shot.alt}
+                    title={shot.title}
                     className='screenshot-thumb'
                     loading='lazy'
                   />
@@ -317,6 +319,7 @@ export default function LandingPage({
             className='landing-page-button'
             target='_blank'
             rel='noopener noreferrer'
+            title='Follow Wizard Land On Facebook'
           >
             <span className='wand-icon'>⚡</span>
             Follow Our Magical Journey

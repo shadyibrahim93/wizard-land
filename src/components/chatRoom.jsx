@@ -57,7 +57,8 @@ const GameChat = ({ chatTitle, gameId }) => {
               <img
                 className='mq-chat-icon'
                 src={`/assets/images/${realm}/elements/chat.png`}
-                alt={chatTitle}
+                alt={`${chatTitle} Game Chat | Wizard Land`}
+                title={`${chatTitle} Game Chat | Wizard Land`}
               />
             ) : (
               ''

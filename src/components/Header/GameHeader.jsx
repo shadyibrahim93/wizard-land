@@ -26,7 +26,9 @@ const HeaderContent = ({
           onHoverImgSrc='home_active.png'
           onClick={() => router.push('/')}
           playHoverSound={playArrow}
-          title='GAMES'
+          title='Games Menu Item | Wizard Land'
+          itemTitle='GAMES'
+          alt='Games Menu Item | Wizard Land'
           id='home-button'
         />
         <MenuItem
@@ -34,21 +36,27 @@ const HeaderContent = ({
           onHoverImgSrc='shop_active.png'
           onClick={showShop}
           playHoverSound={playChest}
-          title='SHOP'
+          itemTitle='SHOP'
+          title='Shop Menu Item | Wizard Land'
+          alt='Shop Menu Item | Wizard Land'
         />
         <MenuItem
           imgSrc='inventory.png'
           onHoverImgSrc='inventory_active.png'
           onClick={showInventory}
           playHoverSound={playEquip}
-          title='STASH'
+          itemTitle='STASH'
+          title='Stash Menu Item | Wizard Land'
+          alt='Stash Menu Item | Wizard Land'
         />
         <MenuItem
           imgSrc='about.png'
           onHoverImgSrc='about_active.png'
           onClick={showAbout}
           playHoverSound={playPageFlip}
-          title='ABOUT'
+          itemTitle='ABOUT'
+          title='About Menu Item | Wizard Land'
+          alt='About Menu Item | Wizard Land'
         />
         {userId ? (
           <MenuItem
@@ -56,7 +64,9 @@ const HeaderContent = ({
             onHoverImgSrc='logout_active.png'
             onClick={onLogout}
             playHoverSound={playDoor}
-            title='LOGOUT'
+            itemTitle='LOGOUT'
+            title='Logout Menu Item | Wizard Land'
+            alt='Logout Menu Item | Wizard Land'
           />
         ) : (
           <MenuItem
@@ -64,7 +74,9 @@ const HeaderContent = ({
             onHoverImgSrc='login_active.png'
             onClick={onSignIn}
             playHoverSound={playDoor}
-            title='LOGIN'
+            itemTitle='LOGIN'
+            title='Login Menu Item | Wizard Land'
+            alt='Login Menu Item | Wizard Land'
           />
         )}
       </div>

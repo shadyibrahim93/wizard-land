@@ -31,6 +31,9 @@ export function generateGameMetadata({ name, slug, mode = 'solo' }) {
         : `Enjoy ad-free solo gameplay in ${name}, a relaxing, stress-free online game on Wizard Land. Perfect for unwinding or challenging yourself at your own pace, without ads or distractions. Dive into a peaceful game environment, available for free whenever you're ready to play.`,
       url: `https://wizardland.net/games/${slug}`,
       type: 'website',
+      keywords: `${name}, online board games, ${
+        isMultiplayer ? 'Multiplayer board' : 'Single Player'
+      }  games, ad-free games, classic board games online, play board games with friends, free online games, Wizard Land, Chess online, Checkers online, Orbito online, Connect 4 online, Tic Tac Toe online, online puzzle games, online memory games`,
       images: [
         {
           url: socialImages.openGraph || socialImages.default,
@@ -59,8 +62,18 @@ export function generateGameMetadata({ name, slug, mode = 'solo' }) {
         name='description'
         content={metadata.description}
       />
-
-      {/* OpenGraph/Facebook */}
+      <link
+        rel='canonical'
+        href={metadata.openGraph.url}
+      />
+      <meta
+        name='keywords'
+        content={metadata.keywords}
+      />
+      <meta
+        name='robots'
+        content='index, follow'
+      />
       <meta
         property='og:title'
         content={metadata.openGraph.title}
@@ -94,7 +107,6 @@ export function generateGameMetadata({ name, slug, mode = 'solo' }) {
         content={metadata.openGraph.images[0].alt}
       />
 
-      {/* Twitter */}
       <meta
         name='twitter:card'
         content={metadata.twitter.card}
@@ -112,10 +124,45 @@ export function generateGameMetadata({ name, slug, mode = 'solo' }) {
         content={metadata.twitter.images[0]}
       />
 
-      {/* Google/Schema.org */}
       <link
         rel='image_src'
         href={socialImages.google}
+      />
+      <meta
+        name='publisher'
+        content='Wizard Land'
+      />
+      <meta
+        name='publisher-url'
+        content='https://wizardland.net'
+      />
+      <meta
+        name='publisher-logo'
+        content='https://wizardland.net/assets/images/logo.png'
+      />
+      <meta
+        name='author'
+        content='Wizard Land'
+      />
+      <meta
+        name='author-url'
+        content='https://wizardland.net'
+      />
+      <meta
+        name='author-logo'
+        content='https://wizardland.net/assets/images/logo.png'
+      />
+      <meta
+        name='author-facebook'
+        content='https://www.facebook.com/people/Wizard-Land-Online-Board-Games/61575617324879/'
+      />
+      <meta
+        name='author-discord'
+        content='https://discord.com/channels/1369090826109452368/1369092092579680276'
+      />
+      <meta
+        name='author-buymeacoffee'
+        content='https://buymeacoffee.com/wizardland'
       />
     </>
   );
@@ -138,7 +185,7 @@ export function generateHomeMetadata({ name }) {
   const metadata = {
     title: `${baseTitle} ${titleSuffix}`,
     description:
-      'Enjoy ad-free gameplay on Wizard Land with classic online board games',
+      'Get ready for Wizard Land, an ad-free online multiplayer board game platform launching on June 1st, 2025! Sign up for early access and challenge friends in magical board games.',
     openGraph: {
       title: `${baseTitle} ${titleSuffix}`,
       description: 'Play classic online board games with friends or solo',
@@ -168,15 +215,37 @@ export function generateHomeMetadata({ name }) {
         name='description'
         content={metadata.description}
       />
-
-      {/* OpenGraph/Facebook */}
       <meta
         property='og:title'
         content={metadata.openGraph.title}
       />
       <meta
+        name='keywords'
+        content='online board games, multiplayer board games, ad-free games, classic board games online, play board games with friends, free online games, Wizard Land, Chess online, Checkers online, Orbito online, Connect 4 online, Tic Tac Toe online, online puzzle games, online memory games'
+      />
+      <link
+        rel='canonical'
+        href={metadata.openGraph.url}
+      />
+      <meta
         property='og:description'
         content={metadata.openGraph.description}
+      />
+      <meta
+        name='robots'
+        content='index, follow'
+      />
+      <meta
+        name='publisher'
+        content='Wizard Land'
+      />
+      <meta
+        name='publisher-url'
+        content='https://wizardland.net'
+      />
+      <meta
+        name='publisher-logo'
+        content='https://wizardland.net/assets/images/logo.png'
       />
       <meta
         property='og:url'
@@ -203,7 +272,6 @@ export function generateHomeMetadata({ name }) {
         content={metadata.openGraph.images[0].alt}
       />
 
-      {/* Twitter */}
       <meta
         name='twitter:card'
         content={metadata.twitter.card}
@@ -221,10 +289,33 @@ export function generateHomeMetadata({ name }) {
         content={metadata.twitter.images[0]}
       />
 
-      {/* Google/Schema.org */}
       <link
         rel='image_src'
         href={socialImages.google}
+      />
+      <meta
+        name='author'
+        content='Shady Ibrahim'
+      />
+      <meta
+        name='author-url'
+        content='https://www.linkedin.com/in/shady-ibrahim'
+      />
+      <meta
+        name='author-logo'
+        content='https://wizardland.net/assets/images/profile.jpg'
+      />
+      <meta
+        name='author-facebook'
+        content='https://www.facebook.com/people/Wizard-Land-Online-Board-Games/61575617324879/'
+      />
+      <meta
+        name='author-discord'
+        content='https://discord.com/channels/1369090826109452368/1369092092579680276'
+      />
+      <meta
+        name='author-buymeacoffee'
+        content='https://buymeacoffee.com/wizardland'
       />
     </>
   );

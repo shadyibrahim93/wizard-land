@@ -2,18 +2,18 @@
 
 import React, { useState } from 'react';
 import useSelectedRealm from '../../hooks/userSelectedRealm.js';
-import { useUser } from '../../context/UserContext.js';
 
 const MenuItem = ({
   imgSrc,
   onHoverImgSrc,
   title,
+  alt,
   onClick,
   playHoverSound,
-  id
+  id,
+  itemTitle
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const { userId } = useUser();
   const realm = useSelectedRealm();
 
   const imageSrc = `/assets/images/${realm}/elements/${
@@ -44,10 +44,11 @@ const MenuItem = ({
     >
       <img
         src={imageSrc}
-        alt={title}
+        alt={alt}
+        title={title}
         loading='lazy'
       />
-      {realm === 'vintage' ? '' : title}
+      {realm === 'vintage' ? '' : itemTitle}
     </div>
   );
 };

@@ -116,7 +116,11 @@ const LeaderBoard = () => {
     <section className='mq-leaderboard-section'>
       <h2 className='mq-section-title mq-section-title--multiplayer'>
         {realm !== 'fantasy' ? (
-          <img src={`/assets/images/${realm}/elements/solo.png`} />
+          <img
+            src={`/assets/images/${realm}/elements/trophy.png`}
+            alt={`${getTimeFrameTitle()} Leaderboard | Wizard Land`}
+            title={`${getTimeFrameTitle()} Leaderboard | Wizard Land`}
+          />
         ) : (
           '🏆'
         )}{' '}
