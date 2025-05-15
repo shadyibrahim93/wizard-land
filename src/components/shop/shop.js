@@ -55,7 +55,10 @@ const Shop = ({ onClose }) => {
               key={category}
               className='mq-modal-category'
             >
-              <h2 className='mq-modal-category-title'>Board {category}s</h2>
+              <h2 className='mq-modal-category-title'>
+                {category !== 'realm' ? 'Board' : 'Game'}{' '}
+                {category.charAt(0).toUpperCase() + category.slice(1)}s
+              </h2>
               <hr></hr>
               <div className='mq-modal-items-container'>
                 {items.map((item) => (

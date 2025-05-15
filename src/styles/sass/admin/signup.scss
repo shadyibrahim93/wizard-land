@@ -17,6 +17,7 @@
     &:has(textarea) {
       .#{$identifier}-input {
         height: 80px;
+        resize: none;
       }
     }
 
@@ -24,8 +25,8 @@
       width: -webkit-fill-available;
       height: 40px;
       background-color: transparent;
-      border: 0;
-      animation: glowBlue 4s infinite alternate;
+      border: 2px solid;
+      border-color: var(--primary-color);
       border-radius: 10px;
       padding-left: 21px;
       font-size: 21px;
