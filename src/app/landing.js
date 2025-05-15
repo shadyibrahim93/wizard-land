@@ -323,20 +323,20 @@ export default function LandingPage({
           </a>
         </footer>
         <script
-          id='landing-page-schema' // Unique ID for this script
+          id='landing-page-schema'
           type='application/ld+json'
-          strategy='beforeInteractive' // Or "afterInteractive". Test which works best.
+          strategy='beforeInteractive'
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(LANDING_PAGE_SCHEMA) // Use the combined landing page schema
+            __html: JSON.stringify(LANDING_PAGE_SCHEMA)
           }}
         />
 
         <script
-          id='launch-event-schema' // Unique ID for this script
+          id='launch-event-schema'
           type='application/ld+json'
-          strategy='beforeInteractive' // Or "afterInteractive"
+          strategy='beforeInteractive'
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(LAUNCH_EVENT_SCHEMA) // Include the event schema
+            __html: JSON.stringify(LAUNCH_EVENT_SCHEMA)
           }}
         />
         <Footer />
@@ -470,6 +470,17 @@ const LAUNCH_EVENT_SCHEMA = {
   '@type': 'Event',
   'name': 'Wizard Land Grand Launch',
   'startDate': '2025-06-01T00:00:00-04:00',
+  'endDate': '2025-06-01T02:00:00-04:00',
+  'eventStatus': 'https://schema.org/EventScheduled',
+  'eventAttendanceMode': 'https://schema.org/OnlineEventAttendanceMode',
+  'offers': {
+    '@type': 'Offer',
+    'url': 'https://wizardland.net',
+    'price': '0',
+    'priceCurrency': 'USD',
+    'availability': 'https://schema.org/InStock',
+    'validFrom': '2025-05-01T00:00:00-04:00'
+  },
   'location': {
     '@type': 'VirtualLocation',
     'url': 'https://wizardland.net'
