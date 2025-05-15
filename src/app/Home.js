@@ -18,142 +18,177 @@ export default function Home() {
       imgSrc: 'bingo',
       alt: 'Bingo Game',
       title: 'Bingo',
-      type: 'Singleplayer'
+      type: 'Singleplayer',
+      genres: ['Board Game', 'Single Player Game', 'Casual Game', 'Family Game']
     },
     {
       url: '/games/orbito-quest',
       imgSrc: 'orbito',
       alt: 'Orbito Game',
       title: 'Orbito',
-      type: 'Multiplayer'
+      type: 'Multiplayer',
+      genres: [
+        'Board Game',
+        'Multiplayer Game',
+        'Strategy Game',
+        'Online Game',
+        'Social Game',
+        'Competitive Game',
+        'Family Game'
+      ]
     },
     {
       url: '/games/chess-quest',
       imgSrc: 'chess',
       alt: 'Chess Game',
       title: 'Chess',
-      type: 'Multiplayer'
+      type: 'Multiplayer',
+      genres: [
+        'Board Game',
+        'Multiplayer Game',
+        'Strategy Game',
+        'Classic Game',
+        'Online Game',
+        'Social Game',
+        'Competitive Game',
+        'Family Game'
+      ]
     },
     {
       url: '/games/connect-four-quest',
       imgSrc: 'connect_four',
       alt: 'Connect Four Game',
       title: 'Connect 4',
-      type: 'Multiplayer'
+      type: 'Multiplayer',
+      genres: [
+        'Board Game',
+        'Multiplayer Game',
+        'Casual Game',
+        'Online Game',
+        'Social Game',
+        'Competitive Game',
+        'Family Game'
+      ]
     },
     {
       url: '/games/tic-tac-toe-quest',
       imgSrc: 'tictactoe',
       alt: 'Tic Tac Toe Game',
       title: 'Tic Tac Toe',
-      type: 'Multiplayer'
+      type: 'Multiplayer',
+      genres: [
+        'Board Game',
+        'Multiplayer Game',
+        'Casual Game',
+        'Classic Game',
+        'Online Game',
+        'Social Game',
+        'Competitive Game',
+        'Family Game'
+      ]
     },
     {
       url: '/games/checker-quest',
       imgSrc: 'checkers',
-      alt: 'Checker Game',
-      title: 'Checker',
-      type: 'Multiplayer'
+      alt: 'Checkers Game',
+      title: 'Checkers',
+      type: 'Multiplayer',
+      genres: [
+        'Board Game',
+        'Multiplayer Game',
+        'Strategy Game',
+        'Classic Game',
+        'Online Game',
+        'Social Game',
+        'Competitive Game',
+        'Family Game'
+      ]
     },
     {
       url: '/games/scramble-quest',
       imgSrc: 'scramble',
       alt: 'Scramble Game',
       title: 'Scrambled',
-      type: 'Singleplayer'
+      type: 'Singleplayer',
+      genres: ['Puzzle Game', 'Single Player Game', 'Word Game', 'Family Game']
     },
     {
       url: '/games/sudoku-quest',
       imgSrc: 'sudoku',
       alt: 'Sudoku Game',
       title: 'Sudoku',
-      type: 'Singleplayer'
+      type: 'Singleplayer',
+      genres: ['Puzzle Game', 'Single Player Game', 'Logic Game', 'Family Game']
     },
-    /*
-    {
-      url: '/games/math-quest',
-      imgSrc: 'math',
-      alt: 'Math Game',
-      title: 'Math Marathon',
-      type: 'Singleplayer'
-    },
-    */
     {
       url: '/games/puzzle-quest',
       imgSrc: 'jigsaw',
       alt: 'Puzzle Game',
       title: 'Jigsaw',
-      type: 'Singleplayer'
+      type: 'Singleplayer',
+      genres: [
+        'Puzzle Game',
+        'Single Player Game',
+        'Casual Game',
+        'Family Game'
+      ]
     },
     {
       url: '/games/personal-puzzle-quest',
       imgSrc: 'personal_jigsaw',
       alt: 'Personal Puzzle Game',
       title: 'Personal Jigsaw',
-      type: 'Singleplayer'
+      type: 'Singleplayer',
+      genres: [
+        'Puzzle Game',
+        'Single Player Game',
+        'Casual Game',
+        'Family Game'
+      ]
     },
     {
       url: '/games/match-quest',
       imgSrc: 'matching',
       alt: 'Matching Game',
       title: 'Pair Pursuit',
-      type: 'Singleplayer'
+      type: 'Singleplayer',
+      genres: [
+        'Puzzle Game',
+        'Single Player Game',
+        'Memory Game',
+        'Family Game'
+      ]
     },
     {
       url: '/games/memory-quest',
       imgSrc: 'memory',
       alt: 'Memory Game',
       title: 'Brain Vault',
-      type: 'Singleplayer'
+      type: 'Singleplayer',
+      genres: [
+        'Puzzle Game',
+        'Single Player Game',
+        'Memory Game',
+        'Family Game'
+      ]
     },
     {
       url: '/games/dropzone-quest',
       imgSrc: 'dropzone',
       alt: 'Drop Game',
       title: 'Perfect Fit',
-      type: 'Singleplayer'
+      type: 'Singleplayer',
+      genres: [
+        'Puzzle Game',
+        'Single Player Game',
+        'Casual Game',
+        'Family Game'
+      ]
     }
   ];
 
   const [multiplayerGames, setMultiplayerGames] = useState([]);
   const [singleplayerGames, setSingleplayerGames] = useState([]);
-  const [webPageSchema, setWebPageSchema] = useState(null);
-
-  useEffect(() => {
-    setWebPageSchema({
-      '@context': 'https://schema.org',
-      '@type': 'WebPage',
-      'name': `Play Board Games Online | Wizard Land`,
-      'url': window.location.href,
-      'hasPart': [
-        {
-          '@type': 'WebPage',
-          'name': 'Privacy Policy',
-          'url': 'https://wizardland.net'
-        },
-        {
-          '@type': 'WebPage',
-          'name': 'Terms of Service',
-          'url': 'https://wizardland.net'
-        },
-        {
-          '@type': 'WebPage',
-          'name': 'Contact Us',
-          'url': 'https://wizardland.net'
-        },
-        {
-          '@type': 'WebPage',
-          'name': 'About Us',
-          'url': 'https://wizardland.net'
-        },
-        {
-          '@type': 'WebPage',
-          'name': 'Login',
-          'url': 'https://wizardland.net'
-        }
-      ]
-    });
-  }, []);
 
   useEffect(() => {
     setMultiplayerGames(
@@ -171,30 +206,81 @@ export default function Home() {
     }
   }, [realm]);
 
-  const gameSchema = gamesData.map((game) => ({
-    '@type': 'Game',
-    'name': game.title,
-    'url': `https://wizardland.net${game.url}`,
-    'image': `https://wizardland.net/images/games/${game.imgSrc}`, // Update image path if necessary
-    'gameMode': game.type === 'Multiplayer' ? 'Multiplayer' : 'SinglePlayer',
-    'description': `Play the game ${game.title} in Wizard Land`,
-    'genre': game.type === 'Multiplayer' ? 'Multiplayer' : 'SinglePlayer',
-    'applicationCategory': 'GameApplication',
-    'publisher': {
-      '@type': 'Organization',
-      'name': 'Wizard Land'
+  const gameListItemSchema = gamesData.map((game, index) => ({
+    '@type': 'ListItem',
+    'position': index + 1,
+    'item': {
+      '@type': ['VideoGame', 'WebApplication'],
+      'name': game.title,
+      'url': `https://wizardland.net${game.url}`,
+      'image': `https://wizardland.net/assets/images/games/${game.imgSrc}.jpg`, // Ensure correct path and extension
+      'applicationCategory': 'GameApplication',
+      'operatingSystem': 'Any',
+      'browserRequirements': 'Requires a modern web browser with HTML5 support',
+      'playMode':
+        game.type === 'Multiplayer'
+          ? 'https://schema.org/MultiPlayer'
+          : 'https://schema.org/SinglePlayer',
+      'genre': game.genres,
+      'description': `Play the online game ${game.title} on Wizard Land.`,
+      'publisher': {
+        '@type': 'Organization',
+        'name': 'Wizard Land',
+        'url': 'https://wizardland.net'
+      }
     }
   }));
+
+  const homePageSchema = {
+    '@context': 'https://schema.org',
+    '@type': ['Website', 'CollectionPage'],
+    'name': 'Wizard Land | Ad-Free Online Multiplayer Board Games',
+    'url': 'https://wizardland.net',
+    'description':
+      'Play classic ad-free online multiplayer board games like Chess, Checkers, Orbito, Connect 4, Tic Tac Toe, and more on Wizard Land! Connect with friends and family worldwide for a magical gaming experience.',
+    'keywords': [
+      'online board games',
+      'multiplayer board games',
+      'ad-free games',
+      'classic board games online',
+      'play board games with friends',
+      'free online games',
+      'Wizard Land',
+      'Chess online',
+      'Checkers online',
+      'Orbito online',
+      'Connect 4 online',
+      'Tic Tac Toe online',
+      'online puzzle games',
+      'online memory games'
+    ],
+    'publisher': {
+      '@type': 'Organization',
+      'name': 'Wizard Land',
+      'url': 'https://wizardland.net',
+      'logo': {
+        '@type': 'ImageObject',
+        'url': 'https://wizardland.net/assets/images/logo.png'
+      },
+      'sameAs': [
+        'https://www.facebook.com/people/Wizard-Land-Online-Board-Games/61575617324879/',
+        'https://discord.com/channels/1369090826109452368/1369092092579680276',
+        'https://buymeacoffee.com/wizardland'
+      ]
+    },
+    'mainEntity': {
+      '@type': 'ItemList',
+      'itemListElement': gameListItemSchema
+    }
+  };
 
   return (
     <div className='mq-home'>
       <Head>
-        <title>
-          Wizard Land | Play Classic Board Games with Friends Online
-        </title>
+        <title>Wizard Land | Ad-Free Online Multiplayer Board Games</title>
         <meta
           name='description'
-          content='Wizard Land offers classic online board games like Chess, Checkers, Orbito, Connect 4, Tic Tac Toe, and more! Play with friends and family in a magical online multiplayer environment.'
+          content='Play classic ad-free online multiplayer board games like Chess, Checkers, Orbito, Connect 4, Tic Tac Toe, and more on Wizard Land! Connect with friends and family worldwide for a magical gaming experience.'
         />
         <meta
           property='og:url'
@@ -206,11 +292,11 @@ export default function Home() {
         />
         <meta
           property='og:title'
-          content='Wizard Land | Play Classic Board Games Online'
+          content='Wizard Land | Ad-Free Online Multiplayer Board Games'
         />
         <meta
           property='og:description'
-          content='Wizard Land offers classic online board games like Chess, Checkers, Orbito, Connect 4, Tic Tac Toe, and more! Play with friends and family in a magical online multiplayer environment.'
+          content='Play classic ad-free online multiplayer board games like Chess, Checkers, Orbito, Connect 4, Tic Tac Toe, and more on Wizard Land! Connect with friends and family worldwide for a magical gaming experience.'
         />
         <meta
           name='twitter:card'
@@ -218,11 +304,11 @@ export default function Home() {
         />
         <meta
           name='twitter:title'
-          content='Wizard Land | Play Classic Board Games Online'
+          content='Wizard Land | Ad-Free Online Multiplayer Board Games'
         />
         <meta
           name='twitter:description'
-          content='Wizard Land offers classic online board games like Chess, Checkers, Orbito, Connect 4, Tic Tac Toe, and more! Play with friends and family in a magical online multiplayer environment.'
+          content='Play classic ad-free online multiplayer board games like Chess, Checkers, Orbito, Connect 4, Tic Tac Toe, and more on Wizard Land! Connect with friends and family worldwide for a magical gaming experience.'
         />
       </Head>
 
@@ -237,7 +323,10 @@ export default function Home() {
           <section>
             <h2 className='mq-section-title mq-section-title--multiplayer'>
               {realm !== 'fantasy' ? (
-                <img src={`assets/images/${realm}/elements/multiplayer.png`} />
+                <img
+                  src={`assets/images/${realm}/elements/multiplayer.png`}
+                  alt='Multiplayer Games Icon'
+                />
               ) : (
                 '⚔️'
               )}{' '}
@@ -259,7 +348,10 @@ export default function Home() {
           <section>
             <h2 className='mq-section-title mq-section-title--solo'>
               {realm !== 'fantasy' ? (
-                <img src={`assets/images/${realm}/elements/solo.png`} />
+                <img
+                  src={`assets/images/${realm}/elements/solo.png`}
+                  alt='Single Player Games Icon'
+                />
               ) : (
                 '🗡️'
               )}{' '}
@@ -289,29 +381,8 @@ export default function Home() {
       </main>
       <script
         type='application/ld+json'
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Website',
-            'name': 'Wizard Land',
-            'url': 'https://wizardland.net',
-            'description':
-              'Wizard Land offers classic online board games like Chess, Checkers, Orbito, Connect 4, Tic Tac Toe, and more! Play with friends and family in a magical online multiplayer environment.',
-            'mainEntityOfPage': 'https://wizardland.net',
-            'publisher': {
-              '@type': 'Organization',
-              'name': 'Wizard Land'
-            },
-            'game': gameSchema
-          })
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homePageSchema) }}
       />
-      {webPageSchema && (
-        <script
-          type='application/ld+json'
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
-        />
-      )}
       <Footer />
     </div>
   );

@@ -1,7 +1,7 @@
 import { generateGameMetadata } from '../../../utils/metadata.js';
 
 export const metadata = generateGameMetadata({
-  name: 'Checker',
+  name: 'Checkers',
   slug: 'checker-quest',
   mode: 'multiplayer'
 });
@@ -18,7 +18,7 @@ export default function CheckerQuest() {
         GameComponent={Game}
         gameClass='mq-checker-game'
         gameId='3'
-        chatTitle='Checker Chat Room'
+        chatTitle='Checkers Chat Room'
       />
     </>
   );

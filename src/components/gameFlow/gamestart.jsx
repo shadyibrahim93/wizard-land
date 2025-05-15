@@ -5,7 +5,6 @@ import useLevelProgression from '../../hooks/useLevelProgression.js';
 import { useState } from 'react';
 import GameChat from '../chatRoom.jsx';
 import Footer from '../Footer.jsx';
-import Script from 'next/script';
 
 const GameStart = ({ title, GameComponent, gameClass, gameId, chatTitle }) => {
   const [maxLevel, setMaxLevel] = useState(); // Default max level
@@ -17,6 +16,11 @@ const GameStart = ({ title, GameComponent, gameClass, gameId, chatTitle }) => {
     setCurrentLevelPassed,
     setFinalLevelOver
   } = useLevelProgression();
+
+  const imageUrl = chatTitle
+    .replace(/chat\s*room/i, '') // remove 'Chat Room' (case-insensitive)
+    .toLowerCase()
+    .replace(/\s+/g, ''); // remove all spaces
 
   return (
     <>
@@ -46,17 +50,59 @@ const GameStart = ({ title, GameComponent, gameClass, gameId, chatTitle }) => {
           />
         </div>
       </div>
-      <Script
+      <script
         type='application/ld+json'
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'https://schema.org',
-            '@type': 'Game',
+            '@type': ['VideoGame', 'WebApplication'],
             'name': title,
+            'image': `https://wizardland.net/assets/images/${imageUrl}.jpg`,
             'url': typeof window !== 'undefined' ? window.location.href : '',
+            'description': `Play ${title}, an ad-free online multiplayer board game on Wizard Land! Connect with players worldwide and enjoy strategic fantasy gameplay.`,
             'applicationCategory': 'GameApplication',
-            'operatingSystem': 'All',
-            'playMode': ['SinglePlayer', 'Multiplayer'],
+            'operatingSystem': 'Any',
+            'browserRequirements': `Requires a modern web browser with HTML5 support`,
+            'playMode': [
+              'https://schema.org/SinglePlayer',
+              'https://schema.org/MultiPlayer'
+            ],
+            'author': {
+              '@type': 'Person',
+              'name': 'Shady Ibrahim',
+              'affiliation': {
+                '@type': 'Organization',
+                'name': 'Wizard Land',
+                'url': 'https://wizardland.net'
+              }
+            },
+            'genre': [
+              'Board Game',
+              'Strategy Game',
+              'Multiplayer Game',
+              'Single Player Game',
+              'Family Game',
+              'Online Game',
+              'Social Game',
+              'Competitive Game',
+              'Casual Game',
+              'Fantasy Game'
+            ],
+            'keywords': [
+              title,
+              'online board game',
+              'multiplayer game',
+              'strategy game',
+              'turn-based strategy',
+              'competitive',
+              'free to play',
+              'play online',
+              'worldwide multiplayer',
+              'ad-free game'
+            ],
+            'isFamilyFriendly': true,
+            'contentRating': 'E for Everyone',
+            'gamePlatform': ['http://schema.org/BrowserApplication'],
             'numberOfPlayers': {
               '@type': 'QuantitativeValue',
               'minValue': 1,
@@ -64,47 +110,20 @@ const GameStart = ({ title, GameComponent, gameClass, gameId, chatTitle }) => {
             },
             'publisher': {
               '@type': 'Organization',
-              'name': 'Wizard Land'
+              'name': 'Wizard Land',
+              'url': 'https://wizardland.net'
             },
-            'description': `Enter the world of magic and challenge—play ${title} now on Wizard Land, where fun meets fantasy!`
-          })
-        }}
-      />
-      <Script
-        type='application/ld+json'
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'WebPage',
-            'name': `Play ${title} Online | Wizard Land`,
-            'url': typeof window !== 'undefined' ? window.location.href : '',
-            'hasPart': [
-              {
-                '@type': 'WebPage',
-                'name': 'Privacy Policy',
-                'url': 'https://wizardland.net'
-              },
-              {
-                '@type': 'WebPage',
-                'name': 'Terms of Service',
-                'url': 'https://wizardland.net'
-              },
-              {
-                '@type': 'WebPage',
-                'name': 'Contact Us',
-                'url': 'https://wizardland.net'
-              },
-              {
-                '@type': 'WebPage',
-                'name': 'About Us',
-                'url': 'https://wizardland.net'
-              },
-              {
-                '@type': 'WebPage',
-                'name': 'Login',
-                'url': 'https://wizardland.net'
-              }
-            ]
+            'offers': {
+              '@type': 'Offer',
+              'price': '0',
+              'priceCurrency': 'USD',
+              'availability': 'https://schema.org/InStock',
+              'url': typeof window !== 'undefined' ? window.location.href : ''
+            },
+            'gameLocation': {
+              '@type': 'Place',
+              'name': 'Online'
+            }
           })
         }}
       />

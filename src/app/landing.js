@@ -4,85 +4,14 @@ import Footer from '../components/Footer.jsx';
 import SignUpModal from '../components/authModals/signUpModal.js';
 import Button from '../components/Button.js';
 import Head from 'next/head';
+import Script from 'next/script'; // Import Script
 
-// Static Schema Definitions (moved outside component)
-const VIDEO_GAME_SCHEMA = {
-  '@context': 'https://schema.org',
-  '@type': 'VideoGame',
-  name: 'Wizard Land | The Magic Begins - June 1st, 2025',
-  url: 'https://wizardland.net',
-  image: Array.from(
-    { length: 12 },
-    (_, i) => `https://wizardland.net/assets/images/launch/${i + 1}.png`
-  ),
-  author: { '@type': 'Organization', name: 'Wizard Land' },
-  publisher: { '@type': 'Organization', name: 'Wizard Land' },
-  datePublished: '2025-06-01',
-  description:
-    'Wizard Land is an ad-free, online multiplayer board game world where players can challenge friends in magical games like Connect 4, Chess, and Tic Tac Toe.',
-  applicationCategory: 'GameApplication',
-  operatingSystem: 'All',
-  gamePlatform: ['Web', 'Mobile', 'Desktop', 'iOS', 'Android', 'Tablet'],
-  playMode: ['SinglePlayer', 'Multiplayer'],
-  numberOfPlayers: {
-    '@type': 'QuantitativeValue',
-    minValue: 1,
-    maxValue: 2
-  },
-  genre: [
-    'Board Game',
-    'Multiplayer',
-    'SinglePlayer',
-    'Online',
-    'Competitive',
-    'Fantasy',
-    'Tic Tac Toe',
-    'Connect 4',
-    'Memory Game',
-    'Matching Game',
-    'Chess',
-    'Checkers',
-    'Orbito',
-    'Puzzle',
-    'Strategy',
-    'Adventure',
-    'Fantasy Adventure',
-    'Casual'
-  ]
-};
-
-const WEB_PAGE_SCHEMA = {
-  '@context': 'https://schema.org',
-  '@type': 'WebPage',
-  name: 'Wizard Land | The Magic Begins - June 1st, 2025',
-  url: 'https://wizardland.net',
-  hasPart: [
-    {
-      '@type': 'WebPage',
-      name: 'Privacy Policy',
-      url: 'https://wizardland.net/privacy'
-    },
-    {
-      '@type': 'WebPage',
-      name: 'Terms of Service',
-      url: 'https://wizardland.net/terms'
-    },
-    {
-      '@type': 'WebPage',
-      name: 'Contact Us',
-      url: 'https://wizardland.net/contact'
-    },
-    {
-      '@type': 'WebPage',
-      name: 'About Us',
-      url: 'https://wizardland.net/about'
-    },
-    { '@type': 'WebPage', name: 'Login', url: 'https://wizardland.net/login' }
-  ]
-};
+// Static Schema Definitions (WIZARD_LAND_ORGANIZATION_SCHEMA,
+// UPCOMING_VIDEO_GAME_ENTITY_SCHEMA, LANDING_PAGE_SCHEMA,
+// LAUNCH_EVENT_SCHEMA defined above this component)
 
 export default function LandingPage({
-  launchDate = '06/01/2025',
+  launchDate = '2025-06-01T00:00:00-04:00', // Consider passing date in ISO 8601 format if possible
   screenshotCount = 12,
   screenshotAlts = [
     'Home screen with game selection',
@@ -112,7 +41,7 @@ export default function LandingPage({
 
   // Screenshot data
   const screenshots = Array.from({ length: screenshotCount }, (_, i) => ({
-    src: `/assets/images/launch/${i + 1}.webp`,
+    src: `/assets/images/launch/${i + 1}.webp`, // Ensure this path is correct and matches images in schema
     alt: screenshotAlts[i] ?? `Launch screenshot ${i + 1}`
   }));
 
@@ -134,6 +63,20 @@ export default function LandingPage({
     setCurrentIdx((i) => (i < screenshots.length - 1 ? i + 1 : 0));
   };
   const modalImage = currentIdx >= 0 ? screenshots[currentIdx] : null;
+  // Create a Date object from the ISO 8601 string
+  const launchDateObj = new Date(launchDate);
+
+  // Get the month, day, and year
+  const month = launchDateObj.getMonth() + 1; // getMonth() is 0-indexed, so add 1
+  const day = launchDateObj.getDate();
+  const year = launchDateObj.getFullYear();
+
+  // Format the month and day to ensure two digits (e.g., "06" instead of "6")
+  const formattedMonth = month < 10 ? '0' + month : month;
+  const formattedDay = day < 10 ? '0' + day : day;
+
+  // Create the MM/DD/YYYY string
+  const launchDateDisplay = `${formattedMonth}/${formattedDay}/${year}`;
 
   // Countdown timer
   useEffect(() => {
@@ -143,7 +86,7 @@ export default function LandingPage({
       const diff = launch - now;
 
       if (diff <= 0) {
-        setCountdownDays('Launching Tomorrow!');
+        setCountdownDays('Launching Soon!'); // Adjusted text
         setCountdownHours(null);
         setCountdownMins(null);
         setCountdownSeconds(null);
@@ -197,22 +140,23 @@ export default function LandingPage({
   return (
     <>
       <Head>
-        <title>Wizard Land | The Magic Begins - June 1st, 2025</title>
+        <title>Wizard Land | The Magic Begins - June 1st, 2025</title>{' '}
+        {/* Keep this title for the landing page */}
         <meta
           name='description'
-          content='Online multiplayer gaming platform offering a captivating collection of board games'
+          content='Get ready for Wizard Land, an ad-free online multiplayer board game platform launching on June 1st, 2025! Sign up for early access and challenge friends in magical board games.' // Updated description
         />
         <meta
           property='og:type'
-          content='website'
+          content='website' // Or "ComingSoon" if a specific Open Graph type exists and is relevant (less common)
         />
         <meta
           property='og:title'
-          content='Wizard Land | The Magic Begins - June 1st, 2025'
+          content='Wizard Land | The Magic Begins - June 1st, 2025' // Keep for OG title
         />
         <meta
           property='og:description'
-          content='Online multiplayer platform offering board games'
+          content='Get ready for Wizard Land, an ad-free online multiplayer board game platform launching on June 1st, 2025! Sign up for early access and challenge friends in magical board games.' // Updated OG description
         />
         <meta
           name='twitter:card'
@@ -220,25 +164,11 @@ export default function LandingPage({
         />
         <meta
           name='twitter:title'
-          content='Wizard Land | The Magic Begins - June 1st, 2025'
+          content='Wizard Land | The Magic Begins - June 1st, 2025' // Keep for Twitter title
         />
         <meta
           name='twitter:description'
-          content='Online multiplayer platform offering board games'
-        />
-
-        {/* Structured Data */}
-        <script
-          id='videogame-schema'
-          type='application/ld+json'
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(VIDEO_GAME_SCHEMA)
-          }}
-        />
-        <script
-          id='webpage-schema'
-          type='application/ld+json'
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(WEB_PAGE_SCHEMA) }}
+          content='Get ready for Wizard Land, an ad-free online multiplayer board game platform launching on June 1st, 2025! Sign up for early access and challenge friends in magical board games.' // Updated Twitter description
         />
       </Head>
 
@@ -278,7 +208,7 @@ export default function LandingPage({
           <div className='launch-date-container'>
             <div className='crystal-divider'></div>
             <p className='landing-page-launch-date'>
-              <strong>{launchDate}</strong>
+              <strong>{launchDateDisplay}</strong>
             </p>
             <div className='crystal-divider flipped'></div>
           </div>
@@ -287,9 +217,17 @@ export default function LandingPage({
         <section className='landing-page-intro'>
           <div className='parchment-effect'>
             <p>
-              🧙 Greetings, brave mage! Wizard Land opens soon, an ad-free,
-              online multiplayer realm where you can challenge friends and foes
-              alike in classic board games...
+              🧙 Prepare your spells, brave mage! The portals to Wizard Land
+              swing open on <strong>June 1st, 2025</strong>! This isn't just a
+              game; it's an ad-free, online multiplayer realm where classic
+              board games are infused with magic. Be among the first to step
+              through the portal on launch day, and{' '}
+              <strong>
+                sign up early to receive the exclusive Magical Broom Board
+                Piece!
+              </strong>{' '}
+              Challenge friends, outwit foes, and claim your place (and your
+              magical broom!) in this new world.
             </p>
             <Button
               text='Sign Up Early for a Special Reward!'
@@ -348,7 +286,7 @@ export default function LandingPage({
                 className='modal-arrow left'
                 onClick={showPrev}
               >
-                〈
+                〈
               </button>
               <div className='portal-effect'>
                 <img
@@ -361,7 +299,7 @@ export default function LandingPage({
                 className='modal-arrow right'
                 onClick={showNext}
               >
-                〉
+                〉
               </button>
               <button
                 onClick={closeModal}
@@ -384,7 +322,23 @@ export default function LandingPage({
             Follow Our Magical Journey
           </a>
         </footer>
+        <script
+          id='landing-page-schema' // Unique ID for this script
+          type='application/ld+json'
+          strategy='beforeInteractive' // Or "afterInteractive". Test which works best.
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(LANDING_PAGE_SCHEMA) // Use the combined landing page schema
+          }}
+        />
 
+        <script
+          id='launch-event-schema' // Unique ID for this script
+          type='application/ld+json'
+          strategy='beforeInteractive' // Or "afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(LAUNCH_EVENT_SCHEMA) // Include the event schema
+          }}
+        />
         <Footer />
       </div>
 
@@ -398,17 +352,19 @@ export default function LandingPage({
 
 // Static generation with schema validation
 export async function getStaticProps() {
-  // Validate schemas at build time
+  // It's good practice to validate schemas at build time if possible
   try {
-    JSON.stringify(VIDEO_GAME_SCHEMA);
-    JSON.stringify(WEB_PAGE_SCHEMA);
+    // Using the objects here to ensure they are defined when getStaticProps runs
+    JSON.stringify(LANDING_PAGE_SCHEMA);
+    // If including the event schema, uncomment the line below:
+    // JSON.stringify(LAUNCH_EVENT_SCHEMA);
   } catch (e) {
     console.error('Schema validation error:', e);
   }
 
   return {
     props: {
-      launchDate: '06/01/2025',
+      launchDate: '2025-06-01T00:00:00-04:00', // Consider passing date in ISO 8601 format if possible
       screenshotCount: 12,
       screenshotAlts: [
         'Home screen with game selection',
@@ -427,3 +383,104 @@ export async function getStaticProps() {
     }
   };
 }
+
+const WIZARD_LAND_ORGANIZATION_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  'name': 'Wizard Land',
+  'url': 'https://wizardland.net',
+  'logo': {
+    '@type': 'ImageObject',
+    'url': 'https://wizardland.net/assets/images/logo.png'
+  },
+  'sameAs': [
+    'https://www.facebook.com/people/Wizard-Land-Online-Board-Games/61575617324879/',
+    'https://discord.com/channels/1369090826109452368/1369092092579680276',
+    'https://buymeacoffee.com/wizardland'
+  ]
+};
+
+const UPCOMING_VIDEO_GAME_ENTITY_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': ['VideoGame', 'WebApplication'],
+  'name': 'Wizard Land',
+  'url': 'https://wizardland.net',
+  'description':
+    'Wizard Land is an ad-free, online multiplayer board game world where players can challenge friends in magical games like Connect 4, Chess, and Tic Tac Toe. Launching June 1st, 2025.', // Describe the upcoming platform
+  'image': Array.from(
+    { length: 12 },
+    (_, i) => `https://wizardland.net/assets/images/launch/${i + 1}.png`
+  ),
+  'applicationCategory': 'GameApplication',
+  'operatingSystem': 'Any',
+  'browserRequirements': 'Requires a modern web browser with HTML5 support',
+  'gamePlatform': ['http://schema.org/BrowserApplication'],
+  'playMode': [
+    'https://schema.org/SinglePlayer',
+    'https://schema.org/MultiPlayer'
+  ],
+  'numberOfPlayers': {
+    '@type': 'QuantitativeValue',
+    'minValue': 1,
+    'maxValue': 2
+  },
+  'genre': [
+    'Board Game',
+    'Multiplayer Game',
+    'Single Player Game',
+    'Online Game',
+    'Competitive Game',
+    'Fantasy Game',
+    'Puzzle Game',
+    'Strategy Game',
+    'Casual Game',
+    'Memory Game',
+    'Word Game',
+    'Logic Game',
+    'Classic Game'
+  ],
+  'author': WIZARD_LAND_ORGANIZATION_SCHEMA,
+  'publisher': WIZARD_LAND_ORGANIZATION_SCHEMA,
+  'datePublished': '2025-06-01',
+  'creativeWorkStatus': 'https://schema.org/ComingSoon'
+};
+
+const LANDING_PAGE_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': ['WebPage', 'AboutPage'],
+  'name': 'Wizard Land | The Magic Begins - June 1st, 2025',
+  'url': 'https://wizardland.net',
+  'description':
+    'Get ready for Wizard Land, an ad-free online multiplayer board game platform launching on June 1st, 2025! Sign up for early access and challenge friends in magical board games.', // Description for this specific landing page
+  'mainEntity': UPCOMING_VIDEO_GAME_ENTITY_SCHEMA,
+  'publisher': WIZARD_LAND_ORGANIZATION_SCHEMA,
+  'keywords': [
+    'Wizard Land launch',
+    'online board games coming soon',
+    'multiplayer board games 2025',
+    'ad-free online games',
+    'new online games',
+    'game launch June 2025',
+    'coming soon games',
+    'online gaming platform',
+    'board games with friends online',
+    'sign up early access'
+  ]
+};
+
+const LAUNCH_EVENT_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  'name': 'Wizard Land Grand Launch',
+  'startDate': '2025-06-01T00:00:00-04:00',
+  'location': {
+    '@type': 'VirtualLocation',
+    'url': 'https://wizardland.net'
+  },
+  'description':
+    'Join us for the official launch of Wizard Land, an exciting new ad-free online multiplayer board game platform!',
+  'organizer': WIZARD_LAND_ORGANIZATION_SCHEMA,
+  'eventStatus': 'https://schema.org/EventScheduled',
+  'performer': WIZARD_LAND_ORGANIZATION_SCHEMA,
+  'image': UPCOMING_VIDEO_GAME_ENTITY_SCHEMA.image[0]
+};
