@@ -9,7 +9,8 @@ import TermsOfUse from '../termsofuse.js';
 export default function SignUpModal({
   showSignUpModal,
   onClose,
-  onSignUpSuccess
+  onSignUpSuccess,
+  successMessage = 'Signup successful! No email verification needed — enjoy your experience!'
 }) {
   const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
@@ -18,6 +19,7 @@ export default function SignUpModal({
   const [message, setMessage] = useState(null);
   const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
   const [showTermsOfUse, setShowTermsOfUse] = useState(false);
+  const [successMessageText, setSuccessMessageText] = useState(successMessage);
   const [token, setToken] = useState('');
 
   const widgetRef = useRef(null);
@@ -58,7 +60,7 @@ export default function SignUpModal({
       if (result && result.success) {
         setMessage({
           type: 'success',
-          text: 'Signup successful! No email verification needed — enjoy your experience!'
+          text: successMessageText
         });
         setEmail('');
         setFullName('');

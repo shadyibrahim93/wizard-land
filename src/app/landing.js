@@ -345,6 +345,7 @@ export default function LandingPage({
       <SignUpModal
         showSignUpModal={showSignUpModal}
         onClose={() => setShowSignUpModal(false)}
+        successMessage='Signup successful! Enjoy your magical broom!'
       />
     </>
   );
