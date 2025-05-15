@@ -87,8 +87,14 @@ export default function SignUpModal({
 
   return (
     <>
-      <div className='mq-modal-overlay'>
-        <div className='mq-container mq-signup-page'>
+      <div
+        className='mq-modal-overlay'
+        onClick={onClose}
+      >
+        <div
+          className='mq-container mq-signup-page'
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className='mq-modal-header'>
             <h1 className='mq-modal-title'>Sign Up</h1>
             <button

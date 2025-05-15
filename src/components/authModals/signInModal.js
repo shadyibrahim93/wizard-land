@@ -79,8 +79,14 @@ export default function SignInModal({ showSignInModal, onClose }) {
   if (!showSignInModal) return null;
 
   return (
-    <div className='mq-modal-overlay'>
-      <div className='mq-container mq-signin-page'>
+    <div
+      className='mq-modal-overlay'
+      onClick={onClose}
+    >
+      <div
+        className='mq-container mq-signin-page'
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className='mq-modal-header'>
           <h1 className='mq-modal-title'>
             {showForgotPassword ? 'Reset Password' : 'Sign In'}

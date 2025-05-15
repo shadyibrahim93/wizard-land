@@ -61,8 +61,14 @@ export default function SendEmailModal({ showEmailModal, onClose }) {
   if (!showEmailModal) return null;
 
   return (
-    <div className='mq-modal-overlay'>
-      <div className='mq-container mq-send-email-page'>
+    <div
+      className='mq-modal-overlay'
+      onClick={onClose}
+    >
+      <div
+        className='mq-container mq-send-email-page'
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className='mq-modal-header'>
           <h1 className='mq-modal-title'>Send Feedback</h1>
           <button

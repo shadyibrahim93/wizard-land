@@ -37,8 +37,14 @@ const Inventory = ({ onClose }) => {
   };
 
   return (
-    <div className='mq-modal-overlay'>
-      <div className='mq-container'>
+    <div
+      className='mq-modal-overlay'
+      onClick={onClose}
+    >
+      <div
+        className='mq-container'
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className='mq-modal-header'>
           <h1 className='mq-modal-title'>
             {loading ? 'Loading Inventory...' : `Inventory`}
