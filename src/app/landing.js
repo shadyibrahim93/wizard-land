@@ -218,10 +218,10 @@ export default function LandingPage({
           <div className='parchment-effect'>
             <p>
               🧙 Prepare your spells, brave mage! The portals to Wizard Land
-              swing open on <strong>June 1st, 2025</strong>! This isn't just a
-              game; it's an ad-free, online multiplayer realm where classic
-              board games are infused with magic. Be among the first to step
-              through the portal on launch day, and{' '}
+              swing open on <strong>June 1st, 2025</strong>! This isn&apos;t
+              just a game; it&apos;s an ad-free, online multiplayer realm where
+              classic board games are infused with magic. Be among the first to
+              step through the portal on launch day, and{' '}
               <strong>
                 sign up early to receive the exclusive Magical Broom Board
                 Piece!
@@ -351,21 +351,17 @@ export default function LandingPage({
   );
 }
 
-// Static generation with schema validation
 export async function getStaticProps() {
-  // It's good practice to validate schemas at build time if possible
   try {
-    // Using the objects here to ensure they are defined when getStaticProps runs
     JSON.stringify(LANDING_PAGE_SCHEMA);
-    // If including the event schema, uncomment the line below:
-    // JSON.stringify(LAUNCH_EVENT_SCHEMA);
+    JSON.stringify(LAUNCH_EVENT_SCHEMA);
   } catch (e) {
     console.error('Schema validation error:', e);
   }
 
   return {
     props: {
-      launchDate: '2025-06-01T00:00:00-04:00', // Consider passing date in ISO 8601 format if possible
+      launchDate: '2025-06-01T00:00:00-04:00',
       screenshotCount: 12,
       screenshotAlts: [
         'Home screen with game selection',
