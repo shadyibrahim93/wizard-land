@@ -19,7 +19,7 @@ const MultiplayerModal = ({ gameId, onStartGame, setGameMode, difficulty }) => {
   const [createPassword, setCreatePassword] = useState('');
   const [joinPasswords, setJoinPasswords] = useState({});
   const [showCreatePrompt, setShowCreatePrompt] = useState(false);
-  const realm = useSelectedRealm();
+  const { realm } = useSelectedRealm();
 
   useEffect(() => {
     if (userId && !loading) {

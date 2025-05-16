@@ -10,7 +10,7 @@ import useSelectedRealm from '../../hooks/userSelectedRealm.js';
 
 const UserAuth = ({ loading, userId, userName, onSignUp }) => {
   const [showEmailModal, setShowEmailModal] = useState(false);
-  const realm = useSelectedRealm();
+  const { realm } = useSelectedRealm();
 
   if (loading) {
     return (

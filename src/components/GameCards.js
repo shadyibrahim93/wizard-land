@@ -8,7 +8,7 @@ import { useUser } from '@/context/UserContext.js';
 
 export default function GameCards({ target, imgSrc, title }) {
   const { userId } = useUser();
-  const realm = useSelectedRealm();
+  const { realm } = useSelectedRealm();
 
   return (
     <Link

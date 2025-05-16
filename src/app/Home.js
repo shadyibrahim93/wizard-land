@@ -10,7 +10,7 @@ import Head from 'next/head';
 import useSelectedRealm from '@/hooks/userSelectedRealm.js';
 
 export default function Home() {
-  const realm = useSelectedRealm();
+  const { realm } = useSelectedRealm();
 
   const gamesData = [
     {

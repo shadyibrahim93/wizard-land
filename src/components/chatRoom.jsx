@@ -15,7 +15,7 @@ const GameChat = ({ chatTitle, gameId }) => {
   const { userId, userName } = useUser();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  const realm = useSelectedRealm();
+  const { realm } = useSelectedRealm();
 
   useEffect(() => {
     const fetchMessagesForRoom = async () => {

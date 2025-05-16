@@ -12,7 +12,7 @@ import useSelectedRealm from '../../hooks/userSelectedRealm.js';
 
 const UserStats = ({ loading, exp, euro, stars, userId }) => {
   const [showEmailModal, setShowEmailModal] = useState(false);
-  const realm = useSelectedRealm();
+  const { realm } = useSelectedRealm();
 
   if (loading) {
     return (

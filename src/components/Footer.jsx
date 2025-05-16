@@ -21,7 +21,7 @@ const Footer = () => {
   const [showSignInModal, setShowSignInModal] = useState(false);
   const { userId } = useUser();
   const router = useRouter();
-  const realm = useSelectedRealm();
+  const { realm } = useSelectedRealm();
 
   const handleLogout = async () => {
     await signOut();
@@ -142,12 +142,7 @@ const Footer = () => {
             onClose={() => setShowPrivacyPolicy(false)}
           />
         )}
-        {showSignInModal && (
-          <SignInModal
-            showSignInModal={showSignInModal}
-            onClose={() => setShowSignInModal(false)}
-          />
-        )}
+        {showSignInModal && <SignInModal showSignInModal={showSignInModal} />}
       </footer>
     </>
   );

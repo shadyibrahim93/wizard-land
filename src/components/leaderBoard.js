@@ -46,7 +46,7 @@ const LeaderBoard = () => {
   const [timeFrame, setTimeFrame] = useState('weekly');
   const [isLoading, setIsLoading] = useState(false);
   const { userId } = useUser();
-  const realm = useSelectedRealm();
+  const { realm } = useSelectedRealm();
 
   const medalImages = [
     `/assets/images/${realm}/elements/rank/firstplace.png`,

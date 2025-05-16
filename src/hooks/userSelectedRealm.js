@@ -5,31 +5,31 @@ import useSelectedItems from './useSelectedItems.js';
 import { useUser } from '../context/UserContext.js';
 
 export default function useSelectedRealm() {
-  const { userId = null, loading = true } = useUser() || {};
+  const { userId = null, loading: userLoading = true } = useUser() || {};
   const selected = useSelectedItems(userId);
-  const [realm, setRealm] = useState(null); // Start with null, not fantasy
+  const [realm, setRealm] = useState(null); // null = unresolved
+  const [resolved, setResolved] = useState(false);
 
   useEffect(() => {
-    if (typeof window === 'undefined' || loading) return;
+    if (typeof window === 'undefined' || userLoading) return;
 
     try {
       const userRealm = selected?.realm?.className;
 
       if (userRealm) {
-        // Valid realm found
         localStorage.setItem('realm', userRealm);
+        window.dispatchEvent(new Event('realm-changed'));
         setRealm(userRealm);
       } else {
-        // Nothing returned — fallback
-        localStorage.setItem('realm', 'fantasy');
         setRealm('fantasy');
       }
     } catch (error) {
       console.error('Error resolving realm:', error);
-      localStorage.setItem('realm', 'fantasy');
       setRealm('fantasy');
+    } finally {
+      setResolved(true);
     }
-  }, [userId, selected?.realm?.className, loading]);
+  }, [userId, selected?.realm?.className, userLoading]);
 
-  return realm;
+  return { realm, resolved };
 }

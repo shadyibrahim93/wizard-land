@@ -14,7 +14,7 @@ const MenuItem = ({
   itemTitle
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const realm = useSelectedRealm();
+  const { realm } = useSelectedRealm();
 
   const imageSrc = `/assets/images/${realm}/elements/${
     isHovered ? onHoverImgSrc : imgSrc

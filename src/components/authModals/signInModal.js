@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { supabase } from '../../apiService';
 import Button from '../Button';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import AuthProviders from '@components/AuthProviders.js';
 
@@ -34,6 +33,7 @@ export default function SignInModal({ showSignInModal, onClose }) {
       });
       setEmail('');
       setPassword('');
+
       onClose();
       router.refresh();
     } catch (error) {

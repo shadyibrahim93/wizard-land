@@ -8,7 +8,7 @@ import { useUser } from '../context/UserContext.js';
 
 const About = ({ onClose }) => {
   const { userId } = useUser();
-  const realm = useSelectedRealm();
+  const { realm } = useSelectedRealm();
 
   return (
     <div

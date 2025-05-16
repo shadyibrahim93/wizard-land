@@ -16,9 +16,6 @@ export default function RootLayout({ children }) {
     >
       <head>
         {metadata}
-        <UserProvider>
-          <ThemeInitializer />
-        </UserProvider>
 
         <Script
           src='https://www.googletagmanager.com/gtag/js?id=G-TWQ14MBMGM'
@@ -38,7 +35,11 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <div id='root'>
-          <UserProvider>{children}</UserProvider>
+          <UserProvider>
+            <ThemeInitializer />
+
+            {children}
+          </UserProvider>
         </div>
       </body>
     </html>

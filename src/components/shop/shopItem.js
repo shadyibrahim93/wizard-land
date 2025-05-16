@@ -18,7 +18,7 @@ const ShopItem = ({ item }) => {
   const { userId, loading } = useUser(); // Directly use your useUser hook
   const bgMusicTimeRef = useRef(0);
   const wasPlayingRef = useRef(false);
-  const realm = useSelectedRealm();
+  const { realm } = useSelectedRealm();
 
   // Build URL array for realm images
   const realmImages =

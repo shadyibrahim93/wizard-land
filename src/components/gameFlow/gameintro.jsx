@@ -14,7 +14,7 @@ export default function GameIntro({
   secondButtonText
 }) {
   const [formattedText, setFormattedText] = useState('');
-  const realm = useSelectedRealm();
+  const { realm } = useSelectedRealm();
 
   useEffect(() => {
     const words = introText.split(' ');
