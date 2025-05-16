@@ -14,7 +14,8 @@ export default function useSelectedRealm() {
     if (typeof window === 'undefined' || userLoading) return;
 
     try {
-      const userRealm = selected?.realm?.className;
+      const userRealm =
+        localStorage.getItem('realm') || selected?.realm?.className;
 
       if (userRealm) {
         localStorage.setItem('realm', userRealm);

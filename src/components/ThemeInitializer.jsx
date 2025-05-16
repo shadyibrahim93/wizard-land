@@ -36,15 +36,6 @@ export default function ThemeInitializer() {
     document.documentElement.setAttribute('data-theme', themeToApply);
     document.documentElement.classList.add('theme-initialized');
 
-    console.log(
-      'ThemeToApply:',
-      themeToApply,
-      '| Realm:',
-      realm,
-      '| Resolved:',
-      resolved
-    );
-
     setInitialized(true);
   }, [resolved, realm, initialized, storedRealm]);
 
