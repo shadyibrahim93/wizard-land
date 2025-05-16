@@ -497,6 +497,11 @@
       background-color: #1877f2;
       color: white;
     }
+
+    .#{$identifier}-twitch-btn {
+      background-color: #6441a5; /* Twitch brand purple */
+      color: #fff;
+    }
   }
 
   .#{$identifier}-or-separator {

@@ -3,6 +3,7 @@ import { FaDiscord } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import { FaApple } from 'react-icons/fa';
 import { FaFacebookF } from 'react-icons/fa';
+import { FaTwitch } from 'react-icons/fa';
 import { signInWithProvider } from '../apiService';
 
 const AuthProviders = () => {
@@ -37,6 +38,13 @@ const AuthProviders = () => {
           onClick={() => handleOAuthSignIn('discord')}
         >
           <FaDiscord size={20} />
+        </button>
+        <button
+          type='button'
+          className='mq-button mq-twitch-btn'
+          onClick={() => handleOAuthSignIn('twitch')}
+        >
+          <FaTwitch size={20} />
         </button>
       </div>
       <div className='mq-or-separator'>or</div>
