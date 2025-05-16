@@ -10,14 +10,16 @@ import {
 } from '../../apiService';
 import Button from '../Button';
 import { useUser } from '../../context/UserContext';
+import useSelectedRealm from '../../hooks/userSelectedRealm.js';
 
-const MultiplayerModal = ({ gameId, onStartGame, setGameMode }) => {
+const MultiplayerModal = ({ gameId, onStartGame, setGameMode, difficulty }) => {
   const { userId, loading } = useUser();
   const [gameRooms, setGameRooms] = useState([]);
   const [noRooms, setNoRooms] = useState(false);
   const [createPassword, setCreatePassword] = useState('');
   const [joinPasswords, setJoinPasswords] = useState({});
   const [showCreatePrompt, setShowCreatePrompt] = useState(false);
+  const realm = useSelectedRealm();
 
   useEffect(() => {
     if (userId && !loading) {
@@ -115,8 +117,18 @@ const MultiplayerModal = ({ gameId, onStartGame, setGameMode }) => {
 
   return (
     <div className='mq-game-side-modal'>
-      <header>
-        <span>Multiplayer: Available Rooms</span>
+      <header className='mq-multiplayer-modal-header'>
+        <span>Available Rooms </span>
+        <span className='mq-multiplayer-difficulty'>
+          <span className={`mq-coins ${difficulty}`}>
+            {difficulty === 'easy'
+              ? '+50'
+              : difficulty === 'medium'
+              ? '+100'
+              : '+150'}{' '}
+          </span>
+          <img src={`/assets/images/${realm}/elements/star.png`} />
+        </span>
       </header>
 
       {gameRooms.length > 0 ? (

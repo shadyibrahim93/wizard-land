@@ -66,6 +66,7 @@ const Game = () => {
   const [thumbsResetKey, setThumbsResetKey] = useState(0);
   const [player1Name, setPlayer1Name] = useState('');
   const [player2Name, setPlayer2Name] = useState('');
+  const [difficulty, setDifficulty] = useState('easy');
 
   const introText = `Welcome to Tic Tac Toe!. Take turns placing your marks, aiming to align three in a row, column, or diagonal. A helper will show you where your mark will go when you hover over a box. Good luck!`;
 
@@ -470,7 +471,7 @@ const Game = () => {
           if (gameState.winner) {
             setWinnerName(gameState.name);
             setWinner(gameState.winner);
-            handleMultiplayerWin(gameState.winner, 'easy');
+            handleMultiplayerWin(gameState.winner, difficulty);
             clearGameState(gameState.room, gameState.game_id);
           }
           if (
@@ -625,6 +626,7 @@ const Game = () => {
         gameId={gameId}
         setGameMode={setGameMode}
         onStartGame={(roomData, playerId) => onStartGame(roomData, playerId)}
+        difficulty={difficulty}
       />
     </>
   ) : (

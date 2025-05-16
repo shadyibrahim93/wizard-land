@@ -90,6 +90,7 @@ const Checkers = () => {
   const [thumbsResetKey, setThumbsResetKey] = useState(0);
   const [player1Name, setPlayer1Name] = useState('');
   const [player2Name, setPlayer2Name] = useState('');
+  const [difficulty, setDifficulty] = useState('medium');
 
   const introText = `Welcome to Wizard Land Checkers Game! Play as '🔥'. Take turns moving your pieces into the corresponding box. A helper will show you where the piece can be dropped. Be the first to capture all pieces or block the opponent from making any more and win the game. Good luck!`;
 
@@ -716,7 +717,7 @@ const Checkers = () => {
           if (gameState.winner) {
             setWinnerName(gameState.name);
             setWinner(gameState.winner);
-            handleMultiplayerWin(gameState.winner, 'easy');
+            handleMultiplayerWin(gameState.winner, difficulty);
             clearGameState(gameState.room, gameState.game_id);
           }
         }
@@ -887,6 +888,7 @@ const Checkers = () => {
         gameId={gameId}
         setGameMode={setGameMode}
         onStartGame={(roomData) => onStartGame(roomData)}
+        difficulty={difficulty}
       />
     </>
   ) : (

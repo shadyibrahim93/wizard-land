@@ -71,6 +71,7 @@ const Game = () => {
   const [thumbsResetKey, setThumbsResetKey] = useState(0);
   const [player1Name, setPlayer1Name] = useState('');
   const [player2Name, setPlayer2Name] = useState('');
+  const [difficulty, setDifficulty] = useState('easy');
 
   const introText = `Welcome to Wizard Land Connect 4! Take turns dropping your element into the corresponding column. A helper will show you where the element will land when you hover over a column. Align four in a row, column, or diagonal to win. Good luck!`;
 
@@ -506,7 +507,7 @@ const Game = () => {
           if (gameState.winner) {
             SetWinnerName(gameState.name);
             setWinner(gameState.winner);
-            handleMultiplayerWin(gameState.winner, 'easy');
+            handleMultiplayerWin(gameState.winner, difficulty);
             clearGameState(gameState.room, gameState.game_id);
           }
         }
@@ -651,6 +652,7 @@ const Game = () => {
         gameId={gameId}
         setGameMode={setGameMode}
         onStartGame={(roomData, playerId) => onStartGame(roomData, playerId)}
+        difficulty={difficulty}
       />
     </>
   ) : (

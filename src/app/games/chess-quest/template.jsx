@@ -117,6 +117,7 @@ const Chess = () => {
   const [thumbsResetKey, setThumbsResetKey] = useState(0);
   const [player1Name, setPlayer1Name] = useState('');
   const [player2Name, setPlayer2Name] = useState('');
+  const [difficulty, setDifficulty] = useState('hard');
 
   const introText = `Welcome to Chess! Play as White. Take turns moving your pieces according to chess rules. Valid moves will be highlighted. Checkmate your opponent to win! Good luck!`;
 
@@ -771,7 +772,7 @@ const Chess = () => {
           if (gameState.winner) {
             setWinnerName(gameState.name);
             setWinner(gameState.winner);
-            handleMultiplayerWin(gameState.winner, 'hard');
+            handleMultiplayerWin(gameState.winner, difficulty);
             clearGameState(gameState.room, gameState.game_id);
           }
         }
@@ -934,6 +935,7 @@ const Chess = () => {
         gameId={gameId}
         setGameMode={setGameMode}
         onStartGame={(roomData) => onStartGame(roomData)}
+        difficulty={difficulty}
       />
     </>
   ) : (

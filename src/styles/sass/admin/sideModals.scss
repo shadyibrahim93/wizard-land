@@ -201,6 +201,46 @@
     color: $white;
     box-shadow: none;
 
+    &.#{$identifier}-multiplayer-modal-header {
+      justify-content: space-between;
+      padding: 21px;
+
+      span {
+        width: auto;
+        display: flex;
+        align-items: center;
+
+        img {
+          width: 25px;
+          height: 25px;
+          margin-left: 0px;
+          margin-right: 0;
+        }
+
+        &.#{$identifier}-multiplayer-difficulty {
+          text-transform: capitalize;
+
+          .#{$identifier}-coins {
+            color: $white;
+            margin-left: 8px;
+            font-size: large;
+          }
+
+          .easy {
+            color: #fd908e;
+          }
+
+          .medium {
+            color: #ffd592;
+          }
+
+          .hard {
+            color: #9effa3;
+          }
+        }
+      }
+    }
+
     img {
       width: 35px;
       margin-right: 8px;

@@ -70,6 +70,7 @@ const Orbito = () => {
   const [thumbsResetKey, setThumbsResetKey] = useState(0);
   const [player1Name, setPlayer1Name] = useState('');
   const [player2Name, setPlayer2Name] = useState('');
+  const [difficulty, setDifficulty] = useState('easy');
 
   // rings defined clockwise
   const outerRing = [0, 1, 2, 3, 7, 11, 15, 14, 13, 12, 8, 4];
@@ -599,7 +600,7 @@ const Orbito = () => {
           if (gameState.winner) {
             setWinnerName(gameState.name);
             setWinner(gameState.winner);
-            handleMultiplayerWin(gameState.winner, 'easy');
+            handleMultiplayerWin(gameState.winner, difficulty);
             clearGameState(gameState.room, gameState.game_id);
           }
         }
@@ -792,6 +793,7 @@ const Orbito = () => {
         gameId={gameId}
         setGameMode={setGameMode}
         onStartGame={onStartGame}
+        difficulty={difficulty}
       />
     </>
   ) : (
