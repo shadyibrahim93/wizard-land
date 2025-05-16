@@ -74,32 +74,32 @@ export default function SignUpModal({
     };
   }, [showSignUpModal]);
 
-  // 2) When we get a token, verify it with our backend:
-  useEffect(() => {
-    if (!token) return;
+  // Revisit after finding a solution When we get a token, verify it with our backend:
+  // useEffect(() => {
+  //   if (!token) return;
 
-    setVerifying(true);
-    setVerificationError('');
-    fetch('/api/verify-turnstile', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token })
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        if (json.success) {
-          setIsHuman(true);
-        } else {
-          setVerificationError(json.error || 'CAPTCHA check failed');
-        }
-      })
-      .catch(() => {
-        setVerificationError('CAPTCHA verification service unavailable');
-      })
-      .finally(() => {
-        setVerifying(false);
-      });
-  }, [token]);
+  //   setVerifying(true);
+  //   setVerificationError('');
+  //   fetch('/api/verify-turnstile', {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({ token })
+  //   })
+  //     .then((res) => res.json())
+  //     .then((json) => {
+  //       if (json.success) {
+  //         setIsHuman(true);
+  //       } else {
+  //         setVerificationError(json.error || 'CAPTCHA check failed');
+  //       }
+  //     })
+  //     .catch(() => {
+  //       setVerificationError('CAPTCHA verification service unavailable');
+  //     })
+  //     .finally(() => {
+  //       setVerifying(false);
+  //     });
+  // }, [token]);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -148,93 +148,90 @@ export default function SignUpModal({
         <hr />
         <div className='mq-modal-body'>
           <div className='mq-wrapper'>
-            {!isHuman && (
-              <>
-                <div
-                  ref={widgetRef}
-                  className='captcha-widget'
-                />
-                {verificationError && (
-                  <div className='mq-message mq-error'>{verificationError}</div>
-                )}
-              </>
-            )}
+            {/* {!isHuman && (
+  <>
+    <div
+      ref={widgetRef}
+      className='captcha-widget'
+    />
+    {verificationError && (
+      <div className='mq-message mq-error'>{verificationError}</div>
+    )}
+  </>
+)} */}
 
-            {/* Once token is verified, show the rest of the signup UI */}
-            {isHuman && (
-              <>
-                <AuthProviders />
+            <>
+              <AuthProviders />
 
-                <form
-                  onSubmit={handleSignup}
-                  className='mq-form'
-                >
-                  <div className='mq-form-group'>
-                    <label className='mq-label'>Nickname</label>
-                    <input
-                      type='text'
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      className='mq-input'
-                      required
-                    />
-                  </div>
-                  <div className='mq-form-group'>
-                    <label className='mq-label'>Email</label>
-                    <input
-                      type='email'
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className='mq-input'
-                      required
-                    />
-                  </div>
-                  <div className='mq-form-group'>
-                    <label className='mq-label'>Password</label>
-                    <input
-                      type='password'
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className='mq-input'
-                      required
-                    />
-                  </div>
-
-                  {message && (
-                    <div className={`mq-message mq-${message.type}`}>
-                      {message.text}
-                    </div>
-                  )}
-
-                  <div className='mq-form-actions'>
-                    <p className='signup-disclaimer'>
-                      By signing up, you agree to our{' '}
-                      <button
-                        className='mq-link-btn'
-                        onClick={() => setShowTermsOfUse(true)}
-                      >
-                        Terms of Use
-                      </button>{' '}
-                      and acknowledge our{' '}
-                      <button
-                        className='mq-link-btn'
-                        onClick={() => setShowPrivacyPolicy(true)}
-                      >
-                        Privacy Policy
-                      </button>
-                      .
-                    </p>
-                  </div>
-
-                  <Button
-                    type='submit'
-                    className='mq-button'
-                    disabled={loading}
-                    text={loading ? 'Signing up…' : 'Sign Up'}
+              <form
+                onSubmit={handleSignup}
+                className='mq-form'
+              >
+                <div className='mq-form-group'>
+                  <label className='mq-label'>Nickname</label>
+                  <input
+                    type='text'
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className='mq-input'
+                    required
                   />
-                </form>
-              </>
-            )}
+                </div>
+                <div className='mq-form-group'>
+                  <label className='mq-label'>Email</label>
+                  <input
+                    type='email'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className='mq-input'
+                    required
+                  />
+                </div>
+                <div className='mq-form-group'>
+                  <label className='mq-label'>Password</label>
+                  <input
+                    type='password'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className='mq-input'
+                    required
+                  />
+                </div>
+
+                {message && (
+                  <div className={`mq-message mq-${message.type}`}>
+                    {message.text}
+                  </div>
+                )}
+
+                <div className='mq-form-actions'>
+                  <p className='signup-disclaimer'>
+                    By signing up, you agree to our{' '}
+                    <button
+                      className='mq-link-btn'
+                      onClick={() => setShowTermsOfUse(true)}
+                    >
+                      Terms of Use
+                    </button>{' '}
+                    and acknowledge our{' '}
+                    <button
+                      className='mq-link-btn'
+                      onClick={() => setShowPrivacyPolicy(true)}
+                    >
+                      Privacy Policy
+                    </button>
+                    .
+                  </p>
+                </div>
+
+                <Button
+                  type='submit'
+                  className='mq-button'
+                  disabled={loading}
+                  text={loading ? 'Signing up…' : 'Sign Up'}
+                />
+              </form>
+            </>
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ export async function POST(request) {
     );
   }
 
-  const secret = process.env.NEXT_PUBLIC_TURNSTILE_SECRET_KEY;
+  const secret = process.env.TURNSTILE_SECRET_KEY;
   if (!secret) {
     console.error('Turnstile: missing secret key');
     return NextResponse.json(
