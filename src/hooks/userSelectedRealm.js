@@ -4,36 +4,32 @@ import { useEffect, useState } from 'react';
 import useSelectedItems from './useSelectedItems.js';
 import { useUser } from '../context/UserContext.js';
 
-// Make sure you're using default export
 export default function useSelectedRealm() {
   const { userId = null, loading = true } = useUser() || {};
   const selected = useSelectedItems(userId);
-  // Initialize with localStorage value immediately (SSR-safe)
-  const [realm, setRealm] = useState(() => {
-    try {
-      if (typeof window !== 'undefined') {
-        return localStorage.getItem('realm');
-      }
-      return 'fantasy';
-    } catch (error) {
-      return 'fantasy';
-    }
-  });
+  const [realm, setRealm] = useState(null); // Start with null, not fantasy
 
   useEffect(() => {
-    if (!loading) {
-      // Only run when user data is loaded
-      try {
-        const userRealm = selected?.realm?.className;
-        if (userRealm && userRealm !== realm) {
-          localStorage.setItem('realm', userRealm);
-          setRealm(userRealm);
-        }
-      } catch (error) {
-        console.error('Error updating realm:', error);
+    if (typeof window === 'undefined' || loading) return;
+
+    try {
+      const userRealm = selected?.realm?.className;
+
+      if (userRealm) {
+        // Valid realm found
+        localStorage.setItem('realm', userRealm);
+        setRealm(userRealm);
+      } else {
+        // Nothing returned — fallback
+        localStorage.setItem('realm', 'fantasy');
+        setRealm('fantasy');
       }
+    } catch (error) {
+      console.error('Error resolving realm:', error);
+      localStorage.setItem('realm', 'fantasy');
+      setRealm('fantasy');
     }
-  }, [userId, selected?.realm?.className, loading, realm]);
+  }, [userId, selected?.realm?.className, loading]);
 
   return realm;
 }

@@ -2,7 +2,6 @@ import React from 'react';
 import { FaDiscord } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import { FaApple } from 'react-icons/fa';
-import { FaFacebookF } from 'react-icons/fa';
 import { FaTwitch } from 'react-icons/fa';
 import { signInWithProvider } from '../apiService';
 
