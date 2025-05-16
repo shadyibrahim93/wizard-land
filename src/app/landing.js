@@ -4,11 +4,6 @@ import Footer from '../components/Footer.jsx';
 import SignUpModal from '../components/authModals/signUpModal.js';
 import Button from '../components/Button.js';
 import Head from 'next/head';
-import Script from 'next/script'; // Import Script
-
-// Static Schema Definitions (WIZARD_LAND_ORGANIZATION_SCHEMA,
-// UPCOMING_VIDEO_GAME_ENTITY_SCHEMA, LANDING_PAGE_SCHEMA,
-// LAUNCH_EVENT_SCHEMA defined above this component)
 
 export default function LandingPage({
   launchDate = '2025-06-01T00:00:00-04:00', // Consider passing date in ISO 8601 format if possible

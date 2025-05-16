@@ -5,6 +5,7 @@ import { supabase } from '../../apiService';
 import Button from '../Button';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import AuthProviders from '@components/AuthProviders.js';
 
 export default function SignInModal({ showSignInModal, onClose }) {
   const [email, setEmail] = useState('');
@@ -101,6 +102,7 @@ export default function SignInModal({ showSignInModal, onClose }) {
         <hr />
         <div className='mq-modal-body'>
           <div className='mq-wrapper'>
+            <AuthProviders />
             <form
               onSubmit={showForgotPassword ? handlePasswordReset : handleSignIn}
               className='mq-form'

@@ -198,6 +198,107 @@ export async function signUp({ email, password, fullName }) {
   return { success: true };
 }
 
+export async function signInWithProvider(provider) {
+  // provider: 'google' | 'apple'
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider,
+    options: {
+      redirectTo: window.location.origin // or your custom callback URL
+    }
+  });
+
+  if (error) {
+    console.error(`OAuth signin error (${provider}):`, error.message);
+    return { success: false, error: error.message };
+  }
+  // data.url contains the Supabase-hosted OAuth redirect URL
+  return { success: true, url: data.url };
+}
+
+/**
+ * After OAuth redirect, you can grab the logged-in user and
+ * call this to insert their profile, inventory & wallet records.
+ */
+export async function completeOAuthUser() {
+  const {
+    data: { user },
+    error: userErr
+  } = await supabase.auth.getUser();
+
+  if (userErr || !user) {
+    console.error('No user session found:', userErr?.message);
+    return { success: false, error: userErr?.message || 'No session' };
+  }
+
+  const userId = user.id;
+  const email = user.email;
+  const fullName =
+    user.user_metadata?.full_name || user.user_metadata?.name || '';
+
+  // 1) Insert into profiles
+  const { error: profileErr } = await supabase
+    .from('profiles')
+    .insert({ id: userId, email, full_name: fullName });
+  if (profileErr) {
+    console.error('Profile insert error:', profileErr.message);
+    return { success: false, error: profileErr.message };
+  }
+
+  // 2) Prepare inventory items (same as your email signup logic)
+  const nowISO = new Date().toISOString();
+  const items = [
+    {
+      id: crypto.randomUUID(),
+      user_id: userId,
+      item_id: '9a4243a1-1e76-4c7b-9a49-f1caaad9b2a2',
+      acquired_at: nowISO,
+      is_active: true
+    },
+    {
+      id: crypto.randomUUID(),
+      user_id: userId,
+      item_id: '9f61795f-0f84-43c4-a5b6-d561f53f6616',
+      acquired_at: nowISO,
+      is_active: false
+    },
+    {
+      id: crypto.randomUUID(),
+      user_id: userId,
+      item_id: '870aded1-201b-4daa-9055-81be0cb9af16',
+      acquired_at: nowISO,
+      is_active: true
+    }
+  ];
+
+  // Bonus item before June 1, 2025
+  if (new Date() < new Date('2025-06-01T00:00:00Z')) {
+    items.push({
+      id: crypto.randomUUID(),
+      user_id: userId,
+      item_id: '03d4bbe6-8fa6-4de0-ae65-8c9db5f8f9b8',
+      acquired_at: nowISO,
+      is_active: false
+    });
+  }
+
+  const { error: invErr } = await supabase.from('user_inventory').insert(items);
+  if (invErr) {
+    console.error('Inventory insert error:', invErr.message);
+    return { success: false, error: invErr.message };
+  }
+
+  // 3) Insert into user_wallet
+  const { error: walletErr } = await supabase
+    .from('user_wallet')
+    .insert({ user_id: userId, exp: 0, stars: 0, euro: 0 });
+  if (walletErr) {
+    console.error('Wallet insert error:', walletErr.message);
+    return { success: false, error: walletErr.message };
+  }
+
+  return { success: true };
+}
+
 export async function signIn({ email, password }) {
   // 1) Sign in
   const { data, error } = await supabase.auth.signInWithPassword({

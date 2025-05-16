@@ -928,7 +928,8 @@ body {
   }
 
   .#{$identifier}-label {
-    color: var(--text-color);
+    color: $white;
+    letter-spacing: 3px;
     font-size: medium;
   }
 
