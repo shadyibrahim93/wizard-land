@@ -65,11 +65,9 @@ const ShopItem = ({ item }) => {
     if (shouldPlaySound) {
       // Play appropriate sound
       if (item.type === 'realm') {
-        // Store BG music state and pause
         bgMusicTimeRef.current = pauseBGMusic();
         wasPlayingRef.current = bgMusicTimeRef.current > 0;
 
-        // For realms, use a special sound logic if needed
         audioRef.current = playPieceSound(item.image_url);
       } else {
         audioRef.current = playPieceSound(item.image_url);
