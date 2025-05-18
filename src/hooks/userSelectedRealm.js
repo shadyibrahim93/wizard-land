@@ -18,9 +18,19 @@ export default function useSelectedRealm() {
         localStorage.getItem('realm') || selected?.realm?.className;
 
       if (userRealm) {
-        localStorage.setItem('realm', userRealm);
-        window.dispatchEvent(new Event('realm-changed'));
-        setRealm(userRealm);
+        if (resolved && userRealm !== selected?.realm?.className) {
+          try {
+            localStorage.setItem('realm', selected?.realm?.className);
+            window.dispatchEvent(new Event('realm-changed'));
+            setRealm(selected?.realm?.className);
+          } catch (error) {
+            console.error('Error updating realm on selection change:', error);
+          }
+        } else if (userRealm === selected?.realm?.className) {
+          localStorage.setItem('realm', userRealm);
+          window.dispatchEvent(new Event('realm-changed'));
+          setRealm(userRealm);
+        }
       } else {
         setRealm('fantasy');
       }
