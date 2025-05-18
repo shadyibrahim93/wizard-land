@@ -26,7 +26,7 @@ export default function useSelectedRealm() {
           } catch (error) {
             console.error('Error updating realm on selection change:', error);
           }
-        } else if (userRealm === selected?.realm?.className) {
+        } else {
           localStorage.setItem('realm', userRealm);
           window.dispatchEvent(new Event('realm-changed'));
           setRealm(userRealm);
