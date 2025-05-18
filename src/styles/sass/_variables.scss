@@ -28,7 +28,7 @@ $fantasy: (
   secondary-color-light: lighten(#c47f3c, 10%),
   primary-color-faded: #ff7f5075,
   background-color: #f4f4f4,
-  background-image: url('/assets/images/fantasy/background.jpg'),
+  background-image: url('/assets/images/fantasy/background.png'),
   title-display: none,
   title-glow: glowingRed 4s infinite alternate,
   header-icon-width-mobile: 55px,
@@ -76,20 +76,18 @@ $vintage: (
 
 $cartoonia: (
   primary-color: #a8d5e2,
-  // pastel aqua
   primary-color-hover: #81b9c6,
-  // slightly deeper hover
+  secondary-color: #3e8a7f,
+  secondary-color-dark: darken(#3e8a7f, 8%),
+  secondary-color-light: lighten(#3e8a7f, 12%),
+  tertiary-color: #557999,
+  tertiary-color-dark: darken(#557999, 8%),
+  tertiary-color-light: lighten(#557999, 12%),
   dark-overlay: rgba(25, 20, 30, 0.5),
-  // gentle shadow for depth
   light-overlay: rgba(255, 255, 255, 0.6),
   light-overlay-hover: rgba(255, 255, 255, 0.8),
-  secondary-color: #f7c4d3,
-  // pastel pink
-  secondary-color-dark: darken(#f7c4d3, 8%),
-  secondary-color-light: lighten(#f7c4d3, 12%),
   primary-color-faded: rgba(168, 213, 226, 0.4),
   background-color: #f0f4ff,
-  // very light baby‑blue
   background-image: url('/assets/images/cartoonia/background.png'),
   title-display: inline-flex,
   title-glow: 0 0 12px rgba(248, 183, 199, 0.6),
@@ -98,18 +96,16 @@ $cartoonia: (
   cards-grid-padding: 8px,
   leaderboard-rank: block,
   leaderboard-rank-badge-size: 32px,
-  text-color: #5b4f6d,
-  // soft lavender
+  text-color: #d9dd00,
   user-progress-border: 2px dashed #81b9c6,
   user-progress-padding: 10px 16px,
   container-glow: glowCartoonia 3s infinite alternate,
   modal-item-border: rgba(248, 183, 199, 0.5),
-  modal-item-after-bg-color: rgba(168, 213, 226, 0.3),
+  modal-item-after-bg-color: rgba(38, 39, 39, 0.5),
   modal-category-bg-color: rgba(247, 196, 211, 0.25),
-  modal-item-box-shadow-color: rgba(91, 79, 109, 0.2)
+  modal-item-box-shadow-color: rgba(177, 204, 27, 0.507)
 );
 
-// Example keyframes for the 3D pastel glow animation:
 @keyframes glowCartoonia {
   0% {
     box-shadow: 0 0 8px rgba(168, 213, 226, 0.4);
@@ -148,7 +144,9 @@ $games-list: (
 );
 
 /// 2. Loop over each theme and each game, emitting a --<game>-bg-image variable
-@each $theme-name, $theme-map in (fantasy: $fantasy, vintage: $vintage) {
+@each $theme-name,
+  $theme-map in (fantasy: $fantasy, vintage: $vintage, cartoonia: $cartoonia)
+{
   [data-theme='#{$theme-name}'] {
     @each $game in $games-list {
       // e.g. --bingo-bg-image: url('/assets/images/fantasy/bingo.jpg');
@@ -160,3 +158,4 @@ $games-list: (
 // generate both at build time
 @include generate-theme('fantasy', $fantasy);
 @include generate-theme('vintage', $vintage);
+@include generate-theme('cartoonia', $cartoonia);
