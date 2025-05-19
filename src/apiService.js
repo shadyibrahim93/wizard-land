@@ -490,6 +490,10 @@ export async function joinRoom(roomId, userId, password = '') {
     throw new Error('Incorrect password');
   }
 
+  if (roomData.player1 === userId) {
+    throw new Error("You can't join your own game");
+  }
+
   const { data, error } = await supabase
     .from('game_rooms')
     .update({ player2: userId })

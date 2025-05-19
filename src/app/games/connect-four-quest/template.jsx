@@ -658,6 +658,9 @@ const Game = () => {
   ) : (
     <>
       <div className={`mq-global-container`}>
+        {gameMode === 'Multiplayer' && !player2Name && (
+          <span className='mq-waiting-player'></span>
+        )}
         <div className='mq-score-container'>
           <span className='mq-score-player'>
             <span className='mq-score-player'>
@@ -671,7 +674,7 @@ const Game = () => {
             {gameMode === 'Multiplayer'
               ? player2Name
                 ? `${player2Name}: ${opponentWins}`
-                : 'Waiting opponent...'
+                : '- - -'
               : `Ice: ${computerWins}`}
           </span>
         </div>

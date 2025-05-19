@@ -111,6 +111,8 @@
         transform: translateZ(0);
         padding: 0px 10px 0px 24px;
         height: 100%;
+        -webkit-text-stroke: var(--menu-item-text-stroke);
+        paint-order: var(--paint-order);
 
         img {
           position: relative;
