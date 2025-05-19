@@ -22,6 +22,19 @@
     display: flex;
     flex-direction: row;
     position: relative;
+
+    .#{$identifier}-sound-toggle {
+      border: 2px solid var(--light-overlay);
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      cursor: pointer;
+      img {
+        width: 20px;
+        height: auto;
+      }
+    }
+
     @media (max-width: 768px) {
       justify-content: flex-end;
       align-items: stretch;
@@ -34,29 +47,15 @@
         max-height: 34px;
         display: flex;
         flex-direction: row;
+        align-items: center;
         gap: 12px;
-      }
-    }
-    img {
-      top: -6px;
-      left: -18px;
-      position: absolute;
-      width: 50px;
-      height: auto;
-      cursor: pointer;
-      z-index: 2;
-
-      @media (max-width: 768px) {
-        top: -2px;
-        width: 39px;
-        left: -18px;
       }
     }
     .#{$identifier}-user-sign {
       display: flex;
       flex-direction: row;
       gap: 12px;
-      padding: 7px 0;
+      padding: 6px 0;
       -webkit-text-stroke: var(--menu-item-text-stroke);
       paint-order: var(--paint-order);
 
@@ -84,7 +83,7 @@
       background-color: var(--light-overlay);
       border-radius: 10px;
       margin-top: 0px;
-      margin-left: 13px;
+      margin-left: 0;
       color: $white;
       display: none;
 
@@ -109,7 +108,8 @@
         text-decoration: none;
         color: $white;
         transform: translateZ(0);
-        padding: 0px 10px 0px 24px;
+        padding: 4px 6px 4px 4px;
+        column-gap: 8px;
         height: 100%;
         -webkit-text-stroke: var(--menu-item-text-stroke);
         paint-order: var(--paint-order);
@@ -331,6 +331,10 @@
     .#{$identifier}-user-container {
       .#{$identifier}-user-sign {
         padding: 3px 0px;
+      }
+
+      .#{$identifier}-sound-toggle {
+        padding: 4px;
       }
     }
 

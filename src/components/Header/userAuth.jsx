@@ -12,6 +12,25 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
   const [showEmailModal, setShowEmailModal] = useState(false);
   const { realm } = useSelectedRealm();
 
+  const [sound, setSound] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('sound') || 'on';
+    }
+    return 'on';
+  });
+
+  const handleSoundToggle = () => {
+    const newSoundState = sound === 'on' ? 'off' : 'on';
+    setSound(newSoundState);
+    localStorage.setItem('sound', newSoundState);
+    window.location.reload();
+  };
+
+  const imageSrc =
+    sound === 'on'
+      ? `/assets/images/sound_on.png`
+      : `/assets/images/sound_off.png`;
+
   if (loading) {
     return (
       <h3 className='mq-user-name'>
@@ -31,67 +50,67 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
         <div>
           {/* Open feedback modal */}
           <div className='mq-user-progress--contact'>
-            <Image
-              src={`/assets/images/${realm}/elements/email.png`}
-              alt='Send feedback email | Wizard Land'
-              title='Send feedback email | Wizard Land'
-              width={24} // Adjust the width
-              height={24} // Adjust the height
-            />
             <a
               type='button'
               id='send-email'
               className='icon-button'
               onClick={() => setShowEmailModal(true)}
             >
+              <Image
+                src={`/assets/images/${realm}/elements/email.png`}
+                alt='Send feedback email | Wizard Land'
+                title='Send feedback email | Wizard Land'
+                width={24} // Adjust the width
+                height={24} // Adjust the height
+              />{' '}
               Feedback
             </a>
           </div>
 
           {/* Buy Me a Coffee link */}
           <div className='mq-user-progress--contact'>
-            <Image
-              src={`/assets/images/${realm}/elements/support.png`}
-              alt='Support our work | Wizard Land'
-              title='Support our work | Wizard Land'
-              width={24} // Adjust the width
-              height={24} // Adjust the height
-            />
             <a
               href='https://www.buymeacoffee.com/wizardland'
               target='_blank'
               rel='noopener noreferrer'
             >
+              <Image
+                src={`/assets/images/${realm}/elements/support.png`}
+                alt='Support our work | Wizard Land'
+                title='Support our work | Wizard Land'
+                width={24} // Adjust the width
+                height={24} // Adjust the height
+              />{' '}
               Contribute
             </a>
           </div>
         </div>
 
-        <h3 className='mq-user-name'>
-          <div className='mq-user-sign'>
-            {!userId ? (
-              <CustomLink
-                text='SIGN UP'
-                onClick={onSignUp}
-                className='sign-up'
-              />
-            ) : (
-              <>
-                {/* <Image
-                  src={imageSrc}
-                  alt='Home'
-                  width={24} // Adjust width as needed
-                  height={24} // Adjust height as needed
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                  onClick={handleClick}
-                  title='Home'
-                /> */}
-                {userName}
-              </>
-            )}
-          </div>
-        </h3>
+        <div>
+          <span className='mq-sound-toggle'>
+            <Image
+              src={imageSrc}
+              alt='Sound Control'
+              width={24}
+              height={24}
+              onClick={handleSoundToggle}
+              title='Toggle Sound'
+            />
+          </span>
+          <h3 className='mq-user-name'>
+            <div className='mq-user-sign'>
+              {!userId ? (
+                <CustomLink
+                  text='SIGN UP'
+                  onClick={onSignUp}
+                  className='sign-up'
+                />
+              ) : (
+                <>{userName}</>
+              )}
+            </div>
+          </h3>
+        </div>
       </div>
 
       <SendEmailModal
