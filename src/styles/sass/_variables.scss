@@ -18,6 +18,7 @@ $white: #ffffff !default;
 $black: #000000 !default;
 
 $fantasy: (
+  font-family: 'MagicalWorld',
   primary-color: #b2a3794f,
   primary-color-hover: #5c5e3d,
   dark-overlay: rgba(8, 8, 8, 0.6),
@@ -42,10 +43,13 @@ $fantasy: (
   modal-item-border: #b2a3794f,
   modal-item-after-bg-color: rgb(0 0 0 / 53%),
   modal-category-bg-color: #4bd0fb12,
-  modal-item-box-shadow-color: #c2d77661
+  modal-item-box-shadow-color: #c2d77661,
+  font-size-mobile: 12px,
+  footer-icon-size: 35px
 );
 
 $vintage: (
+  font-family: 'MagicalWorld',
   primary-color: #b79778,
   primary-color-hover: #5c5e3d,
   dark-overlay: rgba(8, 8, 8, 0.6),
@@ -71,13 +75,16 @@ $vintage: (
   modal-item-border: #b2a3794f,
   modal-item-after-bg-color: #0000005b,
   modal-category-bg-color: rgb(115 90 64 / 25%),
-  modal-item-box-shadow-color: #977a51
+  modal-item-box-shadow-color: #977a51,
+  font-size-mobile: 12px,
+  footer-icon-size: 35px
 );
 
 $cartoonia: (
+  font-family: 'Cartoonia',
   primary-color: #a8d5e2,
   primary-color-hover: #81b9c6,
-  secondary-color: #3e8a7f,
+  secondary-color: #276782,
   secondary-color-dark: darken(#3e8a7f, 8%),
   secondary-color-light: lighten(#3e8a7f, 12%),
   tertiary-color: #557999,
@@ -93,30 +100,24 @@ $cartoonia: (
   title-glow: 0 0 12px rgba(248, 183, 199, 0.6),
   header-icon-width-mobile: 50px,
   header-icon-width: 70px,
-  cards-grid-padding: 8px,
+  cards-grid-padding: 21px 0px 12px,
   leaderboard-rank: block,
   leaderboard-rank-badge-size: 32px,
-  text-color: #d9dd00,
+  text-color: #de9c48,
   user-progress-border: 2px dashed #81b9c6,
   user-progress-padding: 10px 16px,
   container-glow: glowCartoonia 3s infinite alternate,
   modal-item-border: rgba(248, 183, 199, 0.5),
-  modal-item-after-bg-color: rgba(38, 39, 39, 0.5),
+  modal-item-after-bg-color: rgba(38, 39, 39, 0.349),
   modal-category-bg-color: rgba(247, 196, 211, 0.25),
-  modal-item-box-shadow-color: rgba(177, 204, 27, 0.507)
+  modal-item-box-shadow-color: rgb(118 132 138),
+  menu-item-padding: 15px 0px,
+  menu-item-text-stroke: 5px #346980,
+  paint-order: stroke fill,
+  font-size: 26px,
+  font-size-mobile: 16px,
+  footer-icon-size: 50px
 );
-
-@keyframes glowCartoonia {
-  0% {
-    box-shadow: 0 0 8px rgba(168, 213, 226, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 16px rgba(247, 196, 211, 0.5);
-  }
-  100% {
-    box-shadow: 0 0 8px rgba(168, 213, 226, 0.4);
-  }
-}
 
 /// A helper to emit custom‐properties for a given map and selector
 @mixin generate-theme($name, $map) {

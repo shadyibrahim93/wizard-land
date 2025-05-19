@@ -162,6 +162,18 @@
   }
 }
 
+@keyframes glowCartoonia {
+  0% {
+    box-shadow: 0 0 8px rgba(168, 213, 226, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(247, 196, 211, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 8px rgba(168, 213, 226, 0.4);
+  }
+}
+
 @keyframes glowingRed {
   0% {
     text-shadow: 0 0 5px var(--secondary-color), 0 0 10px var(--secondary-color),

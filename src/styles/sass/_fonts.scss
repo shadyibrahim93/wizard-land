@@ -11,6 +11,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Cartoonia';
+  src: url('../fonts/HollowSpace.ttf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 // ======================
 // Text Utility Classes
 // ======================
@@ -28,7 +36,7 @@
   }
 
   // Add font family to all text utilities
-  font-family: 'MagicalWorld', sans-serif;
+  font-family: var(--font-family), sans-serif;
 }
 
 p,
@@ -39,6 +47,6 @@ h4,
 a,
 div,
 button {
-  font-family: 'MagicalWorld', sans-serif;
+  font-family: var(--font-family), sans-serif;
   letter-spacing: 2px;
 }

@@ -56,6 +56,10 @@
       display: flex;
       flex-direction: row;
       gap: 12px;
+      padding: 7px 0;
+      -webkit-text-stroke: var(--menu-item-text-stroke);
+      paint-order: var(--paint-order);
+
       a {
         cursor: pointer;
         font-size: 16px;
@@ -279,6 +283,8 @@
         align-items: center;
         width: 100%;
         letter-spacing: 1px;
+        -webkit-text-stroke: var(--menu-item-text-stroke);
+        paint-order: var(--paint-order);
 
         &::-webkit-scrollbar {
           display: none;
@@ -317,6 +323,12 @@
           font-size: small;
           padding: 0;
         }
+      }
+    }
+
+    .#{$identifier}-user-container {
+      .#{$identifier}-user-sign {
+        padding: 2px 0px;
       }
     }
 

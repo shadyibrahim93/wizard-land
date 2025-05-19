@@ -79,7 +79,7 @@
     background-color: transparent;
     padding: 0;
     box-shadow: none;
-    font-family: 'MagicalWorld', sans-serif;
+    font-family: var(--font-family), sans-serif;
     font-weight: bold;
     &:hover {
       &::file-selector-button {
@@ -89,7 +89,7 @@
   }
 
   .#{$identifier}-file-input::file-selector-button {
-    font-family: 'MagicalWorld', sans-serif;
+    font-family: var(--font-family), sans-serif;
     border: 2px solid var(--secondary-color);
     border-radius: 10px;
     padding: 5px 10px;

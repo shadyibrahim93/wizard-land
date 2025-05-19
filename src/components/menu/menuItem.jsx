@@ -42,13 +42,17 @@ const MenuItem = ({
       onMouseLeave={handleMouseLeave}
       id={id}
     >
-      <img
-        src={imageSrc}
-        alt={alt}
-        title={title}
-        loading='lazy'
-      />
-      {realm === 'vintage' ? '' : itemTitle}
+      {realm === 'cartoonia' ? (
+        ''
+      ) : (
+        <img
+          src={imageSrc}
+          alt={alt}
+          title={title}
+          loading='lazy'
+        />
+      )}
+      {['fantasy', 'cartoonia'].includes(realm) ? itemTitle : ''}
     </div>
   );
 };
