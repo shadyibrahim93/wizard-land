@@ -93,6 +93,7 @@ body {
     .#{$identifier}-header-container {
       padding: 8px 0px;
       .#{$identifier}-menu-item {
+        width: fit-content;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -102,6 +103,7 @@ body {
         color: $white;
         padding: var(--menu-item-padding);
         font-size: var(--font-size);
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
         -webkit-text-stroke: var(--menu-item-text-stroke);
         paint-order: var(--paint-order);
 
@@ -176,7 +178,7 @@ body {
     }
 
     @media (max-width: 768px) {
-      padding: 8px 0px;
+      padding: 8px 21px;
       .#{$identifier}-header-container {
         h1 {
           display: none;
