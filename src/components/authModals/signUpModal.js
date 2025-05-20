@@ -65,10 +65,13 @@ export default function SignUpModal({
       const result = await signUp({ email, password, fullName });
       if (result.success) {
         setMessage({ type: 'success', text: successMessageText });
-        setEmail('');
-        setFullName('');
-        setPassword('');
-        setTimeout(() => onClose(), 4000);
+        setTimeout(() => {
+          onClose();
+          setEmail('');
+          setFullName('');
+          setPassword('');
+          setMessage({ type: '', text: '' });
+        }, 3000);
         onSignUpSuccess?.();
       } else {
         throw new Error(result.error);

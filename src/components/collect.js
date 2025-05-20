@@ -2,10 +2,12 @@
 
 import { useEffect, useRef } from 'react';
 import { playCoinCollection } from '../hooks/useSound';
+import useSelectedRealm from '../hooks/userSelectedRealm.js';
 
 export const CollectionBurst = ({ count = 15, onComplete }) => {
   const coinContainerRef = useRef();
   const expContainerRef = useRef();
+  const { realm } = useSelectedRealm();
 
   useEffect(() => {
     const animateBurst = (items, target) => {
@@ -61,7 +63,7 @@ export const CollectionBurst = ({ count = 15, onComplete }) => {
             className='coin'
           >
             <img
-              src={'/assets/images/fantasy/elements/star.png'}
+              src={`/assets/images/${realm}/elements/star.png`}
               alt='coin'
               className='mq-coin'
             />
