@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { supabase } from '../../apiService';
+import { signIn } from '../../apiService';
 import Button from '../Button';
 import { useRouter } from 'next/navigation';
 import AuthProviders from '@components/AuthProviders.js';
@@ -20,12 +20,19 @@ export default function SignInModal({ showSignInModal, onClose }) {
     setMessage(null);
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      });
+      const user = await signIn({ email, password });
+      // our helper returns `null` on error
+      if (!user) {
+        throw new Error('Invalid credentials or server error');
+      }
 
-      if (error) throw error;
+      const result = await signIn({ email, password });
+
+      if (!result.success) {
+        setMessage({ type: 'error', text: result.error.message });
+        setLoading(false);
+        return;
+      }
 
       setMessage({
         type: 'success',

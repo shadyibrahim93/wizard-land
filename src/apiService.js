@@ -111,23 +111,6 @@ export async function signUp({ email, password, fullName }) {
     return { success: false, error: error.message || 'Signup error' };
   }
 
-  const userId = authUser.user.id;
-
-  // Insert into profiles (triggers handle wallet and inventory)
-  const { error: insertProfileError } = await supabase.from('profiles').insert({
-    id: userId,
-    email,
-    full_name: fullName
-  });
-
-  if (insertProfileError) {
-    console.error('Profile insert error:', insertProfileError.message);
-    return {
-      success: false,
-      error: insertProfileError.message || 'Profile insert error'
-    };
-  }
-
   return { success: true };
 }
 
@@ -156,7 +139,7 @@ export async function signIn({ email, password }) {
   });
   if (error) {
     console.error('Sign-in error:', error.message);
-    return null;
+    return { success: false, error };
   }
 
   // 2) Fetch profile info
@@ -168,7 +151,7 @@ export async function signIn({ email, password }) {
 
   if (userError) {
     console.error('Error fetching user data:', userError.message);
-    return null;
+    return { success: true, user: data.user, profileError: userError };
   }
 
   // 3) Persist into Supabase Auth metadata
@@ -180,7 +163,7 @@ export async function signIn({ email, password }) {
   });
   if (updateError) {
     console.error('Error updating auth metadata:', updateError.message);
-    // (you can still proceed—the return will have the right shape)
+    return { success: true, user: data.user, profileError: userError };
   }
 
   // 4) Return enriched object
@@ -190,6 +173,15 @@ export async function signIn({ email, password }) {
       ...data.user.user_metadata,
       full_name: userData.full_name,
       env: userData.env
+    },
+    success: true,
+    user: {
+      ...data.user,
+      user_metadata: {
+        ...data.user.user_metadata,
+        full_name: userData.full_name,
+        env: userData.env
+      }
     }
   };
 }

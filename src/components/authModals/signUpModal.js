@@ -39,24 +39,6 @@ export default function SignUpModal({
     // remove any previous widget markup
     container.innerHTML = '';
 
-    const onTurnstileLoaded = () => {
-      // second safety: don't render twice
-      if (container.childNodes.length) return;
-
-      // render returns a widgetId you can reset later
-      const widgetId = window.turnstile.render(container, {
-        sitekey: '0x4AAAAAABbXDRlf7XHHdt4W',
-        callback: (tok) => setToken(tok)
-      });
-
-      // cleanup when modal closes or effect re‑runs
-      return () => {
-        if (window.turnstile && window.turnstile.reset) {
-          window.turnstile.reset(widgetId);
-        }
-      };
-    };
-
     if (!window.turnstile) {
       const script = document.createElement('script');
       script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
@@ -73,33 +55,6 @@ export default function SignUpModal({
       container.innerHTML = '';
     };
   }, [showSignUpModal]);
-
-  // Revisit after finding a solution When we get a token, verify it with our backend:
-  // useEffect(() => {
-  //   if (!token) return;
-
-  //   setVerifying(true);
-  //   setVerificationError('');
-  //   fetch('/api/verify-turnstile', {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({ token })
-  //   })
-  //     .then((res) => res.json())
-  //     .then((json) => {
-  //       if (json.success) {
-  //         setIsHuman(true);
-  //       } else {
-  //         setVerificationError(json.error || 'CAPTCHA check failed');
-  //       }
-  //     })
-  //     .catch(() => {
-  //       setVerificationError('CAPTCHA verification service unavailable');
-  //     })
-  //     .finally(() => {
-  //       setVerifying(false);
-  //     });
-  // }, [token]);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -148,18 +103,6 @@ export default function SignUpModal({
         <hr />
         <div className='mq-modal-body'>
           <div className='mq-wrapper'>
-            {/* {!isHuman && (
-  <>
-    <div
-      ref={widgetRef}
-      className='captcha-widget'
-    />
-    {verificationError && (
-      <div className='mq-message mq-error'>{verificationError}</div>
-    )}
-  </>
-)} */}
-
             <>
               <AuthProviders />
 

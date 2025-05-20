@@ -142,7 +142,12 @@ const Footer = () => {
             onClose={() => setShowPrivacyPolicy(false)}
           />
         )}
-        {showSignInModal && <SignInModal showSignInModal={showSignInModal} />}
+        {showSignInModal && (
+          <SignInModal
+            showSignInModal={showSignInModal}
+            onClose={() => setShowSignInModal(false)}
+          />
+        )}
       </footer>
     </>
   );
