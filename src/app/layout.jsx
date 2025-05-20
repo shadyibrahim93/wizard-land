@@ -5,7 +5,7 @@ import { generateHomeMetadata } from '../utils/metadata.js';
 import ThemeInitializer from '../components/ThemeInitializer.jsx';
 
 export const metadata = generateHomeMetadata({
-  name: 'Play Ad-Free Multiplayer Board Games June 1st 2025'
+  name: 'Play Ad-Free Multiplayer Family Board Games June 1st 2025'
 });
 
 export default function RootLayout({ children }) {
