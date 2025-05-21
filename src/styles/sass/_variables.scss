@@ -97,7 +97,7 @@ $cartoonia: (
   background-color: #f0f4ff,
   background-image: url('/assets/images/cartoonia/background.png'),
   title-display: inline-flex,
-  title-glow: 0 0 12px rgba(248, 183, 199, 0.6),
+  title-glow: glowingCartoonia 4s infinite alternate,
   header-icon-width-mobile: 50px,
   header-icon-width: 70px,
   cards-grid-padding: 21px 0px 12px,

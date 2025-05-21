@@ -198,6 +198,17 @@
   }
 }
 
+@keyframes glowingCartoonia {
+  0% {
+    text-shadow: 0 0 0px rgba(0, 191, 255, 0.3), 0 0 5px rgba(0, 191, 255, 0.3),
+      0 0 10px rgba(0, 191, 255, 0.3), 0 0 15px rgba(0, 191, 255, 0.3);
+  }
+  100% {
+    text-shadow: 0 0 5px rgba(0, 191, 255, 0.7), 0 0 10px rgba(0, 191, 255, 0.7),
+      0 0 20px rgba(0, 191, 255, 0.7), 0 0 30px rgba(0, 191, 255, 0.7);
+  }
+}
+
 @keyframes glowingWin {
   0% {
     text-shadow: 0 0 5px rgba(150, 255, 180, 0.6),

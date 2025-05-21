@@ -17,6 +17,11 @@ export default function RootLayout({ children }) {
       <head>
         {metadata}
 
+        <meta
+          name='yandex-verification'
+          content='b2322af06ef76ab8'
+        />
+
         <Script
           src='https://www.googletagmanager.com/gtag/js?id=G-TWQ14MBMGM'
           strategy='afterInteractive'

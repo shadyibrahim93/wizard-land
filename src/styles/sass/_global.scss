@@ -113,7 +113,7 @@ body {
         }
 
         &:hover {
-          animation: glowingRed 4s infinite alternate;
+          animation: var(--title-glow);
         }
       }
       @media (max-width: 768px) {
@@ -191,7 +191,7 @@ body {
           }
 
           &:hover {
-            animation: glowingRed 4s infinite alternate;
+            animation: var(--title-glow);
           }
         }
       }

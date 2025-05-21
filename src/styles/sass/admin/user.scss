@@ -8,11 +8,13 @@
   align-items: center;
   color: $white;
   font-size: 14px;
+  margin-bottom: 21px;
 
   &:has(.sign-up) {
     .#{$identifier}-link {
       .#{$identifier}-user-name {
         padding: 8px 16px;
+        margin-top: 0px;
       }
     }
   }
@@ -44,7 +46,6 @@
     &:has(.mq-user-progress--contact) {
       justify-content: space-between;
       > div {
-        max-height: 34px;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -168,6 +169,7 @@
       justify-content: space-between;
       align-items: center;
       position: relative;
+      margin: 0px;
 
       &:not(:has(img)) {
         padding: 4px 10px 4px 12px;
@@ -193,6 +195,7 @@
     display: flex;
     flex-direction: row;
     column-gap: 30px;
+    margin: 0px;
 
     &--exp,
     &--star,
@@ -378,6 +381,11 @@
       border: var(--user-progress-border);
       border-color: var(--primary-color);
       border-radius: 10px;
+
+      &:not(:has(.#{$identifier}-user-amount)) {
+        padding: 0;
+        border: none;
+      }
 
       &--exp,
       &--star,

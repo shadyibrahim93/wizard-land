@@ -100,47 +100,48 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
                 {stars}
               </span>
             </span>
+
+            <span className='mq-user-progress--contact'>
+              <a
+                type='button'
+                id='send-email'
+                className='mq-user-amount'
+                onClick={() => setShowEmailModal(true)}
+                onMouseEnter={playButtonHover}
+              >
+                <span className='mq-user-icon'>
+                  <Image
+                    src={`/assets/images/${realm}/elements/email.png`}
+                    alt='Send feedback email | Wizard Land'
+                    title='Send feedback email | Wizard Land'
+                    width={24} // Adjust the width
+                    height={24} // Adjust the height
+                  />
+                </span>
+                Feedback
+              </a>
+            </span>
+            <span className='mq-user-progress--contact'>
+              <a
+                className='mq-user-amount'
+                href='https://www.buymeacoffee.com/wizardland'
+                target='_blank'
+                onMouseEnter={playButtonHover}
+              >
+                <span className='mq-user-icon'>
+                  <Image
+                    src={`/assets/images/${realm}/elements/support.png`}
+                    alt='Support our work | Wizard Land'
+                    title='Support our work | Wizard Land'
+                    width={24} // Adjust the width
+                    height={24} // Adjust the height
+                  />
+                </span>
+                Support My Work
+              </a>
+            </span>
           </>
         )}
-        <span className='mq-user-progress--contact'>
-          <a
-            type='button'
-            id='send-email'
-            className='mq-user-amount'
-            onClick={() => setShowEmailModal(true)}
-            onMouseEnter={playButtonHover}
-          >
-            <span className='mq-user-icon'>
-              <Image
-                src={`/assets/images/${realm}/elements/email.png`}
-                alt='Send feedback email | Wizard Land'
-                title='Send feedback email | Wizard Land'
-                width={24} // Adjust the width
-                height={24} // Adjust the height
-              />
-            </span>
-            Feedback
-          </a>
-        </span>
-        <span className='mq-user-progress--contact'>
-          <a
-            className='mq-user-amount'
-            href='https://www.buymeacoffee.com/wizardland'
-            target='_blank'
-            onMouseEnter={playButtonHover}
-          >
-            <span className='mq-user-icon'>
-              <Image
-                src={`/assets/images/${realm}/elements/support.png`}
-                alt='Support our work | Wizard Land'
-                title='Support our work | Wizard Land'
-                width={24} // Adjust the width
-                height={24} // Adjust the height
-              />
-            </span>
-            Support My Work
-          </a>
-        </span>
       </h3>
       <SendEmailModal
         showEmailModal={showEmailModal}
