@@ -4,6 +4,7 @@ import InventoryItem from './inventoryItem';
 import { getUserInventoryGroupedByType } from '../../apiService';
 import { useUser } from '../../context/UserContext';
 import { RxCaretDown, RxCaretUp } from 'react-icons/rx';
+import InventoryItemLazyWrapper from './InventoryItemLazyWrapper.js';
 
 const Inventory = ({ onClose }) => {
   const { userId, loading } = useUser();
@@ -107,15 +108,20 @@ const Inventory = ({ onClose }) => {
                   <>
                     <hr />
                     <div className='mq-modal-items-container'>
-                      {items.map((item) => (
-                        <InventoryItem
-                          key={item.id}
-                          item={item}
-                          userId={userId}
-                          isActive={item.is_active}
-                          refreshInventory={refreshInventory}
-                        />
-                      ))}
+                      {items.map((item, index) =>
+                        index < 5 ? (
+                          <InventoryItem
+                            key={item.id}
+                            item={item}
+                            purchased={item.purchased}
+                          />
+                        ) : (
+                          <InventoryItemLazyWrapper
+                            key={item.id}
+                            item={item}
+                          />
+                        )
+                      )}
                     </div>
                   </>
                 )}

@@ -5,6 +5,7 @@ import ShopItem from './shopItem';
 import { getShopItemsGroupedByType } from '../../apiService';
 import { useUser } from '../../context/UserContext';
 import { RxCaretDown, RxCaretUp } from 'react-icons/rx';
+import ShopItemLazyWrapper from './ShopItemLazyWrapper.js';
 
 const Shop = ({ onClose }) => {
   const [shopItems, setShopItems] = useState({});
@@ -99,13 +100,20 @@ const Shop = ({ onClose }) => {
                 <>
                   <hr />
                   <div className='mq-modal-items-container'>
-                    {items.map((item) => (
-                      <ShopItem
-                        key={item.id}
-                        item={item}
-                        purchased={item.purchased}
-                      />
-                    ))}
+                    {items.map((item, index) =>
+                      index < 5 ? (
+                        <ShopItem
+                          key={item.id}
+                          item={item}
+                          purchased={item.purchased}
+                        />
+                      ) : (
+                        <ShopItemLazyWrapper
+                          key={item.id}
+                          item={item}
+                        />
+                      )
+                    )}
                   </div>
                 </>
               )}
