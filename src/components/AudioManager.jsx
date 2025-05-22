@@ -1,25 +1,38 @@
-'use client'; // Ensures this runs on the client side
+'use client';
 import { useEffect } from 'react';
 
 const AudioManager = () => {
   useEffect(() => {
     const handleAudioPlayback = () => {
+      const isHidden = document.hidden;
+
+      // Pause/resume <audio> tags
       document.querySelectorAll('audio').forEach((audio) => {
-        if (document.hidden) {
+        if (isHidden) {
           audio.pause();
-        } else {
-          audio.play();
+        } else if (audio.paused) {
+          audio.play().catch(() => {});
         }
       });
+
+      // Pause/resume background music if available
+      if (window.backgroundMusic instanceof HTMLAudioElement) {
+        if (isHidden) {
+          window.backgroundMusic.pause();
+        } else if (window.backgroundMusic.paused) {
+          window.backgroundMusic.play().catch(() => {});
+        }
+      }
     };
 
     document.addEventListener('visibilitychange', handleAudioPlayback);
+
     return () => {
       document.removeEventListener('visibilitychange', handleAudioPlayback);
     };
   }, []);
 
-  return null; // No visible UI, just functionality
+  return null;
 };
 
 export default AudioManager;

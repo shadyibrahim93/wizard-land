@@ -42,8 +42,8 @@ export default function RootLayout({ children }) {
       <body>
         <div id='root'>
           <UserProvider>
-            <ThemeInitializer />
             <AudioManager />
+            <ThemeInitializer />
             {children}
           </UserProvider>
         </div>

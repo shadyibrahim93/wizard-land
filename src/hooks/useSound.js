@@ -352,6 +352,7 @@ let bgMusicPausedTime = 0;
 
 export const playBGMusic = (fileName) => {
   if (!isSoundEnabled()) return;
+
   if (
     bgMusicInstance &&
     !bgMusicInstance.paused &&
@@ -359,27 +360,39 @@ export const playBGMusic = (fileName) => {
   ) {
     return;
   }
+
   if (bgMusicInstance) {
     bgMusicInstance.pause();
     bgMusicInstance.currentTime = 0;
     bgMusicInstance = null;
   }
+
   currentFileName = fileName;
   bgMusicInstance = new Audio(`${BASE_PATH}${fileName}.mp3`);
   bgMusicInstance.loop = true;
   bgMusicInstance.volume = 0.5;
+
+  // ✅ Attach to window for global control
+  window.backgroundMusic = bgMusicInstance;
+
   bgMusicInstance.addEventListener('error', (e) => {
     console.error('BG music failed to play:', e);
     bgMusicInstance = null;
+    window.backgroundMusic = null;
   });
+
   bgMusicInstance.addEventListener('ended', () => {
     bgMusicInstance = null;
+    window.backgroundMusic = null;
   });
+
   bgMusicInstance.play().catch((err) => {
     console.warn('Auto-play failed or was interrupted:', err);
   });
+
   return bgMusicInstance;
 };
+
 export const pauseBGMusic = () => {
   if (bgMusicInstance && !bgMusicInstance.paused) {
     bgMusicPausedTime = bgMusicInstance.currentTime;
