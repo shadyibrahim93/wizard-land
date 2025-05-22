@@ -215,11 +215,19 @@
       gap: 48px;
       margin-bottom: 24px;
 
-      .mq-screenshot-grid {
+      .#{$identifier}-screenshot-grid {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
+
+        .#{$identifier}-image-wrapper {
+          width: fit-content;
+          height: auto;
+          flex-shrink: 0;
+          position: relative;
+          overflow: hidden;
+        }
 
         .modal-nav {
           background: none;
@@ -571,7 +579,7 @@
               grid-template-columns: repeat(1, 1fr);
             }
 
-            .mq-screenshot-grid {
+            .#{$identifier}-screenshot-grid {
               display: flex;
               align-items: center;
               justify-content: center;

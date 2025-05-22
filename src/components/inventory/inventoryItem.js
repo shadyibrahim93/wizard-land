@@ -119,14 +119,15 @@ const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
                 ‹
               </button>
 
-              <Image
-                key={currentImageIndex}
-                src={realmImages[currentImageIndex]}
-                alt={`Realm View ${currentImageIndex + 1}`}
-                width={100}
-                height={90}
-                loading='lazy'
-              />
+              <div className='mq-image-wrapper'>
+                <Image
+                  src={`${realmImages[currentImageIndex]}?v=${currentImageIndex}`}
+                  alt={`Realm View ${currentImageIndex + 1}`}
+                  width={100}
+                  height={90}
+                  loading='lazy'
+                />
+              </div>
 
               <button
                 className='modal-nav next'
