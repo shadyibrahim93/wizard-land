@@ -5,7 +5,6 @@ import { supabase } from '../apiService';
 import Image from 'next/image';
 
 import useSelectedRealm from '@/hooks/userSelectedRealm.js';
-import { useUser } from '@/context/UserContext.js';
 
 const fetchAllUserProgressGroupedByGame = async (timeFrame = 'daily') => {
   // Determine the correct table based on time frame
@@ -45,8 +44,7 @@ const LeaderBoard = () => {
   const [groupedProgress, setGroupedProgress] = useState({});
   const [timeFrame, setTimeFrame] = useState('weekly');
   const [isLoading, setIsLoading] = useState(false);
-  const { userId } = useUser();
-  const { realm } = useSelectedRealm();
+  const { realm, resolved } = useSelectedRealm();
 
   const medalImages = [
     `/assets/images/${realm}/elements/rank/firstplace.png`,
@@ -115,7 +113,7 @@ const LeaderBoard = () => {
   return (
     <section className='mq-leaderboard-section'>
       <h2 className='mq-section-title mq-section-title--multiplayer'>
-        {realm !== 'fantasy' ? (
+        {realm !== 'fantasy' && resolved ? (
           <img
             src={`/assets/images/${realm}/elements/trophy.png`}
             alt={`${getTimeFrameTitle()} Leaderboard | Wizard Land`}

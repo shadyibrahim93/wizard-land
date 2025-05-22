@@ -4,11 +4,9 @@ import React from 'react';
 import profileImage from '@/assets/images/profile.jpg';
 import Image from 'next/image';
 import useSelectedRealm from '../hooks/userSelectedRealm.js';
-import { useUser } from '../context/UserContext.js';
 
 const About = ({ onClose }) => {
-  const { userId } = useUser();
-  const { realm } = useSelectedRealm();
+  const { realm, resolved } = useSelectedRealm();
 
   return (
     <div
@@ -87,13 +85,15 @@ const About = ({ onClose }) => {
               For every <strong>$1</strong> you bestow, you will receive{' '}
               <strong>
                 5000{' '}
-                <Image
-                  src={`/assets/images/${realm}/elements/euro.png`}
-                  alt='Wizard'
-                  width={30}
-                  height={25}
-                  className='mq-diamond-image'
-                />
+                {realm && resolved && (
+                  <Image
+                    src={`/assets/images/${realm}/elements/euro.png`}
+                    alt='Wizard'
+                    width={30}
+                    height={25}
+                    className='mq-diamond-image'
+                  />
+                )}
               </strong>{' '}
               as a token of our gratitude. We’re always brewing new potions of
               fun and eager for your feedback, send us your letters, ideas, or

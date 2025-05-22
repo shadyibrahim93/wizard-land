@@ -322,7 +322,7 @@ export default function Home() {
         <div className='mq-dashboard-container'>
           <section>
             <h1 className='mq-section-title mq-section-title--multiplayer'>
-              {realm !== 'fantasy' ? (
+              {realm && realm !== 'fantasy' ? (
                 <img
                   src={`assets/images/${realm}/elements/multiplayer.png`}
                   alt='Multiplayer Games | Wizard Land'
@@ -348,7 +348,7 @@ export default function Home() {
           </section>
           <section>
             <h1 className='mq-section-title mq-section-title--solo'>
-              {realm !== 'fantasy' ? (
+              {realm && realm !== 'fantasy' ? (
                 <img
                   src={`assets/images/${realm}/elements/solo.png`}
                   alt='Single Player Games | Wizard Land'

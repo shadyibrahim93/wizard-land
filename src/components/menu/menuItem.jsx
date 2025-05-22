@@ -14,7 +14,7 @@ const MenuItem = ({
   itemTitle
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const { realm } = useSelectedRealm();
+  const { realm, resolved } = useSelectedRealm();
 
   const imageSrc = `/assets/images/${realm}/elements/${
     isHovered ? onHoverImgSrc : imgSrc
@@ -42,16 +42,16 @@ const MenuItem = ({
       onMouseLeave={handleMouseLeave}
       id={id}
     >
-      {realm === 'cartoonia' ? (
-        ''
-      ) : (
-        <img
-          src={imageSrc}
-          alt={alt}
-          title={title}
-          loading='lazy'
-        />
-      )}
+      {realm === 'cartoonia'
+        ? ''
+        : resolved && (
+            <img
+              src={imageSrc}
+              alt={alt}
+              title={title}
+              loading='lazy'
+            />
+          )}
       {['fantasy', 'cartoonia'].includes(realm) ? itemTitle : ''}
     </div>
   );

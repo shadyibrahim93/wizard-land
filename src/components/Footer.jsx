@@ -18,7 +18,7 @@ const Footer = () => {
   const [showSignInModal, setShowSignInModal] = useState(false);
   const { userId } = useUser();
   const router = useRouter();
-  const { realm } = useSelectedRealm();
+  const { realm, resolved } = useSelectedRealm();
 
   const handleLogout = async () => {
     await signOut();
@@ -81,7 +81,7 @@ const Footer = () => {
               rel='noopener noreferrer'
               title='Follow Wizard Land On Facebook'
             >
-              {realm !== 'fantasy' ? (
+              {realm !== 'fantasy' && resolved ? (
                 <img
                   src={`/assets/images/${realm}/elements/facebook.png`}
                   alt='Follow Wizard Land On Facebook'
@@ -97,7 +97,7 @@ const Footer = () => {
               rel='noopener noreferrer'
               title='Follow Wizard Land On Discord'
             >
-              {realm !== 'fantasy' ? (
+              {realm !== 'fantasy' && resolved ? (
                 <img
                   src={`/assets/images/${realm}/elements/discord.png`}
                   alt='Follow Wizard Land On Discord'
@@ -113,7 +113,7 @@ const Footer = () => {
               rel='noopener noreferrer'
               title='Support Wizard Land On Buy Me A Coffee'
             >
-              {realm !== 'fantasy' ? (
+              {realm !== 'fantasy' && resolved ? (
                 <img
                   src={`/assets/images/${realm}/elements/coffee.png`}
                   alt='Support Wizard Land On Buy Me A Coffee'

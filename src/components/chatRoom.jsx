@@ -15,7 +15,7 @@ const GameChat = ({ chatTitle, gameId }) => {
   const { userId, userName } = useUser();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  const { realm } = useSelectedRealm();
+  const { realm, resolved } = useSelectedRealm();
 
   useEffect(() => {
     const fetchMessagesForRoom = async () => {
@@ -53,7 +53,7 @@ const GameChat = ({ chatTitle, gameId }) => {
       <div>
         <header>
           <h2 className='mq-section-title'>
-            {realm !== 'fantasy' ? (
+            {realm !== 'fantasy' && resolved ? (
               <img
                 className='mq-chat-icon'
                 src={`/assets/images/${realm}/elements/chat.png`}

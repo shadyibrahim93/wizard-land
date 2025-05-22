@@ -12,7 +12,7 @@ import useSelectedRealm from '../../hooks/userSelectedRealm.js';
 
 const UserStats = ({ loading, exp, euro, stars, userId }) => {
   const [showEmailModal, setShowEmailModal] = useState(false);
-  const { realm } = useSelectedRealm();
+  const { realm, resolved } = useSelectedRealm();
 
   if (loading) {
     return (
@@ -61,13 +61,13 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
             <span className='mq-user-progress--euro'>
               <span className='mq-user-amount'>
                 <span className='mq-user-icon'>
-                  <Image
-                    src={`/assets/images/${realm}/elements/euro.png`}
-                    alt='Euro Currency | Wizard Land'
-                    title='Euro Currency | Wizard Land'
-                    width={24} // Adjust the width
-                    height={24} // Adjust the height
-                  />
+                  {realm && resolved && (
+                    <img
+                      src={`/assets/images/${realm}/elements/euro.png`}
+                      alt='Euro Currency | Wizard Land'
+                      title='Euro Currency | Wizard Land'
+                    />
+                  )}
                 </span>
                 {euro}
               </span>
@@ -89,13 +89,13 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
                 id='coinCounterRef'
               >
                 <span className='mq-user-icon'>
-                  <Image
-                    src={`/assets/images/${realm}/elements/star.png`}
-                    alt='Coin Currency | Wizard Land'
-                    title='Coin Currency | Wizard Land'
-                    width={24} // Adjust the width
-                    height={24} // Adjust the height
-                  />
+                  {realm && resolved && (
+                    <img
+                      src={`/assets/images/${realm}/elements/star.png`}
+                      alt='Coin Currency | Wizard Land'
+                      title='Coin Currency | Wizard Land'
+                    />
+                  )}
                 </span>
                 {stars}
               </span>
@@ -110,13 +110,13 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
                 onMouseEnter={playButtonHover}
               >
                 <span className='mq-user-icon'>
-                  <Image
-                    src={`/assets/images/${realm}/elements/email.png`}
-                    alt='Send feedback email | Wizard Land'
-                    title='Send feedback email | Wizard Land'
-                    width={24} // Adjust the width
-                    height={24} // Adjust the height
-                  />
+                  {realm && resolved && (
+                    <img
+                      src={`/assets/images/${realm}/elements/email.png`}
+                      alt='Send feedback email | Wizard Land'
+                      title='Send feedback email | Wizard Land'
+                    />
+                  )}
                 </span>
                 Feedback
               </a>
@@ -129,13 +129,13 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
                 onMouseEnter={playButtonHover}
               >
                 <span className='mq-user-icon'>
-                  <Image
-                    src={`/assets/images/${realm}/elements/support.png`}
-                    alt='Support our work | Wizard Land'
-                    title='Support our work | Wizard Land'
-                    width={24} // Adjust the width
-                    height={24} // Adjust the height
-                  />
+                  {realm && resolved && (
+                    <img
+                      src={`/assets/images/${realm}/elements/support.png`}
+                      alt='Support our work | Wizard Land'
+                      title='Support our work | Wizard Land'
+                    />
+                  )}
                 </span>
                 Support My Work
               </a>
