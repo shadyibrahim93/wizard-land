@@ -4,21 +4,39 @@ import React, { useEffect, useState } from 'react';
 import ShopItem from './shopItem';
 import { getShopItemsGroupedByType } from '../../apiService';
 import { useUser } from '../../context/UserContext';
+import { RxCaretDown, RxCaretUp } from 'react-icons/rx';
 
 const Shop = ({ onClose }) => {
   const [shopItems, setShopItems] = useState({});
   const [loading, setLoading] = useState(true);
+  const [collapsedCategories, setCollapsedCategories] = useState({});
   const { userId } = useUser();
 
   useEffect(() => {
     const fetchShopItems = async () => {
       const groupedItems = await getShopItemsGroupedByType(userId);
       setShopItems(groupedItems);
+      // Initialize collapsed state for all categories (default: expanded)
+      const initialCollapsed = Object.keys(groupedItems).reduce(
+        (acc, category) => {
+          acc[category] = false;
+          return acc;
+        },
+        {}
+      );
+      setCollapsedCategories(initialCollapsed);
       setLoading(false);
     };
 
     fetchShopItems();
   }, []);
+
+  const toggleCategory = (category) => {
+    setCollapsedCategories((prev) => ({
+      ...prev,
+      [category]: !prev[category]
+    }));
+  };
 
   if (loading) {
     return (
@@ -55,20 +73,42 @@ const Shop = ({ onClose }) => {
               key={category}
               className='mq-modal-category'
             >
-              <h2 className='mq-modal-category-title'>
-                {category !== 'realm' ? 'Board' : 'Game'}{' '}
-                {category.charAt(0).toUpperCase() + category.slice(1)}s
-              </h2>
-              <hr></hr>
-              <div className='mq-modal-items-container'>
-                {items.map((item) => (
-                  <ShopItem
-                    key={item.id}
-                    item={item}
-                    purchased={item.purchased}
-                  />
-                ))}
+              <div
+                className='mq-modal-category-header'
+                onClick={() => toggleCategory(category)}
+                style={{
+                  cursor: 'pointer',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center'
+                }}
+              >
+                <h2 className='mq-modal-category-title'>
+                  {category !== 'realm' ? 'Board' : 'Game'}{' '}
+                  {category.charAt(0).toUpperCase() + category.slice(1)}s
+                </h2>
+                <span className={`mq-toggle-caret`}>
+                  {collapsedCategories[category] ? (
+                    <RxCaretDown />
+                  ) : (
+                    <RxCaretUp />
+                  )}
+                </span>
               </div>
+              {!collapsedCategories[category] && (
+                <>
+                  <hr />
+                  <div className='mq-modal-items-container'>
+                    {items.map((item) => (
+                      <ShopItem
+                        key={item.id}
+                        item={item}
+                        purchased={item.purchased}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           ))}
         </div>

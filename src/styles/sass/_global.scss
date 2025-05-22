@@ -233,6 +233,7 @@ body {
   }
 
   .#{$identifier}-footer {
+    font-family: var(--font-family);
     background-color: var(--dark-overlay);
     padding: 21px;
     border: 2px solid var(--light-overlay);
@@ -296,11 +297,15 @@ body {
         li {
           button {
             cursor: pointer;
-            font-family: 'MagicalWorld';
+            font-family: var(--font-family);
             background-color: transparent;
             border: none;
             color: var(--text-color);
             font-size: large;
+
+            &:hover {
+              text-decoration: underline;
+            }
           }
         }
 
@@ -1161,6 +1166,48 @@ body {
   img.#{$identifier}-sparkle:hover::after,
   img.#{$identifier}-sparkle:hover::before {
     opacity: 1;
+  }
+
+  .#{$identifier}-content-wrapper {
+    background-color: rgb(8 8 8 / 60%);
+    border-radius: 15px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 21px;
+    border: 2px solid var(--light-overlay);
+
+    .#{$identifier}-terms-content {
+      p {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        color: $white;
+        width: 100%;
+        border-bottom: 2px solid var(--light-overlay);
+        padding-bottom: 21px;
+        font-size: x-large;
+        line-height: 2;
+
+        @media (max-width: 768px) {
+          font-size: medium;
+        }
+
+        &:last-child {
+          padding-bottom: 0;
+          border-bottom: none;
+        }
+        strong {
+          text-align: left;
+          color: var(--text-color);
+          width: 100%;
+          padding-bottom: 12px;
+        }
+      }
+    }
   }
 
   @media (max-width: 768px) {

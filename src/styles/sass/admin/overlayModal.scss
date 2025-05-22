@@ -42,11 +42,18 @@
 
     .#{$identifier}-modal-category {
       z-index: 1;
-      padding: 24px 24px 46px 24px;
+      padding: 24px;
       background-color: var(--modal-category-bg-color);
       border-radius: 10px;
       position: relative;
       overflow: hidden;
+
+      .#{$identifier}-toggle-caret {
+        display: flex;
+        position: relative;
+        color: $white;
+        font-size: x-large;
+      }
 
       &::before {
         content: '';
@@ -193,7 +200,6 @@
       color: $white;
       animation: none;
       font-size: 21px;
-      padding-bottom: 16px;
       margin: 0;
 
       &--no-user {
@@ -207,6 +213,7 @@
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 48px;
+      margin-bottom: 24px;
 
       .mq-screenshot-grid {
         display: flex;
@@ -545,6 +552,12 @@
           hr {
             margin-top: 0px;
             margin-bottom: 32px;
+          }
+          .#{$identifier}-modal-category-header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
           }
           .#{$identifier}-modal-category-title {
             padding-bottom: 12px;

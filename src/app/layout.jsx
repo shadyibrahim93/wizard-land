@@ -3,6 +3,7 @@ import '../styles/sass/main.scss';
 import Script from 'next/script';
 import { generateHomeMetadata } from '../utils/metadata.js';
 import ThemeInitializer from '../components/ThemeInitializer.jsx';
+import AudioManager from '../components/AudioManager.jsx';
 
 export const metadata = generateHomeMetadata({
   name: 'Play Ad-Free Multiplayer Family Board Games June 1st 2025'
@@ -42,7 +43,7 @@ export default function RootLayout({ children }) {
         <div id='root'>
           <UserProvider>
             <ThemeInitializer />
-
+            <AudioManager />
             {children}
           </UserProvider>
         </div>

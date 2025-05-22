@@ -103,7 +103,7 @@ const Game = () => {
             setOpponentWins(opponentWins + 1);
           }
         } else {
-          if (winner === userId) {
+          if (winner === 'Fire') {
             setPlayerWins(playerWins + 1);
           }
           if (winner === 'Ice') {

@@ -3,12 +3,14 @@ import React, { useEffect, useState } from 'react';
 import InventoryItem from './inventoryItem';
 import { getUserInventoryGroupedByType } from '../../apiService';
 import { useUser } from '../../context/UserContext';
+import { RxCaretDown, RxCaretUp } from 'react-icons/rx';
 
 const Inventory = ({ onClose }) => {
   const { userId, loading } = useUser();
   const [inventoryItems, setInventoryItems] = useState({});
+  const [collapsedCategories, setCollapsedCategories] = useState({});
 
-  const categoryOrder = ['theme', 'piece', 'background']; // whatever your types are
+  const categoryOrder = ['theme', 'piece', 'background'];
 
   const sortedEntries = Object.entries(inventoryItems).sort(
     ([a], [b]) => categoryOrder.indexOf(b) - categoryOrder.indexOf(a)
@@ -21,6 +23,15 @@ const Inventory = ({ onClose }) => {
       try {
         const groupedInventory = await getUserInventoryGroupedByType(userId);
         setInventoryItems(groupedInventory);
+        // Initialize collapsed state for all categories
+        const initialCollapsed = Object.keys(groupedInventory).reduce(
+          (acc, category) => {
+            acc[category] = false;
+            return acc;
+          },
+          {}
+        );
+        setCollapsedCategories(initialCollapsed);
       } catch (error) {
         console.error('Failed to load inventory:', error);
       }
@@ -29,7 +40,13 @@ const Inventory = ({ onClose }) => {
     fetchInventory();
   }, [userId]);
 
-  // Function to refresh the inventory by re-fetching it
+  const toggleCategory = (category) => {
+    setCollapsedCategories((prev) => ({
+      ...prev,
+      [category]: !prev[category]
+    }));
+  };
+
   const refreshInventory = async () => {
     if (!userId) return;
     const groupedInventory = await getUserInventoryGroupedByType(userId);
@@ -64,22 +81,44 @@ const Inventory = ({ onClose }) => {
                 key={category}
                 className='mq-modal-category'
               >
-                <h2 className='mq-modal-category-title'>
-                  {category !== 'realm' ? 'Board' : 'Game'}{' '}
-                  {category.charAt(0).toUpperCase() + category.slice(1)}s
-                </h2>
-                <hr />
-                <div className='mq-modal-items-container'>
-                  {items.map((item) => (
-                    <InventoryItem
-                      key={item.id}
-                      item={item}
-                      userId={userId}
-                      isActive={item.is_active}
-                      refreshInventory={refreshInventory} // Pass down refresh function
-                    />
-                  ))}
+                <div
+                  className='mq-modal-category-header'
+                  onClick={() => toggleCategory(category)}
+                  style={{
+                    cursor: 'pointer',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                  }}
+                >
+                  <h2 className='mq-modal-category-title'>
+                    {category !== 'realm' ? 'Board' : 'Game'}{' '}
+                    {category.charAt(0).toUpperCase() + category.slice(1)}s
+                  </h2>
+                  <span className='mq-toggle-caret'>
+                    {collapsedCategories[category] ? (
+                      <RxCaretDown />
+                    ) : (
+                      <RxCaretUp />
+                    )}
+                  </span>
                 </div>
+                {!collapsedCategories[category] && (
+                  <>
+                    <hr />
+                    <div className='mq-modal-items-container'>
+                      {items.map((item) => (
+                        <InventoryItem
+                          key={item.id}
+                          item={item}
+                          userId={userId}
+                          isActive={item.is_active}
+                          refreshInventory={refreshInventory}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
             ))
           ) : (

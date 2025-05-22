@@ -211,17 +211,7 @@ const Orbito = () => {
     };
 
     handleScoreUpdate();
-  }, [
-    winner,
-    board,
-    extraShifts,
-    gameOver,
-    room,
-    gameMode,
-    userId,
-    player1,
-    player2
-  ]);
+  }, [winner, board, extraShifts]);
 
   // --- human & computer turns ---
 
