@@ -2,7 +2,7 @@
 import { useInView } from 'react-intersection-observer';
 import InventoryItem from './inventoryitem';
 
-const InventoryItemLazyWrapper = ({ item }) => {
+const InventoryItemLazyWrapper = ({ item, userId, isActive }) => {
   const { ref, inView } = useInView({
     triggerOnce: true,
     rootMargin: '25px'
@@ -14,6 +14,8 @@ const InventoryItemLazyWrapper = ({ item }) => {
         <InventoryItem
           item={item}
           purchased={item.purchased}
+          userId={userId}
+          isActive={isActive}
         />
       ) : null}
     </div>

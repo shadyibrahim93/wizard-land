@@ -136,7 +136,9 @@ $cartoonia: (
 
 [data-mobile-app='true'] {
   .mq-container,
-  .mq-modal-item {
+  .mq-modal-item,
+  hr,
+  .mq-close-btn {
     animation: none !important;
     transition: none !important;
     box-shadow: none !important;

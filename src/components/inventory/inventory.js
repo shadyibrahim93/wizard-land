@@ -114,11 +114,16 @@ const Inventory = ({ onClose }) => {
                             key={item.id}
                             item={item}
                             purchased={item.purchased}
+                            userId={userId}
+                            isActive={item.is_active}
                           />
                         ) : (
                           <InventoryItemLazyWrapper
                             key={item.id}
                             item={item}
+                            purchased={item.purchased}
+                            userId={userId}
+                            isActive={item.is_active}
                           />
                         )
                       )}

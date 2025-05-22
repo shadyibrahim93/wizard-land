@@ -6,7 +6,8 @@ import Button from '../Button';
 import {
   playPieceSound,
   pauseBGMusic,
-  resumeBGMusic
+  resumeBGMusic,
+  playEquip
 } from '../../hooks/useSound';
 import Image from 'next/image';
 
@@ -25,8 +26,11 @@ const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
       : [];
 
   const handleEquip = async () => {
+    console.log('handleEquip triggered');
+    console.log(userId);
     if (!userId || !item?.id) return;
     try {
+      console.log('Activating item:', item.id);
       await activateItem(userId, item.id);
       if (item.type === 'realm') {
         localStorage.setItem('realm', item.className);
