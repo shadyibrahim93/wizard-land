@@ -88,6 +88,10 @@ const MultiplayerModal = ({ gameId, onStartGame, setGameMode, difficulty }) => {
   };
 
   const handleJoinRoom = async (room) => {
+    if (!userId) {
+      alert('Create an account or sign in to join the fun!');
+      return;
+    }
     const password = joinPasswords[room.room] || '';
     try {
       const joinedRoom = await joinRoom(room.room, userId, password);
