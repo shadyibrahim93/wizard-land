@@ -14,7 +14,6 @@ export default function RootLayout({ children }) {
     <html
       lang='en'
       data-theme='fantasy'
-      data-mobile-app='true'
     >
       <head>
         {metadata}
