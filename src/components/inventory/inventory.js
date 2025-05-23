@@ -88,7 +88,7 @@ const Inventory = ({ onClose }) => {
 
   return (
     <div
-      className='mq-modal-overlay'
+      className='mq-modal-overlay mq-inventory'
       onClick={onClose}
     >
       <div

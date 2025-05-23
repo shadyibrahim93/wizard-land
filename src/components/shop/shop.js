@@ -80,7 +80,7 @@ const Shop = ({ onClose }) => {
 
   return (
     <div
-      className='mq-modal-overlay'
+      className='mq-modal-overlay mq-shop'
       onClick={onClose}
     >
       <div

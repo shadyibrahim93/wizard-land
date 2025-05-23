@@ -131,25 +131,6 @@ $cartoonia: (
   }
 }
 
-[data-mobile-app='true'] {
-  --container-glow: none !important;
-  --title-glow: none !important;
-  --modal-item-box-shadow-color: none !important;
-}
-
-[data-mobile-app='true'] {
-  .mq-container,
-  .mq-modal-item,
-  hr,
-  .mq-close-btn,
-  .mq-btn,
-  .mq-modal-price {
-    animation: none !important;
-    transition: none !important;
-    box-shadow: none !important;
-  }
-}
-
 $games-list: (
   bingo,
   orbito,
