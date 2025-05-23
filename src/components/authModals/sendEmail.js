@@ -22,7 +22,7 @@ export default function SendEmailModal({ showEmailModal, onClose }) {
 
     try {
       await emailjs.send(
-        'service_hbyy29m', // From EmailJS dashboard
+        'service_4dz9q49', // From EmailJS dashboard
         'template_o5dg0wa', // From EmailJS template
         {
           to_email: email,
