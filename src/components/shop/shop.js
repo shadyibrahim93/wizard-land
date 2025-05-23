@@ -17,14 +17,15 @@ const Shop = ({ onClose }) => {
     const fetchShopItems = async () => {
       const groupedItems = await getShopItemsGroupedByType(userId);
       setShopItems(groupedItems);
-      // Initialize collapsed state for all categories (default: expanded)
-      const initialCollapsed = Object.keys(groupedItems).reduce(
-        (acc, category) => {
-          acc[category] = false;
-          return acc;
-        },
-        {}
-      );
+
+      const isMobileApp =
+        document.querySelector('[data-mobile-app="true"]') !== null;
+
+      const categories = Object.keys(groupedItems);
+      const initialCollapsed = categories.reduce((acc, category, index) => {
+        acc[category] = isMobileApp ? index !== 0 : false;
+        return acc;
+      }, {});
       setCollapsedCategories(initialCollapsed);
       setLoading(false);
     };
@@ -33,10 +34,38 @@ const Shop = ({ onClose }) => {
   }, []);
 
   const toggleCategory = (category) => {
-    setCollapsedCategories((prev) => ({
-      ...prev,
-      [category]: !prev[category]
-    }));
+    const isMobileApp =
+      document.querySelector('[data-mobile-app="true"]') !== null;
+
+    setCollapsedCategories((prev) => {
+      const isCurrentlyCollapsed = prev[category];
+
+      if (isMobileApp) {
+        // Collapse all except the selected category (and toggle its state)
+        const updatedState = Object.keys(prev).reduce((acc, key) => {
+          acc[key] = true;
+          return acc;
+        }, {});
+        updatedState[category] = !isCurrentlyCollapsed; // Toggle selected
+        return updatedState;
+      } else {
+        // Desktop behavior — toggle individual category
+        return {
+          ...prev,
+          [category]: !isCurrentlyCollapsed
+        };
+      }
+    });
+
+    // Scroll to the category after expanding
+    if (collapsedCategories[category]) {
+      setTimeout(() => {
+        document.getElementById(`category-${category}`)?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 100); // Slight delay to ensure collapse state updates first
+    }
   };
 
   if (loading) {
@@ -72,6 +101,7 @@ const Shop = ({ onClose }) => {
           {Object.entries(shopItems).map(([category, items]) => (
             <div
               key={category}
+              id={`category-${category}`}
               className='mq-modal-category'
             >
               <div

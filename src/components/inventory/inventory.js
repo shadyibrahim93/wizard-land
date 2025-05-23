@@ -4,7 +4,6 @@ import InventoryItem from './inventoryItem';
 import { getUserInventoryGroupedByType } from '../../apiService';
 import { useUser } from '../../context/UserContext';
 import { RxCaretDown, RxCaretUp } from 'react-icons/rx';
-import InventoryItemLazyWrapper from './InventoryItemLazyWrapper.js';
 
 const Inventory = ({ onClose }) => {
   const { userId, loading } = useUser();
@@ -24,14 +23,19 @@ const Inventory = ({ onClose }) => {
       try {
         const groupedInventory = await getUserInventoryGroupedByType(userId);
         setInventoryItems(groupedInventory);
-        // Initialize collapsed state for all categories
+
+        const isMobileApp =
+          document.querySelector('[data-mobile-app="true"]') !== null;
+
+        // Initialize collapsed state
         const initialCollapsed = Object.keys(groupedInventory).reduce(
           (acc, category) => {
-            acc[category] = false;
+            acc[category] = isMobileApp ? category !== 'piece' : false;
             return acc;
           },
           {}
         );
+
         setCollapsedCategories(initialCollapsed);
       } catch (error) {
         console.error('Failed to load inventory:', error);
@@ -42,10 +46,38 @@ const Inventory = ({ onClose }) => {
   }, [userId]);
 
   const toggleCategory = (category) => {
-    setCollapsedCategories((prev) => ({
-      ...prev,
-      [category]: !prev[category]
-    }));
+    const isMobileApp =
+      document.querySelector('[data-mobile-app="true"]') !== null;
+
+    setCollapsedCategories((prev) => {
+      const isCurrentlyCollapsed = prev[category];
+
+      if (isMobileApp) {
+        // Collapse all categories except the one toggled
+        const updated = Object.keys(prev).reduce((acc, key) => {
+          acc[key] = true;
+          return acc;
+        }, {});
+        updated[category] = !isCurrentlyCollapsed;
+        return updated;
+      } else {
+        // Desktop behavior — toggle only the selected category
+        return {
+          ...prev,
+          [category]: !isCurrentlyCollapsed
+        };
+      }
+    });
+
+    // Scroll to the category after expanding
+    if (collapsedCategories[category]) {
+      setTimeout(() => {
+        document.getElementById(`category-${category}`)?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 100); // Slight delay to ensure collapse state updates first
+    }
   };
 
   const refreshInventory = async () => {
@@ -80,6 +112,7 @@ const Inventory = ({ onClose }) => {
             sortedEntries.map(([category, items]) => (
               <div
                 key={category}
+                id={`category-${category}`}
                 className='mq-modal-category'
               >
                 <div
@@ -108,25 +141,15 @@ const Inventory = ({ onClose }) => {
                   <>
                     <hr />
                     <div className='mq-modal-items-container'>
-                      {items.map((item, index) =>
-                        index < 5 ? (
-                          <InventoryItem
-                            key={item.id}
-                            item={item}
-                            purchased={item.purchased}
-                            userId={userId}
-                            isActive={item.is_active}
-                          />
-                        ) : (
-                          <InventoryItemLazyWrapper
-                            key={item.id}
-                            item={item}
-                            purchased={item.purchased}
-                            userId={userId}
-                            isActive={item.is_active}
-                          />
-                        )
-                      )}
+                      {items.map((item) => (
+                        <InventoryItem
+                          key={item.id}
+                          item={item}
+                          userId={userId}
+                          isActive={item.is_active}
+                          refreshInventory={refreshInventory}
+                        />
+                      ))}
                     </div>
                   </>
                 )}

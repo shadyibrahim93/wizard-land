@@ -40,12 +40,13 @@ $fantasy: (
   user-progress-border: 2px solid,
   user-progress-padding: 8px 14px,
   container-glow: glowFantasy 4s infinite alternate,
-  modal-item-border: #b2a3794f,
+  modal-item-border: #b2a379,
   modal-item-after-bg-color: rgb(0 0 0 / 53%),
   modal-category-bg-color: #4bd0fb12,
   modal-item-box-shadow-color: #c2d77661,
   font-size-mobile: 12px,
-  footer-icon-size: 35px
+  footer-icon-size: 35px,
+  linear-gradient: linear-gradient(to bottom, #be7b47, #124248)
 );
 
 $vintage: (
@@ -72,12 +73,13 @@ $vintage: (
   user-progress-border: 2px solid,
   user-progress-padding: 8px 14px,
   container-glow: glowVintage 4s infinite alternate,
-  modal-item-border: #b2a3794f,
+  modal-item-border: #b2a379,
   modal-item-after-bg-color: #0000005b,
   modal-category-bg-color: rgb(115 90 64 / 25%),
   modal-item-box-shadow-color: #977a51,
   font-size-mobile: 12px,
-  footer-icon-size: 35px
+  footer-icon-size: 35px,
+  linear-gradient: linear-gradient(to bottom, #824e32, #2e2822)
 );
 
 $cartoonia: (
@@ -107,7 +109,7 @@ $cartoonia: (
   user-progress-border: 2px dashed #81b9c6,
   user-progress-padding: 10px 16px,
   container-glow: glowCartoonia 3s infinite alternate,
-  modal-item-border: rgba(248, 183, 199, 0.5),
+  modal-item-border: #cd8f9e,
   modal-item-after-bg-color: rgb(38 39 39 / 68%),
   modal-category-bg-color: rgba(247, 196, 211, 0.25),
   modal-item-box-shadow-color: rgb(118 132 138),
@@ -116,7 +118,8 @@ $cartoonia: (
   paint-order: stroke fill,
   font-size: 26px,
   font-size-mobile: 16px,
-  footer-icon-size: 50px
+  footer-icon-size: 50px,
+  linear-gradient: linear-gradient(to bottom, #346980, #352a36)
 );
 
 /// A helper to emit custom‐properties for a given map and selector
@@ -139,7 +142,8 @@ $cartoonia: (
   .mq-modal-item,
   hr,
   .mq-close-btn,
-  .mq-btn {
+  .mq-btn,
+  .mq-modal-price {
     animation: none !important;
     transition: none !important;
     box-shadow: none !important;

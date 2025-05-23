@@ -3,7 +3,7 @@
 @use '../pieces' as *;
 
 .#{$identifier}-modal-overlay {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: -webkit-fill-available;
@@ -12,7 +12,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 3;
   padding: 36px 0px;
 
   .#{$identifier}-container {
@@ -24,7 +24,6 @@
     max-height: -webkit-fill-available;
     border-radius: 20px;
     animation: var(--container-glow);
-    transform: translateZ(0);
 
     h3,
     h1,
@@ -41,7 +40,6 @@
     }
 
     .#{$identifier}-modal-category {
-      z-index: 1;
       padding: 24px;
       background-color: var(--modal-category-bg-color);
       border-radius: 10px;
@@ -64,7 +62,6 @@
         height: 200%;
         background: url('/assets/images/stardust.png') repeat;
         background-size: auto;
-        will-change: transform;
         animation: shimmer 60s linear infinite;
       }
 
@@ -263,9 +260,8 @@
       }
 
       .#{$identifier}-modal-item {
-        background: var(--background-image);
-        background-size: cover;
-        background-repeat: repeat;
+        //background: var(--background-image);
+        background: var(--linear-gradient);
         position: relative;
         border: 3px solid var(--modal-item-border);
         border-radius: 20px;
@@ -282,23 +278,9 @@
           box-shadow: none;
         }
 
-        &:after {
-          content: '';
-          top: 0;
-          z-index: 0;
-          border-radius: 20px;
-          position: absolute;
-          background-color: var(--modal-item-after-bg-color);
-          width: 100%;
-          height: 100%;
-        }
-
         &:hover {
           box-shadow: 0 0 30px var(--light-overlay-hover);
         }
-
-        backdrop-filter: blur(2px);
-        -webkit-backdrop-filter: blur(2px);
 
         &:has(.#{$identifier}-modal-price) {
           padding: 24px 16px 36px 16px;
@@ -339,7 +321,6 @@
 
         &:has(.#{$identifier}-piece img) {
           &::before {
-            z-index: 1;
             content: '';
             position: absolute;
             top: 10px;
@@ -367,7 +348,6 @@
         }
 
         .#{$identifier}-modal-price {
-          z-index: 1;
           background-color: var(--modal-item-after-bg-color);
           display: flex;
           flex-direction: row;
@@ -388,7 +368,6 @@
         }
 
         .#{$identifier}-piece {
-          z-index: 1;
           width: 90px;
           height: 75px;
           display: flex;
@@ -425,7 +404,6 @@
         }
 
         .#{$identifier}-btn {
-          z-index: 1;
           position: absolute;
           background-color: var(--secondary-color);
           bottom: -13px;
