@@ -5,6 +5,58 @@
   width: 100%;
 }
 
+.#{$identifier}-btns-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 21px;
+
+  @media (max-width: 768px) {
+    padding: 0 21px;
+    width: auto;
+  }
+
+  .#{$identifier}-create-room-prompt {
+    display: flex;
+    flex-direction: row;
+    gap: 21px;
+
+    input {
+      margin: 0px;
+      min-width: 275px;
+      @media (max-width: 768px) {
+        flex-direction: column;
+        width: auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .#{$identifier}-prompt-buttons {
+      display: flex;
+      flex-direction: row;
+      gap: 21px;
+
+      @media (max-width: 768px) {
+        justify-content: space-between;
+      }
+      .#{$identifier}-btn {
+        margin: 0px;
+        font-size: small;
+      }
+    }
+  }
+
+  .#{$identifier}-btn {
+    margin: 0px;
+    font-size: small;
+    width: max-content;
+  }
+}
+
 .#{$identifier}-btn {
   border: none;
   padding: 12px 24px;

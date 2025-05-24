@@ -198,7 +198,7 @@ const Game = ({
           </div>
         ))}
       </div>
-      <div className='mq-sudoku-btns'>
+      <div className='mq-btns-container'>
         <Button
           text='Check'
           onClick={checkCompletion}
