@@ -11,6 +11,7 @@ import { signOut } from '../apiService.js';
 import { useUser } from '../context/UserContext.js';
 import useSelectedRealm from '../hooks/userSelectedRealm.js';
 import Link from 'next/link';
+import PresenceTracker from './PresenceTracker.js';
 
 const Footer = () => {
   const [showAbout, setShowAbout] = useState(false);
@@ -27,6 +28,7 @@ const Footer = () => {
 
   return (
     <>
+      <PresenceTracker />
       <footer className='mq-footer'>
         <div className='mq-footer-content'>
           <h2>Wizard Land</h2>
