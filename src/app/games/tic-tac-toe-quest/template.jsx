@@ -588,7 +588,7 @@ const Game = () => {
         toast.info('Oops, opponent left the game 😤 Leaving the game now!');
         setTimeout(() => {
           handleQuit();
-        }, 2000);
+        }, 3000);
       }
     }, 10000); // Check every 10 seconds
 
