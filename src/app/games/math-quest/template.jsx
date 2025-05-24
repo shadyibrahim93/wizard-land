@@ -205,7 +205,7 @@ const Template = () => {
         <h1>Game Over</h1>
         <img
           className='mq-fade-in-out'
-          src={`/assets/gif/smoke-disappear3.webp`}
+          src={`/assets/gif/smoke-disappear3.gif`}
         />
 
         <h2>{gameOverMessage}</h2>

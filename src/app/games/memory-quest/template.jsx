@@ -3,10 +3,23 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../../../components/Button.js';
 import { playClick, playPop } from '../../../hooks/useSound.js';
-import { getMemorySequence } from '../../../apiService.js';
 import GameOver from '../../../components/gameFlow/gameover.jsx';
 import shuffleArray from '../../../utils/ShuffleChildren.js';
 import GameIntro from '../../../components/gameFlow/gameintro.jsx';
+
+// ✅ Hardcoded sequences replacing API
+const SEQUENCES_BY_LEVEL = {
+  1: ['🔴', '🟢', '🔵'],
+  2: ['🟡', '🟣', '🟤'],
+  3: ['⚫', '⚪', '🔴', '🟠'],
+  4: ['🟡', '🟢', '🔵', '🟣'],
+  5: ['🔴', '🟠', '🟡', '🟢', '🔵'],
+  6: ['🟣', '🟤', '⚫', '⚪', '🔴'],
+  7: ['🟠', '🟡', '🟢', '🔵', '🟣', '🟤'],
+  8: ['⚫', '⚪', '🔴', '🟠', '🟡', '🟢'],
+  9: ['🔵', '🟣', '🟤', '⚫', '⚪', '🔴', '🟠'],
+  10: ['🟡', '🟢', '🔵', '🟣', '🟤', '⚫', '⚪', '🔴']
+};
 
 const Game = ({
   setCurrentLevel,
@@ -33,10 +46,10 @@ const Game = ({
     async function fetchSequence() {
       setMaxLevel(maxLevel);
 
-      const data = await getMemorySequence(level); // Get level data
+      const data = SEQUENCES_BY_LEVEL[level] || [];
 
       if (data.length > 0) {
-        const shuffledSequence = shuffleArray(data.map((item) => item.item)); // Shuffle items
+        const shuffledSequence = shuffleArray([...data]); // Shuffle items
         setSequence(shuffledSequence);
 
         // Generate a shuffled highlight sequence
@@ -100,11 +113,9 @@ const Game = ({
 
             // Fetch the sequence for the next level
             setShowingSequence(true); // Enable sequence display for the next level
-            const data = await getMemorySequence(nextLevel);
+            const data = SEQUENCES_BY_LEVEL[nextLevel] || [];
             if (data.length > 0) {
-              const shuffledSequence = shuffleArray(
-                data.map((item) => item.item)
-              );
+              const shuffledSequence = shuffleArray([...data]);
               setSequence(shuffledSequence);
               const highlightOrder = shuffleArray([...shuffledSequence]);
               setHighlightedSequence(highlightOrder);
@@ -140,9 +151,9 @@ const Game = ({
     setShowingSequence(true); // Enable sequence display
     setRetry(false); // No retry during game reset
 
-    const data = await getMemorySequence(level);
+    const data = SEQUENCES_BY_LEVEL[1] || [];
     if (data.length > 0) {
-      const shuffledSequence = shuffleArray(data.map((item) => item.item));
+      const shuffledSequence = shuffleArray([...data]);
       setSequence(shuffledSequence);
       const highlightOrder = shuffleArray([...shuffledSequence]);
       setHighlightedSequence(highlightOrder);
@@ -155,9 +166,9 @@ const Game = ({
     setShowingSequence(true);
 
     // Fetch the same level's sequence again
-    const data = await getMemorySequence(level);
+    const data = SEQUENCES_BY_LEVEL[level] || [];
     if (data.length > 0) {
-      const shuffledSequence = shuffleArray(data.map((item) => item.item));
+      const shuffledSequence = shuffleArray([...data]);
       setSequence(shuffledSequence);
 
       // Generate a shuffled highlight sequence

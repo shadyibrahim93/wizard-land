@@ -5,7 +5,6 @@ import Button from '../../../components/Button.js';
 import shuffleArray from '../../../utils/ShuffleChildren.js';
 import cardBackImage from '../../../assets/images/background.jpg';
 import { playUncover, playDisappear } from '../../../hooks/useSound.js';
-import { getMemoryShapes } from '../../../apiService.js';
 import GameOver from '../../../components/gameFlow/gameover.jsx';
 import GameIntro from '../../../components/gameFlow/gameintro.jsx';
 
@@ -15,26 +14,54 @@ const Game = ({
   setFinalLevelOver,
   setMaxLevel
 }) => {
+  const memoryShapes = {
+    1: ['✨', '🔮', '🧙‍♂️', '✨', '🔮', '🧙‍♂️'],
+    2: ['🦉', '🔥', '📚', '🏰', '🕯️', '🧹', '🦉', '🔥', '📚', '🏰', '🕯️', '🧹'],
+    3: [
+      '🕊️',
+      '⛪',
+      '🙏',
+      '🧎‍♀️',
+      '🎅🏻',
+      '🎄',
+      '🎁',
+      '☃️',
+      '🦌',
+      '📕',
+      '🕊️',
+      '⛪',
+      '🙏',
+      '🧎‍♀️',
+      '🎅🏻',
+      '🎄',
+      '🎁',
+      '☃️',
+      '🦌',
+      '📕'
+    ]
+  };
+
   const [cards, setCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedCards, setMatchedCards] = useState([]);
   const [level, setLevel] = useState(1);
-  const [originalShapes, setOriginalShapes] = useState([]); // Store original shapes for level
+  const [originalShapes, setOriginalShapes] = useState([]);
   const [gameOver, setGameOver] = useState(false);
-  const [startGame, setStartGame] = useState(false); // New state to manage game start
+  const [startGame, setStartGame] = useState(false);
   const maxLevel = 3;
 
   const introText = `Get ready to test your memory! In this game, you will match pairs of cards. Each card has a hidden symbol, and your goal is to uncover the cards and find their matching pairs. The challenge? Each level will add more pairs, and the game gets more difficult as you progress. Can you match all the pairs without making a mistake? Stay focused, remember the cards, and see how far you can go!`;
 
-  // Fetch cards when level changes
   useEffect(() => {
-    async function fetchData() {
-      const data = await getMemoryShapes(level);
-      if (data.length > 0) {
-        const shuffledShapes = shuffleArray(data);
-        setCards(shuffledShapes);
-        setOriginalShapes(shuffledShapes); // Save the original shuffled state for the level
-      }
+    function fetchData() {
+      const emojis = memoryShapes[level] || [];
+      const data = emojis.map((emoji, index) => ({
+        id: `${level}-${index}`,
+        emoji
+      }));
+      const shuffled = shuffleArray(data);
+      setCards(shuffled);
+      setOriginalShapes(shuffled);
       setCurrentLevel(level);
     }
 
@@ -64,7 +91,6 @@ const Game = ({
   const handleCardClick = (index) => {
     playUncover();
 
-    // Prevent flipping if there are already 2 flipped cards, or the card is already flipped, or the card is already matched
     if (
       flippedCards.length === 2 ||
       flippedCards.includes(index) ||
@@ -78,39 +104,37 @@ const Game = ({
     if (newFlippedCards.length === 2) {
       const [firstIndex, secondIndex] = newFlippedCards;
 
-      // Check if the emojis match (compare based on emoji, not the whole object)
       if (cards[firstIndex].emoji === cards[secondIndex].emoji) {
         setMatchedCards([...matchedCards, firstIndex, secondIndex]);
         playDisappear();
       }
-      setTimeout(() => setFlippedCards([]), 1000); // Reset flipped cards after a delay
+
+      setTimeout(() => setFlippedCards([]), 1000);
     }
   };
 
   const reset = () => {
-    setMatchedCards([]); // Reset matched cards
-    setFlippedCards([]); // Reset flipped cards
+    setMatchedCards([]);
+    setFlippedCards([]);
     setCurrentLevelPassed(false);
   };
 
   const resetLevel = () => {
-    // Reset the state, but keep the current level
     reset();
-    // Reset the cards to the original state of the current level
-    setCards([...originalShapes]); // Reset the cards to the original shapes for this level
+    setCards([...originalShapes]);
   };
 
   const resetGame = () => {
     reset();
-    setLevel(1); // Reset level to 1
-    setCards([]); // Temporarily clear the cards
+    setLevel(1);
+    setCards([]);
     setGameOver(false);
   };
 
   return !startGame ? (
     <GameIntro
-      introText={introText} // Pass intro text
-      onStart={() => setStartGame(true)} // Pass start callback
+      introText={introText}
+      onStart={() => setStartGame(true)}
     />
   ) : !gameOver ? (
     <>

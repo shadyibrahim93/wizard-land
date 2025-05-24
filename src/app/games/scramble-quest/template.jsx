@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import Button from '../../../components/Button.js';
 import { playDisappear } from '../../../hooks/useSound.js';
 import useDragAndDrop from '../../../utils/DragAndDrop.js';
-import { getScrambleWords } from '../../../apiService.js';
 import shuffleArray from '../../../utils/ShuffleChildren.js';
 import GameOver from '../../../components/gameFlow/gameover.jsx';
 import GameIntro from '../../../components/gameFlow/gameintro.jsx';
@@ -14,6 +13,38 @@ const WordScrambleGame = ({
   setFinalLevelOver,
   setMaxLevel
 }) => {
+  const WORDS_BY_LEVEL = {
+    1: 'TREE',
+    2: 'ROCK',
+    3: 'CANDY',
+    4: 'MOUSE',
+    5: 'FLOWER',
+    6: 'TURTLE',
+    7: 'COMPUTER',
+    8: 'CLOUDS',
+    9: 'JACKPOT',
+    10: 'WONDER',
+    11: 'ELEPHANT',
+    12: 'UNICORN',
+    13: 'CACTUS',
+    14: 'MARATHON',
+    15: 'FIREFLY',
+    16: 'DAZZLING',
+    17: 'WILDERNESS',
+    18: 'ASTONISH',
+    19: 'STARGAZER',
+    20: 'LANTERN',
+    21: 'ADVENTURE',
+    22: 'TREASURES',
+    23: 'BLIZZARD',
+    24: 'MOONLIGHT',
+    25: 'DRAGONFLY',
+    26: 'SUNFLOWER',
+    27: 'RAINBOW',
+    28: 'SHIMMERING',
+    29: 'LIGHTING',
+    30: 'BOTTLE-OPENER'
+  };
   const [level, setLevel] = useState(1);
   const [word, setWord] = useState('');
   const [scrambledLetters, setScrambledLetters] = useState([]);
@@ -26,21 +57,17 @@ const WordScrambleGame = ({
   const introText = `Welcome to Word Scramble! Click on a letter and watch it magically jump to the next open spot in the word boxes. Rearrange the scrambled letters to form the correct word. Each level gets trickier, so stay sharp and complete all the levels to claim victory!`;
 
   useEffect(() => {
-    async function fetchWord() {
-      const fetchedWords = await getScrambleWords(level);
-      if (fetchedWords && fetchedWords.length > 0) {
-        const word = fetchedWords[0].word;
-        setWord(word);
-        setScrambledLetters(
-          shuffleArray(word.split('').map((l, i) => ({ letter: l, id: i })))
-        );
-        setUserInput(new Array(word.length).fill(null));
-      }
-      setCurrentLevel(level);
-      setMaxLevel(maxLevel);
+    const word = WORDS_BY_LEVEL[level];
+    if (word) {
+      setWord(word);
+      setScrambledLetters(
+        shuffleArray(word.split('').map((l, i) => ({ letter: l, id: i })))
+      );
+      setUserInput(new Array(word.length).fill(null));
     }
 
-    fetchWord();
+    setCurrentLevel(level);
+    setMaxLevel(maxLevel);
   }, [level]);
 
   const handleLetterDrop = (e, index) => {
