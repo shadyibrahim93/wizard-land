@@ -11,6 +11,7 @@ import {
 import Button from '../Button';
 import { useUser } from '../../context/UserContext';
 import useSelectedRealm from '../../hooks/userSelectedRealm.js';
+import { toast } from 'react-toastify';
 
 const MultiplayerModal = ({ gameId, onStartGame, setGameMode, difficulty }) => {
   const { userId, loading } = useUser();
@@ -74,7 +75,7 @@ const MultiplayerModal = ({ gameId, onStartGame, setGameMode, difficulty }) => {
 
   const handleCreateConfirm = async () => {
     if (!userId) {
-      alert('Please join our community to play!');
+      toast.info('Please join our community to play!');
       return;
     }
 
@@ -89,7 +90,7 @@ const MultiplayerModal = ({ gameId, onStartGame, setGameMode, difficulty }) => {
 
   const handleJoinRoom = async (room) => {
     if (!userId) {
-      alert('Create an account or sign in to join the fun!');
+      toast.info('Create an account or sign in to join the fun!');
       return;
     }
     const password = joinPasswords[room.room] || '';
@@ -101,13 +102,13 @@ const MultiplayerModal = ({ gameId, onStartGame, setGameMode, difficulty }) => {
         setJoinPasswords((prev) => ({ ...prev, [room.room]: '' }));
       }
     } catch (error) {
-      alert(error.message);
+      console.log(error.message);
     }
   };
 
   const handlePractice = () => {
     if (userId === null || userId === undefined) {
-      alert('Please join our community to play!');
+      toast.info('Please join our community to play!');
       return;
     }
     setGameMode('Single');

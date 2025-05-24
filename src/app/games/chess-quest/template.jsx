@@ -12,6 +12,7 @@ import {
 } from '../../../hooks/useSound.js';
 import Button from '../../../components/Button.js';
 import { triggerConfetti } from '../../../hooks/useConfetti.js';
+import { toast } from 'react-toastify';
 
 import {
   subscribeToOpponentJoin,
@@ -334,7 +335,7 @@ const Chess = () => {
     if (gameMode === 'Single' && currentTurn === 'black') return;
     // Block if multiplayer and not your turn
     if (gameMode === 'Multiplayer' && currentMultiplayerTurn !== userId) {
-      alert('Not your turn!');
+      toast.warn('Not your turn 😢');
       return;
     }
 
@@ -893,8 +894,10 @@ const Chess = () => {
     let lastUpdate = Date.now();
     const checkInterval = setInterval(() => {
       if (Date.now() - lastUpdate > 60000) {
-        alert('Ops, Opponent left the game! What a bummer!');
-        handleQuit();
+        toast.info('Oops, opponent left the game 😤 Leaving the game now!');
+        setTimeout(() => {
+          handleQuit();
+        }, 2000);
       }
     }, 10000);
 
@@ -1041,6 +1044,7 @@ const Chess = () => {
         }}
         onThumbsDown={() => {
           setMyChoice('down');
+          handleQuit();
           sendThumbsChoice(room.room, userId, 'down');
         }}
       />

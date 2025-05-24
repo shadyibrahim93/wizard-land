@@ -4,6 +4,7 @@ import Button from '../../../components/Button.js';
 import { getSudokuBoard } from '../../../apiService.js';
 import GameOver from '../../../components/gameFlow/gameover.jsx';
 import GameIntro from '../../../components/gameFlow/gameintro.jsx';
+import { toast } from 'react-toastify';
 
 const Game = ({
   setCurrentLevel,
@@ -87,7 +88,7 @@ const Game = ({
         setMaxLevel(maxLevel - 1);
       }
     } else {
-      alert('The puzzle is not solved correctly!');
+      toast.warn('The puzzle is not solved correctly!');
     }
   };
 

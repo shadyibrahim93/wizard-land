@@ -11,6 +11,7 @@ import {
 } from '../../../hooks/useSound.js';
 import Button from '../../../components/Button.js';
 import { triggerConfetti } from '../../../hooks/useConfetti.js';
+import { toast } from 'react-toastify';
 
 import {
   subscribeToOpponentJoin,
@@ -259,7 +260,7 @@ const Game = () => {
 
       // Check if it's the current player's turn
       if (currentMultiplayerTurn !== userId) {
-        alert('Not your turn!');
+        toast.warn('Not your turn 😢');
         return;
       }
 
@@ -584,8 +585,10 @@ const Game = () => {
     const checkInterval = setInterval(() => {
       // If no updates for 60 seconds, assume opponent left
       if (Date.now() - lastUpdate > 60000) {
-        alert('Ops, Opponent left the game! What a bummer!');
-        handleQuit();
+        toast.info('Oops, opponent left the game 😤 Leaving the game now!');
+        setTimeout(() => {
+          handleQuit();
+        }, 2000);
       }
     }, 10000); // Check every 10 seconds
 
@@ -742,6 +745,7 @@ const Game = () => {
         }}
         onThumbsDown={() => {
           setMyChoice('down');
+          handleQuit();
           sendThumbsChoice(room.room, userId, 'down');
         }}
       />

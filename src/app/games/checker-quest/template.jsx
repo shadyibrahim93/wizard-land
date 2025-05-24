@@ -12,6 +12,7 @@ import {
 } from '../../../hooks/useSound.js';
 import Button from '../../../components/Button.js';
 import { triggerConfetti } from '../../../hooks/useConfetti.js';
+import { toast } from 'react-toastify';
 
 import {
   subscribeToOpponentJoin,
@@ -593,7 +594,7 @@ const Checkers = () => {
     if (gameMode === 'Multiplayer') {
       if (!opponentJoined) return;
       if (currentMultiplayerTurn !== userId) {
-        alert('Not your turn!');
+        toast.warn('Not your turn 😢');
         return;
       }
     } else {
@@ -627,7 +628,7 @@ const Checkers = () => {
       if (captureExists) {
         const canCapture = checkForAdditionalCaptures(r, c, board);
         if (!canCapture) {
-          alert('You must make a capture move if available!');
+          toast.info('You must make a capture move when available!');
           return;
         }
       }
@@ -840,8 +841,10 @@ const Checkers = () => {
     const checkInterval = setInterval(() => {
       // If no updates for 10 seconds, assume opponent left
       if (Date.now() - lastUpdate > 60000) {
-        alert('Ops, Opponent left the game! What a bummer!');
-        handleQuit();
+        toast.info('Oops, opponent left the game 😤 Leaving the game now!');
+        setTimeout(() => {
+          handleQuit();
+        }, 2000);
       }
     }, 10000); // Check every 5 seconds
 
@@ -1010,6 +1013,7 @@ const Checkers = () => {
         }}
         onThumbsDown={() => {
           setMyChoice('down');
+          handleQuit();
           sendThumbsChoice(room.room, userId, 'down');
         }}
       />

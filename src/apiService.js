@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { toast } from 'react-toastify';
 
 const baseURL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const apiKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -273,7 +274,7 @@ export async function sendMessage(
   messageContent
 ) {
   if (!senderId) {
-    alert('Please sign in to join the community. The Magic starts here!');
+    toast.info('Please sign in to join the community. The Magic starts here!');
     return;
   }
 
@@ -497,28 +498,44 @@ export async function joinRoom(roomId, userId, password = '') {
   return data;
 }
 
-// Update your apiService.js subscribeToBoardUpdates function:
+// Updated apiService.js with debugging
 export function subscribeToBoardUpdates(roomId, onBoardUpdate) {
+  console.log('[Subscribing] Setting up channel for room:', roomId);
+
   const channel = supabase
     .channel(`board-${roomId}`)
     .on(
       'postgres_changes',
       {
-        event: '*', // Listen for all changes
+        event: '*',
         schema: 'public',
         table: 'game_state',
         filter: `room=eq.${roomId}`
       },
       (payload) => {
-        onBoardUpdate(payload.new);
+        console.log('[Subscription Event] Received payload:', payload);
+        console.log('[Subscription Event] Event type:', payload.eventType);
+        console.log('[Subscription Event] New data:', payload.new);
+        console.log('[Subscription Event] Old data:', payload.old);
+
+        if (payload.new) {
+          console.log(
+            '[Subscription] Sending board update:',
+            payload.new.board_state
+          );
+          onBoardUpdate(payload.new);
+        } else {
+          console.warn('[Subscription] Received null payload.new');
+        }
       }
     )
-    .subscribe();
+    .subscribe((status) => {
+      console.log('[Subscription Status] Channel status:', status);
+    });
 
   return channel;
 }
 
-// Update your updateBoardState function to handle initial state:
 export async function updateBoardState(
   roomId,
   board,
@@ -527,28 +544,50 @@ export async function updateBoardState(
   winner = null,
   extraShifts = 5
 ) {
-  const { data, error } = await supabase
-    .from('game_state')
-    .upsert([
-      {
-        room: roomId,
-        board_state: board,
-        game_id: gameId,
-        current_turn: currentTurn,
-        winner: winner,
-        extraShifts: extraShifts
-      }
-    ])
-    .eq('room', roomId)
-    .eq('game_id', gameId)
-    .select();
+  console.log('[Update] Attempting to update board state:', {
+    roomId,
+    board,
+    gameId,
+    currentTurn,
+    winner,
+    extraShifts
+  });
 
-  if (error) {
-    console.error('Error updating game state:', error);
+  try {
+    const { data, error, status } = await supabase
+      .from('game_state')
+      .upsert([
+        {
+          room: roomId,
+          board_state: board,
+          game_id: gameId,
+          current_turn: currentTurn,
+          winner: winner,
+          extraShifts: extraShifts
+        }
+      ])
+      .eq('room', roomId)
+      .eq('game_id', gameId)
+      .select('*');
+
+    console.log('[Update] Upsert result:', {
+      status,
+      error,
+      returnedData: data,
+      query: supabase.lastQuery
+    });
+
+    if (error) {
+      console.error('[Update Error]', error);
+      return null;
+    }
+
+    console.log('[Update Success] New board state:', data[0]?.board_state);
+    return data;
+  } catch (err) {
+    console.error('[Update Exception]', err);
     return null;
   }
-
-  return data;
 }
 
 export const clearGameData = async (roomId, gameId) => {
@@ -947,9 +986,6 @@ export async function activateItem(userId, itemId) {
     console.error('Error activating item:', activateError);
     return;
   }
-
-  // 6. Alert user upon successful activation
-  alert('Item has been successfully activated!');
 }
 
 export const subscribeToRoomChanges = (gameId, onInsert, onDelete) => {

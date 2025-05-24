@@ -12,6 +12,7 @@ import {
 import Button from '../Button';
 import Image from 'next/image'; // Import next/image for optimized images
 import useSelectedRealm from '../../hooks/userSelectedRealm.js';
+import { toast } from 'react-toastify';
 
 const ShopItem = ({ item }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -30,12 +31,12 @@ const ShopItem = ({ item }) => {
 
   const handlePurchase = async (item) => {
     if (loading) {
-      alert('Please wait while we verify your account...');
+      toast.info('Please wait while we verify your account...');
       return;
     }
 
     if (!userId) {
-      alert('You must be logged in to make a purchase.');
+      toast.info('You must be logged in to make a purchase.');
       return;
     }
 
@@ -47,13 +48,16 @@ const ShopItem = ({ item }) => {
       );
 
       if (success) {
-        alert(`You successfully purchased ${item.name || item.id}!`);
+        toast.success(
+          `You successfully purchased ${item.className || item.id} ${
+            item.type
+          }!`
+        );
       } else {
-        alert(`Purchase failed: ${error}`);
+        toast.error(`Purchase failed: ${error}`);
       }
     } catch (err) {
-      alert('An unexpected error occurred. Please try again.');
-      console.error('Purchase error:', err);
+      toast.error('An unexpected error occurred. Please try again.');
     }
   };
 

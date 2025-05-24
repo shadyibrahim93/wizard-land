@@ -10,6 +10,7 @@ import {
   playEquip
 } from '../../hooks/useSound';
 import Image from 'next/image';
+import { toast } from 'react-toastify';
 
 const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -35,8 +36,9 @@ const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
         window.location.reload();
       }
       refreshInventory?.();
+      toast.success('Item has been successfully activated!');
     } catch (error) {
-      console.error('Error equipping item:', error);
+      toast.error('Error equipping item:', error);
     }
   };
 
