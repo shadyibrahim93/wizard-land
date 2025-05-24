@@ -912,6 +912,21 @@ body {
       padding: 24px;
       position: relative;
 
+      &.#{$identifier}-player2-board {
+        transform: rotate(180deg);
+
+        .#{$identifier}-square {
+          transform: rotate(180deg);
+        }
+
+        &::after {
+          top: 5px;
+          left: 5px;
+          right: unset !important;
+          bottom: unset !important;
+        }
+      }
+
       @media (max-width: 768px) {
         &::after {
           bottom: 4px !important;

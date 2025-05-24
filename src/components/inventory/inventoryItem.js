@@ -12,7 +12,7 @@ import {
 import Image from 'next/image';
 import { toast } from 'react-toastify';
 
-const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
+const InventoryItem = ({ item, userId, isActive, onActivate }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const audioRef = useRef(null);
   const bgMusicTimeRef = useRef(0);
@@ -35,7 +35,7 @@ const InventoryItem = ({ item, userId, refreshInventory, isActive }) => {
         document.documentElement.setAttribute('data-theme', item.className);
         window.location.reload();
       }
-      refreshInventory?.();
+      onActivate?.(item.id, item.type);
       toast.success('Item has been successfully activated!');
     } catch (error) {
       toast.error('Error equipping item:', error);

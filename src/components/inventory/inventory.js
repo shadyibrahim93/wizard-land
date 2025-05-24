@@ -80,10 +80,19 @@ const Inventory = ({ onClose }) => {
     }
   };
 
-  const refreshInventory = async () => {
-    if (!userId) return;
-    const groupedInventory = await getUserInventoryGroupedByType(userId);
-    setInventoryItems(groupedInventory);
+  const handleItemActivate = (activatedItemId, itemType) => {
+    setInventoryItems((prev) => {
+      const updated = { ...prev };
+
+      if (!updated[itemType]) return prev;
+
+      updated[itemType] = updated[itemType].map((item) => ({
+        ...item,
+        is_active: item.id === activatedItemId // Activate one, deactivate others
+      }));
+
+      return updated;
+    });
   };
 
   return (
@@ -147,7 +156,7 @@ const Inventory = ({ onClose }) => {
                           item={item}
                           userId={userId}
                           isActive={item.is_active}
-                          refreshInventory={refreshInventory}
+                          onActivate={handleItemActivate}
                         />
                       ))}
                     </div>

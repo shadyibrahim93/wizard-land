@@ -107,13 +107,13 @@
       padding: 0px;
 
       /* Default background color for light squares */
-      background-color: $gray;
+      background-color: var(--board-light-color);
     }
 
     /* Checkerboard pattern: dark squares alternate with light squares */
     .#{$identifier}-row:nth-child(even) .#{$identifier}-square:nth-child(odd),
     .#{$identifier}-row:nth-child(odd) .#{$identifier}-square:nth-child(even) {
-      background-color: #333; /* Dark color */
+      background-color: var(--board-dark-color); /* Dark color */
       padding: 0px;
       &.valid {
         position: relative;
