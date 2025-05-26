@@ -25,8 +25,6 @@ const GameChat = ({ chatTitle, gameId }) => {
       setMessages(fetchedMessages);
     };
 
-    console.log(isOnline);
-
     fetchMessagesForRoom();
 
     // Subscribe to game chat room for real-time updates
