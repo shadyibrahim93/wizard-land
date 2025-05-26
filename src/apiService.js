@@ -6,6 +6,77 @@ const apiKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 export const supabase = createClient(baseURL, apiKey);
 
+export async function updateProfile({ userId, username, email }) {
+  try {
+    // Get current profile state
+    const { data: existingProfile, error: fetchError } = await supabase
+      .from('profiles')
+      .select('full_name, name_change_count')
+      .eq('id', userId)
+      .single();
+
+    if (fetchError) throw fetchError;
+
+    // Check if name is actually changing
+    const isNameChanging = existingProfile.full_name !== username;
+
+    if (isNameChanging) {
+      // Validate name change limit
+      if (existingProfile.name_change_count >= 2) {
+        throw new Error('Maximum of 2 name changes allowed per account');
+      }
+
+      // Check for existing names
+      const { data: existingUsers, error: checkError } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('full_name', username)
+        .neq('id', userId);
+
+      if (checkError) throw checkError;
+      if (existingUsers?.length > 0) {
+        throw new Error('This display name is already taken');
+      }
+    }
+
+    // Prepare update data
+    const updateData = {
+      email,
+      full_name: username,
+      name_change_count: isNameChanging
+        ? existingProfile.name_change_count + 1
+        : existingProfile.name_change_count
+    };
+
+    // Update profile
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .update(updateData)
+      .eq('id', userId);
+
+    if (profileError) throw profileError;
+
+    // Update auth metadata if name changed
+    if (isNameChanging) {
+      const { error } = await supabase.auth.updateUser({
+        data: { display_name: username }
+      });
+      if (error) throw error;
+    }
+
+    toast.success('Profile updated successfully!');
+    return { success: true };
+  } catch (err) {
+    if (existingUsers?.length > 0) {
+      toast.error('Name is already taken!');
+      return { success: false, error: 'This display name is already taken' };
+    } else {
+      toast.error('An unexpected error occurred.');
+      return { success: false, error: err.message || 'Unknown error' };
+    }
+  }
+}
+
 export async function signUp({ email, password, fullName }) {
   if (password.length < 6) {
     return {

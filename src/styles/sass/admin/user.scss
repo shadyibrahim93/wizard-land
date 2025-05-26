@@ -25,6 +25,10 @@
     flex-direction: row;
     position: relative;
 
+    .#{$identifier}-user-username {
+      cursor: pointer;
+    }
+
     .#{$identifier}-sound-toggle {
       border: 2px solid var(--light-overlay);
       border-radius: 10px;

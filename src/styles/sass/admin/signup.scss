@@ -2,7 +2,8 @@
 
 .#{$identifier}-signup-page,
 .#{$identifier}-signin-page,
-.#{$identifier}-send-email-page {
+.#{$identifier}-send-email-page,
+.#{$identifier}-profile-page {
   max-width: 400px;
 
   .#{$identifier}-form-group {
@@ -29,10 +30,32 @@
       border-color: var(--primary-color);
       border-radius: 10px;
       padding-left: 21px;
-      font-size: 21px;
+      font-size: medium;
       color: #fff;
       font-family: var(--font-family), sans-serif;
       letter-spacing: 2px;
+
+      &:disabled {
+        background-color: rgba(239, 239, 239, 0.3);
+      }
+
+      &-with-icon {
+        display: flex;
+        flex-direction: row;
+        gap: 21px;
+        width: 100%;
+        align-items: stretch;
+        flex: 1 0 90%;
+
+        svg {
+          flex: 1 1 10%;
+          border: 2px solid var(--primary-color);
+          border-radius: 10px;
+          padding: 12px 5px;
+          font-size: large;
+          cursor: pointer;
+        }
+      }
 
       &:-webkit-autofill {
         -webkit-box-shadow: 0 0 0 30px var(--primary-color) inset !important;
@@ -56,6 +79,40 @@
     margin-left: 0;
     margin-right: 0;
     width: 100%;
+  }
+
+  &.#{$identifier}-profile-page {
+    .#{$identifier}-label {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    .#{$identifier}-name-change {
+      color: #a7a7a7;
+      font-size: x-small;
+      margin-top: 8px;
+    }
+
+    .#{$identifier}-modal-actions {
+      display: flex;
+      gap: 21px;
+
+      .#{$identifier}-btn {
+        &:first-child {
+          &:hover {
+            background-color: var(--text-color);
+          }
+        }
+        &:last-child {
+          background-color: var(--secondary-color);
+          &:hover {
+            background-color: var(--text-color);
+          }
+        }
+      }
+    }
   }
 
   .#{$identifier}-form-actions {

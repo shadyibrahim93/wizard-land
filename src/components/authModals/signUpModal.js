@@ -61,6 +61,17 @@ export default function SignUpModal({
     setLoading(true);
     setMessage(null);
 
+    // Validate nickname: only letters, numbers, underscores
+    const nicknameRegex = /^[a-zA-Z0-9_]+$/;
+    if (!nicknameRegex.test(fullName)) {
+      setMessage({
+        type: 'error',
+        text: 'Nickname can only contain letters, numbers, and underscores (_).'
+      });
+      setLoading(false);
+      return;
+    }
+
     try {
       const result = await signUp({ email, password, fullName });
       if (result.success) {
@@ -121,6 +132,7 @@ export default function SignUpModal({
                     onChange={(e) => setFullName(e.target.value)}
                     className='mq-input'
                     required
+                    maxLength={15}
                   />
                 </div>
                 <div className='mq-form-group'>

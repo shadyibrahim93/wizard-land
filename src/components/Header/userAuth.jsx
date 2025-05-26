@@ -7,9 +7,12 @@ import { useState } from 'react';
 import Image from 'next/image'; // Import next/image for optimized images
 import SendEmailModal from '../authModals/sendEmail.js';
 import useSelectedRealm from '../../hooks/userSelectedRealm.js';
+import ProfileModal from '../Profile.js';
+import { FaEdit } from 'react-icons/fa';
 
 const UserAuth = ({ loading, userId, userName, onSignUp }) => {
   const [showEmailModal, setShowEmailModal] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
   const { realm } = useSelectedRealm();
 
   const [sound, setSound] = useState(() => {
@@ -48,25 +51,6 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
     <>
       <div className='mq-user-container'>
         <div>
-          {/* Open feedback modal */}
-          <div className='mq-user-progress--contact'>
-            <a
-              type='button'
-              id='send-email'
-              className='icon-button'
-              onClick={() => setShowEmailModal(true)}
-            >
-              <Image
-                src={`/assets/images/${realm}/elements/email.png`}
-                alt='Send feedback email | Wizard Land'
-                title='Send feedback email | Wizard Land'
-                width={24} // Adjust the width
-                height={24} // Adjust the height
-              />{' '}
-              Feedback
-            </a>
-          </div>
-
           {/* Buy Me a Coffee link */}
           <div className='mq-user-progress--contact'>
             <a
@@ -106,7 +90,14 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
                   className='sign-up'
                 />
               ) : (
-                <>{userName}</>
+                <>
+                  <div
+                    className='mq-user-username'
+                    onClick={() => setShowProfileModal(true)}
+                  >
+                    {userName}
+                  </div>
+                </>
               )}
             </div>
           </h3>
@@ -116,6 +107,10 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
       <SendEmailModal
         showEmailModal={showEmailModal}
         onClose={() => setShowEmailModal(false)}
+      />
+      <ProfileModal
+        showProfileModal={showProfileModal}
+        onClose={() => setShowProfileModal(false)}
       />
     </>
   );

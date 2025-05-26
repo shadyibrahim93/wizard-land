@@ -81,6 +81,18 @@ body {
     }
   }
 
+  .easy {
+    color: #e88484 !important;
+  }
+
+  .medium {
+    color: #ffd592 !important;
+  }
+
+  .hard {
+    color: #9effa3 !important;
+  }
+
   header {
     background-color: var(--light-overlay);
     border-radius: 10px;
