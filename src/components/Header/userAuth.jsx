@@ -8,7 +8,7 @@ import Image from 'next/image'; // Import next/image for optimized images
 import SendEmailModal from '../authModals/sendEmail.js';
 import useSelectedRealm from '../../hooks/userSelectedRealm.js';
 import ProfileModal from '../Profile.js';
-import { FaEdit } from 'react-icons/fa';
+import { FaUserCircle } from 'react-icons/fa';
 
 const UserAuth = ({ loading, userId, userName, onSignUp }) => {
   const [showEmailModal, setShowEmailModal] = useState(false);
@@ -95,7 +95,7 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
                     className='mq-user-username'
                     onClick={() => setShowProfileModal(true)}
                   >
-                    {userName}
+                    {userName} <FaUserCircle className='mq-edit-icon' />
                   </div>
                 </>
               )}

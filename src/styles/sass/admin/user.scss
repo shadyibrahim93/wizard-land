@@ -27,6 +27,13 @@
 
     .#{$identifier}-user-username {
       cursor: pointer;
+      display: flex;
+      gap: 8px;
+      &:hover {
+        .#{$identifier}-edit-icon {
+          color: var(--secondary-color);
+        }
+      }
     }
 
     .#{$identifier}-sound-toggle {
