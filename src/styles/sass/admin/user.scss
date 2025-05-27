@@ -28,11 +28,10 @@
     .#{$identifier}-user-username {
       cursor: pointer;
       display: flex;
+      align-items: center;
       gap: 8px;
       &:hover {
-        .#{$identifier}-edit-icon {
-          color: var(--secondary-color);
-        }
+        text-shadow: 0 0 4px $white;
       }
     }
 

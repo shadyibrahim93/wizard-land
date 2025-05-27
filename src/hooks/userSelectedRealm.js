@@ -7,30 +7,30 @@ import { useUser } from '../context/UserContext.js';
 export default function useSelectedRealm() {
   const { userId = null, loading: userLoading = true } = useUser() || {};
   const selected = useSelectedItems(userId);
-  const [realm, setRealm] = useState(null); // null = unresolved
+  const [realm, setRealm] = useState(null);
   const [resolved, setResolved] = useState(false);
 
   useEffect(() => {
     if (typeof window === 'undefined' || userLoading) return;
 
     try {
-      const userRealm =
-        localStorage.getItem('realm') || selected?.realm?.className;
+      const storedRealm = localStorage.getItem('realm');
+      const selectedRealm = selected?.realm?.className;
+      const userRealm = storedRealm || selectedRealm;
 
-      if (userRealm) {
-        if (resolved && userRealm !== selected?.realm?.className) {
-          try {
-            localStorage.setItem('realm', selected?.realm?.className);
-            window.dispatchEvent(new Event('realm-changed'));
-            setRealm(selected?.realm?.className);
-          } catch (error) {
-            console.error('Error updating realm on selection change:', error);
-          }
-        } else {
-          localStorage.setItem('realm', userRealm);
-          window.dispatchEvent(new Event('realm-changed'));
-          setRealm(userRealm);
-        }
+      // Always validate realm value
+      const validatedRealm = [storedRealm, selectedRealm, 'fantasy'].find(
+        (value) => value && typeof value === 'string'
+      );
+
+      if (resolved && selectedRealm && selectedRealm !== storedRealm) {
+        const newRealm = selectedRealm || 'fantasy';
+        localStorage.setItem('realm', newRealm);
+        window.dispatchEvent(new Event('realm-changed'));
+        setRealm(newRealm);
+      } else if (userRealm) {
+        localStorage.setItem('realm', userRealm);
+        setRealm(userRealm);
       } else {
         setRealm('fantasy');
       }
@@ -42,5 +42,5 @@ export default function useSelectedRealm() {
     }
   }, [userId, selected?.realm?.className, userLoading]);
 
-  return { realm, resolved };
+  return { realm: realm || 'fantasy', resolved }; // Final fallback
 }

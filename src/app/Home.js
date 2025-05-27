@@ -8,9 +8,11 @@ import { playBGMusic } from '../hooks/useSound.js';
 import Footer from '../components/Footer';
 import Head from 'next/head';
 import useSelectedRealm from '@/hooks/userSelectedRealm.js';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 export default function Home() {
-  const { realm } = useSelectedRealm();
+  const { realm, resolved } = useSelectedRealm();
 
   const gamesData = [
     {
@@ -324,7 +326,7 @@ export default function Home() {
             <h1 className='mq-section-title mq-section-title--multiplayer'>
               {realm && realm !== 'fantasy' ? (
                 <img
-                  src={`assets/images/${realm}/elements/multiplayer.png`}
+                  src={`/assets/images/${realm}/elements/multiplayer.png`}
                   alt='Multiplayer Games | Wizard Land'
                   title='Multiplayer Games | Wizard Land'
                 />
@@ -335,22 +337,34 @@ export default function Home() {
             </h1>
             <hr></hr>
             <div className='mq-cards-grid'>
-              {multiplayerGames.map((game, index) => (
-                <GameCards
-                  key={index}
-                  target={game.url}
-                  imgSrc={`${game.imgSrc}`}
-                  alt={game.alt}
-                  title={game.title}
-                />
-              ))}
+              {resolved
+                ? multiplayerGames.map((game, index) => (
+                    <GameCards
+                      key={index}
+                      target={game.url}
+                      imgSrc={`${game.imgSrc}`}
+                      alt={game.alt}
+                      title={game.title}
+                    />
+                  ))
+                : Array(multiplayerGames.length)
+                    .fill()
+                    .map((_, index) => (
+                      <Skeleton
+                        key={index}
+                        height={200}
+                        width={300}
+                        className='mq-game-skeleton'
+                        containerClassName='mq-skeleton-container'
+                      />
+                    ))}
             </div>
           </section>
           <section>
             <h1 className='mq-section-title mq-section-title--solo'>
               {realm && realm !== 'fantasy' ? (
                 <img
-                  src={`assets/images/${realm}/elements/solo.png`}
+                  src={`/assets/images/${realm}/elements/solo.png`}
                   alt='Single Player Games | Wizard Land'
                   title='Single Player Games | Wizard Land'
                 />
@@ -361,15 +375,27 @@ export default function Home() {
             </h1>
             <hr></hr>
             <div className='mq-cards-grid'>
-              {singleplayerGames.map((game, index) => (
-                <GameCards
-                  key={index}
-                  target={game.url}
-                  imgSrc={`${game.imgSrc}`}
-                  alt={game.alt}
-                  title={game.title}
-                />
-              ))}
+              {resolved
+                ? singleplayerGames.map((game, index) => (
+                    <GameCards
+                      key={index}
+                      target={game.url}
+                      imgSrc={`${game.imgSrc}`}
+                      alt={game.alt}
+                      title={game.title}
+                    />
+                  ))
+                : Array(singleplayerGames.length)
+                    .fill()
+                    .map((_, index) => (
+                      <Skeleton
+                        key={index}
+                        height={200}
+                        width={300}
+                        className='mq-game-skeleton'
+                        containerClassName='mq-skeleton-container'
+                      />
+                    ))}
             </div>
           </section>
         </div>
