@@ -7,8 +7,6 @@ import { useUser } from '../../context/UserContext';
 import { RxCaretDown, RxCaretUp } from 'react-icons/rx';
 import ShopItemLazyWrapper from './ShopItemLazyWrapper.js';
 
-let cachedShopItems = {};
-
 const Shop = ({ onClose }) => {
   const [shopItems, setShopItems] = useState({});
   const [loading, setLoading] = useState(true);
@@ -17,32 +15,23 @@ const Shop = ({ onClose }) => {
 
   useEffect(() => {
     const fetchShopItems = async () => {
-      if (Object.keys(cachedShopItems).length) {
-        setShopItems(cachedShopItems);
-        setLoading(false);
-        return;
-      }
-
       const groupedItems = await getShopItemsGroupedByType(userId);
-      cachedShopItems = groupedItems;
       setShopItems(groupedItems);
 
       const isMobileApp =
         document.querySelector('[data-mobile-app="true"]') !== null;
-      const initialCollapsed = Object.keys(groupedItems).reduce(
-        (acc, category, index) => {
-          acc[category] = isMobileApp ? index !== 0 : false;
-          return acc;
-        },
-        {}
-      );
 
+      const categories = Object.keys(groupedItems);
+      const initialCollapsed = categories.reduce((acc, category, index) => {
+        acc[category] = isMobileApp ? index !== 0 : false;
+        return acc;
+      }, {});
       setCollapsedCategories(initialCollapsed);
       setLoading(false);
     };
 
     fetchShopItems();
-  }, [userId]);
+  }, []);
 
   const toggleCategory = (category) => {
     const isMobileApp =
