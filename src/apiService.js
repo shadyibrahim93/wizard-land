@@ -85,26 +85,61 @@ export async function signUp({ email, password, fullName }) {
     };
   }
 
-  const { data: authUser, error } = await supabase.auth.signUp({
+  // 1. Create Auth user
+  const { data: authUser, error: authError } = await supabase.auth.signUp({
     email,
     password,
     options: {
-      data: {
-        full_name: fullName
-      }
+      data: { full_name: fullName }
     }
   });
 
-  if (error) {
+  if (authError) {
+    // Handle existing user error
     if (
-      error.code === 'user_already_exists' ||
-      (error.message &&
-        error.message.toLowerCase().includes('user already exists'))
+      authError.code === 'user_already_exists' ||
+      authError.message?.toLowerCase().includes('user already exists')
     ) {
-      return { success: false, error: 'The email address is already in use.' };
+      return { success: false, error: 'Email already in use' };
     }
-    console.error('Signup error:', error.message);
-    return { success: false, error: error.message || 'Signup error' };
+    return { success: false, error: authError.message };
+  }
+
+  // 3. Add Default Items
+  const defaultItems = [
+    { item_id: '9a4243a1-1e76-4c7b-9a49-f1caaad9b2a2', is_active: true },
+    { item_id: '9f61795f-0f84-43c4-a5b6-d561f53f6616', is_active: false },
+    { item_id: '870aded1-201b-4daa-9055-81be0cb9af16', is_active: true }
+  ];
+
+  // Add bonus item if before June 1, 2025
+  const now = new Date();
+  if (now < new Date('2025-06-01T00:00:00Z')) {
+    defaultItems.push({
+      item_id: '03d4bbe6-8fa6-4de0-ae65-8c9db5f8f9b8',
+      is_active: false
+    });
+  }
+
+  // Prepare inventory entries
+  const inventoryEntries = defaultItems.map((item) => ({
+    user_id: authUser.user.id,
+    item_id: item.item_id,
+    acquired_at: now.toISOString(),
+    is_active: item.is_active
+  }));
+
+  // 4. Insert Inventory Items
+  const { error: inventoryError } = await supabase
+    .from('user_inventory')
+    .insert(inventoryEntries);
+
+  if (inventoryError) {
+    console.error('Inventory setup failed:', inventoryError);
+    return {
+      success: false,
+      error: 'Account created, but initial items failed to load'
+    };
   }
 
   return { success: true };
@@ -755,7 +790,7 @@ export async function getShopItemsGroupedByType(userId = null) {
 export async function getUserInventoryGroupedByType(userId) {
   const { data, error } = await supabase
     .from('user_inventory')
-    .select('*, shop_items!user_inventory_item_id_fkey(*), is_active') // this joins the shop_items data
+    .select('*')
     .eq('user_id', userId);
 
   if (error) {
@@ -766,20 +801,16 @@ export async function getUserInventoryGroupedByType(userId) {
   const grouped = {};
 
   data.forEach((entry) => {
-    const item = entry.shop_items;
-    if (!item) return; // skip if item details are missing
-
-    const type = item.type;
+    const type = entry.type;
 
     if (!grouped[type]) {
       grouped[type] = [];
     }
 
     grouped[type].push({
-      ...item,
-      acquired_at: entry.acquired_at, // merge any inventory-specific info if needed
-      inventory_id: entry.id,
-      is_active: entry.is_active
+      ...entry,
+      // No need to merge shop_items data since all fields are already in user_inventory
+      inventory_id: entry.id
     });
   });
 
@@ -927,60 +958,18 @@ export function subscribeToUserData(
 }
 
 export async function activateItem(userId, itemId) {
-  // 1. Get the selected item's details (including type from shop_items) from user_inventory
-  const { data: selected, error: selectError } = await supabase
-    .from('user_inventory')
-    .select('id, item_id, shop_items!user_inventory_item_id_fkey(*), is_active') // specify the correct relationship
-    .eq('item_id', itemId) // use item_id as stored in user_inventory (which equals shop_items.id)
-    .eq('user_id', userId)
-    .single();
+  // Start a transaction to ensure atomicity
+  const { data, error } = await supabase.rpc('activate_single_item', {
+    p_user_id: userId, // parameter names must match the function signature
+    p_item_id: itemId
+  });
 
-  if (selectError || !selected) {
-    console.error('Error getting selected item:', selectError);
-    return;
+  if (error) {
+    console.error('Error activating item:', error);
+    return { success: false, error };
   }
 
-  const itemType = selected.shop_items.type;
-
-  // 2. Get all inventory records for this user (with joined shop_items data)
-  const { data: allItems, error: fetchError } = await supabase
-    .from('user_inventory')
-    .select('id, item_id, shop_items!user_inventory_item_id_fkey(*), is_active') // specify the correct relationship
-    .eq('user_id', userId);
-
-  if (fetchError || !allItems) {
-    console.error('Error fetching inventory for deactivation:', fetchError);
-    return;
-  }
-
-  // 3. Filter to get the IDs of all items of the same type
-  const sameTypeItemIds = allItems
-    .filter((entry) => entry.shop_items?.type === itemType)
-    .map((i) => i.id);
-
-  // 4. Deactivate all items of that type for this user
-  if (sameTypeItemIds.length > 0) {
-    const { error: deactivationError } = await supabase
-      .from('user_inventory')
-      .update({ is_active: false })
-      .in('id', sameTypeItemIds);
-    if (deactivationError) {
-      console.error('Error deactivating items:', deactivationError);
-      return;
-    }
-  }
-
-  // 5. Activate the selected item
-  const { error: activateError } = await supabase
-    .from('user_inventory')
-    .update({ is_active: true })
-    .eq('item_id', itemId) // update based on the stored shop item id
-    .eq('user_id', userId);
-
-  if (activateError) {
-    console.error('Error activating item:', activateError);
-    return;
-  }
+  return { success: true };
 }
 
 export const subscribeToRoomChanges = (gameId, onInsert, onDelete) => {

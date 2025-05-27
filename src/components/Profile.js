@@ -22,8 +22,8 @@ export default function ProfileModal({ showProfileModal, onClose, onSave }) {
   const selectedItems = useSelectedItems(userId);
   const pieceName =
     selectedItems.piece?.emoji || selectedItems.piece?.image_url || 'N/A';
-  const boardName = selectedItems.theme?.className || 'N/A';
-  const realmName = selectedItems.realm?.className || 'N/A';
+  const boardName = selectedItems.theme?.class_name || 'N/A';
+  const realmName = selectedItems.realm?.class_name || 'N/A';
 
   // Fetch current user metadata
   useEffect(() => {

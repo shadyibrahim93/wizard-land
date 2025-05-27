@@ -9,30 +9,43 @@ const useSelectedItems = (userId) => {
   useEffect(() => {
     if (!userId) return;
 
-    const fetchSelectedItems = async () => {
+    const fetchActiveItems = async () => {
       const { data, error } = await supabase
         .from('user_inventory')
-        .select('*, shop_items!user_inventory_item_id_fkey(*)')
+        .select('*')
         .eq('user_id', userId)
         .eq('is_active', true);
 
       if (error) {
-        console.error('Error fetching selected items:', error);
-        return;
+        console.error('Error fetching active items:', error);
+        return {};
       }
 
-      const result = {};
-      data.forEach((entry) => {
-        const item = entry.shop_items;
-        if (item && item.type) {
-          result[item.type] = item;
-        }
-      });
+      // Group active items by type (last active item per type wins)
+      const grouped = data.reduce((acc, item) => {
+        acc[item.type] = {
+          id: item.id,
+          euro: item.euro,
+          type: item.type,
+          emoji: item.emoji,
+          stars: item.stars,
+          image_url: item.image_url,
+          is_active: item.is_active,
+          class_name: item.class_name
+        };
+        return acc;
+      }, {});
 
-      setSelectedItems(result);
+      return grouped;
     };
 
-    fetchSelectedItems();
+    const updateItems = async () => {
+      const groupedItems = await fetchActiveItems();
+      setSelectedItems(groupedItems);
+    };
+
+    // Initial fetch
+    updateItems();
   }, [userId]);
 
   return selectedItems;

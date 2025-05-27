@@ -15,7 +15,7 @@ export default function useSelectedRealm() {
 
     try {
       const storedRealm = localStorage.getItem('realm');
-      const selectedRealm = selected?.realm?.className;
+      const selectedRealm = selected?.realm?.class_name;
       const userRealm = storedRealm || selectedRealm;
 
       // Always validate realm value
@@ -40,7 +40,7 @@ export default function useSelectedRealm() {
     } finally {
       setResolved(true);
     }
-  }, [userId, selected?.realm?.className, userLoading]);
+  }, [userId, selected?.realm?.class_name, userLoading]);
 
   return { realm: realm || 'fantasy', resolved }; // Final fallback
 }

@@ -25,7 +25,7 @@ const ShopItem = ({ item }) => {
   const realmImages =
     item.type === 'realm'
       ? [1, 2, 3].map(
-          (n) => `/assets/images/board_pieces/${item.className}-${n}.webp`
+          (n) => `/assets/images/board_pieces/${item.class_name}-${n}.webp`
         )
       : [];
 
@@ -49,7 +49,7 @@ const ShopItem = ({ item }) => {
 
       if (success) {
         toast.success(
-          `You successfully purchased ${item.className || item.id} ${
+          `You successfully purchased ${item.class_name || item.id} ${
             item.type
           }!`
         );
@@ -114,15 +114,15 @@ const ShopItem = ({ item }) => {
         className={`mq-piece ${
           !item.emoji &&
           !item.image_url &&
-          item.className &&
-          'mq-theme mq-' + item.className
+          item.class_name &&
+          'mq-theme mq-' + item.class_name
         }`}
       >
         {item.emoji && item.emoji}
         {item.image_url && item.type !== 'realm' && (
           <Image
             src={`/assets/images/board_pieces/${item.image_url}.webp`}
-            alt={`Board Piece - ${item.className}`}
+            alt={`Board Piece - ${item.class_name}`}
             width={100} // Adjust the width as needed
             height={90} // Adjust the height as needed
             loading='lazy'

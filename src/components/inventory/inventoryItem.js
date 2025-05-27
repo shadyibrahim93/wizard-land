@@ -22,7 +22,7 @@ const InventoryItem = ({ item, userId, isActive, onActivate }) => {
   const realmImages =
     item.type === 'realm'
       ? [1, 2, 3].map(
-          (n) => `/assets/images/board_pieces/${item.className}-${n}.webp`
+          (n) => `/assets/images/board_pieces/${item.class_name}-${n}.webp`
         )
       : [];
 
@@ -31,8 +31,8 @@ const InventoryItem = ({ item, userId, isActive, onActivate }) => {
     try {
       await activateItem(userId, item.id);
       if (item.type === 'realm') {
-        localStorage.setItem('realm', item.className);
-        document.documentElement.setAttribute('data-theme', item.className);
+        localStorage.setItem('realm', item.class_name);
+        document.documentElement.setAttribute('data-theme', item.class_name);
         window.location.reload();
       }
       onActivate?.(item.id, item.type);
@@ -96,8 +96,8 @@ const InventoryItem = ({ item, userId, isActive, onActivate }) => {
           className={`mq-piece ${
             !item.emoji &&
             !item.image_url &&
-            item.className &&
-            'mq-theme mq-' + item.className
+            item.class_name &&
+            'mq-theme mq-' + item.class_name
           }`}
         >
           {item.emoji && item.emoji}
@@ -105,7 +105,7 @@ const InventoryItem = ({ item, userId, isActive, onActivate }) => {
           {item.image_url && item.type !== 'realm' && (
             <Image
               src={`/assets/images/board_pieces/${item.image_url}.webp`}
-              alt={`Board Piece - ${item.className}`}
+              alt={`Board Piece - ${item.class_name}`}
               width={100}
               height={90}
               loading='lazy'
@@ -153,10 +153,10 @@ const InventoryItem = ({ item, userId, isActive, onActivate }) => {
           text={
             isActive
               ? `${
-                  item.type === 'realm' ? item.className + ' realm' : ''
+                  item.type === 'realm' ? item.class_name + ' realm' : ''
                 } Active`
               : `Equip ${
-                  item.type === 'realm' ? item.className + ' realm' : ''
+                  item.type === 'realm' ? item.class_name + ' realm' : ''
                 }`
           }
         />

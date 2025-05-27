@@ -305,7 +305,7 @@ const Game = ({
           <div
             key={shape.id}
             id={shape.id}
-            className={shape.classname}
+            className={shape.class_name}
             draggable='true'
             onDragStart={(e) => handleDragStart(e, shape)}
             dangerouslySetInnerHTML={{ __html: shape.svgpick }}
