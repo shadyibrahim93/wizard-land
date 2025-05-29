@@ -14,24 +14,32 @@ const Shop = ({ onClose }) => {
   const { userId } = useUser();
 
   useEffect(() => {
+    if (!userId) return;
+
     const fetchShopItems = async () => {
-      const groupedItems = await getShopItemsGroupedByType(userId);
-      setShopItems(groupedItems);
+      try {
+        const groupedItems = await getShopItemsGroupedByType(userId);
+        setShopItems(groupedItems);
 
-      const isMobileApp =
-        document.querySelector('[data-mobile-app="true"]') !== null;
+        const isMobileApp =
+          document.querySelector('[data-mobile-app="true"]') !== null;
 
-      const categories = Object.keys(groupedItems);
-      const initialCollapsed = categories.reduce((acc, category, index) => {
-        acc[category] = isMobileApp ? index !== 0 : false;
-        return acc;
-      }, {});
-      setCollapsedCategories(initialCollapsed);
-      setLoading(false);
+        const categories = Object.keys(groupedItems);
+        const initialCollapsed = categories.reduce((acc, category, index) => {
+          acc[category] = isMobileApp ? index !== 0 : false;
+          return acc;
+        }, {});
+
+        setCollapsedCategories(initialCollapsed);
+      } catch (error) {
+        console.error('Failed to load shop items:', error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchShopItems();
-  }, []);
+  }, [userId]);
 
   const toggleCategory = (category) => {
     const isMobileApp =

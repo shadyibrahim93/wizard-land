@@ -906,7 +906,8 @@ const Chess = () => {
 
   useEffect(() => {
     const homeBtn = document.getElementById('home-button');
-    if (!homeBtn) return;
+    const soundBtn = document.getElementById('sound-button');
+    if (!homeBtn || !soundBtn) return;
 
     const onClickCapture = (e) => {
       e.preventDefault();
@@ -916,8 +917,10 @@ const Chess = () => {
 
     if (room) {
       homeBtn.addEventListener('click', onClickCapture, true);
+      soundBtn.addEventListener('click', onClickCapture, true);
       return () => {
         homeBtn.removeEventListener('click', onClickCapture, true);
+        soundBtn.removeEventListener('click', onClickCapture, true);
       };
     }
   }, [gameMode]);

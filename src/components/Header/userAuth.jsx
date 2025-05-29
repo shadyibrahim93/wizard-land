@@ -71,7 +71,10 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
         </div>
 
         <div>
-          <span className='mq-sound-toggle'>
+          <span
+            className='mq-sound-toggle'
+            id='sound-button'
+          >
             <Image
               src={imageSrc}
               alt='Sound Control'
