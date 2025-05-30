@@ -18,13 +18,10 @@ export default function GameCards({ target, imgSrc, title }) {
         <h2 className='mq-ending-title glowingFire-text'>{title}</h2>
       )}
       {realm && resolved && (
-        <Image
+        <img
           src={`/assets/images/${realm}/${imgSrc}.webp`} // Image source path
           alt={`${title} Online Game | Wizard Land`}
           title={`${title} Online Game | Wizard Land`}
-          width={300} // adjust as needed
-          height={300} // adjust as needed
-          loading='lazy' // Helps with performance optimization
         />
       )}
     </Link>
