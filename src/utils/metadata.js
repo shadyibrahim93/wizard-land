@@ -205,7 +205,7 @@ export function generateHomeMetadata({ name }) {
   const metadata = {
     title: `${baseTitle} ${titleSuffix}`,
     description:
-      'Get ready for Wizard Land, an ad-free online multiplayer board game platform launching on June 1st, 2025! Sign up for early access and challenge friends in magical board games.',
+      'Get ready for Wizard Land, an ad-free online multiplayer board game platform! Playing your favorite classic board games like Chess, Checkers, Orbito, Connect 4, and Tic Tac Toe has never been easier. Enjoy a seamless gaming experience with friends or solo, all for free and without any ads.',
     openGraph: {
       title: `${baseTitle} ${titleSuffix}`,
       description: 'Play classic online board games with friends or solo',
