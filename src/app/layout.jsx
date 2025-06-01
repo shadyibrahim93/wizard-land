@@ -7,7 +7,7 @@ import AudioManager from '../components/AudioManager.jsx';
 import { ToastContainer } from 'react-toastify';
 
 export const metadata = generateHomeMetadata({
-  name: 'Play Ad-Free Multiplayer Family Board Games June 1st 2025'
+  name: 'Play Ad-Free Multiplayer Family Board Games Today'
 });
 
 export default function RootLayout({ children }) {
@@ -39,6 +39,34 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-TWQ14MBMGM');
           `}
         </Script>
+        <Script
+          id='twitter-base'
+          strategy='afterInteractive'
+          dangerouslySetInnerHTML={{
+            __html: `
+              !function(e,t,n,s,u,a){
+                e.twq||(s=e.twq=function(){
+                  s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+                },
+                s.version='1.1',
+                s.queue=[],
+                u=t.createElement(n),
+                u.async=!0,
+                u.src='https://static.ads-twitter.com/uwt.js',
+                a=t.getElementsByTagName(n)[0],
+                a.parentNode.insertBefore(u,a))
+              }(window,document,'script');
+              twq('config','puznb');
+            `
+          }}
+        />
+        <Script
+          id='twitter-event'
+          strategy='afterInteractive'
+          dangerouslySetInnerHTML={{
+            __html: `twq('event', 'tw-puznb-puznb', {});`
+          }}
+        />
       </head>
       <body>
         <div id='root'>
