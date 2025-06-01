@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaFacebookSquare, FaDiscord } from 'react-icons/fa';
+import { FaXTwitter, FaInstagram } from 'react-icons/fa6';
 import { DiCoffeescript } from 'react-icons/di';
 import About from './about.js';
 import ContactForm from './authModals/sendEmail.js';
@@ -83,15 +84,23 @@ const Footer = () => {
               rel='noopener noreferrer'
               title='Follow Wizard Land On Facebook'
             >
-              {realm !== 'fantasy' && resolved ? (
-                <img
-                  src={`/assets/images/${realm}/elements/facebook.png`}
-                  alt='Follow Wizard Land On Facebook'
-                  title='Follow Wizard Land On Facebook'
-                />
-              ) : (
-                <FaFacebookSquare className='mq-social-icon' />
-              )}{' '}
+              <FaFacebookSquare className='mq-social-icon' />
+            </a>
+            <a
+              href='https://www.instagram.com/wizardland_game/'
+              target='_blank'
+              rel='noopener noreferrer'
+              title='Follow Wizard Land On Instagram'
+            >
+              <FaInstagram className='mq-social-icon' />
+            </a>
+            <a
+              href='https://x.com/WizardLandGame'
+              target='_blank'
+              rel='noopener noreferrer'
+              title='Follow Wizard Land On X'
+            >
+              <FaXTwitter className='mq-social-icon' />
             </a>
             <a
               href='https://discord.com/channels/1369090826109452368/1369092092579680276'
@@ -99,15 +108,7 @@ const Footer = () => {
               rel='noopener noreferrer'
               title='Follow Wizard Land On Discord'
             >
-              {realm !== 'fantasy' && resolved ? (
-                <img
-                  src={`/assets/images/${realm}/elements/discord.png`}
-                  alt='Follow Wizard Land On Discord'
-                  title='Follow Wizard Land On Discord'
-                />
-              ) : (
-                <FaDiscord className='mq-social-icon' />
-              )}{' '}
+              <FaDiscord className='mq-social-icon' />
             </a>
             <a
               href='https://buymeacoffee.com/wizardland'
@@ -115,15 +116,7 @@ const Footer = () => {
               rel='noopener noreferrer'
               title='Support Wizard Land On Buy Me A Coffee'
             >
-              {realm !== 'fantasy' && resolved ? (
-                <img
-                  src={`/assets/images/${realm}/elements/coffee.png`}
-                  alt='Support Wizard Land On Buy Me A Coffee'
-                  title='Support Wizard Land On Buy Me A Coffee'
-                />
-              ) : (
-                <DiCoffeescript className='mq-social-icon' />
-              )}{' '}
+              <DiCoffeescript className='mq-social-icon' />
             </a>
           </div>
           <p className='mq-copyright'>
