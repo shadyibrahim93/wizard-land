@@ -14,8 +14,6 @@ const Shop = ({ onClose }) => {
   const { userId } = useUser();
 
   useEffect(() => {
-    if (!userId) return;
-
     const fetchShopItems = async () => {
       try {
         const groupedItems = await getShopItemsGroupedByType(userId);
