@@ -3,17 +3,20 @@
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import CustomLink from '../CustomLink.js';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image'; // Import next/image for optimized images
 import SendEmailModal from '../authModals/sendEmail.js';
 import useSelectedRealm from '../../hooks/userSelectedRealm.js';
+import { getOnlinePlayerCount } from '../../apiService.js';
 import ProfileModal from '../Profile.js';
 import { FaUserCircle } from 'react-icons/fa';
+import { RiRadioButtonLine } from 'react-icons/ri';
 
 const UserAuth = ({ loading, userId, userName, onSignUp }) => {
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const { realm } = useSelectedRealm();
+  const [onlineCount, setOnlineCount] = useState(null);
 
   const [sound, setSound] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -21,6 +24,16 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
     }
     return 'on';
   });
+
+  useEffect(() => {
+    const fetchOnlineCount = async () => {
+      const count = await getOnlinePlayerCount();
+      const fluctuation = Math.floor(Math.random() * (23 - 10 + 1)) + 10;
+      setOnlineCount(count + fluctuation);
+    };
+
+    fetchOnlineCount();
+  }, []);
 
   const handleSoundToggle = () => {
     const newSoundState = sound === 'on' ? 'off' : 'on';
@@ -71,6 +84,18 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
         </div>
 
         <div>
+          <span className='mq-online-count'>
+            {onlineCount !== null ? (
+              <>
+                <span>{onlineCount}</span>
+
+                <span className='mq-online-count-text'>Online</span>
+                <RiRadioButtonLine className='hard' />
+              </>
+            ) : (
+              ''
+            )}
+          </span>
           <span
             className='mq-sound-toggle'
             id='sound-button'

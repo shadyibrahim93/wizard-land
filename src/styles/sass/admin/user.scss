@@ -47,6 +47,22 @@
       }
     }
 
+    .#{$identifier}-online-count {
+      border: 2px solid var(--light-overlay);
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      font-size: medium;
+      span {
+        margin-right: 8px;
+      }
+      img {
+        width: 20px;
+        height: auto;
+      }
+    }
+
     @media (max-width: 768px) {
       justify-content: flex-end;
       align-items: stretch;
@@ -348,6 +364,14 @@
 
       .#{$identifier}-sound-toggle {
         padding: 4px;
+      }
+
+      .#{$identifier}-online-count {
+        padding: 4px 6px;
+
+        .#{$identifier}-online-count-text {
+          display: none;
+        }
       }
     }
 

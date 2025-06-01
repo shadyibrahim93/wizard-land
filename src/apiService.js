@@ -6,6 +6,20 @@ const apiKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 export const supabase = createClient(baseURL, apiKey);
 
+export async function getOnlinePlayerCount() {
+  const { count, error } = await supabase
+    .from('profiles')
+    .select('*', { count: 'exact', head: true })
+    .eq('is_online', true);
+
+  if (error) {
+    console.error('Error fetching online players:', error);
+    return 0;
+  }
+
+  return count || 0;
+}
+
 export async function updateProfile({ userId, username, email }) {
   try {
     // Get current profile state
