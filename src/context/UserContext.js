@@ -17,8 +17,8 @@ export const UserProvider = ({ children }) => {
       if (!isMounted) return;
       setUser(user);
       const name =
-        user.user_metadata?.display_name ||
         user.user_metadata?.full_name ||
+        user.user_metadata?.display_name ||
         user.email ||
         'Unknown';
       const type = user.user_metadata?.env || 'prod';
