@@ -11,12 +11,436 @@ export const metadata = generateHomeMetadata({
 });
 
 export default function RootLayout({ children }) {
+  const homePageSchemaJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': ['Website', 'CollectionPage'],
+    'name': 'Wizard Land - Play Classic Board Games Online',
+    'url': 'https://wizardland.net',
+    'description':
+      'Discover a world of online board games! Enjoy classic puzzle games and more, including Tic Tac Toe, Connect 4, Chess, and Checkers, directly on your mobile device. Play with friends and family globally for an engaging multiplayer gaming adventure.',
+    'keywords': [
+      'online board games',
+      'multiplayer board games',
+      'ad-free games',
+      'classic board games online',
+      'play board games with friends',
+      'free online games',
+      'Wizard Land',
+      'Chess online',
+      'Checkers online',
+      'Orbito online',
+      'Connect 4 online',
+      'Tic Tac Toe online',
+      'online puzzle games',
+      'online memory games'
+    ],
+    'publisher': {
+      '@type': 'Organization',
+      'name': 'Wizard Land',
+      'url': 'https://wizardland.net',
+      'logo': {
+        '@type': 'ImageObject',
+        'url': 'https://wizardland.net/assets/images/logo.png'
+      },
+      'sameAs': [
+        'https://www.facebook.com/people/Wizard-Land-Online-Board-Games/61575617324879/',
+        'https://discord.com/channels/1369090826109452368/1369092092579680276',
+        'https://buymeacoffee.com/wizardland'
+      ]
+    },
+    'mainEntity': {
+      '@type': 'ItemList',
+      'itemListElement': [
+        {
+          '@type': 'ListItem',
+          'position': 1,
+          'item': {
+            '@type': ['VideoGame', 'WebApplication'],
+            'name': 'Bingo',
+            'url': 'https://wizardland.net/games/bingo-quest',
+            'image': 'https://wizardland.net/assets/images/games/bingo.jpg',
+            'applicationCategory': 'GameApplication',
+            'operatingSystem': 'Any',
+            'browserRequirements':
+              'Requires a modern web browser with HTML5 support',
+            'playMode': 'https://schema.org/SinglePlayer',
+            'genre': [
+              'Board Game',
+              'Single Player Game',
+              'Casual Game',
+              'Family Game'
+            ],
+            'description': 'Play the online game Bingo on Wizard Land.',
+            'publisher': {
+              '@type': 'Organization',
+              'name': 'Wizard Land',
+              'url': 'https://wizardland.net'
+            }
+          }
+        },
+        {
+          '@type': 'ListItem',
+          'position': 2,
+          'item': {
+            '@type': ['VideoGame', 'WebApplication'],
+            'name': 'Orbito',
+            'url': 'https://wizardland.net/games/orbito-quest',
+            'image': 'https://wizardland.net/assets/images/games/orbito.jpg',
+            'applicationCategory': 'GameApplication',
+            'operatingSystem': 'Any',
+            'browserRequirements':
+              'Requires a modern web browser with HTML5 support',
+            'playMode': 'https://schema.org/MultiPlayer',
+            'genre': [
+              'Board Game',
+              'Multiplayer Game',
+              'Strategy Game',
+              'Online Game',
+              'Social Game',
+              'Competitive Game',
+              'Family Game'
+            ],
+            'description': 'Play the online game Orbito on Wizard Land.',
+            'publisher': {
+              '@type': 'Organization',
+              'name': 'Wizard Land',
+              'url': 'https://wizardland.net'
+            }
+          }
+        },
+        {
+          '@type': 'ListItem',
+          'position': 3,
+          'item': {
+            '@type': ['VideoGame', 'WebApplication'],
+            'name': 'Chess',
+            'url': 'https://wizardland.net/games/chess-quest',
+            'image': 'https://wizardland.net/assets/images/games/chess.jpg',
+            'applicationCategory': 'GameApplication',
+            'operatingSystem': 'Any',
+            'browserRequirements':
+              'Requires a modern web browser with HTML5 support',
+            'playMode': 'https://schema.org/MultiPlayer',
+            'genre': [
+              'Board Game',
+              'Multiplayer Game',
+              'Strategy Game',
+              'Classic Game',
+              'Online Game',
+              'Social Game',
+              'Competitive Game',
+              'Family Game'
+            ],
+            'description': 'Play the online game Chess on Wizard Land.',
+            'publisher': {
+              '@type': 'Organization',
+              'name': 'Wizard Land',
+              'url': 'https://wizardland.net'
+            }
+          }
+        },
+        {
+          '@type': 'ListItem',
+          'position': 4,
+          'item': {
+            '@type': ['VideoGame', 'WebApplication'],
+            'name': 'Connect 4',
+            'url': 'https://wizardland.net/games/connect-four-quest',
+            'image':
+              'https://wizardland.net/assets/images/games/connect_four.jpg',
+            'applicationCategory': 'GameApplication',
+            'operatingSystem': 'Any',
+            'browserRequirements':
+              'Requires a modern web browser with HTML5 support',
+            'playMode': 'https://schema.org/MultiPlayer',
+            'genre': [
+              'Board Game',
+              'Multiplayer Game',
+              'Casual Game',
+              'Online Game',
+              'Social Game',
+              'Competitive Game',
+              'Family Game'
+            ],
+            'description': 'Play the online game Connect 4 on Wizard Land.',
+            'publisher': {
+              '@type': 'Organization',
+              'name': 'Wizard Land',
+              'url': 'https://wizardland.net'
+            }
+          }
+        },
+        {
+          '@type': 'ListItem',
+          'position': 5,
+          'item': {
+            '@type': ['VideoGame', 'WebApplication'],
+            'name': 'Tic Tac Toe',
+            'url': 'https://wizardland.net/games/tic-tac-toe-quest',
+            'image': 'https://wizardland.net/assets/images/games/tictactoe.jpg',
+            'applicationCategory': 'GameApplication',
+            'operatingSystem': 'Any',
+            'browserRequirements':
+              'Requires a modern web browser with HTML5 support',
+            'playMode': 'https://schema.org/MultiPlayer',
+            'genre': [
+              'Board Game',
+              'Multiplayer Game',
+              'Casual Game',
+              'Classic Game',
+              'Online Game',
+              'Social Game',
+              'Competitive Game',
+              'Family Game'
+            ],
+            'description': 'Play the online game Tic Tac Toe on Wizard Land.',
+            'publisher': {
+              '@type': 'Organization',
+              'name': 'Wizard Land',
+              'url': 'https://wizardland.net'
+            }
+          }
+        },
+        {
+          '@type': 'ListItem',
+          'position': 6,
+          'item': {
+            '@type': ['VideoGame', 'WebApplication'],
+            'name': 'Checkers',
+            'url': 'https://wizardland.net/games/checker-quest',
+            'image': 'https://wizardland.net/assets/images/games/checkers.jpg',
+            'applicationCategory': 'GameApplication',
+            'operatingSystem': 'Any',
+            'browserRequirements':
+              'Requires a modern web browser with HTML5 support',
+            'playMode': 'https://schema.org/MultiPlayer',
+            'genre': [
+              'Board Game',
+              'Multiplayer Game',
+              'Strategy Game',
+              'Classic Game',
+              'Online Game',
+              'Social Game',
+              'Competitive Game',
+              'Family Game'
+            ],
+            'description': 'Play the online game Checkers on Wizard Land.',
+            'publisher': {
+              '@type': 'Organization',
+              'name': 'Wizard Land',
+              'url': 'https://wizardland.net'
+            }
+          }
+        },
+        {
+          '@type': 'ListItem',
+          'position': 7,
+          'item': {
+            '@type': ['VideoGame', 'WebApplication'],
+            'name': 'Scrambled',
+            'url': 'https://wizardland.net/games/scramble-quest',
+            'image': 'https://wizardland.net/assets/images/games/scramble.jpg',
+            'applicationCategory': 'GameApplication',
+            'operatingSystem': 'Any',
+            'browserRequirements':
+              'Requires a modern web browser with HTML5 support',
+            'playMode': 'https://schema.org/SinglePlayer',
+            'genre': [
+              'Puzzle Game',
+              'Single Player Game',
+              'Word Game',
+              'Family Game'
+            ],
+            'description': 'Play the online game Scrambled on Wizard Land.',
+            'publisher': {
+              '@type': 'Organization',
+              'name': 'Wizard Land',
+              'url': 'https://wizardland.net'
+            }
+          }
+        },
+        {
+          '@type': 'ListItem',
+          'position': 8,
+          'item': {
+            '@type': ['VideoGame', 'WebApplication'],
+            'name': 'Sudoku',
+            'url': 'https://wizardland.net/games/sudoku-quest',
+            'image': 'https://wizardland.net/assets/images/games/sudoku.jpg',
+            'applicationCategory': 'GameApplication',
+            'operatingSystem': 'Any',
+            'browserRequirements':
+              'Requires a modern web browser with HTML5 support',
+            'playMode': 'https://schema.org/SinglePlayer',
+            'genre': [
+              'Puzzle Game',
+              'Single Player Game',
+              'Logic Game',
+              'Family Game'
+            ],
+            'description': 'Play the online game Sudoku on Wizard Land.',
+            'publisher': {
+              '@type': 'Organization',
+              'name': 'Wizard Land',
+              'url': 'https://wizardland.net'
+            }
+          }
+        },
+        {
+          '@type': 'ListItem',
+          'position': 9,
+          'item': {
+            '@type': ['VideoGame', 'WebApplication'],
+            'name': 'Jigsaw',
+            'url': 'https://wizardland.net/games/puzzle-quest',
+            'image': 'https://wizardland.net/assets/images/games/jigsaw.jpg',
+            'applicationCategory': 'GameApplication',
+            'operatingSystem': 'Any',
+            'browserRequirements':
+              'Requires a modern web browser with HTML5 support',
+            'playMode': 'https://schema.org/SinglePlayer',
+            'genre': [
+              'Puzzle Game',
+              'Single Player Game',
+              'Casual Game',
+              'Family Game'
+            ],
+            'description': 'Play the online game Jigsaw on Wizard Land.',
+            'publisher': {
+              '@type': 'Organization',
+              'name': 'Wizard Land',
+              'url': 'https://wizardland.net'
+            }
+          }
+        },
+        {
+          '@type': 'ListItem',
+          'position': 10,
+          'item': {
+            '@type': ['VideoGame', 'WebApplication'],
+            'name': 'Personal Jigsaw',
+            'url': 'https://wizardland.net/games/personal-puzzle-quest',
+            'image':
+              'https://wizardland.net/assets/images/games/personal_jigsaw.jpg',
+            'applicationCategory': 'GameApplication',
+            'operatingSystem': 'Any',
+            'browserRequirements':
+              'Requires a modern web browser with HTML5 support',
+            'playMode': 'https://schema.org/SinglePlayer',
+            'genre': [
+              'Puzzle Game',
+              'Single Player Game',
+              'Casual Game',
+              'Family Game'
+            ],
+            'description':
+              'Play the online game Personal Jigsaw on Wizard Land.',
+            'publisher': {
+              '@type': 'Organization',
+              'name': 'Wizard Land',
+              'url': 'https://wizardland.net'
+            }
+          }
+        },
+        {
+          '@type': 'ListItem',
+          'position': 11,
+          'item': {
+            '@type': ['VideoGame', 'WebApplication'],
+            'name': 'Pair Pursuit',
+            'url': 'https://wizardland.net/games/match-quest',
+            'image': 'https://wizardland.net/assets/images/games/matching.jpg',
+            'applicationCategory': 'GameApplication',
+            'operatingSystem': 'Any',
+            'browserRequirements':
+              'Requires a modern web browser with HTML5 support',
+            'playMode': 'https://schema.org/SinglePlayer',
+            'genre': [
+              'Puzzle Game',
+              'Single Player Game',
+              'Memory Game',
+              'Family Game'
+            ],
+            'description': 'Play the online game Pair Pursuit on Wizard Land.',
+            'publisher': {
+              '@type': 'Organization',
+              'name': 'Wizard Land',
+              'url': 'https://wizardland.net'
+            }
+          }
+        },
+        {
+          '@type': 'ListItem',
+          'position': 12,
+          'item': {
+            '@type': ['VideoGame', 'WebApplication'],
+            'name': 'Brain Vault',
+            'url': 'https://wizardland.net/games/memory-quest',
+            'image': 'https://wizardland.net/assets/images/games/memory.jpg',
+            'applicationCategory': 'GameApplication',
+            'operatingSystem': 'Any',
+            'browserRequirements':
+              'Requires a modern web browser with HTML5 support',
+            'playMode': 'https://schema.org/SinglePlayer',
+            'genre': [
+              'Puzzle Game',
+              'Single Player Game',
+              'Memory Game',
+              'Family Game'
+            ],
+            'description': 'Play the online game Brain Vault on Wizard Land.',
+            'publisher': {
+              '@type': 'Organization',
+              'name': 'Wizard Land',
+              'url': 'https://wizardland.net'
+            }
+          }
+        },
+        {
+          '@type': 'ListItem',
+          'position': 13,
+          'item': {
+            '@type': ['VideoGame', 'WebApplication'],
+            'name': 'Perfect Fit',
+            'url': 'https://wizardland.net/games/dropzone-quest',
+            'image': 'https://wizardland.net/assets/images/games/dropzone.jpg',
+            'applicationCategory': 'GameApplication',
+            'operatingSystem': 'Any',
+            'browserRequirements':
+              'Requires a modern web browser with HTML5 support',
+            'playMode': 'https://schema.org/SinglePlayer',
+            'genre': [
+              'Puzzle Game',
+              'Single Player Game',
+              'Casual Game',
+              'Family Game'
+            ],
+            'description': 'Play the online game Perfect Fit on Wizard Land.',
+            'publisher': {
+              '@type': 'Organization',
+              'name': 'Wizard Land',
+              'url': 'https://wizardland.net'
+            }
+          }
+        }
+      ]
+    }
+  };
+
   return (
     <html
       lang='en'
       data-theme='fantasy'
     >
       <head>
+        <script
+          type='application/ld+json'
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(homePageSchemaJsonLd)
+          }}
+          strategy='beforeInteractive'
+        />
+
         {metadata}
 
         <meta
