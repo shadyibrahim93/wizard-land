@@ -67,10 +67,12 @@ const Footer = () => {
               <li>
                 <button
                   onClick={() => {
-                    userId ? handleLogout() : setShowSignInModal(true);
+                    userId !== 'Fire'
+                      ? handleLogout()
+                      : setShowSignInModal(true);
                   }}
                 >
-                  {userId ? 'Logout' : 'Login'}
+                  {userId !== 'Fire' ? 'Logout' : 'Login'}
                 </button>{' '}
               </li>
             </ul>

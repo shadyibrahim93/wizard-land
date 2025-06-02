@@ -15,7 +15,7 @@ import UserOnlineStatus from './UserOnlineStatus.jsx';
 import { Filter } from 'bad-words';
 
 const GameChat = ({ chatTitle, gameId }) => {
-  const { userId, userName, isOnline } = useUser();
+  const { userId, userName } = useUser();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const { realm, resolved } = useSelectedRealm();

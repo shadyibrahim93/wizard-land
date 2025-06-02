@@ -27,7 +27,7 @@ const InventoryItem = ({ item, userId, isActive, onActivate }) => {
       : [];
 
   const handleEquip = async () => {
-    if (!userId || !item?.id) return;
+    if (userId === 'Fire' || !item?.id) return;
     try {
       await activateItem(userId, item.id);
       if (item.type === 'realm') {

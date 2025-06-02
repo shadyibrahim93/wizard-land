@@ -27,6 +27,8 @@ export default function ProfileModal({ showProfileModal, onClose, onSave }) {
 
   // Fetch current user metadata
   useEffect(() => {
+    if (userId === 'Fire') return;
+
     async function fetchProfile() {
       const {
         data: { user },

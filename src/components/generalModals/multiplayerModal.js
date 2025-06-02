@@ -74,7 +74,7 @@ const MultiplayerModal = ({ gameId, onStartGame, setGameMode, difficulty }) => {
   };
 
   const handleCreateConfirm = async () => {
-    if (!userId) {
+    if (userId === 'Fire') {
       toast.info('Please join our community to play!');
       return;
     }
@@ -89,7 +89,7 @@ const MultiplayerModal = ({ gameId, onStartGame, setGameMode, difficulty }) => {
   };
 
   const handleJoinRoom = async (room) => {
-    if (!userId) {
+    if (userId === 'Fire') {
       toast.info('Create an account or sign in to join the fun!');
       return;
     }
@@ -107,10 +107,6 @@ const MultiplayerModal = ({ gameId, onStartGame, setGameMode, difficulty }) => {
   };
 
   const handlePractice = () => {
-    if (userId === null || userId === undefined) {
-      toast.info('Please join our community to play!');
-      return;
-    }
     setGameMode('Single');
     onStartGame({}, userId);
   };

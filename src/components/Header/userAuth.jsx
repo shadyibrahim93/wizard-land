@@ -28,11 +28,18 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
   useEffect(() => {
     const fetchOnlineCount = async () => {
       const count = await getOnlinePlayerCount();
-      const fluctuation = Math.floor(Math.random() * (23 - 10 + 1)) + 10;
+      const fluctuation = Math.floor(Math.random() * (20 - 15 + 1)) + 15; // 15–20
       setOnlineCount(count + fluctuation);
     };
 
+    // Fetch once immediately
     fetchOnlineCount();
+
+    // Then every 1 minute (60,000 ms)
+    const interval = setInterval(fetchOnlineCount, 60000);
+
+    // Clear interval on component unmount
+    return () => clearInterval(interval);
   }, []);
 
   const handleSoundToggle = () => {
@@ -111,7 +118,7 @@ const UserAuth = ({ loading, userId, userName, onSignUp }) => {
           </span>
           <h3 className='mq-user-name'>
             <div className='mq-user-sign'>
-              {!userId ? (
+              {userId === 'Fire' ? (
                 <CustomLink
                   text='SIGN UP'
                   onClick={onSignUp}

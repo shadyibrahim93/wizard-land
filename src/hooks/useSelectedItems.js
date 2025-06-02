@@ -7,8 +7,6 @@ const useSelectedItems = (userId) => {
   const [selectedItems, setSelectedItems] = useState({});
 
   useEffect(() => {
-    if (!userId) return;
-
     const fetchActiveItems = async () => {
       const { data, error } = await supabase
         .from('user_inventory')

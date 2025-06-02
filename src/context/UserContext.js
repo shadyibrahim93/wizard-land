@@ -63,8 +63,8 @@ export const UserProvider = ({ children }) => {
   return (
     <UserContext.Provider
       value={{
-        userId: user?.id,
-        userName,
+        userId: user?.id || 'Fire',
+        userName: userName || 'Fire',
         userType,
         loading,
         userEmail: user?.email

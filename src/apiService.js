@@ -29,6 +29,8 @@ export async function updateProfile({ userId, username, email }) {
       .eq('id', userId)
       .single();
 
+    if (userId === 'Fire') return false;
+
     if (fetchError) throw fetchError;
 
     // Check if name is actually changing
@@ -317,7 +319,7 @@ export async function sendMessage(
   senderName,
   messageContent
 ) {
-  if (!senderId) {
+  if (senderId === 'Fire') {
     toast.info('Please sign in to join the community. The Magic starts here!');
     return;
   }
@@ -387,6 +389,8 @@ export async function fetchUserGameProgress(userId) {
     .select('exp, stars')
     .eq('user_id', userId);
 
+  if (userId === 'Fire') return false;
+
   if (error) {
     console.error('Error fetching progress:', error);
     return null;
@@ -412,6 +416,8 @@ export async function updateUserGameProgress(userId, starsToAdd, expToAdd) {
 }
 
 export async function fetchUserWallet(userId) {
+  if (userId === 'Fire') return;
+
   const { data, error } = await supabase
     .from('user_wallet')
     .select('euro')

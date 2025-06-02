@@ -34,7 +34,7 @@ export default function Header({ title, backTarget, level, homePage, gameId }) {
   const router = useRouter();
 
   useEffect(() => {
-    if (!userId) return;
+    if (userId === 'Fire') return;
 
     const channel = subscribeToUserData(userId, {
       onWalletChange: (euro) => setEuro(euro),

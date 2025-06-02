@@ -1,7 +1,7 @@
 import { updateUserGameProgress } from '../apiService.js';
 
 export async function handleMultiplayerWin(userId, difficulty) {
-  if (!userId || !difficulty) return;
+  if (userId === 'Fire' || !difficulty) return;
 
   let exp = 0;
   let stars = 0;

@@ -256,7 +256,7 @@ const Game = () => {
       handleComputerMove(newBoard);
     } else if (gameMode === 'Multiplayer') {
       if (!opponentJoined) return;
-      if (!userId) return;
+      if (userId === 'Fire') return;
 
       // Check if it's the current player's turn
       if (currentMultiplayerTurn !== userId) {

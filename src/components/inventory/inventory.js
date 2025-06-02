@@ -17,7 +17,7 @@ const Inventory = ({ onClose }) => {
   );
 
   useEffect(() => {
-    if (!userId) return;
+    if (userId === 'Fire') return;
 
     const fetchInventory = async () => {
       try {
@@ -117,7 +117,7 @@ const Inventory = ({ onClose }) => {
         </div>
         <hr />
         <div className='mq-modal-body'>
-          {userId ? (
+          {userId !== 'Fire' ? (
             sortedEntries.map(([category, items]) => (
               <div
                 key={category}

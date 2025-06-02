@@ -58,7 +58,7 @@ const HeaderContent = ({
           title='About Menu Item | Wizard Land'
           alt='About Menu Item | Wizard Land'
         />
-        {userId ? (
+        {userId !== 'Fire' ? (
           <MenuItem
             imgSrc='logout.png'
             onHoverImgSrc='logout_active.png'

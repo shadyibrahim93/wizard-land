@@ -39,7 +39,7 @@ const UserStats = ({ loading, exp, euro, stars, userId }) => {
   return (
     <>
       <h3 className='mq-user-progress'>
-        {userId && (
+        {userId !== 'Fire' && (
           <>
             {/* <span className='mq-user-progress--exp'>
               <span className='mq-user-icon'>

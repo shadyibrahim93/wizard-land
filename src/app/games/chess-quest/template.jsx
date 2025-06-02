@@ -324,8 +324,8 @@ const Chess = () => {
 
       // Remove the checkGameOver call and winner assignment here
     } else {
-      setCurrentTurn(currentTurn === 'white' ? 'black' : 'white');
       checkGameOver(newBoard);
+      setCurrentTurn(currentTurn === 'white' ? 'black' : 'white');
     }
   };
 
@@ -443,8 +443,6 @@ const Chess = () => {
     // Get only legal moves that protect the king
     const allLegalMoves = getAllLegalMoves('black', board);
 
-    if (allLegalMoves.length === 0) return;
-
     let bestScore = -Infinity;
     let bestMoves = [];
 
@@ -472,6 +470,11 @@ const Chess = () => {
     if (bestMoves.length > 0) {
       const choice = bestMoves[Math.floor(Math.random() * bestMoves.length)];
       movePiece(choice.from[0], choice.from[1], choice.to[0], choice.to[1]);
+    }
+
+    if (allLegalMoves.length === 0) {
+      setWinner('white');
+      return;
     }
   };
 
@@ -572,9 +575,47 @@ const Chess = () => {
           : 'black'
         : currentTurn;
 
+    // Check for "king vs. king" draw
+    let whitePieces = [];
+    let blackPieces = [];
+
+    for (let r = 0; r < 8; r++) {
+      for (let c = 0; c < 8; c++) {
+        const piece = boardState[r][c];
+        if (piece) {
+          if (piece.color === 'white') {
+            whitePieces.push(piece);
+          } else {
+            blackPieces.push(piece);
+          }
+        }
+      }
+    }
+
+    if (
+      whitePieces.length === 1 &&
+      whitePieces[0].type === 'king' &&
+      blackPieces.length === 1 &&
+      blackPieces[0].type === 'king'
+    ) {
+      setWinner('draw');
+      setGameOver(true);
+      // This is a draw by insufficient material
+      if (gameMode === 'Multiplayer') {
+        updateBoardState(
+          room.room,
+          board,
+          gameId,
+          null, // No current turn, as it's a draw
+          null // No winner for a draw
+        );
+      }
+
+      return true;
+    }
+
     // Check for checkmate
     if (isInCheck(currentColor, boardState)) {
-      const legalMoves = getAllLegalMoves(currentColor, boardState);
       if (legalMoves.length === 0) {
         const winnerColor = currentColor === 'white' ? 'black' : 'white';
         updateBoardState(
@@ -605,8 +646,9 @@ const Chess = () => {
           winnerColor === 'white' ? player1 : player2
         );
       } else {
-        setWinner(winnerColor);
+        setWinner(null); // For stalemate, it's a draw, so no winner
       }
+      setShowTitle(true); // To display "It's a Draw!"
       return true;
     }
 
@@ -633,7 +675,7 @@ const Chess = () => {
           }
         }
 
-        if (winner === userId || winner === 'Fire') {
+        if (winner === userId || winner === 'white') {
           playNextLevel();
           triggerConfetti();
         } else if (winner !== userId) {
@@ -648,8 +690,8 @@ const Chess = () => {
             setOpponentWins((prev) => prev + 1);
           }
         } else {
-          if (winner === 'White') setPlayerWins((prev) => prev + 1);
-          if (winner === 'Black') setComputerWins((prev) => prev + 1);
+          if (winner === 'white') setPlayerWins((prev) => prev + 1);
+          if (winner === 'black') setComputerWins((prev) => prev + 1);
         }
 
         // Show win title and schedule reset
@@ -663,6 +705,20 @@ const Chess = () => {
           }
           setShowTitle(false);
           setWinnerName('');
+        }, 3500);
+      } else if (winner === 'draw') {
+        // This block handles draws
+        setGameOver(true);
+        playUncover(); // Play a sound for the draw
+        setShowTitle(true); // To display "It's a Draw!"
+        setTimeout(() => {
+          if (gameMode === 'Multiplayer') {
+            setShowModal(true); // Still show modal for multiplayer to play again
+          } else {
+            handleRestart(); // Restart for single player
+          }
+          setShowTitle(false);
+          setWinnerName(''); // Clear winner name for draw
         }, 3500);
       }
     };
@@ -975,7 +1031,7 @@ const Chess = () => {
                 : player2Symbol.theme
               : currentTurn === 'white'
               ? player1Symbol.theme
-              : 'black'
+              : 'ice'
           }`}
         >
           {showTitle && (

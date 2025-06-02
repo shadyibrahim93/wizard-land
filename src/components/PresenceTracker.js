@@ -7,7 +7,7 @@ export default function PresenceTracker() {
   const { userId } = useUser();
 
   useEffect(() => {
-    if (!userId) return;
+    if (userId === 'Fire') return;
 
     // Immediate update on mount
     const updatePresence = async (isOnline = true) => {

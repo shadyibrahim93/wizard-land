@@ -11,7 +11,7 @@ export function useOnlineStatus(userId) {
   );
 
   useEffect(() => {
-    if (!userId) {
+    if (userId === 'Fire') {
       setIsOnline(null);
       return;
     }

@@ -248,7 +248,7 @@ const Orbito = () => {
       setGamePhase('orbit');
     } else if (gameMode === 'Multiplayer') {
       if (!opponentJoined) return;
-      if (!userId) return;
+      if (userId === 'Fire') return;
 
       if (currentMultiplayerTurn !== userId) {
         toast.warn('Not your turn 😢');

@@ -35,7 +35,7 @@ const ShopItem = ({ item }) => {
       return;
     }
 
-    if (!userId) {
+    if (userId === 'Fire') {
       toast.info('You must be logged in to make a purchase.');
       return;
     }
