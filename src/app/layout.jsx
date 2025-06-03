@@ -44,6 +44,8 @@ export default function RootLayout({ children }) {
       },
       'sameAs': [
         'https://www.facebook.com/people/Wizard-Land-Online-Board-Games/61575617324879/',
+        'https://www.instagram.com/wizardland_game/',
+        'https://x.com/WizardLandGame',
         'https://discord.com/channels/1369090826109452368/1369092092579680276',
         'https://buymeacoffee.com/wizardland'
       ]

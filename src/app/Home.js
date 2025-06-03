@@ -407,10 +407,6 @@ export default function Home() {
           />
         </div>
       </main>
-      <script
-        type='application/ld+json'
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(homePageSchema) }}
-      />
       <Footer />
     </div>
   );
