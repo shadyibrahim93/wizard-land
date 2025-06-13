@@ -90,7 +90,7 @@ const GameChat = ({ chatTitle, gameId }) => {
               <div
                 key={msg.id ?? `${msg.sender_name}-${Math.random()}`}
                 className={`${
-                  msg.sender_name === userName
+                  msg.sender_id === userId
                     ? 'mq-user-container mq-local-user'
                     : 'mq-user-container'
                 }`}
@@ -100,7 +100,7 @@ const GameChat = ({ chatTitle, gameId }) => {
                   className='mq-message'
                 >
                   <span className='mq-message--user'>
-                    {msg.sender_name === userName ? 'You' : msg.sender_name}
+                    {msg.sender_id === userId ? 'You' : msg.sender_name}
                   </span>
                   <span className='mq-message--messsage'>
                     {filter.clean(msg.message)}

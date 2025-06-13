@@ -42,7 +42,7 @@ const gameEmojis = {
 
 const LeaderBoard = () => {
   const [groupedProgress, setGroupedProgress] = useState({});
-  const [timeFrame, setTimeFrame] = useState('weekly');
+  const [timeFrame, setTimeFrame] = useState('monthly');
   const [isLoading, setIsLoading] = useState(false);
   const { realm, resolved } = useSelectedRealm();
 

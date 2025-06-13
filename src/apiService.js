@@ -348,7 +348,6 @@ export async function fetchMessages(gameChatRoomId) {
     .from('messages')
     .select('id, sender_id, sender_name, message, created_at')
     .eq('game_chat_room_id', gameChatRoomId)
-    .gte('created_at', sevenDaysAgo)
     .order('created_at', { ascending: true });
 
   if (error) {

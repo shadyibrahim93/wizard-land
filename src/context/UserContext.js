@@ -16,11 +16,14 @@ export const UserProvider = ({ children }) => {
     const updateUserState = (user) => {
       if (!isMounted) return;
       setUser(user);
+      const fullName = user.user_metadata?.full_name;
+      const displayName = user.user_metadata?.display_name;
+
       const name =
-        user.user_metadata?.full_name ||
-        user.user_metadata?.display_name ||
-        user.email ||
-        'Unknown';
+        !fullName || fullName !== displayName
+          ? displayName || 'Guest'
+          : fullName;
+
       const type = user.user_metadata?.env || 'prod';
       setUserName(name);
       setUserType(type);

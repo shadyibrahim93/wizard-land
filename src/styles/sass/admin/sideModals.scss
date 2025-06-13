@@ -155,9 +155,11 @@
     &--messsage {
       display: flex;
       justify-content: flex-start;
-      color: $white;
-      font-size: x-small;
-      line-height: 1.4;
+      color: $black;
+      font-weight: bold;
+      font-size: small;
+      max-width: 300px;
+      line-height: 1.6;
       word-break: break-word;
       border-radius: 8px;
       font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
