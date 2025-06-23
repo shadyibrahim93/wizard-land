@@ -11,8 +11,8 @@ import { toast } from 'react-toastify';
 
 export default function ProfileModal({ showProfileModal, onClose, onSave }) {
   const { userName: initialName, userId, userEmail: initialEmail } = useUser();
-  const [username, setUsername] = useState(initialName || '');
-  const [email, setEmail] = useState(initialEmail || '');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [saving, setSaving] = useState(false);
   const [editName, setEditName] = useState(false);
   const [remainingChanges, setRemainingChanges] = useState(2);
@@ -25,37 +25,26 @@ export default function ProfileModal({ showProfileModal, onClose, onSave }) {
   const boardName = selectedItems.theme?.class_name || 'N/A';
   const realmName = selectedItems.realm?.class_name || 'N/A';
 
-  // Fetch current user metadata
   useEffect(() => {
-    if (userId === 'Fire') return;
-
-    async function fetchProfile() {
-      const {
-        data: { user },
-        error
-      } = await supabase.auth.getUser();
-      if (error) {
-        console.error('Error fetching user:', error.message);
-        return;
-      }
-    }
-    if (userId) fetchProfile();
-  }, [userId]);
+    setUsername(initialName || '');
+    setEmail(initialEmail || '');
+  }, [initialName, initialEmail]);
 
   // Update useEffect to fetch name_change_count
   useEffect(() => {
     async function fetchProfile() {
       const { data, error } = await supabase
         .from('profiles')
-        .select('name_change_count')
+        .select('full_name, name_change_count')
         .eq('id', userId)
         .single();
 
       if (!error && data) {
+        setUsername(data.full_name || '');
         setRemainingChanges(2 - data.name_change_count);
       }
     }
-    if (userId) fetchProfile();
+    fetchProfile();
   }, [userId, refreshTrigger]);
 
   const handleSubmit = async (e) => {
@@ -74,9 +63,9 @@ export default function ProfileModal({ showProfileModal, onClose, onSave }) {
 
     const { success, error } = await updateProfile({ userId, username, email });
     if (success) {
+      setRefreshTrigger((prev) => prev + 1);
       onSave?.({ username, email });
       setEditName(false);
-      setRefreshTrigger((prev) => prev + 1);
     } else {
       console.error('Update failed:', error);
     }

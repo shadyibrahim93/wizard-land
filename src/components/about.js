@@ -32,7 +32,8 @@ const About = ({ onClose }) => {
             <div className='mq-profile'>
               <Image
                 src={profileImage}
-                alt='Wizard'
+                alt='Wizard Land Owner'
+                title='Wizard Land Owner'
                 className='mq-profile-image'
               />
             </div>

@@ -801,7 +801,7 @@ const Orbito = () => {
         <div className='mq-score-container'>
           <span className='mq-score-player'>
             <span className='mq-score-player'>
-              {player1Name || userName}: {playerWins}
+              {player1Name || userName || 'Guest'}: {playerWins}
             </span>
           </span>
           <span className='mq-room-number'>

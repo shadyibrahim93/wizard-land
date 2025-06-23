@@ -81,7 +81,7 @@ export default function Header({ title, backTarget, level, homePage, gameId }) {
   const handleLogout = async () => {
     await clearGameDataByUserId(userId);
     await signOut();
-    router.push('/'); // Add navigation
+    window.location.href = '/'; // Forces a full reload
   };
 
   return (
