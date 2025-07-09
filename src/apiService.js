@@ -161,12 +161,14 @@ export async function signUp({ email, password, fullName }) {
   return { success: true };
 }
 
-export async function signInWithProvider(provider) {
-  // provider: 'google' | 'apple'
+export async function signInWithProvider(
+  provider,
+  redirectTo = window.location.origin
+) {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: window.location.origin // or your custom callback URL
+      redirectTo
     }
   });
 
@@ -174,7 +176,7 @@ export async function signInWithProvider(provider) {
     console.error(`OAuth signin error (${provider}):`, error.message);
     return { success: false, error: error.message };
   }
-  // data.url contains the Supabase-hosted OAuth redirect URL
+
   return { success: true, url: data.url };
 }
 

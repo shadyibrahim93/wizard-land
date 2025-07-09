@@ -1,28 +1,58 @@
-// app/oauth-callback/page.jsx
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { completeOAuthUser } from '../../../apiService.js';
+import { useEffect, useState } from 'react';
+import { supabase } from '../../../apiService.js'; // Ensure this exports your Supabase client
 
 export default function OAuthCallbackPage() {
-  const router = useRouter();
+  const [deepLink, setDeepLink] = useState('');
 
   useEffect(() => {
     (async () => {
-      const { success, error } = await completeOAuthUser();
+      const { data, error } = await supabase.auth.getSession();
 
-      if (success) {
-        alert("You've successfully signed in!");
-      } else {
-        console.error(error);
-        alert(error || 'OAuth sign-in failed.');
+      if (error || !data.session) {
+        console.error('Failed to fetch Supabase session:', error);
+        return;
       }
 
-      // send them home
-      router.replace('/');
-    })();
-  }, [router]);
+      const { access_token, refresh_token } = data.session;
 
-  return <p>Signing you in…</p>;
+      const encodedDeepLink = `wizardland://auth/callback#access_token=${encodeURIComponent(
+        access_token
+      )}&refresh_token=${encodeURIComponent(refresh_token)}`;
+
+      setDeepLink(encodedDeepLink);
+
+      // Try auto-redirect after short delay
+      setTimeout(() => {
+        window.location.href = encodedDeepLink;
+      }, 500);
+    })();
+  }, []);
+
+  return (
+    <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+      <p style={{ color: 'white' }}>Redirecting to the app...</p>
+      <p style={{ color: 'yellow' }}>
+        If you are not redirected automatically,
+      </p>
+      <button
+        onClick={() => {
+          if (deepLink) window.location.href = deepLink;
+        }}
+        disabled={!deepLink}
+        style={{
+          padding: '10px 20px',
+          fontSize: '16px',
+          cursor: deepLink ? 'pointer' : 'not-allowed',
+          borderRadius: '5px',
+          border: 'none',
+          backgroundColor: deepLink ? '#4CAF50' : '#999',
+          color: 'white'
+        }}
+      >
+        Click here to open the app
+      </button>
+    </div>
+  );
 }

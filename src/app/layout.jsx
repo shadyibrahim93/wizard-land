@@ -1,4 +1,4 @@
-import { UserProvider } from '../context/UserContext.js';
+import { UserProvider, useUser } from '../context/UserContext.js';
 import '../styles/sass/main.scss';
 import Script from 'next/script';
 import { generateHomeMetadata } from '../utils/metadata.js';
@@ -496,17 +496,19 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <div id='root'>
-          <UserProvider>
-            <AudioManager />
-            <ToastContainer
-              position='top-center'
-              autoClose={2000}
-              theme='colored'
-              closeOnClick='true'
-            />
-            <ThemeInitializer />
-            {children}
-          </UserProvider>
+          {UserProvider && (
+            <UserProvider>
+              <AudioManager />
+              <ToastContainer
+                position='top-center'
+                autoClose={2000}
+                theme='colored'
+                closeOnClick='true'
+              />
+              <ThemeInitializer />
+              {children}
+            </UserProvider>
+          )}
         </div>
       </body>
     </html>

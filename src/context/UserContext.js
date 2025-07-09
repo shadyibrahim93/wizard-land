@@ -83,7 +83,7 @@ export const UserProvider = ({ children }) => {
   return (
     <UserContext.Provider
       value={{
-        userId: userId || 'Fire',
+        userId: !loading && userId ? userId : !loading ? 'Fire' : null,
         userName: userName,
         userType,
         loading,
