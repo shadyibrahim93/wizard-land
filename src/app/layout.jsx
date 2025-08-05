@@ -432,7 +432,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang='en'
-      data-theme='fantasy'
+      data-theme='cartoonia'
     >
       <head>
         <script

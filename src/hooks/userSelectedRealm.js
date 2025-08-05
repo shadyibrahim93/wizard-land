@@ -19,12 +19,12 @@ export default function useSelectedRealm() {
       const userRealm = storedRealm || selectedRealm;
 
       // Always validate realm value
-      const validatedRealm = [storedRealm, selectedRealm, 'fantasy'].find(
+      const validatedRealm = [storedRealm, selectedRealm, 'cartoonia'].find(
         (value) => value && typeof value === 'string'
       );
 
       if (resolved && selectedRealm && selectedRealm !== storedRealm) {
-        const newRealm = selectedRealm || 'fantasy';
+        const newRealm = selectedRealm || 'cartoonia';
         localStorage.setItem('realm', newRealm);
         window.dispatchEvent(new Event('realm-changed'));
         setRealm(newRealm);
@@ -32,15 +32,15 @@ export default function useSelectedRealm() {
         localStorage.setItem('realm', userRealm);
         setRealm(userRealm);
       } else {
-        setRealm('fantasy');
+        setRealm('cartoonia');
       }
     } catch (error) {
       console.error('Error resolving realm:', error);
-      setRealm('fantasy');
+      setRealm('cartoonia');
     } finally {
       setResolved(true);
     }
   }, [userId, selected?.realm?.class_name, userLoading]);
 
-  return { realm: realm || 'fantasy', resolved }; // Final fallback
+  return { realm: realm || 'cartoonia', resolved }; // Final fallback
 }

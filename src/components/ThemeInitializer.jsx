@@ -31,7 +31,7 @@ export default function ThemeInitializer() {
 
     if (!resolved) return;
 
-    const themeToApply = storedRealm || realm || 'fantasy';
+    const themeToApply = storedRealm || realm || 'cartoonia';
 
     document.documentElement.setAttribute('data-theme', themeToApply);
     document.documentElement.classList.add('theme-initialized');
