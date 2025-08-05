@@ -14,7 +14,7 @@ Allow: /*.png
 Allow: /*.webp
 
 # Host
-Host: https://shadyibrahim93.github.io/wizard-land
+Host: https://wizardland.net
 
 # Sitemaps
-Sitemap: https://shadyibrahim93.github.io/wizard-land/sitemap.xml
+Sitemap: https://wizardland.net/sitemap.xml
