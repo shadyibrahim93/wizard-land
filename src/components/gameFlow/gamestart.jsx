@@ -57,7 +57,7 @@ const GameStart = ({ title, GameComponent, gameClass, gameId, chatTitle }) => {
             '@context': 'https://schema.org',
             '@type': ['VideoGame', 'WebApplication'],
             'name': title,
-            'image': `https://wizardland.net/assets/images/${imageUrl}.jpg`,
+            'image': `https://shadyibrahim93.github.io/wizard-land/assets/images/${imageUrl}.jpg`,
             'url': typeof window !== 'undefined' ? window.location.href : '',
             'description': `Play ${title}, an ad-free online multiplayer board game on Wizard Land! Connect with players worldwide and enjoy strategic fantasy gameplay.`,
             'applicationCategory': 'GameApplication',
@@ -73,7 +73,7 @@ const GameStart = ({ title, GameComponent, gameClass, gameId, chatTitle }) => {
               'affiliation': {
                 '@type': 'Organization',
                 'name': 'Wizard Land',
-                'url': 'https://wizardland.net'
+                'url': 'https://shadyibrahim93.github.io/wizard-land'
               }
             },
             'genre': [
@@ -111,7 +111,7 @@ const GameStart = ({ title, GameComponent, gameClass, gameId, chatTitle }) => {
             'publisher': {
               '@type': 'Organization',
               'name': 'Wizard Land',
-              'url': 'https://wizardland.net'
+              'url': 'https://shadyibrahim93.github.io/wizard-land'
             },
             'offers': {
               '@type': 'Offer',

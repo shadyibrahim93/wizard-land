@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
     '@context': 'https://schema.org',
     '@type': ['Website', 'CollectionPage'],
     'name': 'Wizard Land - Play Classic Board Games Online',
-    'url': 'https://wizardland.net',
+    'url': 'https://shadyibrahim93.github.io/wizard-land',
     'description':
       'Discover a world of online board games! Enjoy classic puzzle games and more, including Tic Tac Toe, Connect 4, Chess, and Checkers, directly on your mobile device. Play with friends and family globally for an engaging multiplayer gaming adventure.',
     'keywords': [
@@ -37,10 +37,11 @@ export default function RootLayout({ children }) {
     'publisher': {
       '@type': 'Organization',
       'name': 'Wizard Land',
-      'url': 'https://wizardland.net',
+      'url': 'https://shadyibrahim93.github.io/wizard-land',
       'logo': {
         '@type': 'ImageObject',
-        'url': 'https://wizardland.net/assets/images/logo.png'
+        'url':
+          'https://shadyibrahim93.github.io/wizard-land/assets/images/logo.png'
       },
       'sameAs': [
         'https://www.facebook.com/people/Wizard-Land-Online-Board-Games/61575617324879/',
@@ -59,8 +60,10 @@ export default function RootLayout({ children }) {
           'item': {
             '@type': ['VideoGame', 'WebApplication'],
             'name': 'Bingo',
-            'url': 'https://wizardland.net/games/bingo-quest',
-            'image': 'https://wizardland.net/assets/images/games/bingo.jpg',
+            'url':
+              'https://shadyibrahim93.github.io/wizard-land/games/bingo-quest',
+            'image':
+              'https://shadyibrahim93.github.io/wizard-land/assets/images/games/bingo.jpg',
             'applicationCategory': 'GameApplication',
             'operatingSystem': 'Any',
             'browserRequirements':
@@ -76,7 +79,7 @@ export default function RootLayout({ children }) {
             'publisher': {
               '@type': 'Organization',
               'name': 'Wizard Land',
-              'url': 'https://wizardland.net'
+              'url': 'https://shadyibrahim93.github.io/wizard-land'
             }
           }
         },
@@ -86,8 +89,10 @@ export default function RootLayout({ children }) {
           'item': {
             '@type': ['VideoGame', 'WebApplication'],
             'name': 'Orbito',
-            'url': 'https://wizardland.net/games/orbito-quest',
-            'image': 'https://wizardland.net/assets/images/games/orbito.jpg',
+            'url':
+              'https://shadyibrahim93.github.io/wizard-land/games/orbito-quest',
+            'image':
+              'https://shadyibrahim93.github.io/wizard-land/assets/images/games/orbito.jpg',
             'applicationCategory': 'GameApplication',
             'operatingSystem': 'Any',
             'browserRequirements':
@@ -106,7 +111,7 @@ export default function RootLayout({ children }) {
             'publisher': {
               '@type': 'Organization',
               'name': 'Wizard Land',
-              'url': 'https://wizardland.net'
+              'url': 'https://shadyibrahim93.github.io/wizard-land'
             }
           }
         },
@@ -116,8 +121,10 @@ export default function RootLayout({ children }) {
           'item': {
             '@type': ['VideoGame', 'WebApplication'],
             'name': 'Chess',
-            'url': 'https://wizardland.net/games/chess-quest',
-            'image': 'https://wizardland.net/assets/images/games/chess.jpg',
+            'url':
+              'https://shadyibrahim93.github.io/wizard-land/games/chess-quest',
+            'image':
+              'https://shadyibrahim93.github.io/wizard-land/assets/images/games/chess.jpg',
             'applicationCategory': 'GameApplication',
             'operatingSystem': 'Any',
             'browserRequirements':
@@ -137,7 +144,7 @@ export default function RootLayout({ children }) {
             'publisher': {
               '@type': 'Organization',
               'name': 'Wizard Land',
-              'url': 'https://wizardland.net'
+              'url': 'https://shadyibrahim93.github.io/wizard-land'
             }
           }
         },
@@ -147,9 +154,10 @@ export default function RootLayout({ children }) {
           'item': {
             '@type': ['VideoGame', 'WebApplication'],
             'name': 'Connect 4',
-            'url': 'https://wizardland.net/games/connect-four-quest',
+            'url':
+              'https://shadyibrahim93.github.io/wizard-land/games/connect-four-quest',
             'image':
-              'https://wizardland.net/assets/images/games/connect_four.jpg',
+              'https://shadyibrahim93.github.io/wizard-land/assets/images/games/connect_four.jpg',
             'applicationCategory': 'GameApplication',
             'operatingSystem': 'Any',
             'browserRequirements':
@@ -168,7 +176,7 @@ export default function RootLayout({ children }) {
             'publisher': {
               '@type': 'Organization',
               'name': 'Wizard Land',
-              'url': 'https://wizardland.net'
+              'url': 'https://shadyibrahim93.github.io/wizard-land'
             }
           }
         },
@@ -178,8 +186,10 @@ export default function RootLayout({ children }) {
           'item': {
             '@type': ['VideoGame', 'WebApplication'],
             'name': 'Tic Tac Toe',
-            'url': 'https://wizardland.net/games/tic-tac-toe-quest',
-            'image': 'https://wizardland.net/assets/images/games/tictactoe.jpg',
+            'url':
+              'https://shadyibrahim93.github.io/wizard-land/games/tic-tac-toe-quest',
+            'image':
+              'https://shadyibrahim93.github.io/wizard-land/assets/images/games/tictactoe.jpg',
             'applicationCategory': 'GameApplication',
             'operatingSystem': 'Any',
             'browserRequirements':
@@ -199,7 +209,7 @@ export default function RootLayout({ children }) {
             'publisher': {
               '@type': 'Organization',
               'name': 'Wizard Land',
-              'url': 'https://wizardland.net'
+              'url': 'https://shadyibrahim93.github.io/wizard-land'
             }
           }
         },
@@ -209,8 +219,10 @@ export default function RootLayout({ children }) {
           'item': {
             '@type': ['VideoGame', 'WebApplication'],
             'name': 'Checkers',
-            'url': 'https://wizardland.net/games/checker-quest',
-            'image': 'https://wizardland.net/assets/images/games/checkers.jpg',
+            'url':
+              'https://shadyibrahim93.github.io/wizard-land/games/checker-quest',
+            'image':
+              'https://shadyibrahim93.github.io/wizard-land/assets/images/games/checkers.jpg',
             'applicationCategory': 'GameApplication',
             'operatingSystem': 'Any',
             'browserRequirements':
@@ -230,7 +242,7 @@ export default function RootLayout({ children }) {
             'publisher': {
               '@type': 'Organization',
               'name': 'Wizard Land',
-              'url': 'https://wizardland.net'
+              'url': 'https://shadyibrahim93.github.io/wizard-land'
             }
           }
         },
@@ -240,8 +252,10 @@ export default function RootLayout({ children }) {
           'item': {
             '@type': ['VideoGame', 'WebApplication'],
             'name': 'Scrambled',
-            'url': 'https://wizardland.net/games/scramble-quest',
-            'image': 'https://wizardland.net/assets/images/games/scramble.jpg',
+            'url':
+              'https://shadyibrahim93.github.io/wizard-land/games/scramble-quest',
+            'image':
+              'https://shadyibrahim93.github.io/wizard-land/assets/images/games/scramble.jpg',
             'applicationCategory': 'GameApplication',
             'operatingSystem': 'Any',
             'browserRequirements':
@@ -257,7 +271,7 @@ export default function RootLayout({ children }) {
             'publisher': {
               '@type': 'Organization',
               'name': 'Wizard Land',
-              'url': 'https://wizardland.net'
+              'url': 'https://shadyibrahim93.github.io/wizard-land'
             }
           }
         },
@@ -267,8 +281,10 @@ export default function RootLayout({ children }) {
           'item': {
             '@type': ['VideoGame', 'WebApplication'],
             'name': 'Sudoku',
-            'url': 'https://wizardland.net/games/sudoku-quest',
-            'image': 'https://wizardland.net/assets/images/games/sudoku.jpg',
+            'url':
+              'https://shadyibrahim93.github.io/wizard-land/games/sudoku-quest',
+            'image':
+              'https://shadyibrahim93.github.io/wizard-land/assets/images/games/sudoku.jpg',
             'applicationCategory': 'GameApplication',
             'operatingSystem': 'Any',
             'browserRequirements':
@@ -284,7 +300,7 @@ export default function RootLayout({ children }) {
             'publisher': {
               '@type': 'Organization',
               'name': 'Wizard Land',
-              'url': 'https://wizardland.net'
+              'url': 'https://shadyibrahim93.github.io/wizard-land'
             }
           }
         },
@@ -294,8 +310,10 @@ export default function RootLayout({ children }) {
           'item': {
             '@type': ['VideoGame', 'WebApplication'],
             'name': 'Jigsaw',
-            'url': 'https://wizardland.net/games/puzzle-quest',
-            'image': 'https://wizardland.net/assets/images/games/jigsaw.jpg',
+            'url':
+              'https://shadyibrahim93.github.io/wizard-land/games/puzzle-quest',
+            'image':
+              'https://shadyibrahim93.github.io/wizard-land/assets/images/games/jigsaw.jpg',
             'applicationCategory': 'GameApplication',
             'operatingSystem': 'Any',
             'browserRequirements':
@@ -311,7 +329,7 @@ export default function RootLayout({ children }) {
             'publisher': {
               '@type': 'Organization',
               'name': 'Wizard Land',
-              'url': 'https://wizardland.net'
+              'url': 'https://shadyibrahim93.github.io/wizard-land'
             }
           }
         },
@@ -321,9 +339,10 @@ export default function RootLayout({ children }) {
           'item': {
             '@type': ['VideoGame', 'WebApplication'],
             'name': 'Personal Jigsaw',
-            'url': 'https://wizardland.net/games/personal-puzzle-quest',
+            'url':
+              'https://shadyibrahim93.github.io/wizard-land/games/personal-puzzle-quest',
             'image':
-              'https://wizardland.net/assets/images/games/personal_jigsaw.jpg',
+              'https://shadyibrahim93.github.io/wizard-land/assets/images/games/personal_jigsaw.jpg',
             'applicationCategory': 'GameApplication',
             'operatingSystem': 'Any',
             'browserRequirements':
@@ -340,7 +359,7 @@ export default function RootLayout({ children }) {
             'publisher': {
               '@type': 'Organization',
               'name': 'Wizard Land',
-              'url': 'https://wizardland.net'
+              'url': 'https://shadyibrahim93.github.io/wizard-land'
             }
           }
         },
@@ -350,8 +369,10 @@ export default function RootLayout({ children }) {
           'item': {
             '@type': ['VideoGame', 'WebApplication'],
             'name': 'Pair Pursuit',
-            'url': 'https://wizardland.net/games/match-quest',
-            'image': 'https://wizardland.net/assets/images/games/matching.jpg',
+            'url':
+              'https://shadyibrahim93.github.io/wizard-land/games/match-quest',
+            'image':
+              'https://shadyibrahim93.github.io/wizard-land/assets/images/games/matching.jpg',
             'applicationCategory': 'GameApplication',
             'operatingSystem': 'Any',
             'browserRequirements':
@@ -367,7 +388,7 @@ export default function RootLayout({ children }) {
             'publisher': {
               '@type': 'Organization',
               'name': 'Wizard Land',
-              'url': 'https://wizardland.net'
+              'url': 'https://shadyibrahim93.github.io/wizard-land'
             }
           }
         },
@@ -377,8 +398,10 @@ export default function RootLayout({ children }) {
           'item': {
             '@type': ['VideoGame', 'WebApplication'],
             'name': 'Brain Vault',
-            'url': 'https://wizardland.net/games/memory-quest',
-            'image': 'https://wizardland.net/assets/images/games/memory.jpg',
+            'url':
+              'https://shadyibrahim93.github.io/wizard-land/games/memory-quest',
+            'image':
+              'https://shadyibrahim93.github.io/wizard-land/assets/images/games/memory.jpg',
             'applicationCategory': 'GameApplication',
             'operatingSystem': 'Any',
             'browserRequirements':
@@ -394,7 +417,7 @@ export default function RootLayout({ children }) {
             'publisher': {
               '@type': 'Organization',
               'name': 'Wizard Land',
-              'url': 'https://wizardland.net'
+              'url': 'https://shadyibrahim93.github.io/wizard-land'
             }
           }
         },
@@ -404,8 +427,10 @@ export default function RootLayout({ children }) {
           'item': {
             '@type': ['VideoGame', 'WebApplication'],
             'name': 'Perfect Fit',
-            'url': 'https://wizardland.net/games/dropzone-quest',
-            'image': 'https://wizardland.net/assets/images/games/dropzone.jpg',
+            'url':
+              'https://shadyibrahim93.github.io/wizard-land/games/dropzone-quest',
+            'image':
+              'https://shadyibrahim93.github.io/wizard-land/assets/images/games/dropzone.jpg',
             'applicationCategory': 'GameApplication',
             'operatingSystem': 'Any',
             'browserRequirements':
@@ -421,7 +446,7 @@ export default function RootLayout({ children }) {
             'publisher': {
               '@type': 'Organization',
               'name': 'Wizard Land',
-              'url': 'https://wizardland.net'
+              'url': 'https://shadyibrahim93.github.io/wizard-land'
             }
           }
         }

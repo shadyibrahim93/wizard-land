@@ -1,5 +1,7 @@
 module.exports = {
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://wizardland.net',
+  siteUrl:
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    'https://shadyibrahim93.github.io/wizard-land',
   changefreq: 'daily',
   priority: 0.7,
   sitemapSize: 5000,
@@ -21,7 +23,8 @@ module.exports = {
     ],
     additionalSitemaps: [
       `${
-        process.env.NEXT_PUBLIC_SITE_URL || 'https://wizardland.net'
+        process.env.NEXT_PUBLIC_SITE_URL ||
+        'https://shadyibrahim93.github.io/wizard-land'
       }/sitemap.xml`
     ]
   },

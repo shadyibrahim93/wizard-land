@@ -214,8 +214,8 @@ export default function Home() {
     'item': {
       '@type': ['VideoGame', 'WebApplication'],
       'name': game.title,
-      'url': `https://wizardland.net${game.url}`,
-      'image': `https://wizardland.net/assets/images/games/${game.imgSrc}.jpg`, // Ensure correct path and extension
+      'url': `https://shadyibrahim93.github.io/wizard-land${game.url}`,
+      'image': `https://shadyibrahim93.github.io/wizard-land/assets/images/games/${game.imgSrc}.jpg`, // Ensure correct path and extension
       'applicationCategory': 'GameApplication',
       'operatingSystem': 'Any',
       'browserRequirements': 'Requires a modern web browser with HTML5 support',
@@ -228,7 +228,7 @@ export default function Home() {
       'publisher': {
         '@type': 'Organization',
         'name': 'Wizard Land',
-        'url': 'https://wizardland.net'
+        'url': 'https://shadyibrahim93.github.io/wizard-land'
       }
     }
   }));
@@ -237,7 +237,7 @@ export default function Home() {
     '@context': 'https://schema.org',
     '@type': ['Website', 'CollectionPage'],
     'name': 'Wizard Land | Ad-Free Online Multiplayer Board Games',
-    'url': 'https://wizardland.net',
+    'url': 'https://shadyibrahim93.github.io/wizard-land',
     'description':
       'Play classic ad-free online multiplayer board games like Chess, Checkers, Orbito, Connect 4, Tic Tac Toe, and more on Wizard Land! Connect with friends and family worldwide for a magical gaming experience.',
     'keywords': [
@@ -259,10 +259,11 @@ export default function Home() {
     'publisher': {
       '@type': 'Organization',
       'name': 'Wizard Land',
-      'url': 'https://wizardland.net',
+      'url': 'https://shadyibrahim93.github.io/wizard-land',
       'logo': {
         '@type': 'ImageObject',
-        'url': 'https://wizardland.net/assets/images/logo.png'
+        'url':
+          'https://shadyibrahim93.github.io/wizard-land/assets/images/logo.png'
       },
       'sameAs': [
         'https://www.facebook.com/people/Wizard-Land-Online-Board-Games/61575617324879/',
@@ -286,7 +287,7 @@ export default function Home() {
         />
         <meta
           property='og:url'
-          content='https://wizardland.net'
+          content='https://shadyibrahim93.github.io/wizard-land'
         />
         <meta
           property='og:type'

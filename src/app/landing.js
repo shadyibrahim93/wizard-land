@@ -383,10 +383,10 @@ const WIZARD_LAND_ORGANIZATION_SCHEMA = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   'name': 'Wizard Land',
-  'url': 'https://wizardland.net',
+  'url': 'https://shadyibrahim93.github.io/wizard-land',
   'logo': {
     '@type': 'ImageObject',
-    'url': 'https://wizardland.net/assets/images/logo.png'
+    'url': 'https://shadyibrahim93.github.io/wizard-land/assets/images/logo.png'
   },
   'sameAs': [
     'https://www.facebook.com/people/Wizard-Land-Online-Board-Games/61575617324879/',
@@ -399,12 +399,15 @@ const UPCOMING_VIDEO_GAME_ENTITY_SCHEMA = {
   '@context': 'https://schema.org',
   '@type': ['VideoGame', 'WebApplication'],
   'name': 'Wizard Land',
-  'url': 'https://wizardland.net',
+  'url': 'https://shadyibrahim93.github.io/wizard-land',
   'description':
     'Wizard Land is an ad-free, online multiplayer board game world where players can challenge friends in magical games like Connect 4, Chess, and Tic Tac Toe. Launching June 1st, 2025.', // Describe the upcoming platform
   'image': Array.from(
     { length: 12 },
-    (_, i) => `https://wizardland.net/assets/images/launch/${i + 1}.png`
+    (_, i) =>
+      `https://shadyibrahim93.github.io/wizard-land/assets/images/launch/${
+        i + 1
+      }.png`
   ),
   'applicationCategory': 'GameApplication',
   'operatingSystem': 'Any',
@@ -444,7 +447,7 @@ const LANDING_PAGE_SCHEMA = {
   '@context': 'https://schema.org',
   '@type': ['WebPage', 'AboutPage'],
   'name': 'Wizard Land | The Magic Begins - June 1st, 2025',
-  'url': 'https://wizardland.net',
+  'url': 'https://shadyibrahim93.github.io/wizard-land',
   'description':
     'Get ready for Wizard Land, an ad-free online multiplayer board game platform launching on June 1st, 2025! Sign up for early access and challenge friends in magical board games.', // Description for this specific landing page
   'mainEntity': UPCOMING_VIDEO_GAME_ENTITY_SCHEMA,
@@ -473,7 +476,7 @@ const LAUNCH_EVENT_SCHEMA = {
   'eventAttendanceMode': 'https://schema.org/OnlineEventAttendanceMode',
   'offers': {
     '@type': 'Offer',
-    'url': 'https://wizardland.net',
+    'url': 'https://shadyibrahim93.github.io/wizard-land',
     'price': '0',
     'priceCurrency': 'USD',
     'availability': 'https://schema.org/InStock',
@@ -481,7 +484,7 @@ const LAUNCH_EVENT_SCHEMA = {
   },
   'location': {
     '@type': 'VirtualLocation',
-    'url': 'https://wizardland.net'
+    'url': 'https://shadyibrahim93.github.io/wizard-land'
   },
   'description':
     'Join us for the official launch of Wizard Land, an exciting new ad-free online multiplayer board game platform!',

@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const customDomain = 'wizardland.net';
+const customDomain = 'shadyibrahim93.github.io/wizard-land';
 
 const nextConfig = {
   images: {

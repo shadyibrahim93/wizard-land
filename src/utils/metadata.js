@@ -9,11 +9,16 @@ export function generateGameMetadata({ name, slug, mode = 'solo' }) {
 
   // Image configuration
   const socialImages = {
-    default: 'https://wizardland.net/assets/images/background.jpg',
-    twitter: 'https://wizardland.net/assets/images/logo.png',
-    facebook: 'https://wizardland.net/assets/images/logo.png',
-    google: 'https://wizardland.net/assets/images/logo.png',
-    openGraph: 'https://wizardland.net/assets/images/logo.png'
+    default:
+      'https://shadyibrahim93.github.io/wizard-land/assets/images/background.jpg',
+    twitter:
+      'https://shadyibrahim93.github.io/wizard-land/assets/images/logo.png',
+    facebook:
+      'https://shadyibrahim93.github.io/wizard-land/assets/images/logo.png',
+    google:
+      'https://shadyibrahim93.github.io/wizard-land/assets/images/logo.png',
+    openGraph:
+      'https://shadyibrahim93.github.io/wizard-land/assets/images/logo.png'
   };
 
   // Metadata content
@@ -29,7 +34,7 @@ export function generateGameMetadata({ name, slug, mode = 'solo' }) {
       description: isMultiplayer
         ? `Compete with friends in ${name}, ad-free multiplayer game on Wizard Land. Enjoy seamless gameplay, strategy, and friendly competition without interruptions, all in an immersive online environment. Challenge your friends and experience the excitement of multiplayer fun on Wizard Land.`
         : `Enjoy ad-free solo gameplay in ${name}, a relaxing, stress-free online game on Wizard Land. Perfect for unwinding or challenging yourself at your own pace, without ads or distractions. Dive into a peaceful game environment, available for free whenever you're ready to play.`,
-      url: `https://wizardland.net/games/${slug}`,
+      url: `https://shadyibrahim93.github.io/wizard-land/games/${slug}`,
       type: 'website',
       keywords: `${name}, online board games, ${
         isMultiplayer ? 'Multiplayer board' : 'Single Player'
@@ -134,11 +139,11 @@ export function generateGameMetadata({ name, slug, mode = 'solo' }) {
       />
       <meta
         name='publisher-url'
-        content='https://wizardland.net'
+        content='https://shadyibrahim93.github.io/wizard-land'
       />
       <meta
         name='publisher-logo'
-        content='https://wizardland.net/assets/images/logo.png'
+        content='https://shadyibrahim93.github.io/wizard-land/assets/images/logo.png'
       />
       <meta
         name='author'
@@ -146,11 +151,11 @@ export function generateGameMetadata({ name, slug, mode = 'solo' }) {
       />
       <meta
         name='author-url'
-        content='https://wizardland.net'
+        content='https://shadyibrahim93.github.io/wizard-land'
       />
       <meta
         name='author-logo'
-        content='https://wizardland.net/assets/images/logo.png'
+        content='https://shadyibrahim93.github.io/wizard-land/assets/images/logo.png'
       />
       <meta
         name='author-facebook'
@@ -194,11 +199,16 @@ export function generateHomeMetadata({ name }) {
 
   // Image configuration
   const socialImages = {
-    default: 'https://wizardland.net/assets/images/background.jpg',
-    twitter: 'https://wizardland.net/assets/images/logo.png',
-    facebook: 'https://wizardland.net/assets/images/logo.png',
-    google: 'https://wizardland.net/assets/images/logo.png',
-    openGraph: 'https://wizardland.net/assets/images/logo.png'
+    default:
+      'https://shadyibrahim93.github.io/wizard-land/assets/images/background.jpg',
+    twitter:
+      'https://shadyibrahim93.github.io/wizard-land/assets/images/logo.png',
+    facebook:
+      'https://shadyibrahim93.github.io/wizard-land/assets/images/logo.png',
+    google:
+      'https://shadyibrahim93.github.io/wizard-land/assets/images/logo.png',
+    openGraph:
+      'https://shadyibrahim93.github.io/wizard-land/assets/images/logo.png'
   };
 
   // Metadata content
@@ -209,7 +219,7 @@ export function generateHomeMetadata({ name }) {
     openGraph: {
       title: `${baseTitle} ${titleSuffix}`,
       description: 'Play classic online board games with friends or solo',
-      url: 'https://wizardland.net',
+      url: 'https://shadyibrahim93.github.io/wizard-land',
       type: 'website',
       images: [
         {
@@ -261,11 +271,11 @@ export function generateHomeMetadata({ name }) {
       />
       <meta
         name='publisher-url'
-        content='https://wizardland.net'
+        content='https://shadyibrahim93.github.io/wizard-land'
       />
       <meta
         name='publisher-logo'
-        content='https://wizardland.net/assets/images/logo.png'
+        content='https://shadyibrahim93.github.io/wizard-land/assets/images/logo.png'
       />
       <meta
         property='og:url'
@@ -323,7 +333,7 @@ export function generateHomeMetadata({ name }) {
       />
       <meta
         name='author-logo'
-        content='https://wizardland.net/assets/images/profile.jpg'
+        content='https://shadyibrahim93.github.io/wizard-land/assets/images/profile.jpg'
       />
       <meta
         name='author-facebook'
